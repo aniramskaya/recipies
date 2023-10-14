@@ -120,13 +120,13 @@ final class RecipieListTests: XCTestCase {
         }
         XCTAssertEqual(spy.messages, [.load])
         
-        // Cache is not expired
+        // Cache is not expired, return in-memory data
         sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(1)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) { }
         XCTAssertEqual(spy.messages, [.load])
 
-        // Cache has just expired
+        // Cache has just expired, load from remote
         sut.lastLoaded = Date().addingMinutes(-60)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
@@ -134,7 +134,7 @@ final class RecipieListTests: XCTestCase {
         }
         XCTAssertEqual(spy.messages, [.load, .load])
 
-        // Cache is expired
+        // Cache is expired, load from remote
         sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(-1)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
