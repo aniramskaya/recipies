@@ -64,9 +64,7 @@ class RecipieListLoader {
     }
     
     func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
-        print((lastLoaded ?? .distantPast).addingTimeInterval(3600))
-        print(Date())
-        if let cache, (lastLoaded ?? .distantPast).addingTimeInterval(3600) > Date() {
+        if let cache, Date().timeIntervalSince(lastLoaded ?? .distantPast) < 3600 {
             completion(.success(cache))
             return
         }
