@@ -34,7 +34,7 @@ import XCTest
  ✅ Check last loaded time and ensure it is empty
  ✅   or an hour or more has passed since
  ✅ Request new data from server
- Memorize last loaded time
+ ✅ Memorize last loaded time
  ✅ Return recipie list to the calling code
  
  ✅ 1a. Less then an hour has passed since last load: return in-memory data
@@ -73,6 +73,7 @@ class RecipieListLoader {
             case let .success(dto):
                 var models = dto.items.models
                 self?.cache = models
+                self?.lastLoaded = Date()
                 completion(.success(models))
             case let .failure(error):
                 completion(.failure(error))
@@ -126,6 +127,7 @@ final class RecipieListTests: XCTestCase {
             spy.complete(with: .success(.test()), at: 0)
         }
         XCTAssertEqual(spy.messages, [.load])
+        XCTAssertNotNil(sut.lastLoaded)
         
         // Cache is not expired, return in-memory data
         sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(1)
