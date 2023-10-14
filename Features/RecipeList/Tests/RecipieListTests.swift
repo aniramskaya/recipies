@@ -32,12 +32,12 @@ import XCTest
  Recipe list loading scenario
  
  ✅ Check last loaded time and ensure it is empty
-    or an hour or more has passed since
+ ✅   or an hour or more has passed since
  ✅ Request new data from server
  Memorize last loaded time
  ✅ Return recipie list to the calling code
  
- 1a. Less then an hour has passed since last load: return in-memory data
+ ✅ 1a. Less then an hour has passed since last load: return in-memory data
  2a. Remote loading has failed and there are in-memory data: return in-memory data
  ✅ 2b. Remote loading has failed and there are no in-memory data: return remote loading error
 */
@@ -134,6 +134,24 @@ final class RecipieListTests: XCTestCase {
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) { }
         XCTAssertEqual(spy.messages, [.load])
+    }
+
+    // An exactly hour has passed since last load: load from remote
+    func test_load_loadsFromRemoteWhenCacheIsExpired() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(.test()), at: 0)
+        }
+        XCTAssertEqual(spy.messages, [.load])
+        
+        sut.lastLoaded = Date().addingTimeInterval(-3600)
+        
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(.test()), at: 1)
+        }
+        XCTAssertEqual(spy.messages, [.load, .load])
     }
 
     // MARK: Private
