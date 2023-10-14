@@ -137,7 +137,7 @@ final class RecipieListTests: XCTestCase {
     }
 
     // An exactly hour has passed since last load: load from remote
-    func test_load_loadsFromRemoteWhenCacheIsExpired() throws {
+    func test_load_loadsFromRemoteWhenCacheIsJustExpired() throws {
         let (sut, spy) = makeSUT()
         let expectedData = makeTestItems()
 
@@ -147,6 +147,24 @@ final class RecipieListTests: XCTestCase {
         XCTAssertEqual(spy.messages, [.load])
         
         sut.lastLoaded = Date().addingTimeInterval(-3600)
+        
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(.test()), at: 1)
+        }
+        XCTAssertEqual(spy.messages, [.load, .load])
+    }
+
+    // More than hour has passed since last load: load from remote
+    func test_load_loadsFromRemoteWhenCacheIsExpired() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(.test()), at: 0)
+        }
+        XCTAssertEqual(spy.messages, [.load])
+        
+        sut.lastLoaded = Date().addingTimeInterval(-3601)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()), at: 1)
