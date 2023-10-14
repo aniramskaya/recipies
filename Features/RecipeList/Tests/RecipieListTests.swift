@@ -189,21 +189,6 @@ extension RecipeListDTO {
     }
 }
 
-extension NSError {
-    static func any() -> NSError {
-        NSError(domain: UUID().uuidString, code: 1)
-    }
-}
-
-extension Date {
-    func addingMinutes(_ value: Int) -> Date? {
-        Calendar.current.date(byAdding: .minute, value: value, to: self)
-    }
-    func addingSeconds(_ value: Int) -> Date? {
-        Calendar.current.date(byAdding: .second, value: value, to: self)
-    }
-}
-
 class DTOLoaderSpy: DTOLoader {
     enum Message: Equatable {
         case load

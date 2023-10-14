@@ -22,6 +22,8 @@
 		CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */; };
 		CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */; };
 		CCF62D152ADAAA33009537A9 /* RecipieListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D142ADAAA33009537A9 /* RecipieListLoader.swift */; };
+		CCF62D192ADAAA7A009537A9 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */; };
+		CCF62D1B2ADAAA9A009537A9 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +97,8 @@
 		CCF62D0E2ADA8BB3009537A9 /* RecipieList.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = RecipieList.xctestplan; path = Features/RecipeList/Tests/RecipieList.xctestplan; sourceTree = "<group>"; };
 		CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListItem.swift; sourceTree = "<group>"; };
 		CCF62D142ADAAA33009537A9 /* RecipieListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListLoader.swift; sourceTree = "<group>"; };
+		CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
+		CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +241,7 @@
 		CCF62D0A2ADA896B009537A9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				CCF62D162ADAAA60009537A9 /* Helpers */,
 				CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */,
 			);
 			path = Tests;
@@ -248,6 +253,15 @@
 				CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */,
 			);
 			path = Domain;
+			sourceTree = "<group>";
+		};
+		CCF62D162ADAAA60009537A9 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */,
+				CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -489,6 +503,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */,
+				CCF62D192ADAAA7A009537A9 /* NSError+Extensions.swift in Sources */,
+				CCF62D1B2ADAAA9A009537A9 /* Date+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
