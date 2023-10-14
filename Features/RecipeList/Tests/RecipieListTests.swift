@@ -94,6 +94,7 @@ final class RecipieListTests: XCTestCase {
         expect(sut: sut, toCompleteWith: .failure(error)) {
             spy.complete(with: .failure(error))
         }
+        XCTAssertEqual(spy.messages, [.load])
     }
  
     //    Проверить время последней загрузки данных и убедиться, что оно пустое или прошел час или более.
@@ -107,6 +108,7 @@ final class RecipieListTests: XCTestCase {
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()))
         }
+        XCTAssertEqual(spy.messages, [.load])
     }
 
     // MARK: Private
