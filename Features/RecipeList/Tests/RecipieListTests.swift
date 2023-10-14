@@ -71,16 +71,25 @@ class RecipieListLoader {
         dtoLoader.load { [weak self] result in
             switch result {
             case let .success(dto):
-                var models: [RecipeListItem] = []
-                for item in dto.items {
-                    models.append(.init(id: item.id, name: item.name, cookingTime: Double(item.cookingTime * 60), imageUrl: item.imageUrl, rating: item.rating))
-                }
+                var models = dto.items.models
                 self?.cache = models
                 completion(.success(models))
             case let .failure(error):
                 completion(.failure(error))
             }
         }
+    }
+}
+
+extension Array where Element == RecipeListItemDTO {
+    var models: [RecipeListItem] {
+        map { .init(
+            id: $0.id,
+            name: $0.name,
+            cookingTime: Double($0.cookingTime * 60),
+            imageUrl: $0.imageUrl,
+            rating: $0.rating
+        ) }
     }
 }
 
