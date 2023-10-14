@@ -19,6 +19,7 @@
 		CCF62CFD2ADA8949009537A9 /* RecipieList.h in Headers */ = {isa = PBXBuildFile; fileRef = CCF62CEF2ADA8949009537A9 /* RecipieList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CCF62D002ADA8949009537A9 /* RecipieList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipieList.framework */; };
 		CCF62D012ADA8949009537A9 /* RecipieList.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipieList.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		CCF62CEF2ADA8949009537A9 /* RecipieList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecipieList.h; sourceTree = "<group>"; };
 		CCF62CF42ADA8949009537A9 /* RecipieListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipieListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListTests.swift; sourceTree = "<group>"; };
+		CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeItemDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 		CCF62D092ADA895C009537A9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,6 +623,7 @@
 		CCF62CDE2ADA82CB009537A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -648,6 +653,7 @@
 		CCF62CDF2ADA82CB009537A9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
