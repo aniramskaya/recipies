@@ -74,8 +74,7 @@ class RecipieListLoader {
 
 final class RecipieListTests: XCTestCase {
     func test_init_doesNothing() throws {
-        let spy = DTOLoaderSpy()
-        let sut = RecipieListLoader(dtoLoader: spy)
+        let (_, spy) = makeSUT()
         
         XCTAssertEqual(spy.messages, [])
     }
@@ -84,8 +83,7 @@ final class RecipieListTests: XCTestCase {
     // - вернуть ошибку, которая пришла от сервера
     // Remote loading has failed and there are no in-memory data: return remote loading error
     func test_loadingError_deliversErrorWhenNoCache() throws {
-        let spy = DTOLoaderSpy()
-        let sut = RecipieListLoader(dtoLoader: spy)
+        let (sut, spy) = makeSUT()
         let expectedError = NSError(domain: "test_loadingError_deliversErrorWhenNoCache", code: 1)
 
         let exp = expectation(description: "Wait for async code to complete")
@@ -99,6 +97,14 @@ final class RecipieListTests: XCTestCase {
         
         spy.complete(with: .failure(expectedError))
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    // MARK: Private
+    
+    private func makeSUT() -> (RecipieListLoader, DTOLoaderSpy) {
+        let spy = DTOLoaderSpy()
+        let sut = RecipieListLoader(dtoLoader: spy)
+        return (sut, spy)
     }
 }
 
