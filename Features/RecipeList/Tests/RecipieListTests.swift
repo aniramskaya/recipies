@@ -106,70 +106,41 @@ final class RecipieListTests: XCTestCase {
         XCTAssertEqual(spy.messages, [.load])
     }
  
-    //    Проверить время последней загрузки данных и убедиться, что оно пустое или прошел час или более.
-    //    Запросить данные с сервера
-    //    Запомнить новое время последней загрузки
-    //    Вернуть список рецептов вызывающему коду
+    // First load: load from remote
+    // Less then an hour has passed since last load: return in-memory data
+    // An exactly hour has passed since last load: load from remote
+    // More than hour has passed since last load: load from remote
     func test_loadingSuccess_deliversSuccessWhenNoCache() throws {
         let (sut, spy) = makeSUT()
         let expectedData = makeTestItems()
 
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()))
-        }
-        XCTAssertEqual(spy.messages, [.load])
-    }
-    
-    // Less then an hour has passed since last load: return in-memory data
-    func test_load_deliversCacheDataWhenCacheNotExpired() throws {
-        let (sut, spy) = makeSUT()
-        let expectedData = makeTestItems()
-
+        // first load
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()), at: 0)
         }
         XCTAssertEqual(spy.messages, [.load])
         
+        // Cache is not expired
         sut.lastLoaded = Date().addingTimeInterval(1 - 3600)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) { }
         XCTAssertEqual(spy.messages, [.load])
-    }
 
-    // An exactly hour has passed since last load: load from remote
-    func test_load_loadsFromRemoteWhenCacheIsJustExpired() throws {
-        let (sut, spy) = makeSUT()
-        let expectedData = makeTestItems()
-
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()), at: 0)
-        }
-        XCTAssertEqual(spy.messages, [.load])
-        
+        // Cache has just expired
         sut.lastLoaded = Date().addingTimeInterval(-3600)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()), at: 1)
         }
         XCTAssertEqual(spy.messages, [.load, .load])
-    }
 
-    // More than hour has passed since last load: load from remote
-    func test_load_loadsFromRemoteWhenCacheIsExpired() throws {
-        let (sut, spy) = makeSUT()
-        let expectedData = makeTestItems()
-
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()), at: 0)
-        }
-        XCTAssertEqual(spy.messages, [.load])
-        
+        // Cache is expired
         sut.lastLoaded = Date().addingTimeInterval(-3601)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()), at: 1)
+            spy.complete(with: .success(.test()), at: 2)
         }
-        XCTAssertEqual(spy.messages, [.load, .load])
+        XCTAssertEqual(spy.messages, [.load, .load, .load])
     }
 
     // MARK: Private
