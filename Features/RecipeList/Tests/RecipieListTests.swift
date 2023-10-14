@@ -8,5 +8,9 @@
 import XCTest
 @testable import RecipieList
 
+protocol DTOLoader {
+    func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
+}
+
 final class RecipieListTests: XCTestCase {
 }
