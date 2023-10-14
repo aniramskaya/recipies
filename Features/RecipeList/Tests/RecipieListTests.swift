@@ -69,11 +69,12 @@ class RecipieListLoader {
             return
         }
         dtoLoader.load { [weak self] result in
+            guard let self else { return }
             switch result {
             case let .success(dto):
-                var models = dto.items.models
-                self?.cache = models
-                self?.lastLoaded = Date()
+                let models = dto.items.models
+                self.cache = models
+                self.lastLoaded = Date()
                 completion(.success(models))
             case let .failure(error):
                 completion(.failure(error))
