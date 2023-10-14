@@ -144,16 +144,16 @@ final class RecipieListTests: XCTestCase {
         return (sut, spy)
     }
     
-    private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void) {
+    private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for async code to complete")
         sut.load { result in
             switch (result, expectedResult) {
             case let (.success(items), .success(expectedItems)):
-                XCTAssertEqual(items, expectedItems)
+                XCTAssertEqual(items, expectedItems, file: file, line: line)
             case let (.failure(error), .failure(expectedError)):
-                XCTAssertEqual(error as NSError, expectedError as NSError)
+                XCTAssertEqual(error as NSError, expectedError as NSError, file: file, line: line)
             default:
-                XCTFail("Expected \(expectedResult), got \(result) instead")
+                XCTFail("Expected \(expectedResult), got \(result) instead", file: file, line: line)
             }
             exp.fulfill()
         }
