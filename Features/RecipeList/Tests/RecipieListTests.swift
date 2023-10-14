@@ -38,7 +38,7 @@ import XCTest
  ✅ Return recipie list to the calling code
  
  ✅ 1a. Less then an hour has passed since last load: return in-memory data
- 2a. Remote loading has failed and there are in-memory data: return in-memory data
+ ✅ 2a. Remote loading has failed and there are in-memory data: return in-memory data
  ✅ 2b. Remote loading has failed and there are no in-memory data: return remote loading error
 */
 
@@ -77,7 +77,11 @@ class RecipieListLoader {
                 self.lastLoaded = Date()
                 completion(.success(models))
             case let .failure(error):
-                completion(.failure(error))
+                if let cache {
+                    completion(.success(cache))
+                } else {
+                    completion(.failure(error))
+                }
             }
         }
     }
@@ -153,6 +157,28 @@ final class RecipieListTests: XCTestCase {
         XCTAssertEqual(spy.messages, [.load, .load, .load])
     }
 
+    // Remote loading has failed and there are in-memory data: return in-memory data
+    func test_loadingSuccess_deliversSuccessWhenCacheIsExpiredAndRemoteLoadingFails() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+        
+        // first load
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(.test()), at: 0)
+        }
+        XCTAssertEqual(spy.messages, [.load])
+        XCTAssertNotNil(sut.lastLoaded)
+        
+        //cache has become expired
+        sut.lastLoaded = Date().addingMinutes(-120)
+        
+        //second load finishes with error but we got cache data
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .failure(NSError.any()), at: 1)
+        }
+        XCTAssertEqual(spy.messages, [.load, .load])
+    }
+    
     // MARK: Private
     
     private func makeSUT() -> (RecipieListLoader, DTOLoaderSpy) {
