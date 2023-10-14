@@ -20,6 +20,7 @@
 		CCF62D012ADA8949009537A9 /* RecipieList.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipieList.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */; };
 		CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */; };
+		CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListTests.swift; sourceTree = "<group>"; };
 		CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeItemDTO.swift; sourceTree = "<group>"; };
 		CCF62D0E2ADA8BB3009537A9 /* RecipieList.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = RecipieList.xctestplan; path = Features/RecipeList/Tests/RecipieList.xctestplan; sourceTree = "<group>"; };
+		CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,6 +208,7 @@
 		CCF62CE72ADA890E009537A9 /* RecipeList */ = {
 			isa = PBXGroup;
 			children = (
+				CCF62D102ADAA9D7009537A9 /* Domain */,
 				CCF62D092ADA895C009537A9 /* Services */,
 				CCF62D0A2ADA896B009537A9 /* Tests */,
 			);
@@ -234,6 +237,14 @@
 				CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		CCF62D102ADAA9D7009537A9 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */,
+			);
+			path = Domain;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -464,6 +475,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */,
 				CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

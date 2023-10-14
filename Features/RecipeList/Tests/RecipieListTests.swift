@@ -46,14 +46,6 @@ protocol DTOLoader {
     func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
 }
 
-struct RecipeListItem: Equatable {
-    let id: UUID
-    let name: String
-    let cookingTime: TimeInterval
-    let imageUrl: URL
-    let rating: Float?
-}
-
 class RecipieListLoader {
     let dtoLoader: DTOLoader
     var cache: [RecipeListItem]?
