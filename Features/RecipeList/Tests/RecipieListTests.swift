@@ -124,9 +124,12 @@ final class RecipieListTests: XCTestCase {
     
     // MARK: Private
     
-    private func makeSUT() -> (RecipieListLoader, DTOLoaderSpy) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (RecipieListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
         let sut = RecipieListLoader(dtoLoader: spy)
+        addTeardownBlock { [weak sut] in
+            XCTAssertNil(sut, "sut has not been deallocated. Possible memory leak!", file: file, line: line)
+        }
         return (sut, spy)
     }
     
