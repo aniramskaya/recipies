@@ -24,6 +24,7 @@
 		CCF62D152ADAAA33009537A9 /* RecipieListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D142ADAAA33009537A9 /* RecipieListLoader.swift */; };
 		CCF62D192ADAAA7A009537A9 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */; };
 		CCF62D1B2ADAAA9A009537A9 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */; };
+		CCF62D1D2ADAAC2B009537A9 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		CCF62D142ADAAA33009537A9 /* RecipieListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListLoader.swift; sourceTree = "<group>"; };
 		CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
 		CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +262,7 @@
 			children = (
 				CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */,
 				CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */,
+				CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCF62D1D2ADAAC2B009537A9 /* XCTestCase+Extensions.swift in Sources */,
 				CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */,
 				CCF62D192ADAAA7A009537A9 /* NSError+Extensions.swift in Sources */,
 				CCF62D1B2ADAAA9A009537A9 /* Date+Extensions.swift in Sources */,

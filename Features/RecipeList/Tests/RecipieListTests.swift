@@ -127,12 +127,11 @@ final class RecipieListTests: XCTestCase {
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (RecipieListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
         let sut = RecipieListLoader(dtoLoader: spy)
-        addTeardownBlock { [weak sut] in
-            XCTAssertNil(sut, "sut has not been deallocated. Possible memory leak!", file: file, line: line)
-        }
+        trackForMemoryLeak(sut)
+        trackForMemoryLeak(spy)
         return (sut, spy)
     }
-    
+        
     private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for async code to complete")
         sut.load { result in
