@@ -121,13 +121,13 @@ final class RecipieListTests: XCTestCase {
         XCTAssertEqual(spy.messages, [.load])
         
         // Cache is not expired
-        sut.lastLoaded = Date().addingTimeInterval(1 - 3600)
+        sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(1)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) { }
         XCTAssertEqual(spy.messages, [.load])
 
         // Cache has just expired
-        sut.lastLoaded = Date().addingTimeInterval(-3600)
+        sut.lastLoaded = Date().addingMinutes(-60)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()), at: 1)
@@ -135,7 +135,7 @@ final class RecipieListTests: XCTestCase {
         XCTAssertEqual(spy.messages, [.load, .load])
 
         // Cache is expired
-        sut.lastLoaded = Date().addingTimeInterval(-3601)
+        sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(-1)
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()), at: 2)
@@ -213,6 +213,15 @@ extension RecipeListDTO {
 extension NSError {
     static func any() -> NSError {
         NSError(domain: UUID().uuidString, code: 1)
+    }
+}
+
+extension Date {
+    func addingMinutes(_ value: Int) -> Date? {
+        Calendar.current.date(byAdding: .minute, value: value, to: self)
+    }
+    func addingSeconds(_ value: Int) -> Date? {
+        Calendar.current.date(byAdding: .second, value: value, to: self)
     }
 }
 
