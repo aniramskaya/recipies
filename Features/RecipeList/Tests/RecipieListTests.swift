@@ -56,19 +56,28 @@ struct RecipeListItem: Equatable {
 
 class RecipieListLoader {
     let dtoLoader: DTOLoader
+    var cache: [RecipeListItem]?
+    var lastLoaded: Date?
     
     init(dtoLoader: DTOLoader) {
         self.dtoLoader = dtoLoader
     }
     
     func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
-        dtoLoader.load { result in
+        print((lastLoaded ?? .distantPast).addingTimeInterval(3600))
+        print(Date())
+        if let cache, (lastLoaded ?? .distantPast).addingTimeInterval(3600) > Date() {
+            completion(.success(cache))
+            return
+        }
+        dtoLoader.load { [weak self] result in
             switch result {
             case let .success(dto):
                 var models: [RecipeListItem] = []
                 for item in dto.items {
                     models.append(.init(id: item.id, name: item.name, cookingTime: Double(item.cookingTime * 60), imageUrl: item.imageUrl, rating: item.rating))
                 }
+                self?.cache = models
                 completion(.success(models))
             case let .failure(error):
                 completion(.failure(error))
@@ -108,6 +117,22 @@ final class RecipieListTests: XCTestCase {
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()))
         }
+        XCTAssertEqual(spy.messages, [.load])
+    }
+    
+    // Less then an hour has passed since last load: return in-memory data
+    func test_load_deliversCacheDataWhenCacheNotExpired() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(.test()), at: 0)
+        }
+        XCTAssertEqual(spy.messages, [.load])
+        
+        sut.lastLoaded = Date().addingTimeInterval(1 - 3600)
+        
+        expect(sut: sut, toCompleteWith: .success(expectedData)) { }
         XCTAssertEqual(spy.messages, [.load])
     }
 
