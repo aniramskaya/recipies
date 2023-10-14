@@ -89,19 +89,11 @@ final class RecipieListTests: XCTestCase {
     // Remote loading has failed and there are no in-memory data: return remote loading error
     func test_loadingError_deliversErrorWhenNoCache() throws {
         let (sut, spy) = makeSUT()
-        let expectedError = NSError.any()
+        let error = NSError.any()
 
-        let exp = expectation(description: "Wait for async code to complete")
-        sut.load { result in
-            switch result {
-            case .success: XCTFail("Expected remote loading error, got success")
-            case let .failure(error): XCTAssertEqual(error as NSError, expectedError)
-            }
-            exp.fulfill()
+        expect(sut: sut, toCompleteWith: .failure(error)) {
+            spy.complete(with: .failure(error))
         }
-        
-        spy.complete(with: .failure(expectedError))
-        wait(for: [exp], timeout: 1.0)
     }
  
     //    Проверить время последней загрузки данных и убедиться, что оно пустое или прошел час или более.
@@ -112,17 +104,9 @@ final class RecipieListTests: XCTestCase {
         let (sut, spy) = makeSUT()
         let expectedData = makeTestItems()
 
-        let exp = expectation(description: "Wait for async code to complete")
-        sut.load { result in
-            switch result {
-            case let .success(items): XCTAssertEqual(items, expectedData)
-            case .failure: XCTFail("Expected success, got error")
-            }
-            exp.fulfill()
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(.test()))
         }
-        
-        spy.complete(with: .success(.test()))
-        wait(for: [exp], timeout: 1.0)
     }
 
     // MARK: Private
@@ -131,6 +115,24 @@ final class RecipieListTests: XCTestCase {
         let spy = DTOLoaderSpy()
         let sut = RecipieListLoader(dtoLoader: spy)
         return (sut, spy)
+    }
+    
+    private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void) {
+        let exp = expectation(description: "Wait for async code to complete")
+        sut.load { result in
+            switch (result, expectedResult) {
+            case let (.success(items), .success(expectedItems)):
+                XCTAssertEqual(items, expectedItems)
+            case let (.failure(error), .failure(expectedError)):
+                XCTAssertEqual(error as NSError, expectedError as NSError)
+            default:
+                XCTFail("Expected \(expectedResult), got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
+        action()
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func makeTestItems() -> [RecipeListItem] {
