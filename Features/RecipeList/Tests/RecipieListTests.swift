@@ -31,10 +31,11 @@ import XCTest
 /*
  Recipe list loading scenario
  
- Check last loaded time and ensure it is empty or an hour or more has passed since
- Request new data from server
+ ✅ Check last loaded time and ensure it is empty
+    or an hour or more has passed since
+ ✅ Request new data from server
  Memorize last loaded time
- Return recipie list to the calling code
+ ✅ Return recipie list to the calling code
  
  1a. Less then an hour has passed since last load: return in-memory data
  2a. Remote loading has failed and there are in-memory data: return in-memory data
@@ -45,7 +46,7 @@ protocol DTOLoader {
     func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
 }
 
-struct RecipeListItem {
+struct RecipeListItem: Equatable {
     let id: UUID
     let name: String
     let cookingTime: TimeInterval
@@ -63,10 +64,14 @@ class RecipieListLoader {
     func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
         dtoLoader.load { result in
             switch result {
+            case let .success(dto):
+                var models: [RecipeListItem] = []
+                for item in dto.items {
+                    models.append(.init(id: item.id, name: item.name, cookingTime: Double(item.cookingTime * 60), imageUrl: item.imageUrl, rating: item.rating))
+                }
+                completion(.success(models))
             case let .failure(error):
                 completion(.failure(error))
-            default:
-                break
             }
         }
     }
@@ -98,13 +103,74 @@ final class RecipieListTests: XCTestCase {
         spy.complete(with: .failure(expectedError))
         wait(for: [exp], timeout: 1.0)
     }
-    
+ 
+    //    Проверить время последней загрузки данных и убедиться, что оно пустое или прошел час или более.
+    //    Запросить данные с сервера
+    //    Запомнить новое время последней загрузки
+    //    Вернуть список рецептов вызывающему коду
+    func test_loadingSuccess_deliversSuccessWhenNoCache() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+
+        let exp = expectation(description: "Wait for async code to complete")
+        sut.load { result in
+            switch result {
+            case let .success(items): XCTAssertEqual(items, expectedData)
+            case .failure: XCTFail("Expected success, got error")
+            }
+            exp.fulfill()
+        }
+        
+        spy.complete(with: .success(.test()))
+        wait(for: [exp], timeout: 1.0)
+    }
+
     // MARK: Private
     
     private func makeSUT() -> (RecipieListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
         let sut = RecipieListLoader(dtoLoader: spy)
         return (sut, spy)
+    }
+    
+    private func makeTestItems() -> [RecipeListItem] {
+        [
+            .init(
+                id: UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!,
+                name: "Котлеты по-киевски",
+                cookingTime: 75 * 60,
+                imageUrl: URL(string: "https://any-url.com")!,
+                rating: 3.5
+            ),
+            .init(
+                id: UUID(uuidString: "474615e9-8c95-43f5-aa4f-38721717da98")!,
+                name: "Лапша Удон с курицей",
+                cookingTime: 35 * 60,
+                imageUrl: URL(string: "https://another-any-url.com")!,
+                rating: 4.8
+            ),
+        ]
+    }
+}
+
+extension RecipeListDTO {
+    static func test() -> RecipeListDTO {
+        .init(items: [
+            .init(
+                id: UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!,
+                name: "Котлеты по-киевски",
+                cookingTime: 75,
+                imageUrl: URL(string: "https://any-url.com")!,
+                rating: 3.5
+            ),
+            .init(
+                id: UUID(uuidString: "474615e9-8c95-43f5-aa4f-38721717da98")!,
+                name: "Лапша Удон с курицей",
+                cookingTime: 35,
+                imageUrl: URL(string: "https://another-any-url.com")!,
+                rating: 4.8
+            ),
+        ])
     }
 }
 
