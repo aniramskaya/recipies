@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "D95511C9-F565-4842-9485-4E3F604BEE6B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "testExecutionOrdering" : "random"
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:recipies.xcodeproj",
+        "identifier" : "CCF62CF32ADA8949009537A9",
+        "name" : "RecipieListTests"
+      }
+    }
+  ],
+  "version" : 1
+}
