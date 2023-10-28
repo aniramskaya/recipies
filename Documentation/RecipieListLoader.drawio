@@ -1,0 +1,49 @@
+<mxfile host="Electron" modified="2023-10-28T02:58:26.439Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.3 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="-QvgTBRA9KShREED-7E0" version="22.0.3" type="device">
+  <diagram name="Page-1" id="s5v-gugwn7G6o57f9IGH">
+    <mxGraphModel dx="2156" dy="1811" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="XiraPjUTMP612-xXKCGj-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="XiraPjUTMP612-xXKCGj-1" target="XiraPjUTMP612-xXKCGj-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-1" value="RecipieListLoader" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="470" y="560" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-2" value="DTOLoader" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="730" y="560" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-5" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;curved=1;endArrow=none;endFill=0;" edge="1" parent="1" source="XiraPjUTMP612-xXKCGj-4" target="XiraPjUTMP612-xXKCGj-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-7" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" edge="1" parent="1" source="XiraPjUTMP612-xXKCGj-6" target="XiraPjUTMP612-xXKCGj-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-6" value="Сохраняет кэш" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="550" y="260" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-9" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="XiraPjUTMP612-xXKCGj-8" target="XiraPjUTMP612-xXKCGj-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-8" value="Читает кэш" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="330" y="260" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-4" value="Конвертирует DTO в модель" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="600" y="390" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-11" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;curved=1;" edge="1" parent="1" source="XiraPjUTMP612-xXKCGj-10" target="XiraPjUTMP612-xXKCGj-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-10" value="Валидирует кэш" style="ellipse;whiteSpace=wrap;html=1;fontSize=16;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="270" y="370" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-12" value="RecipieListLoader имеет слишком много обязанностей" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=23;" vertex="1" parent="1">
+          <mxGeometry x="322" y="110" width="525" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="XiraPjUTMP612-xXKCGj-13" value="&lt;h1&gt;Что будем делать&lt;/h1&gt;&lt;p style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;1. Отделим валидацию кэша&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;2. Отделим кэш&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;3. Разделим загрузку из кэша и загрузку из сети&lt;/font&gt;&lt;/p&gt;&lt;p style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;4. Выделим сохранение кэша&lt;/font&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="120" width="790" height="450" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
