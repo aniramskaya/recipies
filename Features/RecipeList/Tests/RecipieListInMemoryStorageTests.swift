@@ -13,7 +13,7 @@ import XCTest
  ✅ Чтение хранилища после записи возвращает записанный результат
  ✅ Повторное чтение не имеет побочных эффектов
  ✅ Чтение хранилища после удаления возвращает пустое значение
- Повторное удаление не имеет побочных эффектов
+ ✅ Повторное удаление не имеет побочных эффектов
  */
 /*
  Storage is empty upon creation
@@ -58,7 +58,7 @@ class RecipieListInMemoryStorageTests: XCTestCase {
     func test_read_hasNoSideEffects() throws {
         let sut = RecipieListInMemoryStorage()
         let items = RecipeListItem.makeTestItems()
-
+        
         sut.write(items)
         
         XCTAssertEqual(sut.read(), items)
@@ -73,6 +73,23 @@ class RecipieListInMemoryStorageTests: XCTestCase {
         
         XCTAssertEqual(sut.read(), items)
         
+        sut.delete()
+        
+        XCTAssertNil(sut.read())
+    }
+    
+    func test_doubleDelete_hasNoSideEffects() throws {
+        let sut = RecipieListInMemoryStorage()
+        let items = RecipeListItem.makeTestItems()
+        
+        sut.write(items)
+        
+        XCTAssertEqual(sut.read(), items)
+        
+        sut.delete()
+        
+        XCTAssertNil(sut.read())
+
         sut.delete()
         
         XCTAssertNil(sut.read())
