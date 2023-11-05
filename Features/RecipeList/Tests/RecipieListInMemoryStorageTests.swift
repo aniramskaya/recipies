@@ -23,6 +23,12 @@ import XCTest
  Double deletion has no side-effects
  */
 
+protocol RecipieListStorage {
+    func read() -> [RecipeListItem]?
+    func write(_ items: [RecipeListItem])
+    func delete()
+}
+
 class RecipieListInMemoryStorage {
     var data: [RecipeListItem]?
     
