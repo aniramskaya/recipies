@@ -39,4 +39,14 @@ class RecipieListCacheTests {
         
         XCTAssertNil(cache.read())
     }
+//    
+//    func test_cache_returnsDataUponCreation() {
+//        let storage = RecipieListInMemoryStorage()
+//        let cache = RecipieListCache(storage: storage)
+//        
+//        let expectedData = RecipeListItem.makeTestItems()
+//        // Storage stores only [RecipeListItem] but not timestamp
+//        // We have to modify it
+//        cache.write(expectedData)
+//    }
 }
