@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC71F5212AF761CD00A77856 /* RecipieListStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5202AF761CD00A77856 /* RecipieListStorage.swift */; };
+		CC71F5232AF761E800A77856 /* RecipieListInMemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5222AF761E800A77856 /* RecipieListInMemoryStorage.swift */; };
 		CCA610202AF74A0A001D3F1C /* RecipieListInMemoryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6101F2AF74A0A001D3F1C /* RecipieListInMemoryStorageTests.swift */; };
 		CCA610222AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */; };
 		CCF62CBD2ADA82BB009537A9 /* recipiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipiesApp.swift */; };
@@ -82,6 +84,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CC71F5202AF761CD00A77856 /* RecipieListStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListStorage.swift; sourceTree = "<group>"; };
+		CC71F5222AF761E800A77856 /* RecipieListInMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListInMemoryStorage.swift; sourceTree = "<group>"; };
 		CCA6101F2AF74A0A001D3F1C /* RecipieListInMemoryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListInMemoryStorageTests.swift; sourceTree = "<group>"; };
 		CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListItem+TestHelpers.swift"; sourceTree = "<group>"; };
 		CCF62CB92ADA82BB009537A9 /* recipies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recipies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +152,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CC71F51F2AF761BF00A77856 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				CC71F5202AF761CD00A77856 /* RecipieListStorage.swift */,
+				CC71F5222AF761E800A77856 /* RecipieListInMemoryStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		CCF62CB02ADA82BB009537A9 = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +251,7 @@
 		CCF62D092ADA895C009537A9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				CC71F51F2AF761BF00A77856 /* Storage */,
 				CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */,
 				CCF62D142ADAAA33009537A9 /* RecipieListLoader.swift */,
 			);
@@ -501,7 +515,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC71F5232AF761E800A77856 /* RecipieListInMemoryStorage.swift in Sources */,
 				CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */,
+				CC71F5212AF761CD00A77856 /* RecipieListStorage.swift in Sources */,
 				CCF62D152ADAAA33009537A9 /* RecipieListLoader.swift in Sources */,
 				CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */,
 			);
