@@ -79,24 +79,19 @@ final class RecipieListTests: XCTestCase {
     }
     
     func test_loading_deliversSuccessWhenFreshCache() throws {
-        let (sut, spy) = makeSUT()
         let expectedData = makeTestItems2()
-        
-        // Cache is not expired, return in-memory data
-        sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(1)
-        sut.cache = makeTestItems2()
+        let (sut, spy) = makeSUT(
+            data: expectedData,
+            time: Date().addingMinutes(-60)?.addingSeconds(1)
+        )
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) { }
         XCTAssertEqual(spy.messages, [])
     }
     
     func test_loading_loadsFromRemoteWhenJustExpiredCache() throws {
-        let (sut, spy) = makeSUT()
         let expectedData = makeTestItems()
-        
-        // Cache has just expired, load from remote
-        sut.lastLoaded = Date().addingMinutes(-60)
-        sut.cache = makeTestItems2()
+        let (sut, spy) = makeSUT(data: makeTestItems2(), time: Date().addingMinutes(-60))
 
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()))
@@ -105,12 +100,11 @@ final class RecipieListTests: XCTestCase {
     }
     
     func test_loading_loadsFromRemoteWhenExpiredCache() throws {
-        let (sut, spy) = makeSUT()
+        let (sut, spy) = makeSUT(
+            data: makeTestItems2(),
+            time: Date().addingMinutes(-60)?.addingSeconds(-1)
+        )
         let expectedData = makeTestItems()
-
-        // Cache is expired, load from remote
-        sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(-1)
-        sut.cache = makeTestItems2()
 
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()))
@@ -142,9 +136,11 @@ final class RecipieListTests: XCTestCase {
     
     // MARK: Private
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (RecipieListLoader, DTOLoaderSpy) {
+    private func makeSUT(data: [RecipeListItem]? = nil, time: Date? = nil, file: StaticString = #filePath, line: UInt = #line) -> (RecipieListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
         let sut = RecipieListLoader(dtoLoader: spy)
+        sut.cache = data
+        sut.lastLoaded = time
         trackForMemoryLeak(sut)
         trackForMemoryLeak(spy)
         return (sut, spy)
