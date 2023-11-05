@@ -55,51 +55,69 @@ final class RecipieListTests: XCTestCase {
     func test_loadingError_deliversErrorWhenNoCache() throws {
         let (sut, spy) = makeSUT()
         let error = NSError.any()
-
+        
         expect(sut: sut, toCompleteWith: .failure(error)) {
             spy.complete(with: .failure(error))
         }
         XCTAssertEqual(spy.messages, [.load])
     }
- 
+    
     // First load: load from remote
     // Less then an hour has passed since last load: return in-memory data
     // An exactly hour has passed since last load: load from remote
     // More than hour has passed since last load: load from remote
-    func test_loadingSuccess_deliversSuccessWhenNoCache() throws {
+    func test_loading_deliversSuccessWhenNoCache() throws {
         let (sut, spy) = makeSUT()
         let expectedData = makeTestItems()
-
+        
         // first load
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()), at: 0)
+            spy.complete(with: .success(.test()))
         }
         XCTAssertEqual(spy.messages, [.load])
         XCTAssertNotNil(sut.lastLoaded)
+    }
+    
+    func test_loading_deliversSuccessWhenFreshCache() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems2()
         
         // Cache is not expired, return in-memory data
         sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(1)
+        sut.cache = makeTestItems2()
         
         expect(sut: sut, toCompleteWith: .success(expectedData)) { }
-        XCTAssertEqual(spy.messages, [.load])
-
+        XCTAssertEqual(spy.messages, [])
+    }
+    
+    func test_loading_loadsFromRemoteWhenJustExpiredCache() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+        
         // Cache has just expired, load from remote
         sut.lastLoaded = Date().addingMinutes(-60)
-        
+        sut.cache = makeTestItems2()
+
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()), at: 1)
+            spy.complete(with: .success(.test()))
         }
-        XCTAssertEqual(spy.messages, [.load, .load])
+        XCTAssertEqual(spy.messages, [.load])
+    }
+    
+    func test_loading_loadsFromRemoteWhenExpiredCache() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
 
         // Cache is expired, load from remote
         sut.lastLoaded = Date().addingMinutes(-60)?.addingSeconds(-1)
-        
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()), at: 2)
-        }
-        XCTAssertEqual(spy.messages, [.load, .load, .load])
-    }
+        sut.cache = makeTestItems2()
 
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(.test()))
+        }
+        XCTAssertEqual(spy.messages, [.load])
+    }
+    
     // Remote loading has failed and there are in-memory data: return in-memory data
     func test_loadingSuccess_deliversSuccessWhenCacheIsExpiredAndRemoteLoadingFails() throws {
         let (sut, spy) = makeSUT()
@@ -131,7 +149,7 @@ final class RecipieListTests: XCTestCase {
         trackForMemoryLeak(spy)
         return (sut, spy)
     }
-        
+    
     private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for async code to complete")
         sut.load { result in
@@ -163,6 +181,25 @@ final class RecipieListTests: XCTestCase {
                 id: UUID(uuidString: "474615e9-8c95-43f5-aa4f-38721717da98")!,
                 name: "Лапша Удон с курицей",
                 cookingTime: 35 * 60,
+                imageUrl: URL(string: "https://another-any-url.com")!,
+                rating: 4.8
+            ),
+        ]
+    }
+    
+    private func makeTestItems2() -> [RecipeListItem] {
+        [
+            .init(
+                id: UUID(uuidString: "11fb3a12-62fc-401e-861f-11594fe87c38")!,
+                name: "Солянка сборная мясная",
+                cookingTime: 75 * 60,
+                imageUrl: URL(string: "https://any-url.com")!,
+                rating: 3.5
+            ),
+            .init(
+                id: UUID(uuidString: "674615e9-8c95-43f5-aa4f-38721717da99")!,
+                name: "Лагман домашний",
+                cookingTime: 135 * 60,
                 imageUrl: URL(string: "https://another-any-url.com")!,
                 rating: 4.8
             ),
