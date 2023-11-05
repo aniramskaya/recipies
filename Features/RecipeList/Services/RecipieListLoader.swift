@@ -7,20 +7,20 @@
 
 import Foundation
 
-protocol DTOLoader {
+public protocol DTOLoader {
     func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
 }
 
-class RecipieListLoader {
+public class RecipieListLoader {
     let dtoLoader: DTOLoader
     var cache: [RecipeListItem]?
     var lastLoaded: Date?
     
-    init(dtoLoader: DTOLoader) {
+    public init(dtoLoader: DTOLoader) {
         self.dtoLoader = dtoLoader
     }
     
-    func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
+    public func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
         if let cache, Date().timeIntervalSince(lastLoaded ?? .distantPast) < 3600 {
             completion(.success(cache))
             return

@@ -68,7 +68,7 @@ final class RecipieListTests: XCTestCase {
     // More than hour has passed since last load: load from remote
     func test_loading_deliversSuccessWhenNoCache() throws {
         let (sut, spy) = makeSUT()
-        let expectedData = makeTestItems()
+        let expectedData = RecipeListItem.makeTestItems()
         
         // first load
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
@@ -79,7 +79,7 @@ final class RecipieListTests: XCTestCase {
     }
     
     func test_loading_deliversSuccessWhenFreshCache() throws {
-        let expectedData = makeTestItems2()
+        let expectedData = RecipeListItem.makeTestItems2()
         let (sut, spy) = makeSUT(
             data: expectedData,
             time: Date().addingMinutes(-60)?.addingSeconds(1)
@@ -90,8 +90,8 @@ final class RecipieListTests: XCTestCase {
     }
     
     func test_loading_loadsFromRemoteWhenJustExpiredCache() throws {
-        let expectedData = makeTestItems()
-        let (sut, spy) = makeSUT(data: makeTestItems2(), time: Date().addingMinutes(-60))
+        let expectedData = RecipeListItem.makeTestItems()
+        let (sut, spy) = makeSUT(data: RecipeListItem.makeTestItems2(), time: Date().addingMinutes(-60))
 
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()))
@@ -101,10 +101,10 @@ final class RecipieListTests: XCTestCase {
     
     func test_loading_loadsFromRemoteWhenExpiredCache() throws {
         let (sut, spy) = makeSUT(
-            data: makeTestItems2(),
+            data: RecipeListItem.makeTestItems2(),
             time: Date().addingMinutes(-60)?.addingSeconds(-1)
         )
-        let expectedData = makeTestItems()
+        let expectedData = RecipeListItem.makeTestItems()
 
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(.test()))
@@ -115,7 +115,7 @@ final class RecipieListTests: XCTestCase {
     // Remote loading has failed and there are in-memory data: return in-memory data
     func test_loadingSuccess_deliversSuccessWhenCacheIsExpiredAndRemoteLoadingFails() throws {
         let (sut, spy) = makeSUT()
-        let expectedData = makeTestItems()
+        let expectedData = RecipeListItem.makeTestItems()
         
         // first load
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
@@ -162,44 +162,6 @@ final class RecipieListTests: XCTestCase {
         
         action()
         wait(for: [exp], timeout: 1.0)
-    }
-    
-    private func makeTestItems() -> [RecipeListItem] {
-        [
-            .init(
-                id: UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!,
-                name: "Котлеты по-киевски",
-                cookingTime: 75 * 60,
-                imageUrl: URL(string: "https://any-url.com")!,
-                rating: 3.5
-            ),
-            .init(
-                id: UUID(uuidString: "474615e9-8c95-43f5-aa4f-38721717da98")!,
-                name: "Лапша Удон с курицей",
-                cookingTime: 35 * 60,
-                imageUrl: URL(string: "https://another-any-url.com")!,
-                rating: 4.8
-            ),
-        ]
-    }
-    
-    private func makeTestItems2() -> [RecipeListItem] {
-        [
-            .init(
-                id: UUID(uuidString: "11fb3a12-62fc-401e-861f-11594fe87c38")!,
-                name: "Солянка сборная мясная",
-                cookingTime: 75 * 60,
-                imageUrl: URL(string: "https://any-url.com")!,
-                rating: 3.5
-            ),
-            .init(
-                id: UUID(uuidString: "674615e9-8c95-43f5-aa4f-38721717da99")!,
-                name: "Лагман домашний",
-                cookingTime: 135 * 60,
-                imageUrl: URL(string: "https://another-any-url.com")!,
-                rating: 4.8
-            ),
-        ]
     }
 }
 
