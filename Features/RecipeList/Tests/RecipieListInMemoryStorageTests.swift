@@ -9,9 +9,9 @@ import Foundation
 import XCTest
 @testable import RecipieList
 /*
- При инициализации хранилище пустое
- Чтение хранилища после записи возвращает записанный результат
- Повторное чтение не имеет побочных эффектов
+ ✅ При инициализации хранилище пустое
+ ✅ Чтение хранилища после записи возвращает записанный результат
+ ✅ Повторное чтение не имеет побочных эффектов
  Чтение хранилища после удаления возвращает пустое значение
  Повторное удаление не имеет побочных эффектов
  */
@@ -24,8 +24,14 @@ import XCTest
  */
 
 class RecipieListInMemoryStorage {
+    var data: [RecipeListItem]?
+    
     func read() -> [RecipeListItem]? {
-        return nil
+        return data
+    }
+    
+    func write(_ items: [RecipeListItem]) {
+        data = items
     }
 }
 
@@ -34,5 +40,24 @@ class RecipieListInMemoryStorageTests: XCTestCase {
         let sut = RecipieListInMemoryStorage()
         
         XCTAssertNil(sut.read(), "Storage is expected to be empty upon creation but it is not")
+    }
+    
+    func test_read_returnsWrittenValue() throws {
+        let sut = RecipieListInMemoryStorage()
+        let items = RecipeListItem.makeTestItems()
+        
+        sut.write(items)
+        
+        XCTAssertEqual(sut.read(), items)
+    }
+    
+    func test_read_hasNoSideEffects() throws {
+        let sut = RecipieListInMemoryStorage()
+        let items = RecipeListItem.makeTestItems()
+
+        sut.write(items)
+        
+        XCTAssertEqual(sut.read(), items)
+        XCTAssertEqual(sut.read(), items)
     }
 }
