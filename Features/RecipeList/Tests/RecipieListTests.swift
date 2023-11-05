@@ -28,48 +28,9 @@ import XCTest
  вернуть ошибку, которая пришла от сервера
 
  */
-/*
- Recipe list loading scenario
- 
- Check last loaded time and ensure it is empty or an hour or more has passed since
- Request new data from server
- Memorize last loaded time
- Return recipie list to the calling code
- 
- 1a. Less then an hour has passed since last load: return in-memory data
- 2a. Remote loading has failed and there are in-memory data: return in-memory data
- 2b. Remote loading has failed and there are no in-memory data: return remote loading error
-*/
-
 protocol DTOLoader {
     func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
 }
 
-class RecipieListLoader {
-    let dtoLoader: DTOLoader
-    
-    init(dtoLoader: DTOLoader) {
-        self.dtoLoader = dtoLoader
-    }
-}
-
 final class RecipieListTests: XCTestCase {
-    func test_init_doesNothing() throws {
-        let spy = DTOLoaderSpy()
-        let sut = RecipieListLoader(dtoLoader: spy)
-        
-        XCTAssertEqual(spy.messages, [])
-    }
-}
-
-class DTOLoaderSpy: DTOLoader {
-    enum Message: Equatable {
-        case load
-    }
-    
-    var messages: [Message] = []
-    
-    func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void) {
-        messages.append(.load)
-    }
 }
