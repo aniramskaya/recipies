@@ -16,21 +16,22 @@ public protocol RecipieListLoader {
 }
 
 public class RecipieListFallbackLoader: RecipieListLoader {
-    let remoteLoader: RecipieListLoader
-    let cache: RecipieListCache
-    
-    public init(remoteLoader: RecipieListLoader, cache: RecipieListCache) {
-        self.remoteLoader = remoteLoader
-        self.cache = cache
+    let first: RecipieListLoader
+    let second: RecipieListLoader
+
+    public init(first: RecipieListLoader, second: RecipieListLoader) {
+        self.first = second
+        self.second = first
     }
     
     public func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
-        let cacheResult = cache.read()
-        switch cacheResult {
-        case .success(let items):
-            completion(.success(items))
-        case .failure:
-            remoteLoader.load(completion: completion)
+        first.load { [weak self] result in
+            switch result {
+            case .success(let items):
+                completion(.success(items))
+            case .failure:
+                self?.second.load(completion: completion)
+            }
         }
     }
 
