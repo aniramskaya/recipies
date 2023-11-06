@@ -29,7 +29,7 @@
 		CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */; };
 		CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */; };
 		CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */; };
-		CCF62D152ADAAA33009537A9 /* RecipieListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D142ADAAA33009537A9 /* RecipieListLoader.swift */; };
+		CCF62D152ADAAA33009537A9 /* RecipieListFallbackLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D142ADAAA33009537A9 /* RecipieListFallbackLoader.swift */; };
 		CCF62D192ADAAA7A009537A9 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */; };
 		CCF62D1B2ADAAA9A009537A9 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */; };
 		CCF62D1D2ADAAC2B009537A9 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */; };
@@ -113,7 +113,7 @@
 		CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeItemDTO.swift; sourceTree = "<group>"; };
 		CCF62D0E2ADA8BB3009537A9 /* RecipieList.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = RecipieList.xctestplan; path = Features/RecipeList/Tests/RecipieList.xctestplan; sourceTree = "<group>"; };
 		CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListItem.swift; sourceTree = "<group>"; };
-		CCF62D142ADAAA33009537A9 /* RecipieListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListLoader.swift; sourceTree = "<group>"; };
+		CCF62D142ADAAA33009537A9 /* RecipieListFallbackLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListFallbackLoader.swift; sourceTree = "<group>"; };
 		CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
 		CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
@@ -271,7 +271,7 @@
 				CC71F52C2AF8D26F00A77856 /* Cache */,
 				CC71F51F2AF761BF00A77856 /* Storage */,
 				CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */,
-				CCF62D142ADAAA33009537A9 /* RecipieListLoader.swift */,
+				CCF62D142ADAAA33009537A9 /* RecipieListFallbackLoader.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -540,7 +540,7 @@
 				CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */,
 				CC71F52E2AF8D27E00A77856 /* RecipieListCache.swift in Sources */,
 				CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */,
-				CCF62D152ADAAA33009537A9 /* RecipieListLoader.swift in Sources */,
+				CCF62D152ADAAA33009537A9 /* RecipieListFallbackLoader.swift in Sources */,
 				CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,5 @@
 //
-//  RecipieListLoader.swift
+//  RecipieListFallbackLoader.swift
 //  RecipieList
 //
 //  Created by Марина Чемезова on 14.10.2023.
@@ -11,7 +11,7 @@ public protocol DTOLoader {
     func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
 }
 
-public class RecipieListLoader {
+public class RecipieListFallbackLoader {
     let dtoLoader: DTOLoader
     let cache: RecipieListCache
     let storage: InMemoryStorage<RecipeListStored>

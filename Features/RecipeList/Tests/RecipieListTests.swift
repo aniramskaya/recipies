@@ -128,7 +128,7 @@ final class RecipieListTests: XCTestCase {
     // MARK: Private
     
     private struct SUTModule {
-        let sut: RecipieListLoader
+        let sut: RecipieListFallbackLoader
         let spy: DTOLoaderSpy
         let expiration: TimestampExpirationPolicyStub
     }
@@ -138,13 +138,13 @@ final class RecipieListTests: XCTestCase {
         let expiration = TimestampExpirationPolicyStub()
         let storage = InMemoryStorage<RecipeListStored>()
         let cache = RecipieListCache(storage: storage, expirationPolicy: expiration)
-        let sut = RecipieListLoader(dtoLoader: spy, cache: cache, storage: storage)
+        let sut = RecipieListFallbackLoader(dtoLoader: spy, cache: cache, storage: storage)
         trackForMemoryLeak(sut)
         trackForMemoryLeak(spy)
         return SUTModule(sut: sut, spy: spy, expiration: expiration)
     }
     
-    private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(sut: RecipieListFallbackLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for async code to complete")
         sut.load { result in
             switch (result, expectedResult) {
