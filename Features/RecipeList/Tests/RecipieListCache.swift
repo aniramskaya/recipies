@@ -20,28 +20,33 @@ import XCTest
  Cache returns error when timestamp is expired
  */
 
+struct RecipeListStored {
+    let items: [RecipeListItem]
+    let timestamp: Date
+}
+
 class RecipieListCache {
-    let storage: RecipieListInMemoryStorage
+    let storage: InMemoryStorage<RecipeListStored>
     
-    init(storage: RecipieListInMemoryStorage) {
+    init(storage: InMemoryStorage<RecipeListStored>) {
         self.storage = storage
     }
     
     func read() -> [RecipeListItem]? {
-        return storage.read()
+        return storage.read()?.items
     }
 }
 
 class RecipieListCacheTests {
     func test_cache_isEmptyUponCreation() {
-        let storage = RecipieListInMemoryStorage()
+        let storage = InMemoryStorage<RecipeListStored>()
         let cache = RecipieListCache(storage: storage)
         
         XCTAssertNil(cache.read())
     }
 //    
-//    func test_cache_returnsDataUponCreation() {
-//        let storage = RecipieListInMemoryStorage()
+//    func test_read_returnsPreviouslyWrittenData() {
+//        let storage = InMemoryStorage<RecipeListItem>()
 //        let cache = RecipieListCache(storage: storage)
 //        
 //        let expectedData = RecipeListItem.makeTestItems()

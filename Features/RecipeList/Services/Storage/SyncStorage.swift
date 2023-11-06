@@ -7,8 +7,9 @@
 
 import Foundation
 
-public protocol RecipieListStorage {
-    func read() -> [RecipeListItem]?
-    func write(_ items: [RecipeListItem])
+public protocol SyncStorage {
+    associatedtype Model
+    func read() -> Model?
+    func write(_ items: Model)
     func delete()
 }

@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class RecipieListInMemoryStorage {
-    private var data: [RecipeListItem]?
+public class InMemoryStorage<Model>: SyncStorage {
+    private var data: Model?
     
-    public func read() -> [RecipeListItem]? {
+    public func read() -> Model? {
         return data
     }
     
-    public func write(_ items: [RecipeListItem]) {
+    public func write(_ items: Model) {
         data = items
     }
     

@@ -23,15 +23,15 @@ import XCTest
  Double deletion has no side-effects
  */
 
-class RecipieListInMemoryStorageTests: XCTestCase {
-    func test_init_makesEmptyStprage() throws {
-        let sut = RecipieListInMemoryStorage()
+class SyncStorageTests: XCTestCase {
+    func test_init_makesEmptyStorage() throws {
+        let sut = makeSUT()
         
         XCTAssertNil(sut.read(), "Storage is expected to be empty upon creation but it is not")
     }
     
     func test_read_returnsWrittenValue() throws {
-        let sut = RecipieListInMemoryStorage()
+        let sut = makeSUT()
         let items = RecipeListItem.makeTestItems()
         
         sut.write(items)
@@ -40,7 +40,7 @@ class RecipieListInMemoryStorageTests: XCTestCase {
     }
     
     func test_read_hasNoSideEffects() throws {
-        let sut = RecipieListInMemoryStorage()
+        let sut = makeSUT()
         let items = RecipeListItem.makeTestItems()
         
         sut.write(items)
@@ -50,7 +50,7 @@ class RecipieListInMemoryStorageTests: XCTestCase {
     }
     
     func test_delete_makesDataNil() throws {
-        let sut = RecipieListInMemoryStorage()
+        let sut = makeSUT()
         let items = RecipeListItem.makeTestItems()
         
         sut.write(items)
@@ -63,7 +63,7 @@ class RecipieListInMemoryStorageTests: XCTestCase {
     }
     
     func test_doubleDelete_hasNoSideEffects() throws {
-        let sut = RecipieListInMemoryStorage()
+        let sut = makeSUT()
         let items = RecipeListItem.makeTestItems()
         
         sut.write(items)
@@ -77,5 +77,9 @@ class RecipieListInMemoryStorageTests: XCTestCase {
         sut.delete()
         
         XCTAssertNil(sut.read())
+    }
+    
+    private func makeSUT() -> InMemoryStorage<[RecipeListItem]> {
+        InMemoryStorage<[RecipeListItem]>()
     }
 }
