@@ -143,6 +143,11 @@ final class RecipieListTests: XCTestCase {
         let sut = RecipieListFallbackLoader(first: remoteLoader, second: cacheAsync)
         trackForMemoryLeak(sut)
         trackForMemoryLeak(spy)
+        trackForMemoryLeak(expiration)
+        trackForMemoryLeak(storage)
+        trackForMemoryLeak(cache)
+        trackForMemoryLeak(cacheAsync)
+        trackForMemoryLeak(remoteLoader)
         return SUTModule(sut: sut, spy: spy, expiration: expiration)
     }
     
