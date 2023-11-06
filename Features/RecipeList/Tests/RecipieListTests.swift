@@ -138,7 +138,10 @@ final class RecipieListTests: XCTestCase {
     
     private func makeSUT(data: [RecipeListItem]? = nil, time: Date? = nil, file: StaticString = #filePath, line: UInt = #line) -> (RecipieListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
-        let sut = RecipieListLoader(dtoLoader: spy)
+        let expiration = RecipieListExpirationPolicy(timeout: 3600)
+        let storage = InMemoryStorage<RecipeListStored>()
+        let cache = RecipieListCache(storage: storage, expirationPolicy: expiration)
+        let sut = RecipieListLoader(dtoLoader: spy, cache: cache, storage: storage)
         sut.cache = data
         sut.lastLoaded = time
         trackForMemoryLeak(sut)
