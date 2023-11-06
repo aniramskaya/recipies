@@ -20,46 +20,6 @@ import XCTest
  Cache returns error when timestamp is expired
  */
 
-struct RecipeListStored {
-    let items: [RecipeListItem]
-    let timestamp: Date
-}
-
-protocol TimestampExpirationPolicy {
-    func isValid(_: Date) -> Bool
-}
-
-class RecipieListCache {
-    enum Error: Swift.Error {
-        case empty
-        case expired
-    }
-    
-    let storage: InMemoryStorage<RecipeListStored>
-    let expirationPolicy: TimestampExpirationPolicy
-    
-    init(storage: InMemoryStorage<RecipeListStored>, expirationPolicy: TimestampExpirationPolicy) {
-        self.storage = storage
-        self.expirationPolicy = expirationPolicy
-    }
-    
-    func read() -> Result<[RecipeListItem], Error> {
-        if let stored = storage.read() {
-            if expirationPolicy.isValid(stored.timestamp) {
-                return .success(stored.items)
-            } else {
-                return .failure(.expired)
-            }
-        } else {
-            return .failure(.empty)
-        }
-    }
-    
-    func write(_ items: [RecipeListItem]) {
-        storage.write(RecipeListStored(items: items, timestamp: Date()))
-    }
-}
-
 class RecipieListCacheTests: XCTestCase {
     func test_cache_isEmptyUponCreation() {
         let (sut, _) = makeSUT()
