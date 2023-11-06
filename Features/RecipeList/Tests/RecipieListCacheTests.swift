@@ -25,16 +25,33 @@ struct RecipeListStored {
     let timestamp: Date
 }
 
+protocol TimestampExpirationPolicy {
+    func isValid(_: Date) -> Bool
+}
+
 class RecipieListCache {
-    let storage: InMemoryStorage<RecipeListStored>
-    //let expirationPolicy: TimestampExpirationPolicy
-    
-    init(storage: InMemoryStorage<RecipeListStored>) {
-        self.storage = storage
+    enum Error: Swift.Error {
+        case empty
     }
     
-    func read() -> [RecipeListItem]? {
-        return storage.read()?.items
+    let storage: InMemoryStorage<RecipeListStored>
+    let expirationPolicy: TimestampExpirationPolicy
+    
+    init(storage: InMemoryStorage<RecipeListStored>, expirationPolicy: TimestampExpirationPolicy) {
+        self.storage = storage
+        self.expirationPolicy = expirationPolicy
+    }
+    
+    func read() -> Result<[RecipeListItem], Error> {
+        if let stored = storage.read() {
+            if expirationPolicy.isValid(stored.timestamp) {
+                return .success(stored.items)
+            } else {
+                return .failure(.empty)
+            }
+        } else {
+            return .failure(.empty)
+        }
     }
     
     func write(_ items: [RecipeListItem]) {
@@ -44,18 +61,20 @@ class RecipieListCache {
 
 class RecipieListCacheTests: XCTestCase {
     func test_cache_isEmptyUponCreation() {
-        let sut = makeSUT()
+        let (sut, _) = makeSUT()
 
-        XCTAssertNil(sut.read())
+        XCTAssertEqual(sut.read(), .failure(.empty))
     }
     
     func test_read_returnsPreviouslyWrittenDataWhenNotExpired() {
-        let sut = makeSUT()
+        let (sut, validator) = makeSUT()
         
         let expectedData = RecipeListItem.makeTestItems()
         sut.write(expectedData)
         
-        XCTAssertEqual(sut.read(), expectedData)
+        validator.validationResult = true
+        
+        XCTAssertEqual(sut.read(), .success(expectedData))
     }
 
 //    func test_read_returnsErrorWhenExpired() {
@@ -67,9 +86,18 @@ class RecipieListCacheTests: XCTestCase {
 //        XCTAssertEqual(sut.read(), expectedData)
 //    }
 
-    private func makeSUT() -> RecipieListCache {
+    private func makeSUT() -> (RecipieListCache, TimestampExpirationPolicyStub) {
         let storage = InMemoryStorage<RecipeListStored>()
-        let cache = RecipieListCache(storage: storage)
-        return cache
+        let validationStub = TimestampExpirationPolicyStub()
+        let cache = RecipieListCache(storage: storage, expirationPolicy: validationStub)
+        return (cache, validationStub)
+    }
+}
+
+class TimestampExpirationPolicyStub: TimestampExpirationPolicy {
+    var validationResult = false
+    
+    func isValid(_: Date) -> Bool {
+        return validationResult
     }
 }
