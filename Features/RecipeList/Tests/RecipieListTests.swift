@@ -210,7 +210,7 @@ extension RecipeListDTO {
     }
 }
 
-class DTOLoaderSpy: DTOLoader {
+class DTOLoaderSpy: RecipeListDTOLoader {
     enum Message: Equatable {
         case load
     }

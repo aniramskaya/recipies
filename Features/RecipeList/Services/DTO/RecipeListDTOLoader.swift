@@ -1,0 +1,12 @@
+//
+//  RecipeListDTOLoader.swift
+//  RecipieList
+//
+//  Created by Марина Чемезова on 06.11.2023.
+//
+
+import Foundation
+
+public protocol RecipeListDTOLoader {
+    func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
+}

@@ -8,11 +8,11 @@
 import Foundation
 
 public class RecipieListRemoteLoader: RecipieListLoader {
-    let dtoLoader: DTOLoader
+    let dtoLoader: RecipeListDTOLoader
     let cache: RecipieListCache
     let storage: InMemoryStorage<RecipeListStored>
     
-    public init(dtoLoader: DTOLoader, cache: RecipieListCache, storage: InMemoryStorage<RecipeListStored>) {
+    public init(dtoLoader: RecipeListDTOLoader, cache: RecipieListCache, storage: InMemoryStorage<RecipeListStored>) {
         self.dtoLoader = dtoLoader
         self.cache = cache
         self.storage = storage

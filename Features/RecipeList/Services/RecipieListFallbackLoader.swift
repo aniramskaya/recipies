@@ -7,10 +7,6 @@
 
 import Foundation
 
-public protocol DTOLoader {
-    func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
-}
-
 public protocol RecipieListLoader {
     func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void)
 }
