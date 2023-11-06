@@ -11,7 +11,11 @@ public protocol DTOLoader {
     func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void)
 }
 
-public class RecipieListFallbackLoader {
+public protocol RecipieListLoader {
+    func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void)
+}
+
+public class RecipieListFallbackLoader: RecipieListLoader {
     let dtoLoader: DTOLoader
     let cache: RecipieListCache
     let storage: InMemoryStorage<RecipeListStored>
