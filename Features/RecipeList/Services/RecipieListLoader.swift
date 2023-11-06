@@ -49,25 +49,6 @@ public class RecipieListLoader {
             }
         }
     }
-    
-    // MARK: DSL properties to remove
-    public var cache: [RecipeListItem]? {
-        get {
-            switch cacheService.read() {
-            case let .success(items): return items
-            case .failure: return nil
-            }
-        }
-        set {
-            guard let value = newValue else { return }
-            cacheService.write(value)
-        }
-    }
-    
-    public var lastLoaded: Date? {
-        get { cacheService.timestamp }
-        set { cacheService.timestamp = newValue }
-    }
 }
 
 extension Array where Element == RecipeListItemDTO {

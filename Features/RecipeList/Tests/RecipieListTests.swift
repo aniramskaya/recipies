@@ -139,8 +139,6 @@ final class RecipieListTests: XCTestCase {
         let storage = InMemoryStorage<RecipeListStored>()
         let cache = RecipieListCache(storage: storage, expirationPolicy: expiration)
         let sut = RecipieListLoader(dtoLoader: spy, cache: cache, storage: storage)
-        sut.cache = data
-        sut.lastLoaded = time
         trackForMemoryLeak(sut)
         trackForMemoryLeak(spy)
         return SUTModule(sut: sut, spy: spy, expiration: expiration)

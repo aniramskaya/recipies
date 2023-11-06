@@ -50,18 +50,4 @@ public class RecipieListCache {
     public func write(_ items: [RecipeListItem]) {
         storage.write(RecipeListStored(items: items, timestamp: Date()))
     }
-    
-    // MARK: DSL properties to remove
-    public var timestamp: Date? {
-        get { storage.read()?.timestamp }
-        set {
-            guard let value = newValue else {
-                storage.delete()
-                return
-            }
-            if let stored = storage.read() {
-                storage.write(RecipeListStored(items: stored.items, timestamp: value))
-            }
-        }
-    }
 }
