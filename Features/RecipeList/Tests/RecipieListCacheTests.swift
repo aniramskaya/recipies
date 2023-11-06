@@ -43,17 +43,23 @@ class RecipieListCache {
 
 class RecipieListCacheTests: XCTestCase {
     func test_cache_isEmptyUponCreation() {
-        let storage = InMemoryStorage<RecipeListStored>()
-        let cache = RecipieListCache(storage: storage)
-        
-        XCTAssertNil(cache.read())
+        let sut = makeSUT()
+
+        XCTAssertNil(sut.read())
     }
     
     func test_read_returnsPreviouslyWrittenDataWhenNotExpired() {
-        let storage = InMemoryStorage<RecipeListStored>()
-        let cache = RecipieListCache(storage: storage)
+        let sut = makeSUT()
         
         let expectedData = RecipeListItem.makeTestItems()
-        cache.write(expectedData)
+        sut.write(expectedData)
+        
+        XCTAssertEqual(sut.read(), expectedData)
+    }
+    
+    private func makeSUT() -> RecipieListCache {
+        let storage = InMemoryStorage<RecipeListStored>()
+        let cache = RecipieListCache(storage: storage)
+        return cache
     }
 }
