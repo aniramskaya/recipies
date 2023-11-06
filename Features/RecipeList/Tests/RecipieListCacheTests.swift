@@ -27,6 +27,7 @@ struct RecipeListStored {
 
 class RecipieListCache {
     let storage: InMemoryStorage<RecipeListStored>
+    //let expirationPolicy: TimestampExpirationPolicy
     
     init(storage: InMemoryStorage<RecipeListStored>) {
         self.storage = storage
@@ -56,7 +57,16 @@ class RecipieListCacheTests: XCTestCase {
         
         XCTAssertEqual(sut.read(), expectedData)
     }
-    
+
+//    func test_read_returnsErrorWhenExpired() {
+//        let sut = makeSUT()
+//        
+//        let expectedData = RecipeListItem.makeTestItems()
+//        sut.write(expectedData)
+//        
+//        XCTAssertEqual(sut.read(), expectedData)
+//    }
+
     private func makeSUT() -> RecipieListCache {
         let storage = InMemoryStorage<RecipeListStored>()
         let cache = RecipieListCache(storage: storage)
