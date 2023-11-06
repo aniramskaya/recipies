@@ -11,8 +11,8 @@ import XCTest
 
 /*
  ✅ При инициализации кэш пуст
- До истечения времени жизни кэша он возвращает данные
- После истечения времени жизни кэша он возвращает ошибку
+ ✅ До истечения времени жизни кэша он возвращает данные
+ ✅ После истечения времени жизни кэша он возвращает ошибку
  */
 /*
  Cache is empty upon initialization
@@ -32,6 +32,7 @@ protocol TimestampExpirationPolicy {
 class RecipieListCache {
     enum Error: Swift.Error {
         case empty
+        case expired
     }
     
     let storage: InMemoryStorage<RecipeListStored>
@@ -47,7 +48,7 @@ class RecipieListCache {
             if expirationPolicy.isValid(stored.timestamp) {
                 return .success(stored.items)
             } else {
-                return .failure(.empty)
+                return .failure(.expired)
             }
         } else {
             return .failure(.empty)
@@ -77,14 +78,15 @@ class RecipieListCacheTests: XCTestCase {
         XCTAssertEqual(sut.read(), .success(expectedData))
     }
 
-//    func test_read_returnsErrorWhenExpired() {
-//        let sut = makeSUT()
-//        
-//        let expectedData = RecipeListItem.makeTestItems()
-//        sut.write(expectedData)
-//        
-//        XCTAssertEqual(sut.read(), expectedData)
-//    }
+    func test_read_returnsErrorWhenExpired() {
+        let (sut, validator) = makeSUT()
+        
+        let expectedData = RecipeListItem.makeTestItems()
+        sut.write(expectedData)
+        validator.validationResult = false
+
+        XCTAssertEqual(sut.read(), .failure(.expired))
+    }
 
     private func makeSUT() -> (RecipieListCache, TimestampExpirationPolicyStub) {
         let storage = InMemoryStorage<RecipeListStored>()
