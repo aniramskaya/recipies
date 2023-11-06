@@ -44,22 +44,22 @@ import XCTest
 
 final class RecipieListTests: XCTestCase {
     func test_init_doesNothing() throws {
-        let (_, spy) = makeSUT()
+        let module = makeSUT()
         
-        XCTAssertEqual(spy.messages, [])
+        XCTAssertEqual(module.spy.messages, [])
     }
     
     // Выполнение запроса к серверу завершилось ошибкой и в памяти нет ранее загруженных данных
     // - вернуть ошибку, которая пришла от сервера
     // Remote loading has failed and there are no in-memory data: return remote loading error
     func test_loadingError_deliversErrorWhenNoCache() throws {
-        let (sut, spy) = makeSUT()
+        let module = makeSUT()
         let error = NSError.any()
         
-        expect(sut: sut, toCompleteWith: .failure(error)) {
-            spy.complete(with: .failure(error))
+        expect(sut: module.sut, toCompleteWith: .failure(error)) {
+            module.spy.complete(with: .failure(error))
         }
-        XCTAssertEqual(spy.messages, [.load])
+        XCTAssertEqual(module.spy.messages, [.load])
     }
     
     // First load: load from remote
@@ -67,78 +67,75 @@ final class RecipieListTests: XCTestCase {
     // An exactly hour has passed since last load: load from remote
     // More than hour has passed since last load: load from remote
     func test_loading_deliversSuccessWhenNoCache() throws {
-        let (sut, spy) = makeSUT()
+        let module = makeSUT()
         let expectedData = RecipeListItem.makeTestItems()
         
         // first load
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()))
+        expect(sut: module.sut, toCompleteWith: .success(expectedData)) {
+            module.spy.complete(with: .success(.test()))
         }
-        XCTAssertEqual(spy.messages, [.load])
-        XCTAssertNotNil(sut.lastLoaded)
+        XCTAssertEqual(module.spy.messages, [.load])
     }
     
     func test_loading_deliversSuccessWhenFreshCache() throws {
-        let expectedData = RecipeListItem.makeTestItems2()
-        let (sut, spy) = makeSUT(
-            data: expectedData,
-            time: Date().addingMinutes(-60)?.addingSeconds(1)
-        )
-        
-        expect(sut: sut, toCompleteWith: .success(expectedData)) { }
-        XCTAssertEqual(spy.messages, [])
-    }
-    
-    func test_loading_loadsFromRemoteWhenJustExpiredCache() throws {
         let expectedData = RecipeListItem.makeTestItems()
-        let (sut, spy) = makeSUT(data: RecipeListItem.makeTestItems2(), time: Date().addingMinutes(-60))
+        let module = makeSUT()
+        module.expiration.validationResult = true
 
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()))
+        expect(sut: module.sut, toCompleteWith: .success(expectedData)) { 
+            module.spy.complete(with: .success(.test()))
         }
-        XCTAssertEqual(spy.messages, [.load])
+        expect(sut: module.sut, toCompleteWith: .success(expectedData)) { }
+        XCTAssertEqual(module.spy.messages, [.load])
     }
     
     func test_loading_loadsFromRemoteWhenExpiredCache() throws {
-        let (sut, spy) = makeSUT(
-            data: RecipeListItem.makeTestItems2(),
-            time: Date().addingMinutes(-60)?.addingSeconds(-1)
-        )
-        let expectedData = RecipeListItem.makeTestItems()
+        let expectedData1 = RecipeListItem.makeTestItems()
+        let expectedData2 = RecipeListItem.makeTestItems2()
+        let module = makeSUT()
 
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()))
+        expect(sut: module.sut, toCompleteWith: .success(expectedData1)) {
+            module.spy.complete(with: .success(.test()), at: 0)
         }
-        XCTAssertEqual(spy.messages, [.load])
+        module.expiration.validationResult = false
+        expect(sut: module.sut, toCompleteWith: .success(expectedData2)) {
+            module.spy.complete(with: .success(.test2()), at: 1)
+        }
+        XCTAssertEqual(module.spy.messages, [.load, .load])
     }
-    
+
     // Remote loading has failed and there are in-memory data: return in-memory data
     func test_loadingSuccess_deliversSuccessWhenCacheIsExpiredAndRemoteLoadingFails() throws {
-        let (sut, spy) = makeSUT()
+        let module = makeSUT()
         let expectedData = RecipeListItem.makeTestItems()
         
         // first load
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .success(.test()), at: 0)
+        expect(sut: module.sut, toCompleteWith: .success(expectedData)) {
+            module.spy.complete(with: .success(.test()), at: 0)
         }
-        XCTAssertEqual(spy.messages, [.load])
-        XCTAssertNotNil(sut.lastLoaded)
+        XCTAssertEqual(module.spy.messages, [.load])
         
         //cache has become expired
-        sut.lastLoaded = Date().addingMinutes(-120)
-        
+        module.expiration.validationResult = false
+
         //second load finishes with error but we got cache data
-        expect(sut: sut, toCompleteWith: .success(expectedData)) {
-            spy.complete(with: .failure(NSError.any()), at: 1)
+        expect(sut: module.sut, toCompleteWith: .success(expectedData)) {
+            module.spy.complete(with: .failure(NSError.any()), at: 1)
         }
-        XCTAssertEqual(spy.messages, [.load, .load])
+        XCTAssertEqual(module.spy.messages, [.load, .load])
     }
     
     // MARK: Private
     
-    private func makeSUT(data: [RecipeListItem]? = nil, time: Date? = nil, file: StaticString = #filePath, line: UInt = #line) -> (RecipieListLoader, DTOLoaderSpy) {
+    private struct SUTModule {
+        let sut: RecipieListLoader
+        let spy: DTOLoaderSpy
+        let expiration: TimestampExpirationPolicyStub
+    }
+    
+    private func makeSUT(data: [RecipeListItem]? = nil, time: Date? = nil, file: StaticString = #filePath, line: UInt = #line) -> SUTModule {
         let spy = DTOLoaderSpy()
-        let expiration = RecipieListExpirationPolicy(timeout: 3600)
+        let expiration = TimestampExpirationPolicyStub()
         let storage = InMemoryStorage<RecipeListStored>()
         let cache = RecipieListCache(storage: storage, expirationPolicy: expiration)
         let sut = RecipieListLoader(dtoLoader: spy, cache: cache, storage: storage)
@@ -146,7 +143,7 @@ final class RecipieListTests: XCTestCase {
         sut.lastLoaded = time
         trackForMemoryLeak(sut)
         trackForMemoryLeak(spy)
-        return (sut, spy)
+        return SUTModule(sut: sut, spy: spy, expiration: expiration)
     }
     
     private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
@@ -185,6 +182,25 @@ extension RecipeListDTO {
                 imageUrl: URL(string: "https://another-any-url.com")!,
                 rating: 4.8
             ),
+        ])
+    }
+    
+    static func test2() -> RecipeListDTO {
+        .init(items: [
+            .init(
+                id: UUID(uuidString: "11fb3a12-62fc-401e-861f-11594fe87c38")!,
+                name: "Солянка сборная мясная",
+                cookingTime: 75,
+                imageUrl: URL(string: "https://any-url.com")!,
+                rating: 3.5
+            ),
+            .init(
+                id: UUID(uuidString: "674615e9-8c95-43f5-aa4f-38721717da99")!,
+                name: "Лагман домашний",
+                cookingTime: 135,
+                imageUrl: URL(string: "https://another-any-url.com")!,
+                rating: 4.8
+            )
         ])
     }
 }
