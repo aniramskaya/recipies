@@ -16,14 +16,12 @@ public protocol RecipieListLoader {
 }
 
 public class RecipieListFallbackLoader: RecipieListLoader {
-    let dtoLoader: DTOLoader
+    let remoteLoader: RecipieListLoader
     let cache: RecipieListCache
-    let storage: InMemoryStorage<RecipeListStored>
     
-    public init(dtoLoader: DTOLoader, cache: RecipieListCache, storage: InMemoryStorage<RecipeListStored>) {
-        self.dtoLoader = dtoLoader
+    public init(remoteLoader: RecipieListLoader, cache: RecipieListCache) {
+        self.remoteLoader = remoteLoader
         self.cache = cache
-        self.storage = storage
     }
     
     public func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
@@ -32,27 +30,10 @@ public class RecipieListFallbackLoader: RecipieListLoader {
         case .success(let items):
             completion(.success(items))
         case .failure:
-            loadFromRemote(completion: completion)
+            remoteLoader.load(completion: completion)
         }
     }
-    
-    private func loadFromRemote(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
-        dtoLoader.load { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case let .success(dto):
-                let models = dto.items.models
-                cache.write(models)
-                completion(.success(models))
-            case let .failure(error):
-                if let stored = storage.read() {
-                    completion(.success(stored.items))
-                } else {
-                    completion(.failure(error))
-                }
-            }
-        }
-    }
+
 }
 
 extension Array where Element == RecipeListItemDTO {
