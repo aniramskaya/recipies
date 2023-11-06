@@ -30,3 +30,15 @@ public struct RecipeListItemDTO: Decodable {
         self.rating = rating
     }
 }
+
+extension Array where Element == RecipeListItemDTO {
+    var models: [RecipeListItem] {
+        map { .init(
+            id: $0.id,
+            name: $0.name,
+            cookingTime: Double($0.cookingTime * 60),
+            imageUrl: $0.imageUrl,
+            rating: $0.rating
+        ) }
+    }
+}
