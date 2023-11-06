@@ -20,17 +20,6 @@ import XCTest
  If Data() - timestamp > expirationTimeout return false
  */
 
-struct RecipieListExpirationPolicy: TimestampExpirationPolicy {
-    let timeout: TimeInterval
-    init(timeout: TimeInterval) {
-        self.timeout = timeout
-    }
-    
-    func isValid(_ timestamp: Date) -> Bool {
-        Date().timeIntervalSince(timestamp) < timeout
-    }
-}
-
 class RecipieListExpirationPolicyTests: XCTestCase {
     func test_isValid_returnsTrueIfTimestampIsLessThanExpirationTime() throws {
         let sut = RecipieListExpirationPolicy(timeout: 10)
