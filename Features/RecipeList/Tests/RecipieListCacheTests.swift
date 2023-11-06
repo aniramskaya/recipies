@@ -35,23 +35,25 @@ class RecipieListCache {
     func read() -> [RecipeListItem]? {
         return storage.read()?.items
     }
+    
+    func write(_ items: [RecipeListItem]) {
+        storage.write(RecipeListStored(items: items, timestamp: Date()))
+    }
 }
 
-class RecipieListCacheTests {
+class RecipieListCacheTests: XCTestCase {
     func test_cache_isEmptyUponCreation() {
         let storage = InMemoryStorage<RecipeListStored>()
         let cache = RecipieListCache(storage: storage)
         
         XCTAssertNil(cache.read())
     }
-//    
-//    func test_read_returnsPreviouslyWrittenData() {
-//        let storage = InMemoryStorage<RecipeListItem>()
-//        let cache = RecipieListCache(storage: storage)
-//        
-//        let expectedData = RecipeListItem.makeTestItems()
-//        // Storage stores only [RecipeListItem] but not timestamp
-//        // We have to modify it
-//        cache.write(expectedData)
-//    }
+    
+    func test_read_returnsPreviouslyWrittenDataWhenNotExpired() {
+        let storage = InMemoryStorage<RecipeListStored>()
+        let cache = RecipieListCache(storage: storage)
+        
+        let expectedData = RecipeListItem.makeTestItems()
+        cache.write(expectedData)
+    }
 }

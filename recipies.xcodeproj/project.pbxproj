@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5202AF761CD00A77856 /* SyncStorage.swift */; };
 		CC71F5232AF761E800A77856 /* InMemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5222AF761E800A77856 /* InMemoryStorage.swift */; };
-		CC71F5262AF762DE00A77856 /* RecipieListCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5242AF762C400A77856 /* RecipieListCache.swift */; };
+		CC71F5262AF762DE00A77856 /* RecipieListCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */; };
 		CCA610202AF74A0A001D3F1C /* InMemoryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */; };
 		CCA610222AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */; };
 		CCF62CBD2ADA82BB009537A9 /* recipiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipiesApp.swift */; };
@@ -87,7 +87,7 @@
 /* Begin PBXFileReference section */
 		CC71F5202AF761CD00A77856 /* SyncStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStorage.swift; sourceTree = "<group>"; };
 		CC71F5222AF761E800A77856 /* InMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorage.swift; sourceTree = "<group>"; };
-		CC71F5242AF762C400A77856 /* RecipieListCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListCache.swift; sourceTree = "<group>"; };
+		CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListCacheTests.swift; sourceTree = "<group>"; };
 		CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorageTests.swift; sourceTree = "<group>"; };
 		CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListItem+TestHelpers.swift"; sourceTree = "<group>"; };
 		CCF62CB92ADA82BB009537A9 /* recipies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recipies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,7 +266,7 @@
 				CCF62D162ADAAA60009537A9 /* Helpers */,
 				CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */,
 				CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */,
-				CC71F5242AF762C400A77856 /* RecipieListCache.swift */,
+				CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -534,7 +534,7 @@
 				CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */,
 				CCF62D192ADAAA7A009537A9 /* NSError+Extensions.swift in Sources */,
 				CCF62D1B2ADAAA9A009537A9 /* Date+Extensions.swift in Sources */,
-				CC71F5262AF762DE00A77856 /* RecipieListCache.swift in Sources */,
+				CC71F5262AF762DE00A77856 /* RecipieListCacheTests.swift in Sources */,
 				CCA610222AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift in Sources */,
 				CCA610202AF74A0A001D3F1C /* InMemoryStorageTests.swift in Sources */,
 			);
