@@ -13,17 +13,17 @@ public protocol DTOLoader {
 
 public class RecipieListLoader {
     let dtoLoader: DTOLoader
-    let cacheService: RecipieListCache
+    let cache: RecipieListCache
     let storage: InMemoryStorage<RecipeListStored>
     
     public init(dtoLoader: DTOLoader, cache: RecipieListCache, storage: InMemoryStorage<RecipeListStored>) {
         self.dtoLoader = dtoLoader
-        self.cacheService = cache
+        self.cache = cache
         self.storage = storage
     }
     
     public func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
-        let cacheResult = cacheService.read()
+        let cacheResult = cache.read()
         switch cacheResult {
         case .success(let items):
             completion(.success(items))
@@ -38,7 +38,7 @@ public class RecipieListLoader {
             switch result {
             case let .success(dto):
                 let models = dto.items.models
-                cacheService.write(models)
+                cache.write(models)
                 completion(.success(models))
             case let .failure(error):
                 if let stored = storage.read() {
