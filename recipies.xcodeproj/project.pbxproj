@@ -16,6 +16,7 @@
 		CC71F5322AF8E3B300A77856 /* RecipeListRemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5312AF8E3B300A77856 /* RecipeListRemoteLoader.swift */; };
 		CC71F5342AF8E51000A77856 /* RecipieListCacheAsync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5332AF8E51000A77856 /* RecipieListCacheAsync.swift */; };
 		CC71F5392AF8E7DE00A77856 /* RecipeListDTOLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5382AF8E7DE00A77856 /* RecipeListDTOLoader.swift */; };
+		CC71F53B2AF8E85000A77856 /* RecipieListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F53A2AF8E85000A77856 /* RecipieListLoader.swift */; };
 		CCA610202AF74A0A001D3F1C /* InMemoryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */; };
 		CCA610222AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */; };
 		CCF62CBD2ADA82BB009537A9 /* recipiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipiesApp.swift */; };
@@ -100,6 +101,7 @@
 		CC71F5312AF8E3B300A77856 /* RecipeListRemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListRemoteLoader.swift; sourceTree = "<group>"; };
 		CC71F5332AF8E51000A77856 /* RecipieListCacheAsync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListCacheAsync.swift; sourceTree = "<group>"; };
 		CC71F5382AF8E7DE00A77856 /* RecipeListDTOLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListDTOLoader.swift; sourceTree = "<group>"; };
+		CC71F53A2AF8E85000A77856 /* RecipieListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListLoader.swift; sourceTree = "<group>"; };
 		CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorageTests.swift; sourceTree = "<group>"; };
 		CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListItem+TestHelpers.swift"; sourceTree = "<group>"; };
 		CCF62CB92ADA82BB009537A9 /* recipies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recipies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,6 +291,7 @@
 				CC71F51F2AF761BF00A77856 /* Storage */,
 				CCF62D142ADAAA33009537A9 /* RecipieListFallbackLoader.swift */,
 				CC71F5312AF8E3B300A77856 /* RecipeListRemoteLoader.swift */,
+				CC71F53A2AF8E85000A77856 /* RecipieListLoader.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */,
 				CC71F52E2AF8D27E00A77856 /* RecipieListCache.swift in Sources */,
 				CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */,
+				CC71F53B2AF8E85000A77856 /* RecipieListLoader.swift in Sources */,
 				CCF62D152ADAAA33009537A9 /* RecipieListFallbackLoader.swift in Sources */,
 				CC71F5322AF8E3B300A77856 /* RecipeListRemoteLoader.swift in Sources */,
 				CC71F5392AF8E7DE00A77856 /* RecipeListDTOLoader.swift in Sources */,

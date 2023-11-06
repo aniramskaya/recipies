@@ -7,10 +7,6 @@
 
 import Foundation
 
-public protocol RecipieListLoader {
-    func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void)
-}
-
 public class RecipieListFallbackLoader: RecipieListLoader {
     let first: RecipieListLoader
     let second: RecipieListLoader
@@ -30,5 +26,4 @@ public class RecipieListFallbackLoader: RecipieListLoader {
             }
         }
     }
-
 }
