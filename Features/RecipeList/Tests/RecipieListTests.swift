@@ -61,16 +61,14 @@ class ReceipeListLoader {
 
 final class RecipieListTests: XCTestCase {
     func test_init_doesNothing() throws {
-        let spy = DTOLoaderSpy()
-        let sut = ReceipeListLoader(dtoLoader: spy)
-        
+        let (_, spy) = makeSUT()
+
         XCTAssertEqual(spy.messages, [])
     }
     
     // Выполнение запроса к серверу завершилось ошибкой и в памяти нет ранее загруженных данных вернуть ошибку, которая пришла от сервера
     func test_loadingError_deliversErrorWhenNoCache() throws {
-        let spy = DTOLoaderSpy()
-        let sut = ReceipeListLoader(dtoLoader: spy)
+        let (sut, spy) = makeSUT()
         let expectedError = NSError(domain:"test_loadingError_deliversErrorWhenNoCache", code: 1)
         
         let exp = expectation(description: "Wait for async to complete")
@@ -84,6 +82,12 @@ final class RecipieListTests: XCTestCase {
         
         spy.complete(with: .failure(expectedError))
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    private func makeSUT() -> (ReceipeListLoader, DTOLoaderSpy) {
+        let spy = DTOLoaderSpy()
+        let sut = ReceipeListLoader(dtoLoader: spy)
+        return (sut, spy)
     }
 }
 
