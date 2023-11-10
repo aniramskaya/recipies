@@ -69,7 +69,7 @@ final class RecipieListTests: XCTestCase {
     // Выполнение запроса к серверу завершилось ошибкой и в памяти нет ранее загруженных данных вернуть ошибку, которая пришла от сервера
     func test_loadingError_deliversErrorWhenNoCache() throws {
         let (sut, spy) = makeSUT()
-        let expectedError = NSError(domain:"test_loadingError_deliversErrorWhenNoCache", code: 1)
+        let expectedError = NSError.any()
         
         let exp = expectation(description: "Wait for async to complete")
         sut.load(completion: { result in
@@ -88,6 +88,12 @@ final class RecipieListTests: XCTestCase {
         let spy = DTOLoaderSpy()
         let sut = ReceipeListLoader(dtoLoader: spy)
         return (sut, spy)
+    }
+}
+
+extension NSError {
+    static func any() -> NSError {
+        NSError(domain: UUID().uuidString, code: 1)
     }
 }
 
