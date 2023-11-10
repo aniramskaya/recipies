@@ -28,7 +28,7 @@ import XCTest
  вернуть ошибку, которая пришла от сервера
 
  */
-struct RecipeListItem {
+struct RecipeListItem: Equatable {
     let id: UUID
     let name: String
     let cookingTime: TimeInterval
@@ -47,13 +47,23 @@ class ReceipeListLoader {
         self.dtoLoader = dtoLoader
     }
     
-    func load(completion: @escaping (Result<RecipeListItem, Error>) -> Void) {
+    func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
         dtoLoader.load { result in
             switch result {
             case let .failure(error):
                 completion(.failure(error))
-            default:
-                break
+            case let .success(dto):
+                var models: [RecipeListItem] = []
+                for item in dto.items {
+                    models.append(.init(
+                        id: item.id,
+                        name: item.name,
+                        cookingTime: TimeInterval(item.cookingTime * 60),
+                        imageUrl: item.imageUrl,
+                        rating: item.rating
+                    ))
+                }
+                completion(.success(models))
             }
         }
     }
@@ -84,10 +94,50 @@ final class RecipieListTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
+    // При первой загрузке данных когда кэш пуст и сервер вернут данные, сервис возвращает данные
+    func test_loadingSuccess_deliversSuccessWhenNoCache() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+        
+        
+        let exp = expectation(description: "Wait for async to complete")
+        sut.load(completion: { result in
+            switch result {
+            case let .success(items): XCTAssertEqual(items, expectedData)
+            case .failure: XCTFail("Expected remote loading success, got error")
+            }
+            exp.fulfill()
+        })
+        
+        spy.complete(with: .success(RecipeListDTO.test()))
+        wait(for: [exp], timeout: 1.0)
+
+    }
+
+    
     private func makeSUT() -> (ReceipeListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
         let sut = ReceipeListLoader(dtoLoader: spy)
         return (sut, spy)
+    }
+    
+    private func makeTestItems() -> [RecipeListItem] {
+        [
+            .init(
+                id: UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!,
+                name: "Котлеты по-киевски",
+                cookingTime: 75 * 60,
+                imageUrl: URL(string: "https://any-url.com")!,
+                rating: 3.5
+            ),
+            .init(
+                id: UUID(uuidString: "474615e9-8c95-43f5-aa4f-38721717da98")!,
+                name: "Лапша Удон с курицей",
+                cookingTime: 35 * 60,
+                imageUrl: URL(string: "https://another-any-url.com")!,
+                rating: 4.8
+            ),
+        ]
     }
 }
 
@@ -112,5 +162,26 @@ class DTOLoaderSpy: DTOLoader {
     
     func complete(with result: Result<RecipeListDTO, Error>, at index: Int = 0) {
         completions[index](result)
+    }
+}
+
+extension RecipeListDTO {
+    static func test() -> RecipeListDTO {
+        .init(items: [
+            .init(
+                id: UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!,
+                name: "Котлеты по-киевски",
+                cookingTime: 75,
+                imageUrl: URL(string: "https://any-url.com")!,
+                rating: 3.5
+            ),
+            .init(
+                id: UUID(uuidString: "474615e9-8c95-43f5-aa4f-38721717da98")!,
+                name: "Лапша Удон с курицей",
+                cookingTime: 35,
+                imageUrl: URL(string: "https://another-any-url.com")!,
+                rating: 4.8
+            ),
+        ])
     }
 }
