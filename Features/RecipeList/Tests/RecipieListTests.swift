@@ -59,7 +59,11 @@ class ReceipeListLoader {
         dtoLoader.load { [weak self] result in
             switch result {
             case let .failure(error):
-                completion(.failure(error))
+                if let cache = self?.cache {
+                    completion(.success(cache))
+                } else {
+                    completion(.failure(error))
+                }
             case let .success(dto):
                 var models: [RecipeListItem] = []
                 for item in dto.items {
@@ -152,7 +156,7 @@ final class RecipieListTests: XCTestCase {
         XCTAssertEqual(spy.messages, [.load, .load])
     }
 
-    // Когда кэш не пуст и давно что протух, загрузить данные с бэекенда
+    // Когда кэш не пуст и давно что протух, загрузить данные с бэкенда
     func test_loadingSuccess_loadsFromRemoteWhenCacheIsOverExpired() throws {
         let (sut, spy) = makeSUT()
         let expectedData = makeTestItems()
@@ -173,6 +177,29 @@ final class RecipieListTests: XCTestCase {
 
         XCTAssertEqual(spy.messages, [.load, .load])
     }
+    
+    // Выполнение запроса к серверу завершилось ошибкой и в памяти есть ранее загруженные данные вернуть имеющиеся данные
+    func test_loadingFailure_deliversSuccessWhenCacheIsExpiredAndRemoteLoadigFailed() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+        
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(RecipeListDTO.test()), at: 0)
+        }
+
+        XCTAssertEqual(spy.messages, [.load])
+        XCTAssertNotNil(sut.lastLoaded)
+        XCTAssertNotNil(sut.cache)
+
+        sut.lastLoaded = Date().addingTimeInterval(-3601)
+
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .failure(NSError.any()), at: 1)
+        }
+
+        XCTAssertEqual(spy.messages, [.load, .load])
+    }
+
     
     private func makeSUT() -> (ReceipeListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
