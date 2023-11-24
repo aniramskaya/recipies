@@ -129,6 +129,28 @@ final class RecipieListTests: XCTestCase {
 
         XCTAssertEqual(spy.messages, [.load])
     }
+    
+    // Когда кэш не пуст и только что протух, загрузить данные с бэекенда
+    func test_loadingSuccess_loadsFromRemoteWhenCacheisJustExpired() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+        
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(RecipeListDTO.test()), at: 0)
+        }
+
+        XCTAssertEqual(spy.messages, [.load])
+        XCTAssertNotNil(sut.lastLoaded)
+        XCTAssertNotNil(sut.cache)
+
+        sut.lastLoaded = Date().addingTimeInterval(-3600)
+
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(RecipeListDTO.test()), at: 1)
+        }
+
+        XCTAssertEqual(spy.messages, [.load, .load])
+    }
 
     private func makeSUT() -> (ReceipeListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
