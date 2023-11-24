@@ -11,14 +11,14 @@ import XCTest
 /*
  Сценарий загрузки списка рецептов
  
- Проверить время последней загрузки данных и убедиться, что оно пустое или прошел час или более.
- Запросить данные с сервера
+ ✅Проверить время последней загрузки данных и убедиться, что оно пустое или прошел час или более.
+ ✅ Запросить данные с сервера
  Запомнить новое время последней загрузки
- Вернуть список рецептов вызывающему коду
+ ✅ Вернуть список рецептов вызывающему коду
 
  Расширения
 
- 1a. Прошло менее часа с момента последней загрузки
+ ✅ 1a. Прошло менее часа с момента последней загрузки
  вернуть имеющиеся в памяти данные
 
  2a. Выполнение запроса к серверу завершилось ошибкой и в памяти есть ранее загруженные данные
@@ -43,12 +43,20 @@ protocol DTOLoader {
 class ReceipeListLoader {
     let dtoLoader: DTOLoader
     
+    var cache: [RecipeListItem]?
+    var lastLoaded: Date?
+    
     init(dtoLoader: DTOLoader) {
         self.dtoLoader = dtoLoader
     }
     
     func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
-        dtoLoader.load { result in
+        if let cache, (lastLoaded ?? .distantPast).addingTimeInterval(3600) > Date() {
+            completion(.success(cache))
+            return
+        }
+
+        dtoLoader.load { [weak self] result in
             switch result {
             case let .failure(error):
                 completion(.failure(error))
@@ -63,6 +71,8 @@ class ReceipeListLoader {
                         rating: item.rating
                     ))
                 }
+                self?.cache = models
+                self?.lastLoaded = Date()
                 completion(.success(models))
             }
         }
@@ -84,6 +94,8 @@ final class RecipieListTests: XCTestCase {
         expect(sut: sut, toCompleteWith: .failure(expectedError)) {
             spy.complete(with: .failure(expectedError))
         }
+        
+        XCTAssertEqual(spy.messages, [.load])
     }
     
     // При первой загрузке данных когда кэш пуст и сервер вернут данные, сервис возвращает данные
@@ -94,9 +106,30 @@ final class RecipieListTests: XCTestCase {
         expect(sut: sut, toCompleteWith: .success(expectedData)) {
             spy.complete(with: .success(RecipeListDTO.test()))
         }
+
+        XCTAssertEqual(spy.messages, [.load])
     }
 
-    
+    // Когда кэш не пуст и валиден, вернуть данные из кэша
+    func test_loadingSuccess_deliversCacheDataWhenCacheNotExpired() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+        
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(RecipeListDTO.test()))
+        }
+
+        XCTAssertEqual(spy.messages, [.load])
+        XCTAssertNotNil(sut.lastLoaded)
+        XCTAssertNotNil(sut.cache)
+
+        sut.lastLoaded = Date().addingTimeInterval(1 - 3600)
+
+        expect(sut: sut, toCompleteWith: .success(expectedData)) { }
+
+        XCTAssertEqual(spy.messages, [.load])
+    }
+
     private func makeSUT() -> (ReceipeListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
         let sut = ReceipeListLoader(dtoLoader: spy)
