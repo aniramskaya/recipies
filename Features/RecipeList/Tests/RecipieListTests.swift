@@ -21,7 +21,7 @@ import XCTest
  ✅ 1a. Прошло менее часа с момента последней загрузки
  вернуть имеющиеся в памяти данные
 
- 2a. Выполнение запроса к серверу завершилось ошибкой и в памяти есть ранее загруженные данные
+ ✅ 2a. Выполнение запроса к серверу завершилось ошибкой и в памяти есть ранее загруженные данные
  вернуть имеющиеся данные
 
  ✅ 2б. Выполнение запроса к серверу завершилось ошибкой и в памяти нет ранее загруженных данных
@@ -201,9 +201,13 @@ final class RecipieListTests: XCTestCase {
     }
 
     
-    private func makeSUT() -> (ReceipeListLoader, DTOLoaderSpy) {
+    private func makeSUT(
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (ReceipeListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
         let sut = ReceipeListLoader(dtoLoader: spy)
+        trackForMemoryLeak(sut, file: file, line: line)
         return (sut, spy)
     }
     
