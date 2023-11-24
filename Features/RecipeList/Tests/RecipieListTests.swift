@@ -13,7 +13,7 @@ import XCTest
  
  ✅Проверить время последней загрузки данных и убедиться, что оно пустое или прошел час или более.
  ✅ Запросить данные с сервера
- Запомнить новое время последней загрузки
+ ✅ Запомнить новое время последней загрузки
  ✅ Вернуть список рецептов вызывающему коду
 
  Расширения
@@ -152,6 +152,28 @@ final class RecipieListTests: XCTestCase {
         XCTAssertEqual(spy.messages, [.load, .load])
     }
 
+    // Когда кэш не пуст и давно что протух, загрузить данные с бэекенда
+    func test_loadingSuccess_loadsFromRemoteWhenCacheIsOverExpired() throws {
+        let (sut, spy) = makeSUT()
+        let expectedData = makeTestItems()
+        
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(RecipeListDTO.test()), at: 0)
+        }
+
+        XCTAssertEqual(spy.messages, [.load])
+        XCTAssertNotNil(sut.lastLoaded)
+        XCTAssertNotNil(sut.cache)
+
+        sut.lastLoaded = Date().addingTimeInterval(-3601)
+
+        expect(sut: sut, toCompleteWith: .success(expectedData)) {
+            spy.complete(with: .success(RecipeListDTO.test()), at: 1)
+        }
+
+        XCTAssertEqual(spy.messages, [.load, .load])
+    }
+    
     private func makeSUT() -> (ReceipeListLoader, DTOLoaderSpy) {
         let spy = DTOLoaderSpy()
         let sut = ReceipeListLoader(dtoLoader: spy)
