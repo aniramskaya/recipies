@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct RecipeListItem: Equatable {
-    let id: UUID
-    let name: String
-    let cookingTime: TimeInterval
-    let imageUrl: URL
-    let rating: Float?
+public struct RecipeListItem: Equatable {
+    public let id: UUID
+    public let name: String
+    public let cookingTime: TimeInterval
+    public let imageUrl: URL
+    public let rating: Float?
 }
