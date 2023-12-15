@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC5290262B2C4EFF00C7D6B0 /* ReceipeListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5290252B2C4EFF00C7D6B0 /* ReceipeListLoader.swift */; };
+		CC5290292B2C4F2800C7D6B0 /* RecipeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5290282B2C4F2800C7D6B0 /* RecipeListItem.swift */; };
+		CC52902C2B2C5F5A00C7D6B0 /* TimeoutPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC52902A2B2C5E0700C7D6B0 /* TimeoutPolicyTests.swift */; };
+		CCB806012B2C619200EA7EC3 /* TimestampValidationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB805FD2B2C60F800EA7EC3 /* TimestampValidationPolicy.swift */; };
+		CCB806022B2C619600EA7EC3 /* TimeoutPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB805FF2B2C610F00EA7EC3 /* TimeoutPolicy.swift */; };
 		CCD626DF2B10B92B0053705B /* XCTestCase+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD626DC2B10B88A0053705B /* XCTestCase+Helpers.swift */; };
 		CCF62CBD2ADA82BB009537A9 /* recipiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipiesApp.swift */; };
 		CCF62CBF2ADA82BB009537A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBE2ADA82BB009537A9 /* ContentView.swift */; };
@@ -76,6 +81,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CC5290252B2C4EFF00C7D6B0 /* ReceipeListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceipeListLoader.swift; sourceTree = "<group>"; };
+		CC5290282B2C4F2800C7D6B0 /* RecipeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListItem.swift; sourceTree = "<group>"; };
+		CC52902A2B2C5E0700C7D6B0 /* TimeoutPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeoutPolicyTests.swift; sourceTree = "<group>"; };
+		CCB805FD2B2C60F800EA7EC3 /* TimestampValidationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampValidationPolicy.swift; sourceTree = "<group>"; };
+		CCB805FF2B2C610F00EA7EC3 /* TimeoutPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeoutPolicy.swift; sourceTree = "<group>"; };
 		CCD626DC2B10B88A0053705B /* XCTestCase+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Helpers.swift"; sourceTree = "<group>"; };
 		CCF62CB92ADA82BB009537A9 /* recipies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recipies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCF62CBC2ADA82BB009537A9 /* recipiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipiesApp.swift; sourceTree = "<group>"; };
@@ -136,6 +146,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CC5290272B2C4F1D00C7D6B0 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				CC5290282B2C4F2800C7D6B0 /* RecipeListItem.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		CCB805FC2B2C60E700EA7EC3 /* TimestampValidation */ = {
+			isa = PBXGroup;
+			children = (
+				CCB805FD2B2C60F800EA7EC3 /* TimestampValidationPolicy.swift */,
+				CCB805FF2B2C610F00EA7EC3 /* TimeoutPolicy.swift */,
+			);
+			path = TimestampValidation;
+			sourceTree = "<group>";
+		};
 		CCD626DA2B10B8700053705B /* TestHelpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +243,7 @@
 		CCF62CE72ADA890E009537A9 /* RecipeList */ = {
 			isa = PBXGroup;
 			children = (
+				CC5290272B2C4F1D00C7D6B0 /* Domain */,
 				CCF62D092ADA895C009537A9 /* Services */,
 				CCF62D0A2ADA896B009537A9 /* Tests */,
 			);
@@ -233,7 +261,9 @@
 		CCF62D092ADA895C009537A9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				CCB805FC2B2C60E700EA7EC3 /* TimestampValidation */,
 				CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */,
+				CC5290252B2C4EFF00C7D6B0 /* ReceipeListLoader.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -243,6 +273,7 @@
 			children = (
 				CCD626DA2B10B8700053705B /* TestHelpers */,
 				CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */,
+				CC52902A2B2C5E0700C7D6B0 /* TimeoutPolicyTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -475,7 +506,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC5290262B2C4EFF00C7D6B0 /* ReceipeListLoader.swift in Sources */,
+				CCB806012B2C619200EA7EC3 /* TimestampValidationPolicy.swift in Sources */,
 				CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */,
+				CC5290292B2C4F2800C7D6B0 /* RecipeListItem.swift in Sources */,
+				CCB806022B2C619600EA7EC3 /* TimeoutPolicy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCD626DF2B10B92B0053705B /* XCTestCase+Helpers.swift in Sources */,
+				CC52902C2B2C5F5A00C7D6B0 /* TimeoutPolicyTests.swift in Sources */,
 				CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
