@@ -12,7 +12,7 @@ import RecipieList
 /**
  
 До истечения времени жизни кэша он возвращает данные
-После истечения времени жизни кэша он возвращает ошибку "Время истекло"
+ ✅ После истечения времени жизни кэша он возвращает ошибку "Время истекло"
 
  ✅ При инициализации кэш пуст
  ✅ При запросе данных из пустого кэша он возвращает ошибку "Кэш пуст"
@@ -50,8 +50,9 @@ class RecipeListCache {
         self.storage = storage
     }
     
-    func load(completion: @escaping (Result<RecipeListStoring, RecipeListCacheError>) -> Void) {
-        storage.load { result in
+    func load(completion: @escaping (Result<[RecipeListItem], RecipeListCacheError>) -> Void) {
+        storage.load { [weak self] result in
+            guard let self else { return }
             switch result {
             case let .failure(error):
                 switch error {
@@ -60,8 +61,12 @@ class RecipeListCache {
                 case let .system(error):
                     completion(.failure(.system(error)))
                 }
-            default:
-                break
+            case let .success(data):
+                if policy.isValid(data.timestamp) {
+                    completion(.success(data.data))
+                } else {
+                    completion(.failure(RecipeListCacheError.expired))
+                }
             }
         }
     }
@@ -69,18 +74,31 @@ class RecipeListCache {
 
 class RecipeListCacheTests: XCTestCase {
     func test_cacheIsEmptyUponCreation_returnsCacheEmptyError() {
-        let policy = TimeoutPolicy(60)
-        let storage = StorageSpy()
-        let sut = RecipeListCache(policy: policy, storage: storage)
+        let (sut, spy) = makeSUT()
         
         expect(sut: sut, toCompleteWith: .failure(RecipeListCacheError.empty)) {
-            storage.completeLoading(with: .failure(StorageError.empty))
+            spy.completeLoading(with: .failure(StorageError.empty))
         }
+    }
+
+    func test_cacheIsExpired_returnsCacheExpiredError() {
+        let (sut, spy) = makeSUT()
+
+        spy.cacheIsValid = false
+        expect(sut: sut, toCompleteWith: .failure(RecipeListCacheError.expired)) {
+            spy.completeLoading(with: .success(RecipeListStoring(timestamp: Date(), data: [])))
+        }
+    }
+    
+    private func makeSUT() -> (RecipeListCache, StorageSpy) {
+        let spy = StorageSpy()
+        let sut = RecipeListCache(policy: spy, storage: spy)
+        return (sut, spy)
     }
 
     private func expect(
         sut: RecipeListCache,
-        toCompleteWith expectedResult: Result<RecipeListStoring, Error>,
+        toCompleteWith expectedResult: Result<[RecipeListItem], Error>,
         when: () -> Void,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -105,7 +123,7 @@ class RecipeListCacheTests: XCTestCase {
 
 }
 
-class StorageSpy: Storage {
+class StorageSpy: Storage, TimestampValidationPolicy {
     enum Message: Equatable{
         case load
         case save(RecipeListStoring)
@@ -143,5 +161,11 @@ class StorageSpy: Storage {
     
     func completeClear(with result: StorageError?, at index: Int = 0) {
         clearCompletions[index](result)
+    }
+    
+    var cacheIsValid: Bool = false
+    
+    func isValid(_ timestamp: Date) -> Bool {
+        cacheIsValid
     }
 }
