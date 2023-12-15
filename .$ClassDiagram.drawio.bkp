@@ -1,0 +1,43 @@
+<mxfile host="Electron" modified="2023-11-24T11:17:43.840Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.3 Chrome/114.0.5735.289 Electron/25.8.4 Safari/537.36" etag="ab19lzD6GSjOk-D4HwPN" version="22.0.3" type="device">
+  <diagram id="5R-Pebw7ccndjDhJByIA" name="Page-3">
+    <mxGraphModel dx="729" dy="418" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Mbe2x29JgIDZMFZwPAlC-1" target="Mbe2x29JgIDZMFZwPAlC-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Mbe2x29JgIDZMFZwPAlC-1" target="Mbe2x29JgIDZMFZwPAlC-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.699;exitY=-0.008;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="Mbe2x29JgIDZMFZwPAlC-1" target="Mbe2x29JgIDZMFZwPAlC-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="Mbe2x29JgIDZMFZwPAlC-1" target="Mbe2x29JgIDZMFZwPAlC-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="Mbe2x29JgIDZMFZwPAlC-1" target="Mbe2x29JgIDZMFZwPAlC-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-1" value="RecipeListLoader" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="320" y="300" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-2" value="&amp;lt;RecipeListDTOLoader&amp;gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="510" y="300" width="150" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-4" value="Обращение у загрузчику DTO" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="325" y="70" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-6" value="Конвертация DTO в модель" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="465" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-8" value="Кэширует" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="170" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Mbe2x29JgIDZMFZwPAlC-10" value="Валидирует кэш" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="80" width="120" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
