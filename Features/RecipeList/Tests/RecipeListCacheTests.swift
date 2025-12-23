@@ -89,7 +89,28 @@ class RecipeListCacheTests: XCTestCase {
             spy.completeLoading(with: .success(RecipeListStoring(timestamp: Date(), data: [])))
         }
     }
-    
+
+    func test_cacheIsNotExpired_returnsData() {
+        let (sut, spy) = makeSUT()
+
+        let stored = RecipeListStoring(
+            timestamp: Date(),
+            data: [
+                .init(
+                    id: UUID(),
+                    name: "qwe",
+                    cookingTime: 15, 
+                    imageUrl: URL(string: "https://any-url.com")!,
+                    rating: 5
+                )
+            ]
+        )
+        spy.cacheIsValid = true
+        expect(sut: sut, toCompleteWith: .success(stored.data)) {
+            spy.completeLoading(with: .success(stored))
+        }
+    }
+
     private func makeSUT() -> (RecipeListCache, StorageSpy) {
         let spy = StorageSpy()
         let sut = RecipeListCache(policy: spy, storage: spy)
