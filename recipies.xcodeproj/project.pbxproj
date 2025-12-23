@@ -92,6 +92,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CC5C8BE42EFA9A1F00D14CF1 /* 003 - Snapshot testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "003 - Snapshot testing.md"; sourceTree = "<group>"; };
 		CC71F5202AF761CD00A77856 /* SyncStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStorage.swift; sourceTree = "<group>"; };
 		CC71F5222AF761E800A77856 /* InMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorage.swift; sourceTree = "<group>"; };
 		CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListCacheTests.swift; sourceTree = "<group>"; };
@@ -168,6 +169,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CC5C8BE22EFA99C400D14CF1 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		CC5C8BE32EFA99DF00D14CF1 /* Лекции */ = {
+			isa = PBXGroup;
+			children = (
+				CC5C8BE42EFA9A1F00D14CF1 /* 003 - Snapshot testing.md */,
+			);
+			path = "Лекции";
+			sourceTree = "<group>";
+		};
 		CC71F51F2AF761BF00A77856 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,6 +222,7 @@
 				CCF62CD62ADA82CB009537A9 /* recipiesUITests */,
 				CCF62CEE2ADA8949009537A9 /* RecipieList */,
 				CCF62CBA2ADA82BB009537A9 /* Products */,
+				CC5C8BE32EFA99DF00D14CF1 /* Лекции */,
 			);
 			sourceTree = "<group>";
 		};
@@ -268,6 +285,7 @@
 		CCF62CE72ADA890E009537A9 /* RecipeList */ = {
 			isa = PBXGroup;
 			children = (
+				CC5C8BE22EFA99C400D14CF1 /* UI */,
 				CCF62D102ADAA9D7009537A9 /* Domain */,
 				CCF62D092ADA895C009537A9 /* Services */,
 				CCF62D0A2ADA896B009537A9 /* Tests */,
