@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
+import RecipeUIKit
 
-struct Rating: View {
+struct RatingView: View {
     let value: Float
     
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "star")
-                .foregroundStyle(Color("icon.primary"))
+                .foregroundStyle(Color("icon.primary", bundle: RecipeListUIAssets.bundle))
                 .font(.system(size: 18, weight: .semibold))
             Text(value, format: .number.precision(.fractionLength(1)))
                 .font(.system(size: 18, weight: .bold))
@@ -24,5 +25,5 @@ struct Rating: View {
 }
 
 #Preview {
-    Rating(value: 4.7)
+    RatingView(value: 4.7)
 }

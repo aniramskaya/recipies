@@ -8,6 +8,7 @@
 import Foundation
 import Testing
 import SnapshotTesting
+import RecipeUIKit
 
 struct RecipeListRowTests {
     @MainActor
@@ -22,7 +23,7 @@ struct RecipeListRowTests {
             )
         )
         
-        assertSnapshot(of: view, as: .image(precision: 0.98, layout: .fixed(width: 375, height: 270)))
+        assertSnapshot(of: view, as: .image(precision: 0.99, layout: .fixed(width: 375, height: 270)))
     }
 
 }

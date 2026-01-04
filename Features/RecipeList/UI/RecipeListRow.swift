@@ -30,7 +30,7 @@ struct RecipeListRow: View {
             HStack {
                 CookingTimeView(minutes: model.cookingTimeMins)
                 Spacer()
-                Rating(value: model.rating)
+                RatingView(value: model.rating)
             }
         }
         .padding(.horizontal, 20)
@@ -43,7 +43,7 @@ struct RecipeListRow: View {
         model: .init(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cf")!,
             name: "Котлета по-киевски",
-            imageSource: .uiImage(.make(withColor: .red)),
+            imageSource: .uiImage(.init(named: "kiev")!),
             cookingTimeMins: 35,
             rating: 4.6
         )
