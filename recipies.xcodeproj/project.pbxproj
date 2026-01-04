@@ -311,6 +311,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CC9D23282F0A34F80039E3D4 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */,
+				CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */,
+				CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */,
+				CC71F52A2AF8CE4400A77856 /* RecipieListExpirationPolicyTests.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		CC9D23292F0A350F0039E3D4 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				CC5C8BDC2EFA8F3800D14CF1 /* RecipeListRowTests.swift */,
+				CC5C8BE02EFA977400D14CF1 /* __Snapshots__ */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		CCF62CB02ADA82BB009537A9 = {
 			isa = PBXGroup;
 			children = (
@@ -421,13 +441,9 @@
 		CCF62D0A2ADA896B009537A9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				CC5C8BE02EFA977400D14CF1 /* __Snapshots__ */,
+				CC9D23292F0A350F0039E3D4 /* UI */,
+				CC9D23282F0A34F80039E3D4 /* Services */,
 				CCF62D162ADAAA60009537A9 /* Helpers */,
-				CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */,
-				CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */,
-				CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */,
-				CC71F52A2AF8CE4400A77856 /* RecipieListExpirationPolicyTests.swift */,
-				CC5C8BDC2EFA8F3800D14CF1 /* RecipeListRowTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
