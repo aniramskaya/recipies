@@ -27,16 +27,29 @@ struct RecipeListRow: View {
             Text(model.name)
                 .font(Font.title2)
                 .bold()
+                .accessibilityIdentifier(A11y.name)
             HStack {
                 CookingTimeView(minutes: model.cookingTimeMins)
+                    .accessibilityIdentifier(A11y.cookingTime)
                 Spacer()
                 RatingView(value: model.rating)
+                    .accessibilityIdentifier(A11y.rating)
             }
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 16)
+        .accessibilityIdentifier(A11y.component)
     }
 }
+
+public enum RecipeListRowA11y {
+    static let component = "RecipeListRow"
+    static let name = "RecipeName"
+    static let cookingTime = "CookingTime"
+    static let rating = "Rating"
+}
+
+private typealias A11y = RecipeListRowA11y
 
 #Preview {
     RecipeListRow(
