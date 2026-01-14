@@ -24,23 +24,22 @@ struct RecipeListAcceptanceTests {
     @MainActor
     @Test func basicScenario() async throws {
         let (feature, server, user) = makeFeature()
-        let error = NSError.any()
         
         feature.start()
         
-        try await feature.assertIsDisplayingLoadingState()
+        try await feature.ensureIsDisplayingLoadingState()
 
-        try await server.respond(with: .failure(error), at: 0)
+        try await server.respond(with: .failure(NSError.any()), at: 0)
         
-        try await feature.assertIsDisplayingError(text: "Не удалось загрузить список рецептов")
+        try await feature.ensureIsDisplayingError(text: "Не удалось загрузить список рецептов")
 
         try user.tapReloadButton()
         
-        try await feature.assertIsDisplayingLoadingState()
+        try await feature.ensureIsDisplayingLoadingState()
         
         try await server.respond(with: .success(RecipeListDTO.test()), at: 1)
 
-        try await feature.assertIsDisplayingData(model: testModels())
+        try await feature.ensureIsDisplayingData(model: testModels())
     }
     
     @MainActor
@@ -75,7 +74,7 @@ class RecipeListFeature: RecipeListUser {
     }
     
     @MainActor
-    func assertIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+    func ensureIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
             guard let self else { return false }
             let inspectable = try self.view.inspect()
@@ -85,7 +84,7 @@ class RecipeListFeature: RecipeListUser {
     }
 
     @MainActor
-    func assertIsDisplayingError(text: String, sourceLocation: SourceLocation = #_sourceLocation) async throws {
+    func ensureIsDisplayingError(text: String, sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
             guard let self else { return false }
             let inspectable = try self.view.inspect()
@@ -96,7 +95,7 @@ class RecipeListFeature: RecipeListUser {
     }
     
     @MainActor
-    func assertIsDisplayingData(model: [(name: String, rating: String, cookingTime: String)], sourceLocation: SourceLocation = #_sourceLocation) async throws {
+    func ensureIsDisplayingData(model: [(name: String, rating: String, cookingTime: String)], sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
             guard let self else { return false }
             let inspectable = try view.inspect()
