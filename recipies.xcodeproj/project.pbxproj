@@ -14,6 +14,7 @@
 		CC56EAAA2F179C920044956B /* hostInWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAA92F179C910044956B /* hostInWindow.swift */; };
 		CC56EAAE2F179D220044956B /* waitFor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAAD2F179D1E0044956B /* waitFor.swift */; };
 		CC56EAB02F179F2D0044956B /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAAF2F179F290044956B /* TestHelpers.swift */; };
+		CC56EAC52F17A85D0044956B /* MemoryLeakChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAC42F17A8570044956B /* MemoryLeakChecker.swift */; };
 		CC5C8BDB2EFA8EF500D14CF1 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C8BDA2EFA8EF500D14CF1 /* SnapshotTesting */; };
 		CC5C8BDD2EFA8F3800D14CF1 /* RecipeListRowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BDC2EFA8F3800D14CF1 /* RecipeListRowTests.swift */; };
 		CC5C8BF82EFAA8B000D14CF1 /* CookingTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */; };
@@ -144,6 +145,7 @@
 		CC56EAA92F179C910044956B /* hostInWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hostInWindow.swift; sourceTree = "<group>"; };
 		CC56EAAD2F179D1E0044956B /* waitFor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitFor.swift; sourceTree = "<group>"; };
 		CC56EAAF2F179F290044956B /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
+		CC56EAC42F17A8570044956B /* MemoryLeakChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryLeakChecker.swift; sourceTree = "<group>"; };
 		CC5C8BDC2EFA8F3800D14CF1 /* RecipeListRowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListRowTests.swift; sourceTree = "<group>"; };
 		CC5C8BE42EFA9A1F00D14CF1 /* 003 - Snapshot testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "003 - Snapshot testing.md"; sourceTree = "<group>"; };
 		CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingTimeView.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 		CCF62D162ADAAA60009537A9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				CC56EAC42F17A8570044956B /* MemoryLeakChecker.swift */,
 				CC56EAAD2F179D1E0044956B /* waitFor.swift */,
 				CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */,
 				CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */,
@@ -908,6 +911,7 @@
 				CC71F5262AF762DE00A77856 /* RecipieListCacheTests.swift in Sources */,
 				CCA610222AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift in Sources */,
 				CCA610202AF74A0A001D3F1C /* InMemoryStorageTests.swift in Sources */,
+				CC56EAC52F17A85D0044956B /* MemoryLeakChecker.swift in Sources */,
 				CC9D232F2F0A5BC30039E3D4 /* RecipeListRow+DSL.swift in Sources */,
 				CC9D23322F0BC05E0039E3D4 /* RecipeListAcceptanceTests.swift in Sources */,
 			);

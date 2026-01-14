@@ -21,6 +21,8 @@ import ViewInspector
  */
 
 struct RecipeListAcceptanceTests {
+    let leakChecker = LeakChecker()
+    
     @MainActor
     @Test func basicScenario() async throws {
         let (feature, server, user) = makeFeature()
@@ -46,11 +48,14 @@ struct RecipeListAcceptanceTests {
     func makeFeature() -> (feature: RecipeListFeature, server: Server, user: RecipeListUser) {
         let server = Server()
         let expiration = TimestampExpirationPolicyStub()
-        let (recipeListLoader, _) = RecipeListLoaderAssembly.composeInternal(dtoLoader: server, cacheExpirationPolicy: expiration)
+        let (recipeListLoader, leakable) = RecipeListLoaderAssembly.composeInternal(dtoLoader: server, cacheExpirationPolicy: expiration)
         let asyncLoader = RecipeListAsyncLoader(loader: recipeListLoader)
         let viewModel = RecipeListViewModel(loader: asyncLoader)
         let screen = RecipeListScreen(viewModel: viewModel)
         let feature = RecipeListFeature(view: screen)
+        leakChecker.track([server, expiration, recipeListLoader])
+        leakChecker.track(leakable)
+        leakChecker.track([viewModel, feature])
         return (feature, server, feature)
     }
 }
