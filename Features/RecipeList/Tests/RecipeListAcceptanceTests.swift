@@ -1,0 +1,219 @@
+//
+//  RecipeListAcceptanceTests.swift
+//  RecipieListTests
+//
+//  Created by Марина Чемезова on 05.01.2026.
+//
+
+import Testing
+import SwiftUI
+import UIKit
+
+import ViewInspector
+
+@testable import RecipieList
+
+/*
+ Что тестируем
+ Базовый сценарий: загрузка -> ошибка -> нажатие кнопки "повторить" -> загрузка -> успех
+ Дополнительный (чтобы ничего не пропустить): загрузка -> успех -> юзер использует PTR -> загружаются новые данные
+ 
+ */
+
+struct RecipeListAcceptanceTests {
+    @MainActor
+    @Test func basicScenario() async throws {
+        let (feature, server, user) = makeFeature()
+        let error = NSError.any()
+        
+        feature.start()
+        
+        await waitFor {
+            try feature.assertIsDisplayingLoadingState()
+        }
+
+        await server.waitForRequest(index: 0)
+        
+        try server.respond(with: .failure(error), at: 0)
+        
+        await waitFor {
+           try feature.assertIsDisplayingError(text: "Не удалось загрузить список рецептов")
+        }
+
+        try user.tapReloadButton()
+        
+        await waitFor {
+            try feature.assertIsDisplayingLoadingState()
+        }
+        await server.waitForRequest(index: 1)
+        
+        try server.respond(with: .success(RecipeListDTO.test()), at: 1)
+
+        await waitFor {
+            try feature.assertIsDisplayingData(model: testModels())
+        }
+    }
+    
+    @MainActor
+    func makeFeature() -> (feature: RecipeListFeature, server: Server, user: RecipeListUser) {
+        let server = Server()
+        let expiration = TimestampExpirationPolicyStub()
+        let (recipeListLoader, _) = RecipeListLoaderAssembly.composeInternal(dtoLoader: server, cacheExpirationPolicy: expiration)
+        let asyncLoader = RecipeListAsyncLoader(loader: recipeListLoader)
+        let viewModel = RecipeListViewModel(loader: asyncLoader)
+        let screen = RecipeListScreen(viewModel: viewModel)
+        let feature = RecipeListFeature(view: screen)
+        return (feature, server, feature)
+    }
+}
+
+protocol RecipeListUser {
+    func tapReloadButton() throws
+}
+
+class RecipeListFeature: RecipeListUser {
+    let view: RecipeListScreen
+    var host: (UIWindow, UIViewController)?
+    
+    init(view: RecipeListScreen) {
+        self.view = view
+    }
+    
+    func start() {
+        host = hostInWindow(view)
+    }
+    
+    func assertIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) throws -> Bool {
+        let inspectable = try view.inspect()
+        let _ = try inspectable.find(viewWithAccessibilityIdentifier: LoadingViewA11y.component)
+        return true
+    }
+    
+    func assertIsDisplayingError(text: String) throws -> Bool {
+        let inspectable = try view.inspect()
+        let errorView = try inspectable.find(viewWithAccessibilityIdentifier: ErrorViewA11y.errorText)
+        let errorText = try errorView.text().string()
+        return errorText == text
+    }
+    
+    func assertIsDisplayingData(model: [(name: String, rating: String, cookingTime: String)]) throws -> Bool {
+        let inspectable = try view.inspect()
+        let cells = inspectable.findAll(RecipeListRow.self)
+        guard cells.count == model.count else {
+            throw TestError(reason: "Expected \(model.count) recipe rows, found \(cells.count) instead")
+        }
+        for (index, cell) in cells.enumerated() {
+            let item = model[index]
+            try cell.assertIsDisplaying(
+                name: item.name,
+                rating: item.rating,
+                cookingTime: item.cookingTime
+            )
+        }
+        return true
+    }
+    
+    // MARK: RecipeListUser
+    
+    func tapReloadButton() throws {
+        let inspectable = try view.inspect()
+        let reloadButton = try inspectable.find(viewWithAccessibilityIdentifier: ErrorViewA11y.retryButton).button()
+        try reloadButton.tap()
+    }
+}
+
+
+class Server: RecipeListDTOLoader {
+    var completions: [(Result<RecipeListDTO, Error>) -> Void] = []
+    private var onLoad: (() -> Void)?
+    
+    func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void) {
+        completions.append(completion)
+        if let onLoad {
+            onLoad()
+            self.onLoad = nil
+        }
+    }
+    
+    func waitForRequest(index: Int) async {
+        await withCheckedContinuation { continuation in
+            onLoad = {
+                continuation.resume()
+            }
+            if completions.count > index {
+                onLoad = nil
+                continuation.resume()
+                return
+            }
+        }
+    }
+    
+    func respond(with result: Result<RecipeListDTO, Error>, at index: Int? = nil) throws {
+        if completions.isEmpty {
+            throw TestError(reason: "server cannot complete the request because no completions present")
+        }
+        completions[index ?? completions.endIndex - 1](result)
+    }
+}
+
+private func testModels() -> [(name: String, rating: String, cookingTime: String)] {
+    [
+        (
+            name: "Котлеты по-киевски",
+            rating: "3.5",
+            cookingTime: "75 min",
+        ),
+        (
+            name: "Лапша Удон с курицей",
+            rating: "4.8",
+            cookingTime: "35 min",
+        )
+    ]
+}
+
+func host<V: View>(_ view: V, size: CGSize = .init(width: 320, height: 640)) -> UIHostingController<V> {
+    let vc = UIHostingController(rootView: view)
+
+    vc.loadViewIfNeeded()
+    vc.view.frame = CGRect(origin: .zero, size: size)
+    vc.view.setNeedsLayout()
+    vc.view.layoutIfNeeded()
+
+    return vc
+}
+
+func hostInWindow<V: View>(_ view: V, size: CGSize = .init(width: 320, height: 640)) -> (UIWindow, UIHostingController<V>) {
+    let vc = UIHostingController(rootView: view)
+    let window = UIWindow(frame: CGRect(origin: .zero, size: size))
+    window.rootViewController = vc
+    window.makeKeyAndVisible()
+
+    vc.loadViewIfNeeded()
+    vc.view.setNeedsLayout()
+    vc.view.layoutIfNeeded()
+
+    return (window, vc)
+}
+
+@MainActor
+func waitFor(timeout: TimeInterval = 1, checkInterval: TimeInterval = 0.05, sourceLocation: SourceLocation = #_sourceLocation, _ condition: @escaping () throws -> Bool ) async {
+    let deadline = Date().addingTimeInterval(timeout)
+    var lastError: Error?
+    
+    while Date() < deadline {
+        do {
+            if try condition() { return }
+            lastError = nil
+        } catch {
+            lastError = error
+        }
+        
+        try? await Task.sleep(nanoseconds: UInt64(checkInterval * 1_000_000_000))
+    }
+    
+    if let lastError {
+        #expect(Bool(false), "waitFor timed out. Last error \(lastError)", sourceLocation: sourceLocation)
+    } else {
+        #expect(Bool(false), "waitFor timed out.", sourceLocation: sourceLocation)
+    }
+}
