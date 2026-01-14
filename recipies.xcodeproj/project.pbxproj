@@ -17,6 +17,7 @@
 		CC56EAC52F17A85D0044956B /* MemoryLeakChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAC42F17A8570044956B /* MemoryLeakChecker.swift */; };
 		CC56EAC72F17B08F0044956B /* RecipeListItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAC62F17B0860044956B /* RecipeListItem+Extension.swift */; };
 		CC56EAC92F17B1740044956B /* RecipeListLoaderAsyncAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAC82F17B1660044956B /* RecipeListLoaderAsyncAdapter.swift */; };
+		CC56EACB2F17B1C00044956B /* RecipeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EACA2F17B1BD0044956B /* RecipeListViewModel.swift */; };
 		CC5C8BDB2EFA8EF500D14CF1 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C8BDA2EFA8EF500D14CF1 /* SnapshotTesting */; };
 		CC5C8BDD2EFA8F3800D14CF1 /* RecipeListRowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BDC2EFA8F3800D14CF1 /* RecipeListRowTests.swift */; };
 		CC5C8BF82EFAA8B000D14CF1 /* CookingTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */; };
@@ -150,6 +151,7 @@
 		CC56EAC42F17A8570044956B /* MemoryLeakChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryLeakChecker.swift; sourceTree = "<group>"; };
 		CC56EAC62F17B0860044956B /* RecipeListItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListItem+Extension.swift"; sourceTree = "<group>"; };
 		CC56EAC82F17B1660044956B /* RecipeListLoaderAsyncAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListLoaderAsyncAdapter.swift; sourceTree = "<group>"; };
+		CC56EACA2F17B1BD0044956B /* RecipeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewModel.swift; sourceTree = "<group>"; };
 		CC5C8BDC2EFA8F3800D14CF1 /* RecipeListRowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListRowTests.swift; sourceTree = "<group>"; };
 		CC5C8BE42EFA9A1F00D14CF1 /* 003 - Snapshot testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "003 - Snapshot testing.md"; sourceTree = "<group>"; };
 		CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingTimeView.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 		CC5C8BF42EFAA8B000D14CF1 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CC56EACA2F17B1BD0044956B /* RecipeListViewModel.swift */,
 				CC56EAC62F17B0860044956B /* RecipeListItem+Extension.swift */,
 				CC5C8C022EFAAA9600D14CF1 /* RecipeListImage.swift */,
 				CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */,
@@ -900,6 +903,7 @@
 				CC71F5392AF8E7DE00A77856 /* RecipeListDTOLoader.swift in Sources */,
 				CC9D23362F0BCCBA0039E3D4 /* RecipeListView.swift in Sources */,
 				CC9D23442F160D200039E3D4 /* RecipeListLoaderAssembly.swift in Sources */,
+				CC56EACB2F17B1C00044956B /* RecipeListViewModel.swift in Sources */,
 				CC9D233F2F0BD4E30039E3D4 /* ErrorView.swift in Sources */,
 				CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */,
 				CC9D233D2F0BD3CE0039E3D4 /* LoadingView.swift in Sources */,
