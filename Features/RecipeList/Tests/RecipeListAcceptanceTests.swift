@@ -30,9 +30,7 @@ struct RecipeListAcceptanceTests {
         
         try await feature.assertIsDisplayingLoadingState()
 
-        await server.waitForRequest(index: 0)
-        
-        try server.respond(with: .failure(error), at: 0)
+        try await server.respond(with: .failure(error), at: 0)
         
         try await feature.assertIsDisplayingError(text: "Не удалось загрузить список рецептов")
 
@@ -40,9 +38,7 @@ struct RecipeListAcceptanceTests {
         
         try await feature.assertIsDisplayingLoadingState()
         
-        await server.waitForRequest(index: 1)
-        
-        try server.respond(with: .success(RecipeListDTO.test()), at: 1)
+        try await server.respond(with: .success(RecipeListDTO.test()), at: 1)
 
         try await feature.assertIsDisplayingData(model: testModels())
     }
@@ -156,10 +152,8 @@ class Server: RecipeListDTOLoader {
         }
     }
     
-    func respond(with result: Result<RecipeListDTO, Error>, at index: Int? = nil) throws {
-        if completions.isEmpty {
-            throw TestError(reason: "server cannot complete the request because no completions present")
-        }
+    func respond(with result: Result<RecipeListDTO, Error>, at index: Int? = nil) async throws {
+        await waitForRequest(index: index ?? 0)
         completions[index ?? completions.endIndex - 1](result)
     }
 }
