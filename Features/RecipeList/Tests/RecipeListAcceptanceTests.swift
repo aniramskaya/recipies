@@ -28,30 +28,23 @@ struct RecipeListAcceptanceTests {
         
         feature.start()
         
-        await waitFor {
-            try feature.assertIsDisplayingLoadingState()
-        }
+        try await feature.assertIsDisplayingLoadingState()
 
         await server.waitForRequest(index: 0)
         
         try server.respond(with: .failure(error), at: 0)
         
-        await waitFor {
-           try feature.assertIsDisplayingError(text: "Не удалось загрузить список рецептов")
-        }
+        try await feature.assertIsDisplayingError(text: "Не удалось загрузить список рецептов")
 
         try user.tapReloadButton()
         
-        await waitFor {
-            try feature.assertIsDisplayingLoadingState()
-        }
+        try await feature.assertIsDisplayingLoadingState()
+        
         await server.waitForRequest(index: 1)
         
         try server.respond(with: .success(RecipeListDTO.test()), at: 1)
 
-        await waitFor {
-            try feature.assertIsDisplayingData(model: testModels())
-        }
+        try await feature.assertIsDisplayingData(model: testModels())
     }
     
     @MainActor
@@ -67,10 +60,12 @@ struct RecipeListAcceptanceTests {
     }
 }
 
+@MainActor
 protocol RecipeListUser {
     func tapReloadButton() throws
 }
 
+@MainActor 
 class RecipeListFeature: RecipeListUser {
     let view: RecipeListScreen
     var host: (UIWindow, UIViewController)?
@@ -83,38 +78,51 @@ class RecipeListFeature: RecipeListUser {
         host = hostInWindow(view)
     }
     
-    func assertIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) throws -> Bool {
-        let inspectable = try view.inspect()
-        let _ = try inspectable.find(viewWithAccessibilityIdentifier: LoadingViewA11y.component)
-        return true
+    @MainActor
+    func assertIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor { [weak self] in
+            guard let self else { return false }
+            let inspectable = try self.view.inspect()
+            let _ = try inspectable.find(viewWithAccessibilityIdentifier: LoadingViewA11y.component)
+            return true
+        }
+    }
+
+    @MainActor
+    func assertIsDisplayingError(text: String) async throws {
+        await waitFor { [weak self] in
+            guard let self else { return false }
+            let inspectable = try self.view.inspect()
+            let errorView = try inspectable.find(viewWithAccessibilityIdentifier: ErrorViewA11y.errorText)
+            let errorText = try errorView.text().string()
+            return errorText == text
+        }
     }
     
-    func assertIsDisplayingError(text: String) throws -> Bool {
-        let inspectable = try view.inspect()
-        let errorView = try inspectable.find(viewWithAccessibilityIdentifier: ErrorViewA11y.errorText)
-        let errorText = try errorView.text().string()
-        return errorText == text
-    }
-    
-    func assertIsDisplayingData(model: [(name: String, rating: String, cookingTime: String)]) throws -> Bool {
-        let inspectable = try view.inspect()
-        let cells = inspectable.findAll(RecipeListRow.self)
-        guard cells.count == model.count else {
-            throw TestError(reason: "Expected \(model.count) recipe rows, found \(cells.count) instead")
+    @MainActor
+    func assertIsDisplayingData(model: [(name: String, rating: String, cookingTime: String)]) async throws {
+        await waitFor { [weak self] in
+            guard let self else { return false }
+            let inspectable = try view.inspect()
+            let cells = inspectable.findAll(RecipeListRow.self)
+            guard cells.count == model.count else {
+                throw TestError(reason: "Expected \(model.count) recipe rows, found \(cells.count) instead")
+            }
+            for (index, cell) in cells.enumerated() {
+                let item = model[index]
+                try cell.assertIsDisplaying(
+                    name: item.name,
+                    rating: item.rating,
+                    cookingTime: item.cookingTime
+                )
+            }
+            return true
         }
-        for (index, cell) in cells.enumerated() {
-            let item = model[index]
-            try cell.assertIsDisplaying(
-                name: item.name,
-                rating: item.rating,
-                cookingTime: item.cookingTime
-            )
-        }
-        return true
     }
     
     // MARK: RecipeListUser
     
+    @MainActor
     func tapReloadButton() throws {
         let inspectable = try view.inspect()
         let reloadButton = try inspectable.find(viewWithAccessibilityIdentifier: ErrorViewA11y.retryButton).button()
