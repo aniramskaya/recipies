@@ -41,26 +41,14 @@ final class RecipeListViewModel: ObservableObject {
         state = .loading
         do {
             let data = try await loader.load()
-            state = .data(data.map { item in
-                item.asViewModel()
-            })
+            state = .data(data.asViewModels())
         } catch {
             state = .error(error)
         }
     }
 }
 
-extension RecipeListItem {
-    func asViewModel() -> RecipeListRowModel {
-        .init(
-            id: self.id,
-            name: self.name,
-            imageSource: .remote(self.imageUrl),
-            cookingTimeMins: Int(floor(self.cookingTime / 60)),
-            rating: self.rating ?? 0
-        )
-    }
-}
+
 
 struct RecipeListScreen: View {
     @ObservedObject var viewModel: RecipeListViewModel

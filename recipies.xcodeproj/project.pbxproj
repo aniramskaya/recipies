@@ -15,6 +15,7 @@
 		CC56EAAE2F179D220044956B /* waitFor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAAD2F179D1E0044956B /* waitFor.swift */; };
 		CC56EAB02F179F2D0044956B /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAAF2F179F290044956B /* TestHelpers.swift */; };
 		CC56EAC52F17A85D0044956B /* MemoryLeakChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAC42F17A8570044956B /* MemoryLeakChecker.swift */; };
+		CC56EAC72F17B08F0044956B /* RecipeListItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC56EAC62F17B0860044956B /* RecipeListItem+Extension.swift */; };
 		CC5C8BDB2EFA8EF500D14CF1 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = CC5C8BDA2EFA8EF500D14CF1 /* SnapshotTesting */; };
 		CC5C8BDD2EFA8F3800D14CF1 /* RecipeListRowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BDC2EFA8F3800D14CF1 /* RecipeListRowTests.swift */; };
 		CC5C8BF82EFAA8B000D14CF1 /* CookingTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */; };
@@ -146,6 +147,7 @@
 		CC56EAAD2F179D1E0044956B /* waitFor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitFor.swift; sourceTree = "<group>"; };
 		CC56EAAF2F179F290044956B /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 		CC56EAC42F17A8570044956B /* MemoryLeakChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryLeakChecker.swift; sourceTree = "<group>"; };
+		CC56EAC62F17B0860044956B /* RecipeListItem+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListItem+Extension.swift"; sourceTree = "<group>"; };
 		CC5C8BDC2EFA8F3800D14CF1 /* RecipeListRowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListRowTests.swift; sourceTree = "<group>"; };
 		CC5C8BE42EFA9A1F00D14CF1 /* 003 - Snapshot testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "003 - Snapshot testing.md"; sourceTree = "<group>"; };
 		CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingTimeView.swift; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 		CC5C8BF42EFAA8B000D14CF1 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CC56EAC62F17B0860044956B /* RecipeListItem+Extension.swift */,
 				CC5C8C022EFAAA9600D14CF1 /* RecipeListImage.swift */,
 				CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */,
 				CC5C8BF22EFAA8B000D14CF1 /* RatingView.swift */,
@@ -883,6 +886,7 @@
 				CC5C8BFA2EFAA8B000D14CF1 /* RecipeListRow.swift in Sources */,
 				CC5C8C042EFAAA9F00D14CF1 /* RecipeListImage.swift in Sources */,
 				CC9D23392F0BCD330039E3D4 /* RecipeListScreen.swift in Sources */,
+				CC56EAC72F17B08F0044956B /* RecipeListItem+Extension.swift in Sources */,
 				CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */,
 				CC71F52E2AF8D27E00A77856 /* RecipieListCache.swift in Sources */,
 				CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */,
