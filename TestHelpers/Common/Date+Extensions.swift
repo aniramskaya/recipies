@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Date {
+public extension Date {
     func addingMinutes(_ value: Int) -> Date? {
         Calendar.current.date(byAdding: .minute, value: value, to: self)
     }

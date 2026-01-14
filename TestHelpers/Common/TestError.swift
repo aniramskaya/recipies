@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct TestError: LocalizedError {
+public struct TestError: LocalizedError {
     let reason: String
     
-    init(reason: String) {
+    public init(reason: String) {
         self.reason = reason
     }
     
-    var errorDescription: String? {
+    public var errorDescription: String? {
         return reason
     }
 }

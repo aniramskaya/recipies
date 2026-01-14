@@ -8,7 +8,7 @@
 import Testing
 import SwiftUI
 import UIKit
-
+import TestHelpers
 import ViewInspector
 
 @testable import RecipieList
@@ -171,49 +171,4 @@ private func testModels() -> [(name: String, rating: String, cookingTime: String
     ]
 }
 
-func host<V: View>(_ view: V, size: CGSize = .init(width: 320, height: 640)) -> UIHostingController<V> {
-    let vc = UIHostingController(rootView: view)
 
-    vc.loadViewIfNeeded()
-    vc.view.frame = CGRect(origin: .zero, size: size)
-    vc.view.setNeedsLayout()
-    vc.view.layoutIfNeeded()
-
-    return vc
-}
-
-func hostInWindow<V: View>(_ view: V, size: CGSize = .init(width: 320, height: 640)) -> (UIWindow, UIHostingController<V>) {
-    let vc = UIHostingController(rootView: view)
-    let window = UIWindow(frame: CGRect(origin: .zero, size: size))
-    window.rootViewController = vc
-    window.makeKeyAndVisible()
-
-    vc.loadViewIfNeeded()
-    vc.view.setNeedsLayout()
-    vc.view.layoutIfNeeded()
-
-    return (window, vc)
-}
-
-@MainActor
-func waitFor(timeout: TimeInterval = 1, checkInterval: TimeInterval = 0.05, sourceLocation: SourceLocation = #_sourceLocation, _ condition: @escaping () throws -> Bool ) async {
-    let deadline = Date().addingTimeInterval(timeout)
-    var lastError: Error?
-    
-    while Date() < deadline {
-        do {
-            if try condition() { return }
-            lastError = nil
-        } catch {
-            lastError = error
-        }
-        
-        try? await Task.sleep(nanoseconds: UInt64(checkInterval * 1_000_000_000))
-    }
-    
-    if let lastError {
-        #expect(Bool(false), "waitFor timed out. Last error \(lastError)", sourceLocation: sourceLocation)
-    } else {
-        #expect(Bool(false), "waitFor timed out.", sourceLocation: sourceLocation)
-    }
-}

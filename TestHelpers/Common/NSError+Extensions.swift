@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension NSError {
+public extension NSError {
     static func any() -> NSError {
         NSError(domain: UUID().uuidString, code: 1)
     }
