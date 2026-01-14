@@ -80,7 +80,7 @@ class RecipeListFeature: RecipeListUser {
     
     @MainActor
     func assertIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        await waitFor { [weak self] in
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
             guard let self else { return false }
             let inspectable = try self.view.inspect()
             let _ = try inspectable.find(viewWithAccessibilityIdentifier: LoadingViewA11y.component)
@@ -89,8 +89,8 @@ class RecipeListFeature: RecipeListUser {
     }
 
     @MainActor
-    func assertIsDisplayingError(text: String) async throws {
-        await waitFor { [weak self] in
+    func assertIsDisplayingError(text: String, sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
             guard let self else { return false }
             let inspectable = try self.view.inspect()
             let errorView = try inspectable.find(viewWithAccessibilityIdentifier: ErrorViewA11y.errorText)
@@ -100,8 +100,8 @@ class RecipeListFeature: RecipeListUser {
     }
     
     @MainActor
-    func assertIsDisplayingData(model: [(name: String, rating: String, cookingTime: String)]) async throws {
-        await waitFor { [weak self] in
+    func assertIsDisplayingData(model: [(name: String, rating: String, cookingTime: String)], sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
             guard let self else { return false }
             let inspectable = try view.inspect()
             let cells = inspectable.findAll(RecipeListRow.self)
