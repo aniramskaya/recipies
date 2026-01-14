@@ -49,7 +49,7 @@ struct RecipeListAcceptanceTests {
         let server = Server()
         let expiration = TimestampExpirationPolicyStub()
         let (recipeListLoader, leakable) = RecipeListLoaderAssembly.composeInternal(dtoLoader: server, cacheExpirationPolicy: expiration)
-        let asyncLoader = RecipeListAsyncLoader(loader: recipeListLoader)
+        let asyncLoader = RecipeListLoaderAsyncAdapter(loader: recipeListLoader)
         let viewModel = RecipeListViewModel(loader: asyncLoader)
         let screen = RecipeListScreen(viewModel: viewModel)
         let feature = RecipeListFeature(view: screen)

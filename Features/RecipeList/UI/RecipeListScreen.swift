@@ -7,20 +7,7 @@
 
 import SwiftUI
 
-struct RecipeListAsyncLoader {
-    let loader: RecipieListLoader
-    init(loader: RecipieListLoader) {
-        self.loader = loader
-    }
-    
-    func load() async throws -> [RecipeListItem] {
-        try await withCheckedThrowingContinuation { continuation in
-            loader.load { result in
-                continuation.resume(with: result)
-            }
-        }
-    }
-}
+
 
 enum RecipeListScreenViewState {
     case loading
@@ -31,9 +18,9 @@ enum RecipeListScreenViewState {
 @MainActor
 final class RecipeListViewModel: ObservableObject {
     @Published private(set) var state: RecipeListScreenViewState = .loading
-    private let loader: RecipeListAsyncLoader
+    private let loader: RecipeListLoaderAsyncAdapter
     
-    init(loader: RecipeListAsyncLoader) {
+    init(loader: RecipeListLoaderAsyncAdapter) {
         self.loader = loader
     }
     
