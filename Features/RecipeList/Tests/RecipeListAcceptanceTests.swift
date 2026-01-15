@@ -48,14 +48,11 @@ struct RecipeListAcceptanceTests {
     func makeFeature() -> (feature: RecipeListFeature, server: Server, user: RecipeListUser) {
         let server = Server()
         let expiration = TimestampExpirationPolicyStub()
-        let (recipeListLoader, leakable) = RecipeListLoaderAssembly.composeInternal(dtoLoader: server, cacheExpirationPolicy: expiration)
-        let asyncLoader = RecipeListLoaderAsyncAdapter(loader: recipeListLoader)
-        let viewModel = RecipeListViewModel(loader: asyncLoader)
-        let screen = RecipeListScreen(viewModel: viewModel)
+        let (screen, leakable) = RecipeListAssembly.composeInternal(dtoLoader: server, cacheExpirationPolicy: expiration)
         let feature = RecipeListFeature(view: screen)
-        leakChecker.track([server, expiration, recipeListLoader])
+        leakChecker.track([server, expiration])
         leakChecker.track(leakable)
-        leakChecker.track([viewModel, feature])
+        leakChecker.track(feature)
         return (feature, server, feature)
     }
 }
