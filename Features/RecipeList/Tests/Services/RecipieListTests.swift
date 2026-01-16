@@ -86,8 +86,10 @@ final class RecipieListTests: XCTestCase {
         expect(sut: module.sut, toCompleteWith: .success(expectedData)) { 
             module.spy.complete(with: .success(.test()))
         }
-        expect(sut: module.sut, toCompleteWith: .success(expectedData)) { }
-        XCTAssertEqual(module.spy.messages, [.load])
+        expect(sut: module.sut, toCompleteWith: .success(expectedData)) {
+            module.spy.complete(with: .failure(NSError.any()), at: 1)
+        }
+        XCTAssertEqual(module.spy.messages, [.load, .load])
     }
     
     func test_loading_loadsFromRemoteWhenExpiredCache() throws {
@@ -138,9 +140,9 @@ final class RecipieListTests: XCTestCase {
         let spy = DTOLoaderSpy()
         let expiration = TimestampExpirationPolicyStub()
         let (sut, leakable) = RecipeListLoaderAssembly.composeInternal(dtoLoader: spy, cacheExpirationPolicy: expiration)
-        trackForMemoryLeak(sut)
+        trackForMemoryLeak(sut, file: file, line: line)
         leakable.forEach { item in
-            trackForMemoryLeak(item)
+            trackForMemoryLeak(item, file: file, line: line)
         }
 
         return SUTModule(sut: sut, spy: spy, expiration: expiration)

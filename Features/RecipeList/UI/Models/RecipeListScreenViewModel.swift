@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-final class RecipeListViewModel: ObservableObject {
+final class RecipeListScreenViewModel: ObservableObject {
     @Published private(set) var state: RecipeListScreenViewState = .loading
     private let loader: RecipeListLoaderAsyncAdapter
     

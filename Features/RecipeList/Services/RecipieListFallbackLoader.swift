@@ -12,8 +12,8 @@ public class RecipieListFallbackLoader: RecipieListLoader {
     let second: RecipieListLoader
 
     public init(first: RecipieListLoader, second: RecipieListLoader) {
-        self.first = second
-        self.second = first
+        self.first = first
+        self.second = second
     }
     
     public func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
@@ -21,8 +21,15 @@ public class RecipieListFallbackLoader: RecipieListLoader {
             switch result {
             case .success(let items):
                 completion(.success(items))
-            case .failure:
-                self?.second.load(completion: completion)
+            case let .failure(error):
+                self?.second.load { result in
+                    switch result {
+                    case let .success(items):
+                        completion(.success(items))
+                    case .failure:
+                        completion(.failure(error))
+                    }
+                }
             }
         }
     }
