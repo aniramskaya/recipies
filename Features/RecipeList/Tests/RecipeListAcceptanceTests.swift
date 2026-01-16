@@ -24,8 +24,8 @@ struct RecipeListAcceptanceTests {
     let leakChecker = LeakChecker()
     
     @MainActor
-    @Test func basicScenario() async throws {
-        let (feature, server, user) = makeFeature()
+    @Test func loadErrorReloadResultScenario() async throws {
+        let (feature, server, user, _) = makeFeature()
         
         feature.start()
         
@@ -45,7 +45,31 @@ struct RecipeListAcceptanceTests {
     }
     
     @MainActor
-    func makeFeature() -> (feature: RecipeListFeature, server: Server, user: RecipeListUser) {
+    @Test func loadResultReloadSecondResultScenario() async throws {
+        let (feature, server, user, expiration) = makeFeature()
+        
+        feature.start()
+                
+        try await feature.ensureIsDisplayingLoadingState()
+        
+        try await server.respond(with: .success(RecipeListDTO.test()), at: 0)
+
+        try await feature.ensureIsDisplayingData(model: testModels())
+
+
+        expiration.validationResult = true
+        try user.pullToRefresh()
+
+        try await server.respond(with: .success(RecipeListDTO.test2()), at: 1)
+
+        print("Waiting for second request")
+        
+
+        try await feature.ensureIsDisplayingData(model: testModels2())
+    }
+    
+    @MainActor
+    func makeFeature() -> (feature: RecipeListFeature, server: Server, user: RecipeListUser, expiration: TimestampExpirationPolicyStub) {
         let server = Server()
         let expiration = TimestampExpirationPolicyStub()
         let (screen, leakable) = RecipeListAssembly.composeInternal(dtoLoader: server, cacheExpirationPolicy: expiration)
@@ -53,13 +77,14 @@ struct RecipeListAcceptanceTests {
         leakChecker.track([server, expiration])
         leakChecker.track(leakable)
         leakChecker.track(feature)
-        return (feature, server, feature)
+        return (feature, server, feature, expiration)
     }
 }
 
 @MainActor
 protocol RecipeListUser {
     func tapReloadButton() throws
+    func pullToRefresh() throws
 }
 
 @MainActor 
@@ -125,6 +150,14 @@ class RecipeListFeature: RecipeListUser {
         let reloadButton = try inspectable.find(viewWithAccessibilityIdentifier: ErrorViewA11y.retryButton).button()
         try reloadButton.tap()
     }
+    
+    @MainActor
+    func pullToRefresh() throws {
+        let inspectable = try view.inspect()
+        Task { @MainActor in
+            try await inspectable.find(ViewType.List.self).callRefreshable()
+        }
+    }
 }
 
 
@@ -141,12 +174,12 @@ class Server: RecipeListDTOLoader {
     }
     
     func waitForRequest(index: Int) async {
-        await withCheckedContinuation { continuation in
-            onLoad = {
+        await withCheckedContinuation { [weak self] continuation in
+            self?.onLoad = {
                 continuation.resume()
             }
-            if completions.count > index {
-                onLoad = nil
+            if self?.completions.count ?? -1 > index {
+                self?.onLoad = nil
                 continuation.resume()
                 return
             }
@@ -170,6 +203,21 @@ private func testModels() -> [(name: String, rating: String, cookingTime: String
             name: "Лапша Удон с курицей",
             rating: "4.8",
             cookingTime: "35 min",
+        )
+    ]
+}
+
+private func testModels2() -> [(name: String, rating: String, cookingTime: String)] {
+    [
+        (
+            name: "Солянка сборная мясная",
+            rating: "3.5",
+            cookingTime: "75 min",
+        ),
+        (
+            name: "Лагман домашний",
+            rating: "4.8",
+            cookingTime: "135 min",
         )
     ]
 }

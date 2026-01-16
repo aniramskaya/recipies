@@ -10,6 +10,7 @@ import RecipeUIKit
 
 struct RecipeListView: View {
     let model: [RecipeListRowModel]
+    let reload: @MainActor () async -> Void
     
     var body: some View {
         List(model) { item in
@@ -20,6 +21,10 @@ struct RecipeListView: View {
         .listRowSpacing(10)
         .scrollContentBackground(.hidden)
         .background(Color.white)
+        .refreshable {
+            print("AAAA Reloading started")
+            await reload()
+        }
     }
 }
 
@@ -37,6 +42,7 @@ struct RecipeListView: View {
             imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
             rating: 4.6
-        )]
-    )
+        )]) {
+            
+        }
 }

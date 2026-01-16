@@ -14,7 +14,7 @@ enum RecipeListScreenViewState {
 }
 
 struct RecipeListScreen: View {
-    @ObservedObject var viewModel: RecipeListViewModel
+    @ObservedObject var viewModel: RecipeListScreenViewModel
     
     var body: some View {
         content
@@ -27,7 +27,9 @@ struct RecipeListScreen: View {
     var content: some View {
         switch viewModel.state {
         case let .data(model):
-            RecipeListView(model: model)
+            RecipeListView(model: model) { [weak viewModel] in
+                await viewModel?.loadRecipes()
+            }
         case .error:
             ErrorView(error: "Не удалось загрузить список рецептов") {
                 Task { await viewModel.loadRecipes() }

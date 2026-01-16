@@ -17,7 +17,7 @@ enum RecipeListAssembly {
             cacheExpirationPolicy: cacheExpirationPolicy
         )
         let asyncLoader = RecipeListLoaderAsyncAdapter(loader: recipeListLoader)
-        let viewModel = RecipeListViewModel(loader: asyncLoader)
+        let viewModel = RecipeListScreenViewModel(loader: asyncLoader)
         let screen = RecipeListScreen(viewModel: viewModel)
         return (screen, leakable + [recipeListLoader, viewModel])
     }
