@@ -13,10 +13,10 @@ enum RecipeListScreenViewState {
     case data([RecipeListRowModel])
 }
 
-struct RecipeListScreen: View {
+public struct RecipeListScreen: View {
     @ObservedObject var viewModel: RecipeListScreenViewModel
     
-    var body: some View {
+    public var body: some View {
         content
             .task {
                 await viewModel.loadRecipes()

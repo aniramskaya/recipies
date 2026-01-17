@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import RecipeList
 
 @main
 struct recipesApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            //ContentView()
+            RecipeListAssembly.compose()
         }
     }
 }

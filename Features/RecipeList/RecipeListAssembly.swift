@@ -5,7 +5,14 @@
 //  Created by Марина Чемезова on 15.01.2026.
 //
 
-enum RecipeListAssembly {
+public enum RecipeListAssembly {
+    @MainActor
+    public static func compose() -> RecipeListScreen {
+        return composeInternal(
+            dtoLoader: RecipeListDTOLoaderStub(),
+            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300))
+        ).0
+    }
     
     @MainActor
     static func composeInternal(
