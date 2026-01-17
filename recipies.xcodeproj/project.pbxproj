@@ -445,7 +445,6 @@
 				CCF62CBB2ADA82BB009537A9 /* recipies */,
 				CCF62CCC2ADA82CB009537A9 /* recipiesTests */,
 				CCF62CD62ADA82CB009537A9 /* recipiesUITests */,
-				CCF62CEE2ADA8949009537A9 /* RecipieList */,
 				CC9D231D2F0A2D7E0039E3D4 /* RecipeUIKit */,
 				CC56EA9F2F1798C30044956B /* TestHelpers */,
 				CCF62CBA2ADA82BB009537A9 /* Products */,
@@ -521,16 +520,9 @@
 				CCF62D102ADAA9D7009537A9 /* Domain */,
 				CCF62D092ADA895C009537A9 /* Services */,
 				CCF62D0A2ADA896B009537A9 /* Tests */,
-			);
-			path = RecipeList;
-			sourceTree = "<group>";
-		};
-		CCF62CEE2ADA8949009537A9 /* RecipieList */ = {
-			isa = PBXGroup;
-			children = (
 				CCF62CEF2ADA8949009537A9 /* RecipieList.h */,
 			);
-			path = RecipieList;
+			path = RecipeList;
 			sourceTree = "<group>";
 		};
 		CCF62D092ADA895C009537A9 /* Services */ = {
