@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import TestHelpers
 @testable import RecipieList
 
 /*
@@ -85,8 +86,10 @@ final class RecipieListTests: XCTestCase {
         expect(sut: module.sut, toCompleteWith: .success(expectedData)) { 
             module.spy.complete(with: .success(.test()))
         }
-        expect(sut: module.sut, toCompleteWith: .success(expectedData)) { }
-        XCTAssertEqual(module.spy.messages, [.load])
+        expect(sut: module.sut, toCompleteWith: .success(expectedData)) {
+            module.spy.complete(with: .failure(NSError.any()), at: 1)
+        }
+        XCTAssertEqual(module.spy.messages, [.load, .load])
     }
     
     func test_loading_loadsFromRemoteWhenExpiredCache() throws {
@@ -128,7 +131,7 @@ final class RecipieListTests: XCTestCase {
     // MARK: Private
     
     private struct SUTModule {
-        let sut: RecipieListFallbackLoader
+        let sut: RecipieListLoader
         let spy: DTOLoaderSpy
         let expiration: TimestampExpirationPolicyStub
     }
@@ -136,22 +139,16 @@ final class RecipieListTests: XCTestCase {
     private func makeSUT(data: [RecipeListItem]? = nil, time: Date? = nil, file: StaticString = #filePath, line: UInt = #line) -> SUTModule {
         let spy = DTOLoaderSpy()
         let expiration = TimestampExpirationPolicyStub()
-        let storage = InMemoryStorage<RecipeListStored>()
-        let cache = RecipieListCache(storage: storage, expirationPolicy: expiration)
-        let cacheAsync = RecipieListCacheAsync(cache: cache)
-        let remoteLoader = RecipieListRemoteLoader(dtoLoader: spy, cache: cache, storage: storage)
-        let sut = RecipieListFallbackLoader(first: remoteLoader, second: cacheAsync)
-        trackForMemoryLeak(sut)
-        trackForMemoryLeak(spy)
-        trackForMemoryLeak(expiration)
-        trackForMemoryLeak(storage)
-        trackForMemoryLeak(cache)
-        trackForMemoryLeak(cacheAsync)
-        trackForMemoryLeak(remoteLoader)
+        let (sut, leakable) = RecipeListLoaderAssembly.composeInternal(dtoLoader: spy, cacheExpirationPolicy: expiration)
+        trackForMemoryLeak(sut, file: file, line: line)
+        leakable.forEach { item in
+            trackForMemoryLeak(item, file: file, line: line)
+        }
+
         return SUTModule(sut: sut, spy: spy, expiration: expiration)
     }
     
-    private func expect(sut: RecipieListFallbackLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for async code to complete")
         sut.load { result in
             switch (result, expectedResult) {
@@ -170,45 +167,7 @@ final class RecipieListTests: XCTestCase {
     }
 }
 
-extension RecipeListDTO {
-    static func test() -> RecipeListDTO {
-        .init(items: [
-            .init(
-                id: UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!,
-                name: "Котлеты по-киевски",
-                cookingTime: 75,
-                imageUrl: URL(string: "https://any-url.com")!,
-                rating: 3.5
-            ),
-            .init(
-                id: UUID(uuidString: "474615e9-8c95-43f5-aa4f-38721717da98")!,
-                name: "Лапша Удон с курицей",
-                cookingTime: 35,
-                imageUrl: URL(string: "https://another-any-url.com")!,
-                rating: 4.8
-            ),
-        ])
-    }
-    
-    static func test2() -> RecipeListDTO {
-        .init(items: [
-            .init(
-                id: UUID(uuidString: "11fb3a12-62fc-401e-861f-11594fe87c38")!,
-                name: "Солянка сборная мясная",
-                cookingTime: 75,
-                imageUrl: URL(string: "https://any-url.com")!,
-                rating: 3.5
-            ),
-            .init(
-                id: UUID(uuidString: "674615e9-8c95-43f5-aa4f-38721717da99")!,
-                name: "Лагман домашний",
-                cookingTime: 135,
-                imageUrl: URL(string: "https://another-any-url.com")!,
-                rating: 4.8
-            )
-        ])
-    }
-}
+
 
 class DTOLoaderSpy: RecipeListDTOLoader {
     enum Message: Equatable {

@@ -26,9 +26,10 @@ struct RecipeListRowTests {
     @Test("RecipeListRow правильно отображает контент")
     func RecipeListRowContent() async throws {
         let sut = makeSUT()
+        let inspectableRow = try sut.inspect().find(RecipeListRow.self)
         
         #expect(throws: Never.self) {
-            try sut.assertIsDisplaying(name: "Котлета по-киевски", rating: "4.6", cookingTime: "35 min")
+            try inspectableRow.assertIsDisplaying(name: "Котлета по-киевски", rating: "4.6", cookingTime: "35 min")
         }
     }
     

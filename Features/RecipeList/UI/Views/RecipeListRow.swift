@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RecipeUIKit
 
 struct RecipeListRowModel: Identifiable {
     let id: UUID
@@ -56,7 +57,7 @@ private typealias A11y = RecipeListRowA11y
         model: .init(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cf")!,
             name: "Котлета по-киевски",
-            imageSource: .uiImage(.init(named: "kiev")!),
+            imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
             rating: 4.6
         )
