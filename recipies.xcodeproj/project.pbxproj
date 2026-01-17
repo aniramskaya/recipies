@@ -258,6 +258,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CC2B54C72F1BEE2C00B251CE /* CallbackServices */ = {
+			isa = PBXGroup;
+			children = (
+				CC2B54C52F1BE78300B251CE /* RecipeListDTOLoaderStub.swift */,
+				CC56EAC82F17B1660044956B /* RecipeListLoaderAsyncAdapter.swift */,
+				CC9D23432F160D100039E3D4 /* RecipeListLoaderAssembly.swift */,
+				CC71F5372AF8E7CA00A77856 /* DTO */,
+				CC71F52C2AF8D26F00A77856 /* Cache */,
+				CC71F51F2AF761BF00A77856 /* Storage */,
+				CCF62D142ADAAA33009537A9 /* RecipeListFallbackLoader.swift */,
+				CC71F5312AF8E3B300A77856 /* RecipeListRemoteLoader.swift */,
+				CC71F53A2AF8E85000A77856 /* RecipeListLoader.swift */,
+			);
+			path = CallbackServices;
+			sourceTree = "<group>";
+		};
 		CC56EA9C2F1798C30044956B /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -500,15 +516,7 @@
 		CCF62D092ADA895C009537A9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				CC2B54C52F1BE78300B251CE /* RecipeListDTOLoaderStub.swift */,
-				CC56EAC82F17B1660044956B /* RecipeListLoaderAsyncAdapter.swift */,
-				CC9D23432F160D100039E3D4 /* RecipeListLoaderAssembly.swift */,
-				CC71F5372AF8E7CA00A77856 /* DTO */,
-				CC71F52C2AF8D26F00A77856 /* Cache */,
-				CC71F51F2AF761BF00A77856 /* Storage */,
-				CCF62D142ADAAA33009537A9 /* RecipeListFallbackLoader.swift */,
-				CC71F5312AF8E3B300A77856 /* RecipeListRemoteLoader.swift */,
-				CC71F53A2AF8E85000A77856 /* RecipeListLoader.swift */,
+				CC2B54C72F1BEE2C00B251CE /* CallbackServices */,
 			);
 			path = Services;
 			sourceTree = "<group>";
