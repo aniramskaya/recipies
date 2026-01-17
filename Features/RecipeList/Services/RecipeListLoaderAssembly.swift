@@ -1,6 +1,6 @@
 //
 //  RecipeListLoaderAssembly.swift
-//  recipies
+//  recipes
 //
 //  Created by Марина Чемезова on 13.01.2026.
 //
@@ -11,10 +11,10 @@ public enum RecipeListLoaderAssembly {
     /// - Parameters:
     ///   - dtoLoader: Загрузчик dto
     /// - Returns: Собранный сервис загрузки рецептов
-    public static func compose(dtoLoader: RecipeListDTOLoader) -> RecipieListLoader {
+    public static func compose(dtoLoader: RecipeListDTOLoader) -> RecipeListLoader {
         return composeInternal(
             dtoLoader: dtoLoader,
-            cacheExpirationPolicy: RecipieListExpirationPolicy(timeout: 300)
+            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: 300)
         ).0
     }
 
@@ -27,13 +27,13 @@ public enum RecipeListLoaderAssembly {
     static func composeInternal(
         dtoLoader: RecipeListDTOLoader,
         cacheExpirationPolicy: TimestampExpirationPolicy
-    ) -> (RecipieListFallbackLoader, [AnyObject]) {
+    ) -> (RecipeListFallbackLoader, [AnyObject]) {
         let storage = InMemoryStorage<RecipeListStored>()
-        let cache = RecipieListCache(storage: storage, expirationPolicy: cacheExpirationPolicy)
-        let cacheAsync = RecipieListCacheAsync(cache: cache)
-        let remoteLoader = RecipieListRemoteLoader(dtoLoader: dtoLoader, cache: cache, storage: storage)
+        let cache = RecipeListCache(storage: storage, expirationPolicy: cacheExpirationPolicy)
+        let cacheAsync = RecipeListCacheAsync(cache: cache)
+        let remoteLoader = RecipeListRemoteLoader(dtoLoader: dtoLoader, cache: cache, storage: storage)
         return (
-            RecipieListFallbackLoader(first: remoteLoader, second: cacheAsync),
+            RecipeListFallbackLoader(first: remoteLoader, second: cacheAsync),
             [storage, cache, cacheAsync, remoteLoader]
         )
     }

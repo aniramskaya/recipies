@@ -1,6 +1,6 @@
 //
 //  UIImage+Extensions.swift
-//  recipies
+//  recipes
 //
 //  Created by Марина Чемезова on 04.01.2026.
 //

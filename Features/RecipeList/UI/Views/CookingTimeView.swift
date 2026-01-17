@@ -1,6 +1,6 @@
 //
 //  CookingTime.swift
-//  RecipieList
+//  RecipeList
 //
 //  Created by Марина Чемезова on 23.12.2025.
 //

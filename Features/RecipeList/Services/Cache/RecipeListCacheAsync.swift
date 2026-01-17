@@ -1,15 +1,15 @@
 //
-//  RecipieListCacheAsync.swift
-//  RecipieList
+//  RecipeListCacheAsync.swift
+//  RecipeList
 //
 //  Created by Марина Чемезова on 06.11.2023.
 //
 
 import Foundation
 
-class RecipieListCacheAsync: RecipieListLoader {
-    let cache: RecipieListCache
-    init(cache: RecipieListCache) {
+class RecipeListCacheAsync: RecipeListLoader {
+    let cache: RecipeListCache
+    init(cache: RecipeListCache) {
         self.cache = cache
     }
     

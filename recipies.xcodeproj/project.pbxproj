@@ -29,12 +29,12 @@
 		CC71F5232AF761E800A77856 /* InMemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5222AF761E800A77856 /* InMemoryStorage.swift */; };
 		CC71F5262AF762DE00A77856 /* RecipieListCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */; };
 		CC71F52B2AF8CE4400A77856 /* RecipieListExpirationPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F52A2AF8CE4400A77856 /* RecipieListExpirationPolicyTests.swift */; };
-		CC71F52E2AF8D27E00A77856 /* RecipieListCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F52D2AF8D27E00A77856 /* RecipieListCache.swift */; };
-		CC71F5302AF8D31600A77856 /* RecipieListExpirationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F52F2AF8D31600A77856 /* RecipieListExpirationPolicy.swift */; };
+		CC71F52E2AF8D27E00A77856 /* RecipeListCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F52D2AF8D27E00A77856 /* RecipeListCache.swift */; };
+		CC71F5302AF8D31600A77856 /* RecipeListExpirationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F52F2AF8D31600A77856 /* RecipeListExpirationPolicy.swift */; };
 		CC71F5322AF8E3B300A77856 /* RecipeListRemoteLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5312AF8E3B300A77856 /* RecipeListRemoteLoader.swift */; };
-		CC71F5342AF8E51000A77856 /* RecipieListCacheAsync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5332AF8E51000A77856 /* RecipieListCacheAsync.swift */; };
+		CC71F5342AF8E51000A77856 /* RecipeListCacheAsync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5332AF8E51000A77856 /* RecipeListCacheAsync.swift */; };
 		CC71F5392AF8E7DE00A77856 /* RecipeListDTOLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5382AF8E7DE00A77856 /* RecipeListDTOLoader.swift */; };
-		CC71F53B2AF8E85000A77856 /* RecipieListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F53A2AF8E85000A77856 /* RecipieListLoader.swift */; };
+		CC71F53B2AF8E85000A77856 /* RecipeListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F53A2AF8E85000A77856 /* RecipeListLoader.swift */; };
 		CC9D23142F0A2D780039E3D4 /* RecipeUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC9D230E2F0A2D780039E3D4 /* RecipeUIKit.framework */; };
 		CC9D23152F0A2D780039E3D4 /* RecipeUIKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CC9D230E2F0A2D780039E3D4 /* RecipeUIKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CC9D231E2F0A2D7E0039E3D4 /* RecipeUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D231C2F0A2D7E0039E3D4 /* RecipeUIKit.swift */; };
@@ -52,21 +52,21 @@
 		CC9D23462F1657610039E3D4 /* RecipeListDTO+TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D23452F16575F0039E3D4 /* RecipeListDTO+TestData.swift */; };
 		CCA610202AF74A0A001D3F1C /* InMemoryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */; };
 		CCA610222AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */; };
-		CCF62CBD2ADA82BB009537A9 /* recipiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipiesApp.swift */; };
+		CCF62CBD2ADA82BB009537A9 /* recipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */; };
 		CCF62CBF2ADA82BB009537A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBE2ADA82BB009537A9 /* ContentView.swift */; };
 		CCF62CC12ADA82CB009537A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCF62CC02ADA82CB009537A9 /* Assets.xcassets */; };
 		CCF62CC42ADA82CB009537A9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCF62CC32ADA82CB009537A9 /* Preview Assets.xcassets */; };
-		CCF62CCE2ADA82CB009537A9 /* recipiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CCD2ADA82CB009537A9 /* recipiesTests.swift */; };
-		CCF62CD82ADA82CB009537A9 /* recipiesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CD72ADA82CB009537A9 /* recipiesUITests.swift */; };
-		CCF62CDA2ADA82CB009537A9 /* recipiesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CD92ADA82CB009537A9 /* recipiesUITestsLaunchTests.swift */; };
-		CCF62CF52ADA8949009537A9 /* RecipieList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipieList.framework */; };
-		CCF62CFD2ADA8949009537A9 /* RecipieList.h in Headers */ = {isa = PBXBuildFile; fileRef = CCF62CEF2ADA8949009537A9 /* RecipieList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CCF62D002ADA8949009537A9 /* RecipieList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipieList.framework */; };
-		CCF62D012ADA8949009537A9 /* RecipieList.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipieList.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CCF62CCE2ADA82CB009537A9 /* recipesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CCD2ADA82CB009537A9 /* recipesTests.swift */; };
+		CCF62CF52ADA8949009537A9 /* RecipeList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipeList.framework */; };
+		CCF62CFD2ADA8949009537A9 /* RecipeList.h in Headers */ = {isa = PBXBuildFile; fileRef = CCF62CEF2ADA8949009537A9 /* RecipeList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CCF62D002ADA8949009537A9 /* RecipeList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipeList.framework */; };
+		CCF62D012ADA8949009537A9 /* RecipeList.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CCF62CED2ADA8949009537A9 /* RecipeList.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */; };
-		CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */; };
+		CCF62D0F2ADA8C0A009537A9 /* RecipeListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CFB2ADA8949009537A9 /* RecipeListTests.swift */; };
 		CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */; };
-		CCF62D152ADAAA33009537A9 /* RecipieListFallbackLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D142ADAAA33009537A9 /* RecipieListFallbackLoader.swift */; };
+		CCF62D152ADAAA33009537A9 /* RecipeListFallbackLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D142ADAAA33009537A9 /* RecipeListFallbackLoader.swift */; };
+		CCF62D192ADAAA7A009537A9 /* NSError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */; };
+		CCF62D1B2ADAAA9A009537A9 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */; };
 		CCF62D1D2ADAAC2B009537A9 /* XCTestCase+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -93,13 +93,6 @@
 			remoteInfo = RecipeUIKit;
 		};
 		CCF62CCA2ADA82CB009537A9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CCF62CB12ADA82BB009537A9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CCF62CB82ADA82BB009537A9;
-			remoteInfo = recipies;
-		};
-		CCF62CD42ADA82CB009537A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CCF62CB12ADA82BB009537A9 /* Project object */;
 			proxyType = 1;
@@ -136,7 +129,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CCF62D012ADA8949009537A9 /* RecipieList.framework in Embed Frameworks */,
+				CCF62D012ADA8949009537A9 /* RecipeList.framework in Embed Frameworks */,
 				CC9D23152F0A2D780039E3D4 /* RecipeUIKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -164,12 +157,12 @@
 		CC71F5222AF761E800A77856 /* InMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorage.swift; sourceTree = "<group>"; };
 		CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListCacheTests.swift; sourceTree = "<group>"; };
 		CC71F52A2AF8CE4400A77856 /* RecipieListExpirationPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListExpirationPolicyTests.swift; sourceTree = "<group>"; };
-		CC71F52D2AF8D27E00A77856 /* RecipieListCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListCache.swift; sourceTree = "<group>"; };
-		CC71F52F2AF8D31600A77856 /* RecipieListExpirationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListExpirationPolicy.swift; sourceTree = "<group>"; };
+		CC71F52D2AF8D27E00A77856 /* RecipeListCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListCache.swift; sourceTree = "<group>"; };
+		CC71F52F2AF8D31600A77856 /* RecipeListExpirationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListExpirationPolicy.swift; sourceTree = "<group>"; };
 		CC71F5312AF8E3B300A77856 /* RecipeListRemoteLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListRemoteLoader.swift; sourceTree = "<group>"; };
-		CC71F5332AF8E51000A77856 /* RecipieListCacheAsync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListCacheAsync.swift; sourceTree = "<group>"; };
+		CC71F5332AF8E51000A77856 /* RecipeListCacheAsync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListCacheAsync.swift; sourceTree = "<group>"; };
 		CC71F5382AF8E7DE00A77856 /* RecipeListDTOLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListDTOLoader.swift; sourceTree = "<group>"; };
-		CC71F53A2AF8E85000A77856 /* RecipieListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListLoader.swift; sourceTree = "<group>"; };
+		CC71F53A2AF8E85000A77856 /* RecipeListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListLoader.swift; sourceTree = "<group>"; };
 		CC9D22E82F0A27E10039E3D4 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		CC9D230E2F0A2D780039E3D4 /* RecipeUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC9D231B2F0A2D7E0039E3D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -188,24 +181,21 @@
 		CC9D23452F16575F0039E3D4 /* RecipeListDTO+TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListDTO+TestData.swift"; sourceTree = "<group>"; };
 		CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorageTests.swift; sourceTree = "<group>"; };
 		CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListItem+TestHelpers.swift"; sourceTree = "<group>"; };
-		CCF62CB92ADA82BB009537A9 /* recipies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recipies.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCF62CBC2ADA82BB009537A9 /* recipiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipiesApp.swift; sourceTree = "<group>"; };
+		CCF62CB92ADA82BB009537A9 /* recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipesApp.swift; sourceTree = "<group>"; };
 		CCF62CBE2ADA82BB009537A9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CCF62CC02ADA82CB009537A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CCF62CC32ADA82CB009537A9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		CCF62CC92ADA82CB009537A9 /* recipiesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recipiesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCF62CCD2ADA82CB009537A9 /* recipiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipiesTests.swift; sourceTree = "<group>"; };
-		CCF62CD32ADA82CB009537A9 /* recipiesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recipiesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCF62CD72ADA82CB009537A9 /* recipiesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipiesUITests.swift; sourceTree = "<group>"; };
-		CCF62CD92ADA82CB009537A9 /* recipiesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipiesUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		CCF62CED2ADA8949009537A9 /* RecipieList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipieList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCF62CEF2ADA8949009537A9 /* RecipieList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecipieList.h; sourceTree = "<group>"; };
-		CCF62CF42ADA8949009537A9 /* RecipieListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipieListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListTests.swift; sourceTree = "<group>"; };
+		CCF62CC92ADA82CB009537A9 /* recipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recipesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCF62CCD2ADA82CB009537A9 /* recipesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipesTests.swift; sourceTree = "<group>"; };
+		CCF62CED2ADA8949009537A9 /* RecipeList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RecipeList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCF62CEF2ADA8949009537A9 /* RecipeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecipeList.h; sourceTree = "<group>"; };
+		CCF62CF42ADA8949009537A9 /* RecipeListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCF62CFB2ADA8949009537A9 /* RecipeListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListTests.swift; sourceTree = "<group>"; };
 		CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeItemDTO.swift; sourceTree = "<group>"; };
 		CCF62D0E2ADA8BB3009537A9 /* RecipieList.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = RecipieList.xctestplan; path = Features/RecipeList/Tests/RecipieList.xctestplan; sourceTree = "<group>"; };
 		CCF62D112ADAA9E3009537A9 /* RecipeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListItem.swift; sourceTree = "<group>"; };
-		CCF62D142ADAAA33009537A9 /* RecipieListFallbackLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieListFallbackLoader.swift; sourceTree = "<group>"; };
+		CCF62D142ADAAA33009537A9 /* RecipeListFallbackLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListFallbackLoader.swift; sourceTree = "<group>"; };
 		CCF62D172ADAAA76009537A9 /* NSError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Extensions.swift"; sourceTree = "<group>"; };
 		CCF62D1A2ADAAA9A009537A9 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Extensions.swift"; sourceTree = "<group>"; };
@@ -234,19 +224,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCF62D002ADA8949009537A9 /* RecipieList.framework in Frameworks */,
+				CCF62D002ADA8949009537A9 /* RecipeList.framework in Frameworks */,
 				CC9D23142F0A2D780039E3D4 /* RecipeUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CCF62CC62ADA82CB009537A9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CCF62CD02ADA82CB009537A9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -266,7 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC56EAA42F179BF70044956B /* TestHelpers.framework in Frameworks */,
-				CCF62CF52ADA8949009537A9 /* RecipieList.framework in Frameworks */,
+				CCF62CF52ADA8949009537A9 /* RecipeList.framework in Frameworks */,
 				CC5C8BDB2EFA8EF500D14CF1 /* SnapshotTesting in Frameworks */,
 				CC9D232C2F0A36890039E3D4 /* ViewInspector in Frameworks */,
 			);
@@ -381,9 +364,9 @@
 		CC71F52C2AF8D26F00A77856 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
-				CC71F52D2AF8D27E00A77856 /* RecipieListCache.swift */,
-				CC71F52F2AF8D31600A77856 /* RecipieListExpirationPolicy.swift */,
-				CC71F5332AF8E51000A77856 /* RecipieListCacheAsync.swift */,
+				CC71F52D2AF8D27E00A77856 /* RecipeListCache.swift */,
+				CC71F52F2AF8D31600A77856 /* RecipeListExpirationPolicy.swift */,
+				CC71F5332AF8E51000A77856 /* RecipeListCacheAsync.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -418,7 +401,7 @@
 			isa = PBXGroup;
 			children = (
 				CC9D23452F16575F0039E3D4 /* RecipeListDTO+TestData.swift */,
-				CCF62CFB2ADA8949009537A9 /* RecipieListTests.swift */,
+				CCF62CFB2ADA8949009537A9 /* RecipeListTests.swift */,
 				CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */,
 				CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */,
 				CC71F52A2AF8CE4400A77856 /* RecipieListExpirationPolicyTests.swift */,
@@ -442,9 +425,8 @@
 				CC5C8BCC2EFA773E00D14CF1 /* Mocks */,
 				CCF62D0E2ADA8BB3009537A9 /* RecipieList.xctestplan */,
 				CCF62CE62ADA8906009537A9 /* Features */,
-				CCF62CBB2ADA82BB009537A9 /* recipies */,
-				CCF62CCC2ADA82CB009537A9 /* recipiesTests */,
-				CCF62CD62ADA82CB009537A9 /* recipiesUITests */,
+				CCF62CBB2ADA82BB009537A9 /* recipes */,
+				CCF62CCC2ADA82CB009537A9 /* recipesTests */,
 				CC9D231D2F0A2D7E0039E3D4 /* RecipeUIKit */,
 				CC56EA9F2F1798C30044956B /* TestHelpers */,
 				CCF62CBA2ADA82BB009537A9 /* Products */,
@@ -456,27 +438,26 @@
 		CCF62CBA2ADA82BB009537A9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CCF62CB92ADA82BB009537A9 /* recipies.app */,
-				CCF62CC92ADA82CB009537A9 /* recipiesTests.xctest */,
-				CCF62CD32ADA82CB009537A9 /* recipiesUITests.xctest */,
-				CCF62CED2ADA8949009537A9 /* RecipieList.framework */,
-				CCF62CF42ADA8949009537A9 /* RecipieListTests.xctest */,
+				CCF62CB92ADA82BB009537A9 /* recipes.app */,
+				CCF62CC92ADA82CB009537A9 /* recipesTests.xctest */,
+				CCF62CED2ADA8949009537A9 /* RecipeList.framework */,
+				CCF62CF42ADA8949009537A9 /* RecipeListTests.xctest */,
 				CC9D230E2F0A2D780039E3D4 /* RecipeUIKit.framework */,
 				CC56EA932F1798B60044956B /* TestHelpers.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CCF62CBB2ADA82BB009537A9 /* recipies */ = {
+		CCF62CBB2ADA82BB009537A9 /* recipes */ = {
 			isa = PBXGroup;
 			children = (
 				CC5C8BFB2EFAA8B700D14CF1 /* Abstractions */,
-				CCF62CBC2ADA82BB009537A9 /* recipiesApp.swift */,
+				CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */,
 				CCF62CBE2ADA82BB009537A9 /* ContentView.swift */,
 				CCF62CC02ADA82CB009537A9 /* Assets.xcassets */,
 				CCF62CC22ADA82CB009537A9 /* Preview Content */,
 			);
-			path = recipies;
+			path = recipes;
 			sourceTree = "<group>";
 		};
 		CCF62CC22ADA82CB009537A9 /* Preview Content */ = {
@@ -487,21 +468,12 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		CCF62CCC2ADA82CB009537A9 /* recipiesTests */ = {
+		CCF62CCC2ADA82CB009537A9 /* recipesTests */ = {
 			isa = PBXGroup;
 			children = (
-				CCF62CCD2ADA82CB009537A9 /* recipiesTests.swift */,
+				CCF62CCD2ADA82CB009537A9 /* recipesTests.swift */,
 			);
-			path = recipiesTests;
-			sourceTree = "<group>";
-		};
-		CCF62CD62ADA82CB009537A9 /* recipiesUITests */ = {
-			isa = PBXGroup;
-			children = (
-				CCF62CD72ADA82CB009537A9 /* recipiesUITests.swift */,
-				CCF62CD92ADA82CB009537A9 /* recipiesUITestsLaunchTests.swift */,
-			);
-			path = recipiesUITests;
+			path = recipesTests;
 			sourceTree = "<group>";
 		};
 		CCF62CE62ADA8906009537A9 /* Features */ = {
@@ -520,7 +492,7 @@
 				CCF62D102ADAA9D7009537A9 /* Domain */,
 				CCF62D092ADA895C009537A9 /* Services */,
 				CCF62D0A2ADA896B009537A9 /* Tests */,
-				CCF62CEF2ADA8949009537A9 /* RecipieList.h */,
+				CCF62CEF2ADA8949009537A9 /* RecipeList.h */,
 			);
 			path = RecipeList;
 			sourceTree = "<group>";
@@ -533,9 +505,9 @@
 				CC71F5372AF8E7CA00A77856 /* DTO */,
 				CC71F52C2AF8D26F00A77856 /* Cache */,
 				CC71F51F2AF761BF00A77856 /* Storage */,
-				CCF62D142ADAAA33009537A9 /* RecipieListFallbackLoader.swift */,
+				CCF62D142ADAAA33009537A9 /* RecipeListFallbackLoader.swift */,
 				CC71F5312AF8E3B300A77856 /* RecipeListRemoteLoader.swift */,
-				CC71F53A2AF8E85000A77856 /* RecipieListLoader.swift */,
+				CC71F53A2AF8E85000A77856 /* RecipeListLoader.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -591,7 +563,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCF62CFD2ADA8949009537A9 /* RecipieList.h in Headers */,
+				CCF62CFD2ADA8949009537A9 /* RecipeList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,9 +610,9 @@
 			productReference = CC9D230E2F0A2D780039E3D4 /* RecipeUIKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		CCF62CB82ADA82BB009537A9 /* recipies */ = {
+		CCF62CB82ADA82BB009537A9 /* recipes */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CCF62CDD2ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipies" */;
+			buildConfigurationList = CCF62CDD2ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipes" */;
 			buildPhases = (
 				CCF62CB52ADA82BB009537A9 /* Sources */,
 				CCF62CB62ADA82BB009537A9 /* Frameworks */,
@@ -653,14 +625,14 @@
 				CCF62CFF2ADA8949009537A9 /* PBXTargetDependency */,
 				CC9D23132F0A2D780039E3D4 /* PBXTargetDependency */,
 			);
-			name = recipies;
+			name = recipes;
 			productName = recipies;
-			productReference = CCF62CB92ADA82BB009537A9 /* recipies.app */;
+			productReference = CCF62CB92ADA82BB009537A9 /* recipes.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CCF62CC82ADA82CB009537A9 /* recipiesTests */ = {
+		CCF62CC82ADA82CB009537A9 /* recipesTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CCF62CE02ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipiesTests" */;
+			buildConfigurationList = CCF62CE02ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipesTests" */;
 			buildPhases = (
 				CCF62CC52ADA82CB009537A9 /* Sources */,
 				CCF62CC62ADA82CB009537A9 /* Frameworks */,
@@ -671,32 +643,14 @@
 			dependencies = (
 				CCF62CCB2ADA82CB009537A9 /* PBXTargetDependency */,
 			);
-			name = recipiesTests;
+			name = recipesTests;
 			productName = recipiesTests;
-			productReference = CCF62CC92ADA82CB009537A9 /* recipiesTests.xctest */;
+			productReference = CCF62CC92ADA82CB009537A9 /* recipesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		CCF62CD22ADA82CB009537A9 /* recipiesUITests */ = {
+		CCF62CEC2ADA8949009537A9 /* RecipeList */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CCF62CE32ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipiesUITests" */;
-			buildPhases = (
-				CCF62CCF2ADA82CB009537A9 /* Sources */,
-				CCF62CD02ADA82CB009537A9 /* Frameworks */,
-				CCF62CD12ADA82CB009537A9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				CCF62CD52ADA82CB009537A9 /* PBXTargetDependency */,
-			);
-			name = recipiesUITests;
-			productName = recipiesUITests;
-			productReference = CCF62CD32ADA82CB009537A9 /* recipiesUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		CCF62CEC2ADA8949009537A9 /* RecipieList */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CCF62D022ADA8949009537A9 /* Build configuration list for PBXNativeTarget "RecipieList" */;
+			buildConfigurationList = CCF62D022ADA8949009537A9 /* Build configuration list for PBXNativeTarget "RecipeList" */;
 			buildPhases = (
 				CCF62CE82ADA8949009537A9 /* Headers */,
 				CCF62CE92ADA8949009537A9 /* Sources */,
@@ -708,14 +662,14 @@
 			dependencies = (
 				CC9D23242F0A2DD60039E3D4 /* PBXTargetDependency */,
 			);
-			name = RecipieList;
+			name = RecipeList;
 			productName = RecipieList;
-			productReference = CCF62CED2ADA8949009537A9 /* RecipieList.framework */;
+			productReference = CCF62CED2ADA8949009537A9 /* RecipeList.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		CCF62CF32ADA8949009537A9 /* RecipieListTests */ = {
+		CCF62CF32ADA8949009537A9 /* RecipeListTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CCF62D062ADA8949009537A9 /* Build configuration list for PBXNativeTarget "RecipieListTests" */;
+			buildConfigurationList = CCF62D062ADA8949009537A9 /* Build configuration list for PBXNativeTarget "RecipeListTests" */;
 			buildPhases = (
 				CCF62CF02ADA8949009537A9 /* Sources */,
 				CCF62CF12ADA8949009537A9 /* Frameworks */,
@@ -728,9 +682,9 @@
 				CCF62CF92ADA8949009537A9 /* PBXTargetDependency */,
 				CC56EAA72F179BF70044956B /* PBXTargetDependency */,
 			);
-			name = RecipieListTests;
+			name = RecipeListTests;
 			productName = RecipieListTests;
-			productReference = CCF62CF42ADA8949009537A9 /* RecipieListTests.xctest */;
+			productReference = CCF62CF42ADA8949009537A9 /* RecipeListTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -753,10 +707,6 @@
 						CreatedOnToolsVersion = 14.3.1;
 					};
 					CCF62CC82ADA82CB009537A9 = {
-						CreatedOnToolsVersion = 14.3.1;
-						TestTargetID = CCF62CB82ADA82BB009537A9;
-					};
-					CCF62CD22ADA82CB009537A9 = {
 						CreatedOnToolsVersion = 14.3.1;
 						TestTargetID = CCF62CB82ADA82BB009537A9;
 					};
@@ -785,11 +735,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CCF62CB82ADA82BB009537A9 /* recipies */,
-				CCF62CC82ADA82CB009537A9 /* recipiesTests */,
-				CCF62CD22ADA82CB009537A9 /* recipiesUITests */,
-				CCF62CEC2ADA8949009537A9 /* RecipieList */,
-				CCF62CF32ADA8949009537A9 /* RecipieListTests */,
+				CCF62CB82ADA82BB009537A9 /* recipes */,
+				CCF62CC82ADA82CB009537A9 /* recipesTests */,
+				CCF62CEC2ADA8949009537A9 /* RecipeList */,
+				CCF62CF32ADA8949009537A9 /* RecipeListTests */,
 				CC9D230D2F0A2D780039E3D4 /* RecipeUIKit */,
 				CC56EA922F1798B60044956B /* TestHelpers */,
 			);
@@ -822,13 +771,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CCF62CC72ADA82CB009537A9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CCF62CD12ADA82CB009537A9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -878,7 +820,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCF62CBF2ADA82BB009537A9 /* ContentView.swift in Sources */,
-				CCF62CBD2ADA82BB009537A9 /* recipiesApp.swift in Sources */,
+				CCF62CBD2ADA82BB009537A9 /* recipesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,16 +828,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCF62CCE2ADA82CB009537A9 /* recipiesTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CCF62CCF2ADA82CB009537A9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CCF62CDA2ADA82CB009537A9 /* recipiesUITestsLaunchTests.swift in Sources */,
-				CCF62CD82ADA82CB009537A9 /* recipiesUITests.swift in Sources */,
+				CCF62CCE2ADA82CB009537A9 /* recipesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,9 +836,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC71F5302AF8D31600A77856 /* RecipieListExpirationPolicy.swift in Sources */,
+				CC71F5302AF8D31600A77856 /* RecipeListExpirationPolicy.swift in Sources */,
 				CC71F5232AF761E800A77856 /* InMemoryStorage.swift in Sources */,
-				CC71F5342AF8E51000A77856 /* RecipieListCacheAsync.swift in Sources */,
+				CC71F5342AF8E51000A77856 /* RecipeListCacheAsync.swift in Sources */,
 				CC5C8BF82EFAA8B000D14CF1 /* CookingTimeView.swift in Sources */,
 				CC5C8BF92EFAA8B000D14CF1 /* RatingView.swift in Sources */,
 				CC5C8BFA2EFAA8B000D14CF1 /* RecipeListRow.swift in Sources */,
@@ -913,12 +846,12 @@
 				CC9D23392F0BCD330039E3D4 /* RecipeListScreen.swift in Sources */,
 				CC56EAC72F17B08F0044956B /* RecipeListItem+Extension.swift in Sources */,
 				CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */,
-				CC71F52E2AF8D27E00A77856 /* RecipieListCache.swift in Sources */,
+				CC71F52E2AF8D27E00A77856 /* RecipeListCache.swift in Sources */,
 				CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */,
-				CC71F53B2AF8E85000A77856 /* RecipieListLoader.swift in Sources */,
 				CC56EAC92F17B1740044956B /* RecipeListLoaderAsyncAdapter.swift in Sources */,
-				CCF62D152ADAAA33009537A9 /* RecipieListFallbackLoader.swift in Sources */,
 				CC6E84112F1908F100CFF247 /* RecipeListAssembly.swift in Sources */,
+				CC71F53B2AF8E85000A77856 /* RecipeListLoader.swift in Sources */,
+				CCF62D152ADAAA33009537A9 /* RecipeListFallbackLoader.swift in Sources */,
 				CC71F5322AF8E3B300A77856 /* RecipeListRemoteLoader.swift in Sources */,
 				CC71F5392AF8E7DE00A77856 /* RecipeListDTOLoader.swift in Sources */,
 				CC9D23362F0BCCBA0039E3D4 /* RecipeListView.swift in Sources */,
@@ -937,7 +870,7 @@
 				CCF62D1D2ADAAC2B009537A9 /* XCTestCase+Extensions.swift in Sources */,
 				CC5C8BDD2EFA8F3800D14CF1 /* RecipeListRowTests.swift in Sources */,
 				CC56EAAE2F179D220044956B /* waitFor.swift in Sources */,
-				CCF62D0F2ADA8C0A009537A9 /* RecipieListTests.swift in Sources */,
+				CCF62D0F2ADA8C0A009537A9 /* RecipeListTests.swift in Sources */,
 				CC9D23462F1657610039E3D4 /* RecipeListDTO+TestData.swift in Sources */,
 				CC71F52B2AF8CE4400A77856 /* RecipieListExpirationPolicyTests.swift in Sources */,
 				CC71F5262AF762DE00A77856 /* RecipieListCacheTests.swift in Sources */,
@@ -969,27 +902,22 @@
 		};
 		CCF62CCB2ADA82CB009537A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CCF62CB82ADA82BB009537A9 /* recipies */;
+			target = CCF62CB82ADA82BB009537A9 /* recipes */;
 			targetProxy = CCF62CCA2ADA82CB009537A9 /* PBXContainerItemProxy */;
-		};
-		CCF62CD52ADA82CB009537A9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CCF62CB82ADA82BB009537A9 /* recipies */;
-			targetProxy = CCF62CD42ADA82CB009537A9 /* PBXContainerItemProxy */;
 		};
 		CCF62CF72ADA8949009537A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CCF62CEC2ADA8949009537A9 /* RecipieList */;
+			target = CCF62CEC2ADA8949009537A9 /* RecipeList */;
 			targetProxy = CCF62CF62ADA8949009537A9 /* PBXContainerItemProxy */;
 		};
 		CCF62CF92ADA8949009537A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CCF62CB82ADA82BB009537A9 /* recipies */;
+			target = CCF62CB82ADA82BB009537A9 /* recipes */;
 			targetProxy = CCF62CF82ADA8949009537A9 /* PBXContainerItemProxy */;
 		};
 		CCF62CFF2ADA8949009537A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CCF62CEC2ADA8949009537A9 /* RecipieList */;
+			target = CCF62CEC2ADA8949009537A9 /* RecipeList */;
 			targetProxy = CCF62CFE2ADA8949009537A9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1284,7 +1212,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"recipies/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"recipes/Preview Content\"";
 				DEVELOPMENT_TEAM = B83T7LK9W3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1312,7 +1240,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"recipies/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"recipes/Preview Content\"";
 				DEVELOPMENT_TEAM = B83T7LK9W3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1346,7 +1274,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/recipies.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/recipies";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/recipes.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/recipes";
 			};
 			name = Debug;
 		};
@@ -1363,39 +1291,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/recipies.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/recipies";
-			};
-			name = Release;
-		};
-		CCF62CE42ADA82CB009537A9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B83T7LK9W3;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aniramskaya.edu.recipiesUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = recipies;
-			};
-			name = Debug;
-		};
-		CCF62CE52ADA82CB009537A9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B83T7LK9W3;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.aniramskaya.edu.recipiesUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = recipies;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/recipes.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/recipes";
 			};
 			name = Release;
 		};
@@ -1421,7 +1317,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.aniramskaya.edu.RecipieList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aniramskaya.edu.RecipeList;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1453,7 +1349,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.aniramskaya.edu.RecipieList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aniramskaya.edu.RecipeList;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1523,7 +1419,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CCF62CDD2ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipies" */ = {
+		CCF62CDD2ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipes" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCF62CDE2ADA82CB009537A9 /* Debug */,
@@ -1532,7 +1428,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CCF62CE02ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipiesTests" */ = {
+		CCF62CE02ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipesTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCF62CE12ADA82CB009537A9 /* Debug */,
@@ -1541,16 +1437,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CCF62CE32ADA82CB009537A9 /* Build configuration list for PBXNativeTarget "recipiesUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CCF62CE42ADA82CB009537A9 /* Debug */,
-				CCF62CE52ADA82CB009537A9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CCF62D022ADA8949009537A9 /* Build configuration list for PBXNativeTarget "RecipieList" */ = {
+		CCF62D022ADA8949009537A9 /* Build configuration list for PBXNativeTarget "RecipeList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCF62D032ADA8949009537A9 /* Debug */,
@@ -1559,7 +1446,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CCF62D062ADA8949009537A9 /* Build configuration list for PBXNativeTarget "RecipieListTests" */ = {
+		CCF62D062ADA8949009537A9 /* Build configuration list for PBXNativeTarget "RecipeListTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CCF62D072ADA8949009537A9 /* Debug */,

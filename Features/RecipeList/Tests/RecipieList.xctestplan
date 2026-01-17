@@ -17,7 +17,7 @@
       "target" : {
         "containerPath" : "container:recipies.xcodeproj",
         "identifier" : "CCF62CF32ADA8949009537A9",
-        "name" : "RecipieListTests"
+        "name" : "RecipeListTests"
       }
     }
   ],

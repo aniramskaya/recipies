@@ -1,6 +1,6 @@
 //
-//  RecipieListCache.swift
-//  RecipieList
+//  RecipeListCache.swift
+//  RecipeList
 //
 //  Created by Марина Чемезова on 06.11.2023.
 //
@@ -21,7 +21,7 @@ public protocol TimestampExpirationPolicy {
     func isValid(_: Date) -> Bool
 }
 
-public class RecipieListCache {
+public class RecipeListCache {
     public enum Error: Swift.Error {
         case empty
         case expired

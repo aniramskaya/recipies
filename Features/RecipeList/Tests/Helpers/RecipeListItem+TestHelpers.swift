@@ -1,12 +1,12 @@
 //
 //  RecipeListItem+TestHelpers.swift
-//  RecipieListTests
+//  RecipeListTests
 //
 //  Created by Марина Чемезова on 05.11.2023.
 //
 
 import Foundation
-import RecipieList
+import RecipeList
 
 extension RecipeListItem {
     static func makeTestItems() -> [RecipeListItem] {

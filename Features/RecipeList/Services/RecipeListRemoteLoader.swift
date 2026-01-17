@@ -1,18 +1,18 @@
 //
 //  RecipeListRemoteLoader.swift
-//  RecipieList
+//  RecipeList
 //
 //  Created by Марина Чемезова on 06.11.2023.
 //
 
 import Foundation
 
-public class RecipieListRemoteLoader: RecipieListLoader {
+public class RecipeListRemoteLoader: RecipeListLoader {
     let dtoLoader: RecipeListDTOLoader
-    let cache: RecipieListCache
+    let cache: RecipeListCache
     let storage: InMemoryStorage<RecipeListStored>
     
-    public init(dtoLoader: RecipeListDTOLoader, cache: RecipieListCache, storage: InMemoryStorage<RecipeListStored>) {
+    public init(dtoLoader: RecipeListDTOLoader, cache: RecipeListCache, storage: InMemoryStorage<RecipeListStored>) {
         self.dtoLoader = dtoLoader
         self.cache = cache
         self.storage = storage

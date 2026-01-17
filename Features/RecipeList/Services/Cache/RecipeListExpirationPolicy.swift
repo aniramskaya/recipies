@@ -1,13 +1,13 @@
 //
-//  RecipieListExpirationPolicy.swift
-//  RecipieList
+//  RecipeListExpirationPolicy.swift
+//  RecipeList
 //
 //  Created by Марина Чемезова on 06.11.2023.
 //
 
 import Foundation
 
-struct RecipieListExpirationPolicy: TimestampExpirationPolicy {
+struct RecipeListExpirationPolicy: TimestampExpirationPolicy {
     let timeout: TimeInterval
     init(timeout: TimeInterval) {
         self.timeout = timeout

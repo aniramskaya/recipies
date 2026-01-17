@@ -1,6 +1,6 @@
 //
 //  NSError+Extensions.swift
-//  RecipieList
+//  RecipeList
 //
 //  Created by Марина Чемезова on 14.10.2023.
 //

@@ -1,10 +1,10 @@
 //
 //  RecipeListDTO.swift
-//  recipies
+//  recipes
 //
 //  Created by Марина Чемезова on 13.01.2026.
 //
-@testable import RecipieList
+@testable import RecipeList
 
 extension RecipeListDTO {
     static func test() -> RecipeListDTO {

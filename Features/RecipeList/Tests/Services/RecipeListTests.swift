@@ -1,13 +1,13 @@
 //
-//  RecipieListTests.swift
-//  RecipieListTests
+//  RecipeListTests.swift
+//  RecipeListTests
 //
 //  Created by Марина Чемезова on 14.10.2023.
 //
 
 import XCTest
 import TestHelpers
-@testable import RecipieList
+@testable import RecipeList
 
 /*
  Сценарий загрузки списка рецептов
@@ -36,14 +36,14 @@ import TestHelpers
  ✅   or an hour or more has passed since
  ✅ Request new data from server
  ✅ Memorize last loaded time
- ✅ Return recipie list to the calling code
+ ✅ Return recipe list to the calling code
  
  ✅ 1a. Less then an hour has passed since last load: return in-memory data
  ✅ 2a. Remote loading has failed and there are in-memory data: return in-memory data
  ✅ 2b. Remote loading has failed and there are no in-memory data: return remote loading error
 */
 
-final class RecipieListTests: XCTestCase {
+final class RecipeListTests: XCTestCase {
     func test_init_doesNothing() throws {
         let module = makeSUT()
         
@@ -131,7 +131,7 @@ final class RecipieListTests: XCTestCase {
     // MARK: Private
     
     private struct SUTModule {
-        let sut: RecipieListLoader
+        let sut: RecipeListLoader
         let spy: DTOLoaderSpy
         let expiration: TimestampExpirationPolicyStub
     }
@@ -148,7 +148,7 @@ final class RecipieListTests: XCTestCase {
         return SUTModule(sut: sut, spy: spy, expiration: expiration)
     }
     
-    private func expect(sut: RecipieListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+    private func expect(sut: RecipeListLoader, toCompleteWith expectedResult: Result<[RecipeListItem], Error>, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for async code to complete")
         sut.load { result in
             switch (result, expectedResult) {

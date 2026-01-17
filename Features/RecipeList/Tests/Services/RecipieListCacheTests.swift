@@ -1,13 +1,13 @@
 //
-//  RecipieListCache.swift
-//  RecipieList
+//  RecipeListCache.swift
+//  RecipeList
 //
 //  Created by Марина Чемезова on 05.11.2023.
 //
 
 import Foundation
 import XCTest
-@testable import RecipieList
+@testable import RecipeList
 
 /*
  ✅ При инициализации кэш пуст
@@ -20,7 +20,7 @@ import XCTest
  Cache returns error when timestamp is expired
  */
 
-class RecipieListCacheTests: XCTestCase {
+class RecipeListCacheTests: XCTestCase {
     func test_cache_isEmptyUponCreation() {
         let (sut, _) = makeSUT()
 
@@ -48,10 +48,10 @@ class RecipieListCacheTests: XCTestCase {
         XCTAssertEqual(sut.read(), .failure(.expired))
     }
 
-    private func makeSUT() -> (RecipieListCache, TimestampExpirationPolicyStub) {
+    private func makeSUT() -> (RecipeListCache, TimestampExpirationPolicyStub) {
         let storage = InMemoryStorage<RecipeListStored>()
         let validationStub = TimestampExpirationPolicyStub()
-        let cache = RecipieListCache(storage: storage, expirationPolicy: validationStub)
+        let cache = RecipeListCache(storage: storage, expirationPolicy: validationStub)
         return (cache, validationStub)
     }
 }

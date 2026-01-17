@@ -1,14 +1,14 @@
 //
-//  recipiesTests.swift
-//  recipiesTests
+//  recipesTests.swift
+//  recipesTests
 //
 //  Created by Марина Чемезова on 14.10.2023.
 //
 
 import XCTest
-@testable import recipies
+@testable import recipes
 
-final class recipiesTests: XCTestCase {
+final class recipesTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

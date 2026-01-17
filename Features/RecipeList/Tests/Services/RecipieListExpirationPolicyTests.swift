@@ -1,13 +1,13 @@
 //
-//  RecipieListExpirationPolicyTests.swift
-//  RecipieListTests
+//  RecipeListExpirationPolicyTests.swift
+//  RecipeListTests
 //
 //  Created by Марина Чемезова on 06.11.2023.
 //
 
 import Foundation
 import XCTest
-@testable import RecipieList
+@testable import RecipeList
 
 /*
  ✅ Если Data() - timestamp < expirationTimeout вернуть true
@@ -20,21 +20,21 @@ import XCTest
  If Data() - timestamp > expirationTimeout return false
  */
 
-class RecipieListExpirationPolicyTests: XCTestCase {
+class RecipeListExpirationPolicyTests: XCTestCase {
     func test_isValid_returnsTrueIfTimestampIsLessThanExpirationTime() throws {
-        let sut = RecipieListExpirationPolicy(timeout: 10)
+        let sut = RecipeListExpirationPolicy(timeout: 10)
         
         XCTAssertTrue(sut.isValid(Date() - 9))
     }
     
     func test_isValid_returnsFalseIfTimestampIsEqualToExpirationTime() throws {
-        let sut = RecipieListExpirationPolicy(timeout: 10)
+        let sut = RecipeListExpirationPolicy(timeout: 10)
         
         XCTAssertFalse(sut.isValid(Date() - 10))
     }
     
     func test_isValid_returnsFalseIfTimestampIsGreaterThanExpirationTime() throws {
-        let sut = RecipieListExpirationPolicy(timeout: 10)
+        let sut = RecipeListExpirationPolicy(timeout: 10)
         
         XCTAssertFalse(sut.isValid(Date() - 11))
     }

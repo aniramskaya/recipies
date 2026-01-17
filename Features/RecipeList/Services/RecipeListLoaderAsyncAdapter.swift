@@ -1,13 +1,13 @@
 //
 //  RecipeListLoaderAsyncAdapter.swift
-//  recipies
+//  recipes
 //
 //  Created by Марина Чемезова on 14.01.2026.
 //
 
 struct RecipeListLoaderAsyncAdapter {
-    let loader: RecipieListLoader
-    init(loader: RecipieListLoader) {
+    let loader: RecipeListLoader
+    init(loader: RecipeListLoader) {
         self.loader = loader
     }
     

@@ -1,17 +1,17 @@
 //
-//  RecipieListFallbackLoader.swift
-//  RecipieList
+//  RecipeListFallbackLoader.swift
+//  RecipeList
 //
 //  Created by Марина Чемезова on 14.10.2023.
 //
 
 import Foundation
 
-public class RecipieListFallbackLoader: RecipieListLoader {
-    let first: RecipieListLoader
-    let second: RecipieListLoader
+public class RecipeListFallbackLoader: RecipeListLoader {
+    let first: RecipeListLoader
+    let second: RecipeListLoader
 
-    public init(first: RecipieListLoader, second: RecipieListLoader) {
+    public init(first: RecipeListLoader, second: RecipeListLoader) {
         self.first = first
         self.second = second
     }

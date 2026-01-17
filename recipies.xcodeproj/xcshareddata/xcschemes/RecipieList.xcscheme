@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CCF62CEC2ADA8949009537A9"
-               BuildableName = "RecipieList.framework"
-               BlueprintName = "RecipieList"
+               BuildableName = "RecipeList.framework"
+               BlueprintName = "RecipeList"
                ReferencedContainer = "container:recipies.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -55,8 +55,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CCF62CEC2ADA8949009537A9"
-            BuildableName = "RecipieList.framework"
-            BlueprintName = "RecipieList"
+            BuildableName = "RecipeList.framework"
+            BlueprintName = "RecipeList"
             ReferencedContainer = "container:recipies.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

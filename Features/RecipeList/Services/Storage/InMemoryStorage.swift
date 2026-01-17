@@ -1,6 +1,6 @@
 //
-//  RecipieListInMemoryStorage.swift
-//  RecipieList
+//  RecipeListInMemoryStorage.swift
+//  RecipeList
 //
 //  Created by Марина Чемезова on 05.11.2023.
 //

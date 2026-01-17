@@ -1,6 +1,6 @@
 //
 //  RecipeListAssembly.swift
-//  recipies
+//  recipes
 //
 //  Created by Марина Чемезова on 15.01.2026.
 //

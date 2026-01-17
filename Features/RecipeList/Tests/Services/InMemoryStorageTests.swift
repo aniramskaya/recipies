@@ -1,13 +1,13 @@
 //
-//  RecipieListInMemoryStorageTests.swift
-//  RecipieListTests
+//  RecipeListInMemoryStorageTests.swift
+//  RecipeListTests
 //
 //  Created by Марина Чемезова on 05.11.2023.
 //
 
 import Foundation
 import XCTest
-@testable import RecipieList
+@testable import RecipeList
 /*
  ✅ При инициализации хранилище пустое
  ✅ Чтение хранилища после записи возвращает записанный результат

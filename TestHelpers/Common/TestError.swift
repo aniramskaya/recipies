@@ -1,6 +1,6 @@
 //
 //  TestError.swift
-//  RecipieListTests
+//  RecipeListTests
 //
 //  Created by Марина Чемезова on 05.01.2026.
 //

@@ -1,6 +1,6 @@
 //
 //  LoadingView.swift
-//  RecipieList
+//  RecipeList
 //
 //  Created by Марина Чемезова on 05.01.2026.
 //

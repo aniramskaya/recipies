@@ -1,6 +1,6 @@
 //
 //  RecipeListImage.swift
-//  recipies
+//  recipes
 //
 //  Created by Марина Чемезова on 23.12.2025.
 //

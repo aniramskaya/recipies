@@ -1,6 +1,6 @@
 //
 //  RecipeListAcceptanceTests.swift
-//  RecipieListTests
+//  RecipeListTests
 //
 //  Created by Марина Чемезова on 05.01.2026.
 //
@@ -11,7 +11,7 @@ import UIKit
 import TestHelpers
 import ViewInspector
 
-@testable import RecipieList
+@testable import RecipeList
 
 /*
  Что тестируем

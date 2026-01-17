@@ -1,6 +1,6 @@
 //
 //  RecipeListRowTests.swift
-//  RecipieListTests
+//  RecipeListTests
 //
 //  Created by Марина Чемезова on 23.12.2025.
 //
@@ -10,7 +10,7 @@ import Testing
 import SnapshotTesting
 import RecipeUIKit
 import ViewInspector
-@testable import RecipieList
+@testable import RecipeList
 
 typealias A11y = RecipeListRowA11y
 

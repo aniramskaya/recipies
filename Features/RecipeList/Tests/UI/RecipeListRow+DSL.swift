@@ -1,6 +1,6 @@
 //
 //  RecipeListRow+DSL.swift
-//  recipies
+//  recipes
 //
 //  Created by Марина Чемезова on 04.01.2026.
 //
@@ -8,7 +8,7 @@
 import Testing
 import ViewInspector
 import TestHelpers
-@testable import RecipieList
+@testable import RecipeList
 
 extension RecipeListRow {
     func assertIsDisplaying(name: String, rating: String, cookingTime: String, sourceLocation: SourceLocation = #_sourceLocation) throws {
