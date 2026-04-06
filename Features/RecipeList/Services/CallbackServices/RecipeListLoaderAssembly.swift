@@ -31,7 +31,7 @@ public enum RecipeListLoaderAssembly {
         let storage = InMemoryStorage<RecipeListStored>()
         let cache = RecipeListCache(storage: storage, expirationPolicy: cacheExpirationPolicy)
         let cacheAsync = RecipeListCacheAsync(cache: cache)
-        let remoteLoader = RecipeListRemoteLoader(dtoLoader: dtoLoader, cache: cache, storage: storage)
+        let remoteLoader = RecipeListRemoteLoader(dtoLoader: dtoLoader, cache: cache)
         return (
             RecipeListFallbackLoader(first: remoteLoader, second: cacheAsync),
             [storage, cache, cacheAsync, remoteLoader]

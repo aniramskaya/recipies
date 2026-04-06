@@ -10,12 +10,10 @@ import Foundation
 public class RecipeListRemoteLoader: RecipeListLoader {
     let dtoLoader: RecipeListDTOLoader
     let cache: RecipeListCache
-    let storage: InMemoryStorage<RecipeListStored>
     
-    public init(dtoLoader: RecipeListDTOLoader, cache: RecipeListCache, storage: InMemoryStorage<RecipeListStored>) {
+    public init(dtoLoader: RecipeListDTOLoader, cache: RecipeListCache) {
         self.dtoLoader = dtoLoader
         self.cache = cache
-        self.storage = storage
     }
     
     public func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
@@ -27,11 +25,7 @@ public class RecipeListRemoteLoader: RecipeListLoader {
                 cache.write(models)
                 completion(.success(models))
             case let .failure(error):
-                if let stored = storage.read() {
-                    completion(.success(stored.items))
-                } else {
-                    completion(.failure(error))
-                }
+                completion(.failure(error))
             }
         }
     }
