@@ -5,7 +5,7 @@
 //  Created by Марина Чемезова on 14.01.2026.
 //
 
-struct RecipeListLoaderAsyncAdapter {
+struct RecipeListLoaderAsyncAdapter: RecipeListLoaderAsync {
     let loader: RecipeListLoader
     init(loader: RecipeListLoader) {
         self.loader = loader
