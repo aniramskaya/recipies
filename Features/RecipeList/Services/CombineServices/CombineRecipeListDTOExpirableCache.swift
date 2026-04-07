@@ -1,5 +1,5 @@
 //
-//  RecipeListDTOExpirableCache.swift
+//  CombineRecipeListDTOExpirableCache.swift
 //  recipies
 //
 //  Created by Марина Чемезова on 19.01.2026.
@@ -8,15 +8,15 @@
 import Combine
 import Foundation
 
-class RecipeListDTOExpirableCache: Cacheable  {
+final class CombineRecipeListDTOExpirableCache: CombineCacheable  {
     typealias Key = String
     typealias Data = RecipeListDTO
 
-    private let cache: RecipeListDTOCache
+    private let cache: CombineRecipeListDTOCache
     private let expirationPolicy: TimestampExpirationPolicy
     private var cacheSaveTime: [String: Date] = [:]
     
-    init(cache: RecipeListDTOCache, expirationPolicy: TimestampExpirationPolicy) {
+    init(cache: CombineRecipeListDTOCache, expirationPolicy: TimestampExpirationPolicy) {
         self.cache = cache
         self.expirationPolicy = expirationPolicy
     }

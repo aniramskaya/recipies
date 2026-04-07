@@ -7,28 +7,27 @@
 
 import Combine
 
-class RecipeListDTOPublisherStub: RecipeListDTOPublisher {
-    private var result: Result<RecipeListDTO, Error>
-    private let queue: DispatchQueue
-    private let timeout: TimeInterval
+final class RecipeListDTOPublisherStub: RecipeListDTOPublisher {
+    private let results: [Result<RecipeListDTO, Error>]
+    public private(set) var resultIndex = 0
 
     init(
-        result: Result<RecipeListDTO, Error> = .success(RecipeListDTOPublisherStub.stubData),
-        queue: DispatchQueue = DispatchQueue.global(),
-        timeout: TimeInterval = 0.5
+        results: [Result<RecipeListDTO, Error>] = [.success(RecipeListDTOPublisherStub.stubData)],
     ) {
-        self.result = result
-        self.queue = queue
-        self.timeout = timeout
+        self.results = results
     }
     
     func publisher() -> AnyPublisher<RecipeListDTO, Error> {
-        return Future<RecipeListDTO, Error> { [result, timeout, queue] promise in
-            queue.asyncAfter(deadline: .now() + timeout) {
-                promise(result)
-            }
+        let index = min(resultIndex, results.count - 1)
+        resultIndex += 1
+        switch results[index] {
+        case let .success(value):
+            return Just(value)
+                .setFailureType(to: Error.self)
+                .eraseToAnyPublisher()
+        case let .failure(error):
+            return Fail(error: error).eraseToAnyPublisher()
         }
-        .eraseToAnyPublisher()
     }
     
     private static let stubData: RecipeListDTO = .init(items: [

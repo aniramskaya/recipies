@@ -56,7 +56,7 @@ class RecipeListCacheTests: XCTestCase {
     }
 }
 
-class TimestampExpirationPolicyStub: TimestampExpirationPolicy {
+final class TimestampExpirationPolicyStub: TimestampExpirationPolicy {
     var validationResult = false
     
     func isValid(_: Date) -> Bool {

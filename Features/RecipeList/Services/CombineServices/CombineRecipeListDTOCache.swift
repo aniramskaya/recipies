@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 
-class RecipeListDTOCache: Cacheable {
+final class CombineRecipeListDTOCache: CombineCacheable {
     typealias Key = String
     typealias Data = RecipeListDTO
     
