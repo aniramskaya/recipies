@@ -32,6 +32,8 @@
 		CC5C8C042EFAAA9F00D14CF1 /* RecipeListImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8C022EFAAA9600D14CF1 /* RecipeListImage.swift */; };
 		CC6269D42F83AC90003FCA1B /* RecipeListLoaderAsync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269D32F83AC85003FCA1B /* RecipeListLoaderAsync.swift */; };
 		CC6269D72F83C82C003FCA1B /* CombineRecipeListLoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269D62F83C823003FCA1B /* CombineRecipeListLoder.swift */; };
+		CC6269DA2F84EE2D003FCA1B /* TimestampExpirationPolicyStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269D92F84EE2B003FCA1B /* TimestampExpirationPolicyStub.swift */; };
+		CC6269DC2F84EEEB003FCA1B /* RecipeListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269DB2F84EEE9003FCA1B /* RecipeListFeature.swift */; };
 		CC6E84112F1908F100CFF247 /* RecipeListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */; };
 		CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5202AF761CD00A77856 /* SyncStorage.swift */; };
 		CC71F5232AF761E800A77856 /* InMemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5222AF761E800A77856 /* InMemoryStorage.swift */; };
@@ -169,6 +171,8 @@
 		CC5C8C022EFAAA9600D14CF1 /* RecipeListImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListImage.swift; sourceTree = "<group>"; };
 		CC6269D32F83AC85003FCA1B /* RecipeListLoaderAsync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListLoaderAsync.swift; sourceTree = "<group>"; };
 		CC6269D62F83C823003FCA1B /* CombineRecipeListLoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineRecipeListLoder.swift; sourceTree = "<group>"; };
+		CC6269D92F84EE2B003FCA1B /* TimestampExpirationPolicyStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExpirationPolicyStub.swift; sourceTree = "<group>"; };
+		CC6269DB2F84EEE9003FCA1B /* RecipeListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListFeature.swift; sourceTree = "<group>"; };
 		CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAssembly.swift; sourceTree = "<group>"; };
 		CC71F5202AF761CD00A77856 /* SyncStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStorage.swift; sourceTree = "<group>"; };
 		CC71F5222AF761E800A77856 /* InMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorage.swift; sourceTree = "<group>"; };
@@ -222,7 +226,6 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		CC5C8BCC2EFA773E00D14CF1 /* Mocks */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Mocks; sourceTree = "<group>"; };
-		CC6269D52F83C61A003FCA1B /* New Folder */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "New Folder"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,10 +285,10 @@
 		CC2B54C72F1BEE2C00B251CE /* CallbackServices */ = {
 			isa = PBXGroup;
 			children = (
+				CC71F5382AF8E7DE00A77856 /* RecipeListDTOLoader.swift */,
 				CC2B54C52F1BE78300B251CE /* RecipeListDTOLoaderStub.swift */,
 				CC56EAC82F17B1660044956B /* RecipeListLoaderAsyncAdapter.swift */,
 				CC9D23432F160D100039E3D4 /* RecipeListLoaderAssembly.swift */,
-				CC71F5372AF8E7CA00A77856 /* DTO */,
 				CC71F52C2AF8D26F00A77856 /* Cache */,
 				CC71F51F2AF761BF00A77856 /* Storage */,
 				CCF62D142ADAAA33009537A9 /* RecipeListFallbackLoader.swift */,
@@ -403,6 +406,14 @@
 			path = Abstractions;
 			sourceTree = "<group>";
 		};
+		CC6269D82F84EDBA003FCA1B /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
 		CC71F51F2AF761BF00A77856 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,15 +431,6 @@
 				CC71F5332AF8E51000A77856 /* RecipeListCacheAsync.swift */,
 			);
 			path = Cache;
-			sourceTree = "<group>";
-		};
-		CC71F5372AF8E7CA00A77856 /* DTO */ = {
-			isa = PBXGroup;
-			children = (
-				CCF62D0B2ADA89B0009537A9 /* RecipeItemDTO.swift */,
-				CC71F5382AF8E7DE00A77856 /* RecipeListDTOLoader.swift */,
-			);
-			path = DTO;
 			sourceTree = "<group>";
 		};
 		CC9D231D2F0A2D7E0039E3D4 /* RecipeUIKit */ = {
@@ -470,7 +472,6 @@
 		CC9F64B82F1E2E5400357A55 /* CallbackServices */ = {
 			isa = PBXGroup;
 			children = (
-				CC9D23452F16575F0039E3D4 /* RecipeListDTO+TestData.swift */,
 				CCF62CFB2ADA8949009537A9 /* RecipeListTests.swift */,
 				CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */,
 				CC71F5242AF762C400A77856 /* RecipieListCacheTests.swift */,
@@ -568,7 +569,7 @@
 		CCF62D092ADA895C009537A9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				CC6269D52F83C61A003FCA1B /* New Folder */,
+				CC6269D82F84EDBA003FCA1B /* DTO */,
 				CC6269D32F83AC85003FCA1B /* RecipeListLoaderAsync.swift */,
 				CC2B54C82F1BEE5E00B251CE /* CombineServices */,
 				CC2B54C72F1BEE2C00B251CE /* CallbackServices */,
@@ -598,10 +599,13 @@
 		CCF62D162ADAAA60009537A9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				CC6269DB2F84EEE9003FCA1B /* RecipeListFeature.swift */,
+				CC6269D92F84EE2B003FCA1B /* TimestampExpirationPolicyStub.swift */,
 				CC56EAC42F17A8570044956B /* MemoryLeakChecker.swift */,
 				CC56EAAD2F179D1E0044956B /* waitFor.swift */,
 				CCF62D1C2ADAAC2B009537A9 /* XCTestCase+Extensions.swift */,
 				CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */,
+				CC9D23452F16575F0039E3D4 /* RecipeListDTO+TestData.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -725,9 +729,6 @@
 			);
 			dependencies = (
 				CC9D23242F0A2DD60039E3D4 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				CC6269D52F83C61A003FCA1B /* New Folder */,
 			);
 			name = RecipeList;
 			productName = RecipieList;
@@ -945,8 +946,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCF62D1D2ADAAC2B009537A9 /* XCTestCase+Extensions.swift in Sources */,
+				CC6269DC2F84EEEB003FCA1B /* RecipeListFeature.swift in Sources */,
 				CC5C8BDD2EFA8F3800D14CF1 /* RecipeListRowTests.swift in Sources */,
 				CC56EAAE2F179D220044956B /* waitFor.swift in Sources */,
+				CC6269DA2F84EE2D003FCA1B /* TimestampExpirationPolicyStub.swift in Sources */,
 				CCF62D0F2ADA8C0A009537A9 /* RecipeListTests.swift in Sources */,
 				CC9D23462F1657610039E3D4 /* RecipeListDTO+TestData.swift in Sources */,
 				CC71F52B2AF8CE4400A77856 /* RecipieListExpirationPolicyTests.swift in Sources */,

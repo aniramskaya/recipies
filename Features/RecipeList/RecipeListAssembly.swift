@@ -7,15 +7,15 @@
 
 public enum RecipeListAssembly {
     @MainActor
-    public static func compose() -> RecipeListScreen {
-        return composeInternal(
+    public static func composeWithCalbackServices() -> RecipeListScreen {
+        return composeInternalWithCallbackServices(
             dtoLoader: RecipeListDTOLoaderStub(),
             cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300))
         ).0
     }
     
     @MainActor
-    static func composeInternal(
+    static func composeInternalWithCallbackServices(
         dtoLoader: RecipeListDTOLoader,
         cacheExpirationPolicy: TimestampExpirationPolicy
     ) -> (RecipeListScreen, [AnyObject]) {

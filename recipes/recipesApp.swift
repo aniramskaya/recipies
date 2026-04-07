@@ -13,7 +13,7 @@ struct recipesApp: App {
     var body: some Scene {
         WindowGroup {
             //ContentView()
-            RecipeListAssembly.compose()
+            RecipeListAssembly.composeWithCalbackServices()
         }
     }
 }
