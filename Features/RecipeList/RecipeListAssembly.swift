@@ -28,4 +28,26 @@ public enum RecipeListAssembly {
         let screen = RecipeListScreen(viewModel: viewModel)
         return (screen, leakable + [recipeListLoader, viewModel])
     }
+    
+    @MainActor
+    public static func composeWithCombineServices() -> RecipeListScreen {
+        return composeInternalWithCombineServices(
+            dtoLoader: RecipeListDTOPublisherStub(),
+            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300))
+        ).0
+    }
+    
+    @MainActor
+    static func composeInternalWithCombineServices(
+        dtoLoader: RecipeListDTOPublisher,
+        cacheExpirationPolicy: TimestampExpirationPolicy
+    ) -> (RecipeListScreen, [AnyObject]) {
+        let (recipeListLoader, leakable) = CombineRecipeListLoaderAssembly.composeInternal(
+            dtoLoader: dtoLoader,
+            cacheExpirationPolicy: cacheExpirationPolicy
+        )
+        let viewModel = RecipeListScreenViewModel(loader: recipeListLoader)
+        let screen = RecipeListScreen(viewModel: viewModel)
+        return (screen, leakable + [viewModel])
+    }
 }

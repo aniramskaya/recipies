@@ -12,8 +12,8 @@ import RecipeList
 struct recipesApp: App {
     var body: some Scene {
         WindowGroup {
-            //ContentView()
-            RecipeListAssembly.composeWithCalbackServices()
+            // RecipeListAssembly.composeWithCalbackServices()
+            RecipeListAssembly.composeWithCombineServices()
         }
     }
 }
