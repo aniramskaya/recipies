@@ -21,9 +21,9 @@ final class CombineRecipeListDTOExpirableCache: CombineCacheable  {
         self.expirationPolicy = expirationPolicy
     }
     
-    func get(key: String) -> AnyPublisher<RecipeListDTO, CacheableError> {
+    func get(key: String) -> AnyPublisher<RecipeListDTO, CombineCacheableError> {
         guard let saved = cacheSaveTime[key], expirationPolicy.isValid(saved) else {
-            return Fail(error: CacheableError.expired).eraseToAnyPublisher()
+            return Fail(error: CombineCacheableError.expired).eraseToAnyPublisher()
         }
         return cache.get(key: key)
     }

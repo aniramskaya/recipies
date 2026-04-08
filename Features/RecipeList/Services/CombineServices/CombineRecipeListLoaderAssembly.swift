@@ -7,7 +7,7 @@
 
 import Combine
 
-let RecipeListCacheKey = "RecipeList"
+let CombineRecipeListCacheKey = "RecipeList"
 
 enum CombineRecipeListLoaderAssembly {
     static func composeInternal(
@@ -20,10 +20,10 @@ enum CombineRecipeListLoaderAssembly {
         let publisherFactory =  {
             dtoLoader.publisher()
                 .handleEvents(receiveOutput: { dto in
-                    cache.set(key: RecipeListCacheKey, data: dto)
+                    cache.set(key: CombineRecipeListCacheKey, data: dto)
                 })
                 .catch { error in
-                    return cache.get(key: RecipeListCacheKey).mapError { _ in error }
+                    return cache.get(key: CombineRecipeListCacheKey).mapError { _ in error }
                 }
                 .map({ value in
                     value.items.models

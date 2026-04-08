@@ -15,13 +15,13 @@ final class CombineRecipeListDTOCache: CombineCacheable {
     
     private var storage: [String: RecipeListDTO] = [:]
 
-    func get(key: String) -> AnyPublisher<RecipeListDTO, CacheableError> {
+    func get(key: String) -> AnyPublisher<RecipeListDTO, CombineCacheableError> {
         return Deferred { [weak self] in
             Future { promise in
                 if let value = self?.storage[key] {
                     promise(.success(value))
                 } else {
-                    promise(.failure(CacheableError.notFound))
+                    promise(.failure(CombineCacheableError.notFound))
                 }
             }
         }.eraseToAnyPublisher()

@@ -34,6 +34,22 @@
 		CC6269D72F83C82C003FCA1B /* CombineRecipeListLoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269D62F83C823003FCA1B /* CombineRecipeListLoder.swift */; };
 		CC6269DA2F84EE2D003FCA1B /* TimestampExpirationPolicyStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269D92F84EE2B003FCA1B /* TimestampExpirationPolicyStub.swift */; };
 		CC6269DC2F84EEEB003FCA1B /* RecipeListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269DB2F84EEE9003FCA1B /* RecipeListFeature.swift */; };
+		CC6269DF2F84F307003FCA1B /* AsyncRecipeListDTOLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269DE2F84F2FF003FCA1B /* AsyncRecipeListDTOLoader.swift */; };
+		CC6269E22F84F3B2003FCA1B /* AsyncRecipeListLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269E12F84F3A7003FCA1B /* AsyncRecipeListLoaderTests.swift */; };
+		CC6269E42F84F436003FCA1B /* AsyncRecipeListDTOLoaderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269E32F84F41F003FCA1B /* AsyncRecipeListDTOLoaderStub.swift */; };
+		CC6269E62F84F520003FCA1B /* AsyncRecipeListLoaderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269E52F84F51D003FCA1B /* AsyncRecipeListLoaderAssembly.swift */; };
+		CC6269E82F84F5C1003FCA1B /* AsyncCacheable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269E72F84F5BB003FCA1B /* AsyncCacheable.swift */; };
+		CC6269EA2F84F61D003FCA1B /* AsyncInMemoryCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269E92F84F613003FCA1B /* AsyncInMemoryCache.swift */; };
+		CC6269EC2F84F6B8003FCA1B /* AsyncExpirableCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269EB2F84F6A5003FCA1B /* AsyncExpirableCache.swift */; };
+		CC6269EE2F84F93F003FCA1B /* AsyncRecipeListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269ED2F84F938003FCA1B /* AsyncRecipeListLoader.swift */; };
+		CC6269F02F84FAD4003FCA1B /* AnyAsyncCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269EF2F84FACA003FCA1B /* AnyAsyncCache.swift */; };
+		CC6269F62F850487003FCA1B /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = CC6269F42F850487003FCA1B /* Readme.md */; };
+		CC6269F82F85048D003FCA1B /* Flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269F72F85048B003FCA1B /* Flow.swift */; };
+		CC6269FA2F8504A6003FCA1B /* Fallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269F92F8504A3003FCA1B /* Fallback.swift */; };
+		CC6269FC2F8504DA003FCA1B /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269FB2F8504D8003FCA1B /* Map.swift */; };
+		CC6269FE2F85050B003FCA1B /* OnSuccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269FD2F850508003FCA1B /* OnSuccess.swift */; };
+		CC626A002F85051C003FCA1B /* OnError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269FF2F850519003FCA1B /* OnError.swift */; };
+		CC626A022F850552003FCA1B /* CallAsFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC626A012F85054E003FCA1B /* CallAsFunction.swift */; };
 		CC6E84112F1908F100CFF247 /* RecipeListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */; };
 		CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5202AF761CD00A77856 /* SyncStorage.swift */; };
 		CC71F5232AF761E800A77856 /* InMemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5222AF761E800A77856 /* InMemoryStorage.swift */; };
@@ -173,6 +189,22 @@
 		CC6269D62F83C823003FCA1B /* CombineRecipeListLoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineRecipeListLoder.swift; sourceTree = "<group>"; };
 		CC6269D92F84EE2B003FCA1B /* TimestampExpirationPolicyStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExpirationPolicyStub.swift; sourceTree = "<group>"; };
 		CC6269DB2F84EEE9003FCA1B /* RecipeListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListFeature.swift; sourceTree = "<group>"; };
+		CC6269DE2F84F2FF003FCA1B /* AsyncRecipeListDTOLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncRecipeListDTOLoader.swift; sourceTree = "<group>"; };
+		CC6269E12F84F3A7003FCA1B /* AsyncRecipeListLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncRecipeListLoaderTests.swift; sourceTree = "<group>"; };
+		CC6269E32F84F41F003FCA1B /* AsyncRecipeListDTOLoaderStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncRecipeListDTOLoaderStub.swift; sourceTree = "<group>"; };
+		CC6269E52F84F51D003FCA1B /* AsyncRecipeListLoaderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncRecipeListLoaderAssembly.swift; sourceTree = "<group>"; };
+		CC6269E72F84F5BB003FCA1B /* AsyncCacheable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCacheable.swift; sourceTree = "<group>"; };
+		CC6269E92F84F613003FCA1B /* AsyncInMemoryCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncInMemoryCache.swift; sourceTree = "<group>"; };
+		CC6269EB2F84F6A5003FCA1B /* AsyncExpirableCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncExpirableCache.swift; sourceTree = "<group>"; };
+		CC6269ED2F84F938003FCA1B /* AsyncRecipeListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncRecipeListLoader.swift; sourceTree = "<group>"; };
+		CC6269EF2F84FACA003FCA1B /* AnyAsyncCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyAsyncCache.swift; sourceTree = "<group>"; };
+		CC6269F42F850487003FCA1B /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
+		CC6269F72F85048B003FCA1B /* Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flow.swift; sourceTree = "<group>"; };
+		CC6269F92F8504A3003FCA1B /* Fallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fallback.swift; sourceTree = "<group>"; };
+		CC6269FB2F8504D8003FCA1B /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		CC6269FD2F850508003FCA1B /* OnSuccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnSuccess.swift; sourceTree = "<group>"; };
+		CC6269FF2F850519003FCA1B /* OnError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnError.swift; sourceTree = "<group>"; };
+		CC626A012F85054E003FCA1B /* CallAsFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallAsFunction.swift; sourceTree = "<group>"; };
 		CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAssembly.swift; sourceTree = "<group>"; };
 		CC71F5202AF761CD00A77856 /* SyncStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStorage.swift; sourceTree = "<group>"; };
 		CC71F5222AF761E800A77856 /* InMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorage.swift; sourceTree = "<group>"; };
@@ -414,6 +446,44 @@
 			path = DTO;
 			sourceTree = "<group>";
 		};
+		CC6269DD2F84F2E7003FCA1B /* AsyncServices */ = {
+			isa = PBXGroup;
+			children = (
+				CC6269F52F850487003FCA1B /* Flow */,
+				CC6269EF2F84FACA003FCA1B /* AnyAsyncCache.swift */,
+				CC6269ED2F84F938003FCA1B /* AsyncRecipeListLoader.swift */,
+				CC6269EB2F84F6A5003FCA1B /* AsyncExpirableCache.swift */,
+				CC6269E92F84F613003FCA1B /* AsyncInMemoryCache.swift */,
+				CC6269E72F84F5BB003FCA1B /* AsyncCacheable.swift */,
+				CC6269E52F84F51D003FCA1B /* AsyncRecipeListLoaderAssembly.swift */,
+				CC6269E32F84F41F003FCA1B /* AsyncRecipeListDTOLoaderStub.swift */,
+				CC6269DE2F84F2FF003FCA1B /* AsyncRecipeListDTOLoader.swift */,
+			);
+			path = AsyncServices;
+			sourceTree = "<group>";
+		};
+		CC6269E02F84F382003FCA1B /* AsyncServices */ = {
+			isa = PBXGroup;
+			children = (
+				CC6269E12F84F3A7003FCA1B /* AsyncRecipeListLoaderTests.swift */,
+			);
+			path = AsyncServices;
+			sourceTree = "<group>";
+		};
+		CC6269F52F850487003FCA1B /* Flow */ = {
+			isa = PBXGroup;
+			children = (
+				CC6269F42F850487003FCA1B /* Readme.md */,
+				CC626A012F85054E003FCA1B /* CallAsFunction.swift */,
+				CC6269FF2F850519003FCA1B /* OnError.swift */,
+				CC6269FD2F850508003FCA1B /* OnSuccess.swift */,
+				CC6269FB2F8504D8003FCA1B /* Map.swift */,
+				CC6269F92F8504A3003FCA1B /* Fallback.swift */,
+				CC6269F72F85048B003FCA1B /* Flow.swift */,
+			);
+			path = Flow;
+			sourceTree = "<group>";
+		};
 		CC71F51F2AF761BF00A77856 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,6 +523,7 @@
 		CC9D23282F0A34F80039E3D4 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				CC6269E02F84F382003FCA1B /* AsyncServices */,
 				CC9F64B92F1E2E6A00357A55 /* CombineServices */,
 				CC9F64B82F1E2E5400357A55 /* CallbackServices */,
 			);
@@ -571,6 +642,7 @@
 			children = (
 				CC6269D82F84EDBA003FCA1B /* DTO */,
 				CC6269D32F83AC85003FCA1B /* RecipeListLoaderAsync.swift */,
+				CC6269DD2F84F2E7003FCA1B /* AsyncServices */,
 				CC2B54C82F1BEE5E00B251CE /* CombineServices */,
 				CC2B54C72F1BEE2C00B251CE /* CallbackServices */,
 			);
@@ -850,6 +922,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC6269F62F850487003FCA1B /* Readme.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -908,9 +981,11 @@
 				CC71F5302AF8D31600A77856 /* RecipeListExpirationPolicy.swift in Sources */,
 				CC71F5232AF761E800A77856 /* InMemoryStorage.swift in Sources */,
 				CC2B54E32F1BF7EB00B251CE /* CombineRecipeListDTOCache.swift in Sources */,
+				CC6269E42F84F436003FCA1B /* AsyncRecipeListDTOLoaderStub.swift in Sources */,
 				CC71F5342AF8E51000A77856 /* RecipeListCacheAsync.swift in Sources */,
 				CC5C8BF82EFAA8B000D14CF1 /* CookingTimeView.swift in Sources */,
 				CC5C8BF92EFAA8B000D14CF1 /* RatingView.swift in Sources */,
+				CC626A002F85051C003FCA1B /* OnError.swift in Sources */,
 				CC5C8BFA2EFAA8B000D14CF1 /* RecipeListRow.swift in Sources */,
 				CC5C8C042EFAAA9F00D14CF1 /* RecipeListImage.swift in Sources */,
 				CC9D23392F0BCD330039E3D4 /* RecipeListScreen.swift in Sources */,
@@ -918,18 +993,30 @@
 				CCF62D132ADAAA0C009537A9 /* RecipeListItem.swift in Sources */,
 				CC2B54E12F1BF72200B251CE /* CombineCacheable.swift in Sources */,
 				CC71F52E2AF8D27E00A77856 /* RecipeListCache.swift in Sources */,
+				CC6269F02F84FAD4003FCA1B /* AnyAsyncCache.swift in Sources */,
 				CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */,
+				CC6269EE2F84F93F003FCA1B /* AsyncRecipeListLoader.swift in Sources */,
 				CC56EAC92F17B1740044956B /* RecipeListLoaderAsyncAdapter.swift in Sources */,
+				CC6269FE2F85050B003FCA1B /* OnSuccess.swift in Sources */,
+				CC6269FC2F8504DA003FCA1B /* Map.swift in Sources */,
+				CC6269E82F84F5C1003FCA1B /* AsyncCacheable.swift in Sources */,
+				CC6269EA2F84F61D003FCA1B /* AsyncInMemoryCache.swift in Sources */,
 				CC2B54C62F1BE78D00B251CE /* RecipeListDTOLoaderStub.swift in Sources */,
+				CC6269F82F85048D003FCA1B /* Flow.swift in Sources */,
 				CC6E84112F1908F100CFF247 /* RecipeListAssembly.swift in Sources */,
 				CC71F53B2AF8E85000A77856 /* RecipeListLoader.swift in Sources */,
+				CC6269EC2F84F6B8003FCA1B /* AsyncExpirableCache.swift in Sources */,
 				CC6269D72F83C82C003FCA1B /* CombineRecipeListLoder.swift in Sources */,
 				CCF62D152ADAAA33009537A9 /* RecipeListFallbackLoader.swift in Sources */,
 				CC71F5322AF8E3B300A77856 /* RecipeListRemoteLoader.swift in Sources */,
 				CC71F5392AF8E7DE00A77856 /* RecipeListDTOLoader.swift in Sources */,
+				CC6269E62F84F520003FCA1B /* AsyncRecipeListLoaderAssembly.swift in Sources */,
+				CC6269FA2F8504A6003FCA1B /* Fallback.swift in Sources */,
 				CC9F64C32F1E40AC00357A55 /* CombineRecipeListDTOExpirableCache.swift in Sources */,
+				CC6269DF2F84F307003FCA1B /* AsyncRecipeListDTOLoader.swift in Sources */,
 				CC6269D42F83AC90003FCA1B /* RecipeListLoaderAsync.swift in Sources */,
 				CC9D23362F0BCCBA0039E3D4 /* RecipeListView.swift in Sources */,
+				CC626A022F850552003FCA1B /* CallAsFunction.swift in Sources */,
 				CC9D23442F160D200039E3D4 /* RecipeListLoaderAssembly.swift in Sources */,
 				CC2B54CC2F1BEEDA00B251CE /* RecipeListDTOPublisherStub.swift in Sources */,
 				CC56EACB2F17B1C00044956B /* RecipeListScreenViewModel.swift in Sources */,
@@ -959,6 +1046,7 @@
 				CC56EAC52F17A85D0044956B /* MemoryLeakChecker.swift in Sources */,
 				CC9D232F2F0A5BC30039E3D4 /* RecipeListRow+DSL.swift in Sources */,
 				CC9D23322F0BC05E0039E3D4 /* RecipeListAcceptanceTests.swift in Sources */,
+				CC6269E22F84F3B2003FCA1B /* AsyncRecipeListLoaderTests.swift in Sources */,
 				CC9F64BB2F1E2E9600357A55 /* CombineRecipeListLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

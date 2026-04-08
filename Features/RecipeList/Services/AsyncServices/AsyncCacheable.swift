@@ -1,25 +1,23 @@
 //
-//  CombineCacheable.swift
+//  AsyncCacheable.swift
 //  recipies
 //
-//  Created by Марина Чемезова on 17.01.2026.
+//  Created by Марина Чемезова on 07.04.2026.
 //
-
-import Combine
 
 // Мы не хотим чтобы кэш случайно раздвоился, поэтому ставим ограничение на AnyObject,
 // чтобы реализация точно была reference типом
-protocol CombineCacheable: AnyObject {
+protocol AsyncCacheable: AnyObject {
     associatedtype Key: Hashable
     associatedtype Data
     
-    func get(key: Key) -> AnyPublisher<Data, CombineCacheableError>
-    func set(key: Key, data: Data)
-    func clear(key: Key)
-    func clearAll()
+    func get(key: Key) async throws -> Data
+    func set(key: Key, data: Data) async
+    func clear(key: Key) async
+    func clearAll() async
 }
 
-enum CombineCacheableError: Error {
+enum AsyncCacheableError: Error {
     case notFound
     case expired
 }
