@@ -50,4 +50,26 @@ public enum RecipeListAssembly {
         let screen = RecipeListScreen(viewModel: viewModel)
         return (screen, leakable + [viewModel])
     }
+    
+    @MainActor
+    public static func composeWithAsyncServices() -> RecipeListScreen {
+        return composeInternalWithAsyncServices(
+            dtoLoader: AsyncRecipeListDTOLoaderStub(),
+            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300))
+        ).0
+    }
+    
+    @MainActor
+    static func composeInternalWithAsyncServices(
+        dtoLoader: AsyncRecipeListDTOLoader,
+        cacheExpirationPolicy: TimestampExpirationPolicy
+    ) -> (RecipeListScreen, [AnyObject]) {
+        let (recipeListLoader, leakable) = AsyncRecipeListLoaderAssembly.composeInternal(
+            dtoLoader: dtoLoader,
+            cacheExpirationPolicy: cacheExpirationPolicy
+        )
+        let viewModel = RecipeListScreenViewModel(loader: recipeListLoader)
+        let screen = RecipeListScreen(viewModel: viewModel)
+        return (screen, leakable + [viewModel])
+    }
 }

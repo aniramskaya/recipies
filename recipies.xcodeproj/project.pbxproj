@@ -50,6 +50,7 @@
 		CC6269FE2F85050B003FCA1B /* OnSuccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269FD2F850508003FCA1B /* OnSuccess.swift */; };
 		CC626A002F85051C003FCA1B /* OnError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269FF2F850519003FCA1B /* OnError.swift */; };
 		CC626A022F850552003FCA1B /* CallAsFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC626A012F85054E003FCA1B /* CallAsFunction.swift */; };
+		CC626A042F862774003FCA1B /* RecipeListAsyncAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC626A032F862769003FCA1B /* RecipeListAsyncAcceptanceTests.swift */; };
 		CC6E84112F1908F100CFF247 /* RecipeListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */; };
 		CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5202AF761CD00A77856 /* SyncStorage.swift */; };
 		CC71F5232AF761E800A77856 /* InMemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5222AF761E800A77856 /* InMemoryStorage.swift */; };
@@ -205,6 +206,7 @@
 		CC6269FD2F850508003FCA1B /* OnSuccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnSuccess.swift; sourceTree = "<group>"; };
 		CC6269FF2F850519003FCA1B /* OnError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnError.swift; sourceTree = "<group>"; };
 		CC626A012F85054E003FCA1B /* CallAsFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallAsFunction.swift; sourceTree = "<group>"; };
+		CC626A032F862769003FCA1B /* RecipeListAsyncAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAsyncAcceptanceTests.swift; sourceTree = "<group>"; };
 		CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAssembly.swift; sourceTree = "<group>"; };
 		CC71F5202AF761CD00A77856 /* SyncStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStorage.swift; sourceTree = "<group>"; };
 		CC71F5222AF761E800A77856 /* InMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorage.swift; sourceTree = "<group>"; };
@@ -656,6 +658,7 @@
 				CC9D23282F0A34F80039E3D4 /* Services */,
 				CCF62D162ADAAA60009537A9 /* Helpers */,
 				CC9D23312F0BC05E0039E3D4 /* RecipeListAcceptanceTests.swift */,
+				CC626A032F862769003FCA1B /* RecipeListAsyncAcceptanceTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -1032,6 +1035,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC626A042F862774003FCA1B /* RecipeListAsyncAcceptanceTests.swift in Sources */,
 				CCF62D1D2ADAAC2B009537A9 /* XCTestCase+Extensions.swift in Sources */,
 				CC6269DC2F84EEEB003FCA1B /* RecipeListFeature.swift in Sources */,
 				CC5C8BDD2EFA8F3800D14CF1 /* RecipeListRowTests.swift in Sources */,
