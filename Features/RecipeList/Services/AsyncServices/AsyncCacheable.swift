@@ -7,9 +7,9 @@
 
 // Мы не хотим чтобы кэш случайно раздвоился, поэтому ставим ограничение на AnyObject,
 // чтобы реализация точно была reference типом
-protocol AsyncCacheable: AnyObject {
-    associatedtype Key: Hashable
-    associatedtype Data
+protocol AsyncCacheable: AnyObject, Sendable {
+    associatedtype Key: Hashable & Sendable
+    associatedtype Data: Sendable
     
     func get(key: Key) async throws -> Data
     func set(key: Key, data: Data) async

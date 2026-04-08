@@ -7,7 +7,7 @@
 
 extension Flow {
     func onSuccess(
-        _ action: @escaping (Value) async -> Void
+        _ action: @escaping @Sendable (Value) async -> Void
     ) -> Flow<Value> {
         Flow {
             let value = try await self.operation()

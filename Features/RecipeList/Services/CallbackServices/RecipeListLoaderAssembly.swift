@@ -5,13 +5,13 @@
 //  Created by Марина Чемезова on 13.01.2026.
 //
 
-public enum RecipeListLoaderAssembly {
+enum RecipeListLoaderAssembly {
     /// Композер загрузчика рецептов
     ///
     /// - Parameters:
     ///   - dtoLoader: Загрузчик dto
     /// - Returns: Собранный сервис загрузки рецептов
-    public static func compose(dtoLoader: RecipeListDTOLoader) -> RecipeListLoader {
+    static func compose(dtoLoader: RecipeListDTOLoader) -> RecipeListLoader {
         return composeInternal(
             dtoLoader: dtoLoader,
             cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: 300)

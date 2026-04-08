@@ -7,16 +7,16 @@
 
 import Foundation
 
-public class RecipeListRemoteLoader: RecipeListLoader {
+class RecipeListRemoteLoader: RecipeListLoader {
     let dtoLoader: RecipeListDTOLoader
     let cache: RecipeListCache
     
-    public init(dtoLoader: RecipeListDTOLoader, cache: RecipeListCache) {
+    init(dtoLoader: RecipeListDTOLoader, cache: RecipeListCache) {
         self.dtoLoader = dtoLoader
         self.cache = cache
     }
     
-    public func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
+    func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
         dtoLoader.load { [weak self] result in
             guard let self else { return }
             switch result {

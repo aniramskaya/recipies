@@ -7,18 +7,25 @@
 
 import Foundation
 
-public class InMemoryStorage<Model>: SyncStorage {
+final class InMemoryStorage<Model>: SyncStorage, @unchecked Sendable {
+    private let lock = NSLock()
     private var data: Model?
     
-    public func read() -> Model? {
+    func read() -> Model? {
+        lock.lock()
+        defer {  lock.unlock() }
         return data
     }
     
-    public func write(_ items: Model) {
+    func write(_ items: Model) {
+        lock.lock()
+        defer {  lock.unlock() }
         data = items
     }
     
-    public func delete() {
+    func delete() {
+        lock.lock()
+        defer {  lock.unlock() }
         data = nil
     }
 }

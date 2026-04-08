@@ -7,7 +7,7 @@
 
 import Foundation
 
-class RecipeListCacheAsync: RecipeListLoader {
+final class RecipeListCacheAsync: RecipeListLoader {
     let cache: RecipeListCache
     init(cache: RecipeListCache) {
         self.cache = cache

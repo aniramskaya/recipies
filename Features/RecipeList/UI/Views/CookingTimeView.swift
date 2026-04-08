@@ -16,7 +16,7 @@ struct CookingTimeView: View {
             .font(.system(size: 18, weight: .bold))
             .monospacedDigit()
         
-        let unit = Text(" min")
+        let unit = Text("min")
             .font(.system(size: 18, weight: .regular))
         
         HStack(spacing: 8) {

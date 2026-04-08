@@ -7,7 +7,7 @@
 import RecipeList
 import Foundation
 
-final class TimestampExpirationPolicyStub: TimestampExpirationPolicy {
+final class TimestampExpirationPolicyStub: TimestampExpirationPolicy, @unchecked Sendable {
     var validationResult = false
     
     func isValid(_: Date) -> Bool {

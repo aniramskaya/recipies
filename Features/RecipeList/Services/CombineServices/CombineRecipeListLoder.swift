@@ -9,14 +9,14 @@ import Combine
 import AsyncAlgorithms
 
 struct CombineRecipeListLoader: RecipeListLoaderAsync {
-    let publisherFactory: () -> AnyPublisher<[RecipeListItem], Error>
+    let publisherFactory: PublisherFactory<[RecipeListItem], Error>
     
-    init(publisherFactory: @escaping () -> AnyPublisher<[RecipeListItem], Error>) {
+    init(publisherFactory: PublisherFactory<[RecipeListItem], Error>) {
         self.publisherFactory = publisherFactory
     }
     
     func load() async throws -> [RecipeListItem] {
-        let publisher = publisherFactory()
+        let publisher = publisherFactory.make()
         
         for try await value in publisher.values {
             return value

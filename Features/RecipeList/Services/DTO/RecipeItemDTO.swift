@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct RecipeListDTO: Decodable {
+public struct RecipeListDTO: Decodable, Sendable {
     let items: [RecipeListItemDTO]
     
     public init(items: [RecipeListItemDTO]) {
@@ -15,7 +15,7 @@ public struct RecipeListDTO: Decodable {
     }
 }
 
-public struct RecipeListItemDTO: Decodable {
+public struct RecipeListItemDTO: Decodable, Sendable {
     let id: UUID
     let name: String
     let cookingTime: Int

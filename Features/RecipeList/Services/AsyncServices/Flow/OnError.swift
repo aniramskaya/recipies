@@ -7,7 +7,7 @@
 
 extension Flow {
     func onError(
-        _ action: @escaping (Error) async -> Void
+        _ action: @escaping @Sendable (Error) async -> Void
     ) -> Flow<Value> {
         Flow {
             do {
