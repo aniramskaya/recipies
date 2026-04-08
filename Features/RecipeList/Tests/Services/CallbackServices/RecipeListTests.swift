@@ -107,8 +107,8 @@ final class RecipeListTests: XCTestCase {
         XCTAssertEqual(module.spy.messages, [.load, .load])
     }
 
-    // Remote loading has failed and there are in-memory data: return in-memory data
-    func test_loadingSuccess_deliversSuccessWhenCacheIsExpiredAndRemoteLoadingFails() throws {
+    // Remote loading has failed and cache is expired - return remote loading error
+    func test_loading_deliversErrorsWhenCacheIsExpiredAndRemoteLoadingFails() throws {
         let module = makeSUT()
         let expectedData = RecipeListItem.makeTestItems()
         
@@ -121,9 +121,10 @@ final class RecipeListTests: XCTestCase {
         //cache has become expired
         module.expiration.validationResult = false
 
-        //second load finishes with error but we got cache data
-        expect(sut: module.sut, toCompleteWith: .success(expectedData)) {
-            module.spy.complete(with: .failure(NSError.any()), at: 1)
+        //second load finishes with error
+        let error = NSError.any()
+        expect(sut: module.sut, toCompleteWith: .failure(error)) {
+            module.spy.complete(with: .failure(error), at: 1)
         }
         XCTAssertEqual(module.spy.messages, [.load, .load])
     }

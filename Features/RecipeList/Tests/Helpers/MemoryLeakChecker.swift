@@ -17,7 +17,7 @@ private struct EntityLeakChecker {
     }
 }
 
-class LeakChecker {
+final class LeakChecker {
     private var trackedEntities: [EntityLeakChecker] = []
     
     func track(_ object: AnyObject, sourceLocation: SourceLocation = #_sourceLocation) {

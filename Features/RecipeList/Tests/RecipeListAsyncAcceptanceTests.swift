@@ -1,9 +1,10 @@
 //
-//  RecipeListAcceptanceTests.swift
-//  RecipeListTests
+//  RecipeListAsyncAcceptanceTests.swift
+//  recipies
 //
-//  Created by Марина Чемезова on 05.01.2026.
+//  Created by Марина Чемезова on 08.04.2026.
 //
+
 
 import Testing
 import SwiftUI
@@ -20,7 +21,7 @@ import ViewInspector
  
  */
 
-struct RecipeListAcceptanceTests {
+struct RecipeListAsyncAcceptanceTests {
     let leakChecker = LeakChecker()
     
     @MainActor
@@ -69,10 +70,10 @@ struct RecipeListAcceptanceTests {
     }
     
     @MainActor
-    func makeFeature() -> (feature: RecipeListFeature, server: Server, user: RecipeListUser, expiration: TimestampExpirationPolicyStub) {
-        let server = Server()
+    func makeFeature() -> (feature: RecipeListFeature, server: AsyncServer, user: RecipeListUser, expiration: TimestampExpirationPolicyStub) {
+        let server = AsyncServer()
         let expiration = TimestampExpirationPolicyStub()
-        let (screen, leakable) = RecipeListAssembly.composeInternalWithCallbackServices(dtoLoader: server, cacheExpirationPolicy: expiration)
+        let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(dtoLoader: server, cacheExpirationPolicy: expiration)
         let feature = RecipeListFeature(view: screen)
         leakChecker.track([server, expiration])
         leakChecker.track(leakable)
@@ -82,15 +83,17 @@ struct RecipeListAcceptanceTests {
 }
 
 
-final class Server: RecipeListDTOLoader {
-    var completions: [(Result<RecipeListDTO, Error>) -> Void] = []
+final class AsyncServer: AsyncRecipeListDTOLoader {
+    var continuations: [CheckedContinuation<RecipeListDTO, Error>] = []
     private var onLoad: (() -> Void)?
     
-    func load(completion: @escaping (Result<RecipeListDTO, Error>) -> Void) {
-        completions.append(completion)
-        if let onLoad {
-            onLoad()
-            self.onLoad = nil
+    func load() async throws -> RecipeListDTO {
+        return try await withCheckedThrowingContinuation { continuation in
+            continuations.append(continuation)
+            if let onLoad {
+                onLoad()
+                self.onLoad = nil
+            }
         }
     }
     
@@ -99,7 +102,7 @@ final class Server: RecipeListDTOLoader {
             self?.onLoad = {
                 continuation.resume()
             }
-            if self?.completions.count ?? -1 > index {
+            if self?.continuations.count ?? -1 > index {
                 self?.onLoad = nil
                 continuation.resume()
                 return
@@ -109,7 +112,7 @@ final class Server: RecipeListDTOLoader {
     
     func respond(with result: Result<RecipeListDTO, Error>, at index: Int? = nil) async throws {
         await waitForRequest(index: index ?? 0)
-        completions[index ?? completions.endIndex - 1](result)
+        continuations[index ?? 0].resume(with: result)
     }
 }
 
@@ -142,5 +145,3 @@ private func testModels2() -> [(name: String, rating: String, cookingTime: Strin
         )
     ]
 }
-
-
