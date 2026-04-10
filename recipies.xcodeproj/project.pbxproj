@@ -51,6 +51,9 @@
 		CC626A002F85051C003FCA1B /* OnError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269FF2F850519003FCA1B /* OnError.swift */; };
 		CC626A022F850552003FCA1B /* CallAsFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC626A012F85054E003FCA1B /* CallAsFunction.swift */; };
 		CC626A042F862774003FCA1B /* RecipeListAsyncAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC626A032F862769003FCA1B /* RecipeListAsyncAcceptanceTests.swift */; };
+		CC626A062F86495E003FCA1B /* TimestampExpirationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC626A052F86495C003FCA1B /* TimestampExpirationPolicy.swift */; };
+		CC626A082F866038003FCA1B /* PublisherFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC626A072F866036003FCA1B /* PublisherFactory.swift */; };
+		CC626A0A2F866312003FCA1B /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = CC626A092F866312003FCA1B /* AsyncAlgorithms */; };
 		CC6E84112F1908F100CFF247 /* RecipeListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */; };
 		CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5202AF761CD00A77856 /* SyncStorage.swift */; };
 		CC71F5232AF761E800A77856 /* InMemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC71F5222AF761E800A77856 /* InMemoryStorage.swift */; };
@@ -207,6 +210,8 @@
 		CC6269FF2F850519003FCA1B /* OnError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnError.swift; sourceTree = "<group>"; };
 		CC626A012F85054E003FCA1B /* CallAsFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallAsFunction.swift; sourceTree = "<group>"; };
 		CC626A032F862769003FCA1B /* RecipeListAsyncAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAsyncAcceptanceTests.swift; sourceTree = "<group>"; };
+		CC626A052F86495C003FCA1B /* TimestampExpirationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExpirationPolicy.swift; sourceTree = "<group>"; };
+		CC626A072F866036003FCA1B /* PublisherFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherFactory.swift; sourceTree = "<group>"; };
 		CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAssembly.swift; sourceTree = "<group>"; };
 		CC71F5202AF761CD00A77856 /* SyncStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStorage.swift; sourceTree = "<group>"; };
 		CC71F5222AF761E800A77856 /* InMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorage.swift; sourceTree = "<group>"; };
@@ -298,6 +303,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC9D23212F0A2DD60039E3D4 /* RecipeUIKit.framework in Frameworks */,
+				CC626A0A2F866312003FCA1B /* AsyncAlgorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +341,7 @@
 		CC2B54C82F1BEE5E00B251CE /* CombineServices */ = {
 			isa = PBXGroup;
 			children = (
+				CC626A072F866036003FCA1B /* PublisherFactory.swift */,
 				CC6269D62F83C823003FCA1B /* CombineRecipeListLoder.swift */,
 				CC9F64C22F1E40A000357A55 /* CombineRecipeListDTOExpirableCache.swift */,
 				CC2B54E42F1BFF6A00B251CE /* CombineRecipeListLoaderAssembly.swift */,
@@ -642,6 +649,7 @@
 		CCF62D092ADA895C009537A9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				CC626A052F86495C003FCA1B /* TimestampExpirationPolicy.swift */,
 				CC6269D82F84EDBA003FCA1B /* DTO */,
 				CC6269D32F83AC85003FCA1B /* RecipeListLoaderAsync.swift */,
 				CC6269DD2F84F2E7003FCA1B /* AsyncServices */,
@@ -998,6 +1006,7 @@
 				CC71F52E2AF8D27E00A77856 /* RecipeListCache.swift in Sources */,
 				CC6269F02F84FAD4003FCA1B /* AnyAsyncCache.swift in Sources */,
 				CC71F5212AF761CD00A77856 /* SyncStorage.swift in Sources */,
+				CC626A062F86495E003FCA1B /* TimestampExpirationPolicy.swift in Sources */,
 				CC6269EE2F84F93F003FCA1B /* AsyncRecipeListLoader.swift in Sources */,
 				CC56EAC92F17B1740044956B /* RecipeListLoaderAsyncAdapter.swift in Sources */,
 				CC6269FE2F85050B003FCA1B /* OnSuccess.swift in Sources */,
@@ -1020,6 +1029,7 @@
 				CC6269D42F83AC90003FCA1B /* RecipeListLoaderAsync.swift in Sources */,
 				CC9D23362F0BCCBA0039E3D4 /* RecipeListView.swift in Sources */,
 				CC626A022F850552003FCA1B /* CallAsFunction.swift in Sources */,
+				CC626A082F866038003FCA1B /* PublisherFactory.swift in Sources */,
 				CC9D23442F160D200039E3D4 /* RecipeListLoaderAssembly.swift in Sources */,
 				CC2B54CC2F1BEEDA00B251CE /* RecipeListDTOPublisherStub.swift in Sources */,
 				CC56EACB2F17B1C00044956B /* RecipeListScreenViewModel.swift in Sources */,
@@ -1319,7 +1329,8 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -1373,7 +1384,8 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1662,6 +1674,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CC5C8BD92EFA8EF500D14CF1 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
+		};
+		CC626A092F866312003FCA1B /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CC9F64BF2F1E3C5400357A55 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
 		};
 		CC9D232B2F0A36890039E3D4 /* ViewInspector */ = {
 			isa = XCSwiftPackageProductDependency;

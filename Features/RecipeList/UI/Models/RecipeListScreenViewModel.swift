@@ -19,6 +19,7 @@ final class RecipeListScreenViewModel: ObservableObject {
     func loadRecipes() async {
         state = .loading
         do {
+            // Sending 'self.loader' risks causing data races; this is an error in the Swift 6 language mode
             let data = try await loader.load()
             state = .data(data.asViewModels())
         } catch {

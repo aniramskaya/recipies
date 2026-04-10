@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct RecipeListStored {
+struct RecipeListStored {
     public let items: [RecipeListItem]
     public let timestamp: Date
     
@@ -17,11 +17,7 @@ public struct RecipeListStored {
     }
 }
 
-public protocol TimestampExpirationPolicy {
-    func isValid(_: Date) -> Bool
-}
-
-public class RecipeListCache {
+final class RecipeListCache: @unchecked Sendable {
     public enum Error: Swift.Error {
         case empty
         case expired

@@ -7,16 +7,16 @@
 
 import Foundation
 
-public class RecipeListFallbackLoader: RecipeListLoader {
+class RecipeListFallbackLoader: RecipeListLoader {
     let first: RecipeListLoader
     let second: RecipeListLoader
 
-    public init(first: RecipeListLoader, second: RecipeListLoader) {
+    init(first: RecipeListLoader, second: RecipeListLoader) {
         self.first = first
         self.second = second
     }
     
-    public func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
+    func load(completion: @escaping (Result<[RecipeListItem], Error>) -> Void) {
         first.load { [weak self] result in
             switch result {
             case .success(let items):

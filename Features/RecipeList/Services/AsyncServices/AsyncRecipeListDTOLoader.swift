@@ -5,6 +5,6 @@
 //  Created by Марина Чемезова on 07.04.2026.
 //
 
-protocol AsyncRecipeListDTOLoader {
+protocol AsyncRecipeListDTOLoader: Sendable {
     func load() async throws -> RecipeListDTO
 }

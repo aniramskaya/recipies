@@ -5,7 +5,7 @@
 //  Created by Марина Чемезова on 07.04.2026.
 //
 
-final class AsyncExpirableCache<WrappedCache: AsyncCacheable>: AsyncCacheable  {
+actor AsyncExpirableCache<WrappedCache: AsyncCacheable>: AsyncCacheable  {
     typealias Key = WrappedCache.Key
     typealias Data = WrappedCache.Data
     
@@ -22,6 +22,7 @@ final class AsyncExpirableCache<WrappedCache: AsyncCacheable>: AsyncCacheable  {
         guard let saved = cacheSaveTime[key], expirationPolicy.isValid(saved) else {
             throw AsyncCacheableError.expired
         }
+        // Sending 'self.cache' risks causing data races; this is an error in the Swift 6 language mode
         return try await cache.get(key: key)
     }
     

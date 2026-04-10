@@ -12,15 +12,18 @@ struct CookingTimeView: View {
     let minutes: Int
     
     var body: some View {
+        let value = Text("\(minutes)")
+            .font(.system(size: 18, weight: .bold))
+            .monospacedDigit()
+        
+        let unit = Text("min")
+            .font(.system(size: 18, weight: .regular))
+        
         HStack(spacing: 8) {
             Image(systemName: "hourglass")
                 .foregroundStyle(Color("icon.primary", bundle: RecipeListUIAssets.bundle))
                 .font(.system(size: 18, weight: .semibold))
-            (Text("\(minutes)")
-                .font(.system(size: 18, weight: .bold))
-                .monospacedDigit()
-             + Text(" min")
-                .font(.system(size: 18, weight: .regular)))
+            Text("\(value) \(unit)")
         }
     }
 }

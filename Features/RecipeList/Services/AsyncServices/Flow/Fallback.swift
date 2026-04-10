@@ -6,7 +6,7 @@
 //
 
 extension Flow {
-    func fallback(_ fallback: @escaping () async throws -> Value) -> Flow<Value> {
+    func fallback(_ fallback: @escaping @Sendable () async throws -> Value) -> Flow<Value> {
         Flow {
             do {
                 return try await self.operation()

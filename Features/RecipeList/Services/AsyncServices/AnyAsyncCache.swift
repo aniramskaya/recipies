@@ -5,7 +5,7 @@
 //  Created by Марина Чемезова on 07.04.2026.
 //
 
-final class AnyAsyncCacheable<Key: Hashable, Data>: AsyncCacheable {
+actor AnyAsyncCacheable<Key: Hashable & Sendable, Data: Sendable>: AsyncCacheable {
     private let _get: (Key) async throws -> Data
     private let _set: (Key, Data) async -> Void
     private let _clear: (Key) async -> Void

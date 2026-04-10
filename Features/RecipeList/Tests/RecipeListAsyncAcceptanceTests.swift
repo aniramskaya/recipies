@@ -83,7 +83,7 @@ struct RecipeListAsyncAcceptanceTests {
 }
 
 
-final class AsyncServer: AsyncRecipeListDTOLoader {
+final class AsyncServer: AsyncRecipeListDTOLoader, @unchecked Sendable {
     var continuations: [CheckedContinuation<RecipeListDTO, Error>] = []
     private var onLoad: (() -> Void)?
     

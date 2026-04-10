@@ -7,10 +7,21 @@
 
 import XCTest
 
+private final class WeakBox: @unchecked Sendable {
+    weak var object: AnyObject?
+
+    init(_ object: AnyObject) {
+        self.object = object
+    }
+}
+
 extension XCTestCase {
     func trackForMemoryLeak(_ object: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
-        addTeardownBlock { [weak object] in
-            XCTAssertNil(object, "sut has not been deallocated. Possible memory leak!", file: file, line: line)
+        
+        let box = WeakBox(object)
+        
+        addTeardownBlock {
+            XCTAssertNil(box.object, "sut has not been deallocated. Possible memory leak!", file: file, line: line)
         }
     }
 }

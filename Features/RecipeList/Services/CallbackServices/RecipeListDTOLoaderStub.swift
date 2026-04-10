@@ -5,7 +5,7 @@
 //  Created by Марина Чемезова on 17.01.2026.
 //
 
-class RecipeListDTOLoaderStub: RecipeListDTOLoader {
+final class RecipeListDTOLoaderStub: RecipeListDTOLoader {
     func load(completion: @escaping (Result<RecipeListDTO, any Error>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.5, execute: .init(block: {
             completion(

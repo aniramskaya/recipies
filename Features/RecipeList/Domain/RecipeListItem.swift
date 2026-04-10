@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct RecipeListItem: Equatable {
+public struct RecipeListItem: Equatable, Sendable {
     let id: UUID
     let name: String
     let cookingTime: TimeInterval

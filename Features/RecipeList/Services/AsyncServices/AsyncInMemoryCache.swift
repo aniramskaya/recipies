@@ -7,10 +7,10 @@
 
 import Foundation
 
-final class AsyncInMemoryCache<Key: Hashable, Data>: AsyncCacheable {
+actor AsyncInMemoryCache<Key: Hashable & Sendable, Data: Sendable>: AsyncCacheable {
     private var storage: [Key: Data] = [:]
 
-    func get(key: Key) async throws -> Data {
+    func get(key: Key) throws -> Data {
         if let value = storage[key] {
             return value
         } else {
@@ -18,11 +18,11 @@ final class AsyncInMemoryCache<Key: Hashable, Data>: AsyncCacheable {
         }
     }
     
-    func set(key: Key, data: Data) async {
+    func set(key: Key, data: Data) {
         storage[key] = data
     }
     
-    func clear(key: Key) async {
+    func clear(key: Key) {
         storage[key] = nil
     }
     

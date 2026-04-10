@@ -17,7 +17,7 @@ enum CombineRecipeListLoaderAssembly {
         let plainCache = CombineRecipeListDTOCache()
         let cache = CombineRecipeListDTOExpirableCache(cache: plainCache, expirationPolicy: cacheExpirationPolicy)
         
-        let publisherFactory =  {
+        let publisherFactory = PublisherFactory<[RecipeListItem], Error> {
             dtoLoader.publisher()
                 .handleEvents(receiveOutput: { dto in
                     cache.set(key: CombineRecipeListCacheKey, data: dto)

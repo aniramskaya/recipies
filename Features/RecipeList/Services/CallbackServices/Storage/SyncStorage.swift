@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol SyncStorage {
+protocol SyncStorage {
     associatedtype Model
     func read() -> Model?
     func write(_ items: Model)

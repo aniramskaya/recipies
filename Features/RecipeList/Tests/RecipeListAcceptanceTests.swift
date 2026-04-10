@@ -82,7 +82,7 @@ struct RecipeListAcceptanceTests {
 }
 
 
-final class Server: RecipeListDTOLoader {
+final class Server: RecipeListDTOLoader, @unchecked Sendable {
     var completions: [(Result<RecipeListDTO, Error>) -> Void] = []
     private var onLoad: (() -> Void)?
     

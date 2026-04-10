@@ -5,9 +5,9 @@
 //  Created by Марина Чемезова on 07.04.2026.
 //
 
-final class AsyncRecipeListDTOLoaderStub: AsyncRecipeListDTOLoader {
+actor AsyncRecipeListDTOLoaderStub: AsyncRecipeListDTOLoader {
     private let results: [Result<RecipeListDTO, Error>]
-    public private(set) var resultIndex = 0
+    private(set) var resultIndex = 0
 
     init(
         results: [Result<RecipeListDTO, Error>] = [.success(AsyncRecipeListDTOLoaderStub.stubData)],

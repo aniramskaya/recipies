@@ -21,7 +21,9 @@ struct AsyncRecipeListLoaderTests {
         } catch {
             #expect((error as NSError).isEqual(expectedError), "Expected \(expectedError) received \(error) instead")
         }
-        #expect(module.stub.resultIndex == 1, "Expected to load data once, got called \(module.stub.resultIndex) times instead")
+        
+        let numberOfLoads = await module.stub.resultIndex
+        #expect(numberOfLoads == 1, "Expected to load data once, got called \(numberOfLoads) times instead")
     }
     
     @Test func recipeListLoadingReturnsItemsOnDTOLoadingSuccess() async throws {
@@ -32,7 +34,8 @@ struct AsyncRecipeListLoaderTests {
             let results = try await module.sut.load()
             #expect( results == expectedData, "Expected \(expectedData), got \(results) instead")
         }
-        #expect(module.stub.resultIndex == 1, "Expected to load data once, got called \(module.stub.resultIndex) times instead")
+        let numberOfLoads = await module.stub.resultIndex
+        #expect(numberOfLoads == 1, "Expected to load data once, got called \(numberOfLoads) times instead")
     }
     
     @Test func recipeListLoadsFromCacheWhenDTOLoadingFailed() async throws {
@@ -51,7 +54,8 @@ struct AsyncRecipeListLoaderTests {
             let results = try await module.sut.load()
             #expect( results == expectedData, "Expected \(expectedData), got \(results) instead")
         }
-        #expect(module.stub.resultIndex == 2, "Expected to load data twice, got called \(module.stub.resultIndex) times instead")
+        let numberOfLoads = await module.stub.resultIndex
+        #expect(numberOfLoads == 2, "Expected to load data twice, got called \(numberOfLoads) times instead")
     }
     
     @Test func recipeListFailsWhenRemoteLoadingFailsAndCacheIsExpired() async throws {
@@ -74,7 +78,8 @@ struct AsyncRecipeListLoaderTests {
             #expect((error as NSError).isEqual(stubError), "Expected \(stubError) received \(error) instead")
         }
 
-        #expect(module.stub.resultIndex == 2, "Expected to load data twice, got called \(module.stub.resultIndex) times instead")
+        let numberOfLoads = await module.stub.resultIndex
+        #expect(numberOfLoads == 2, "Expected to load data twice, got called \(numberOfLoads) times instead")
     }
 
     // MARK: Private
