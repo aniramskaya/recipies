@@ -26,7 +26,7 @@ actor AsyncInMemoryCache<Key: Hashable & Sendable, Data: Sendable>: AsyncCacheab
         storage[key] = nil
     }
     
-    func clearAll() async {
+    func clearAll() {
         storage = [:]
     }
 }

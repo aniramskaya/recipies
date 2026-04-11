@@ -212,6 +212,7 @@
 		CC626A032F862769003FCA1B /* RecipeListAsyncAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAsyncAcceptanceTests.swift; sourceTree = "<group>"; };
 		CC626A052F86495C003FCA1B /* TimestampExpirationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampExpirationPolicy.swift; sourceTree = "<group>"; };
 		CC626A072F866036003FCA1B /* PublisherFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublisherFactory.swift; sourceTree = "<group>"; };
+		CC626A0B2F88D524003FCA1B /* agents.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = agents.md; sourceTree = "<group>"; };
 		CC6E84102F1908DF00CFF247 /* RecipeListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAssembly.swift; sourceTree = "<group>"; };
 		CC71F5202AF761CD00A77856 /* SyncStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncStorage.swift; sourceTree = "<group>"; };
 		CC71F5222AF761E800A77856 /* InMemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorage.swift; sourceTree = "<group>"; };
@@ -571,6 +572,7 @@
 		CCF62CB02ADA82BB009537A9 = {
 			isa = PBXGroup;
 			children = (
+				CC626A0B2F88D524003FCA1B /* agents.md */,
 				CC5C8BCC2EFA773E00D14CF1 /* Mocks */,
 				CCF62D0E2ADA8BB3009537A9 /* RecipieList.xctestplan */,
 				CCF62CE62ADA8906009537A9 /* Features */,
