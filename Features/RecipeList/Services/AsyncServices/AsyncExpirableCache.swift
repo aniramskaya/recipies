@@ -22,7 +22,6 @@ actor AsyncExpirableCache<WrappedCache: AsyncCacheable>: AsyncCacheable  {
         guard let saved = cacheSaveTime[key], expirationPolicy.isValid(saved) else {
             throw AsyncCacheableError.expired
         }
-        // Sending 'self.cache' risks causing data races; this is an error in the Swift 6 language mode
         return try await cache.get(key: key)
     }
     
