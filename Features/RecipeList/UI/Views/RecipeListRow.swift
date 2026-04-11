@@ -13,7 +13,7 @@ struct RecipeListRowModel: Identifiable {
     let name: String
     let imageSource: RecipeImageSource
     let cookingTimeMins: Int
-    let rating: Float
+    let complexity: Int
 }
 
 struct RecipeListRow: View {
@@ -33,8 +33,8 @@ struct RecipeListRow: View {
                 CookingTimeView(minutes: model.cookingTimeMins)
                     .accessibilityIdentifier(A11y.cookingTime)
                 Spacer()
-                RatingView(value: model.rating)
-                    .accessibilityIdentifier(A11y.rating)
+                RecipeComplexityView(value: model.complexity)
+                    .accessibilityIdentifier(A11y.complexity)
             }
         }
         .padding(.horizontal, 20)
@@ -48,6 +48,7 @@ public enum RecipeListRowA11y {
     static let name = "RecipeName"
     static let cookingTime = "CookingTime"
     static let rating = "Rating"
+    static let complexity = "Complexity"
 }
 
 private typealias A11y = RecipeListRowA11y
@@ -59,7 +60,7 @@ private typealias A11y = RecipeListRowA11y
             name: "Котлета по-киевски",
             imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
-            rating: 4.6
+            complexity: 3
         )
     )
 }

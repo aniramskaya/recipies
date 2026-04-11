@@ -113,31 +113,31 @@ final class Server: RecipeListDTOLoader, @unchecked Sendable {
     }
 }
 
-private func testModels() -> [(name: String, rating: String, cookingTime: String)] {
+private func testModels() -> [(name: String, complexity: Int, cookingTime: String)] {
     [
         (
             name: "Котлеты по-киевски",
-            rating: "3.5",
+            complexity: 3,
             cookingTime: "75 min",
         ),
         (
             name: "Лапша Удон с курицей",
-            rating: "4.8",
+            complexity: 2,
             cookingTime: "35 min",
         )
     ]
 }
 
-private func testModels2() -> [(name: String, rating: String, cookingTime: String)] {
+private func testModels2() -> [(name: String, complexity: Int, cookingTime: String)] {
     [
         (
             name: "Солянка сборная мясная",
-            rating: "3.5",
+            complexity: 4,
             cookingTime: "75 min",
         ),
         (
             name: "Лагман домашний",
-            rating: "4.8",
+            complexity: 3,
             cookingTime: "135 min",
         )
     ]

@@ -16,18 +16,20 @@ extension RecipeListItem {
                 name: "Котлеты по-киевски",
                 cookingTime: 75 * 60,
                 imageUrl: URL(string: "https://any-url.com")!,
-                rating: 3.5
+                rating: 3.5,
+                complexity: 3
             ),
             .init(
                 id: UUID(uuidString: "474615e9-8c95-43f5-aa4f-38721717da98")!,
                 name: "Лапша Удон с курицей",
                 cookingTime: 35 * 60,
                 imageUrl: URL(string: "https://another-any-url.com")!,
-                rating: 4.8
+                rating: 4.8,
+                complexity: 2
             ),
         ]
     }
-    
+
     static func makeTestItems2() -> [RecipeListItem] {
         [
             .init(
@@ -35,14 +37,16 @@ extension RecipeListItem {
                 name: "Солянка сборная мясная",
                 cookingTime: 75 * 60,
                 imageUrl: URL(string: "https://any-url.com")!,
-                rating: 3.5
+                rating: 3.5,
+                complexity: 4
             ),
             .init(
                 id: UUID(uuidString: "674615e9-8c95-43f5-aa4f-38721717da99")!,
                 name: "Лагман домашний",
                 cookingTime: 135 * 60,
                 imageUrl: URL(string: "https://another-any-url.com")!,
-                rating: 4.8
+                rating: 4.8,
+                complexity: 3
             ),
         ]
     }

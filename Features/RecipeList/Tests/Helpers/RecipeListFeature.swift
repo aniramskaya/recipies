@@ -53,7 +53,7 @@ final class RecipeListFeature: RecipeListUser {
     }
     
     @MainActor
-    func ensureIsDisplayingData(model: [(name: String, rating: String, cookingTime: String)], sourceLocation: SourceLocation = #_sourceLocation) async throws {
+    func ensureIsDisplayingData(model: [(name: String, complexity: Int, cookingTime: String)], sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
             guard let self else { return false }
             let inspectable = try view.inspect()
@@ -65,7 +65,7 @@ final class RecipeListFeature: RecipeListUser {
                 let item = model[index]
                 try cell.assertIsDisplaying(
                     name: item.name,
-                    rating: item.rating,
+                    complexity: item.complexity,
                     cookingTime: item.cookingTime
                 )
             }

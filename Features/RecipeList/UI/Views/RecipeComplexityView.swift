@@ -27,6 +27,9 @@ struct RecipeComplexityView: View {
                     .frame(width: 8, height: barHeights[index])
             }
         }
+        .accessibilityElement()
+        .accessibilityLabel("Recipe complexity")
+        .accessibilityValue(Text("\(clampedValue)"))
     }
 }
 
