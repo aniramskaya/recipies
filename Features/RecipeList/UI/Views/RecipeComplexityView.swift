@@ -16,8 +16,8 @@ struct RecipeComplexityView: View {
     }
 
     private let barHeights: [CGFloat] = [4, 8, 14, 18, 22]
-    private let activeColor = Color("icon.primary", bundle: RecipeListUIAssets.bundle)
-    private let inactiveColor = Color("icon.primary", bundle: RecipeListUIAssets.bundle).opacity(0.4)
+    private let activeColor = RecipeListUIAssets.Color.iconPrimary
+    private let inactiveColor = RecipeListUIAssets.Color.iconPrimary.opacity(0.4)
 
     var body: some View {
         HStack(alignment: .bottom, spacing: 4) {
