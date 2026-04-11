@@ -18,7 +18,7 @@ struct RecipeListRowTests {
     @MainActor
     @Test func RecipeListRowSnapshot() async throws {
         let view = makeSUT()
-        
+
         assertSnapshot(of: view, as: .image(precision: 0.99, layout: .fixed(width: 375, height: 270)))
     }
 
@@ -27,12 +27,12 @@ struct RecipeListRowTests {
     func RecipeListRowContent() async throws {
         let sut = makeSUT()
         let inspectableRow = try sut.inspect().find(RecipeListRow.self)
-        
+
         #expect(throws: Never.self) {
-            try inspectableRow.assertIsDisplaying(name: "Котлета по-киевски", rating: "4.6", cookingTime: "35 min")
+            try inspectableRow.assertIsDisplaying(name: "Котлета по-киевски", complexity: 3, cookingTime: "35 min")
         }
     }
-    
+
     private func makeSUT() -> RecipeListRow {
         .init(model: testModel)
     }
@@ -43,5 +43,5 @@ let testModel = RecipeListRowModel(
     name: "Котлета по-киевски",
     imageSource: .uiImage(.make(withColor: .red)),
     cookingTimeMins: 35,
-    rating: 4.6
+    complexity: 3
 )
