@@ -60,7 +60,7 @@ private typealias A11y = RecipeListRowA11y
             name: "Котлета по-киевски",
             imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
-            rating: 4.6
+            complexity: 3
         )
     )
 }
