@@ -13,7 +13,7 @@ private extension RecipeListItem {
             name: self.name,
             imageSource: .remote(self.imageUrl),
             cookingTimeMins: Int(floor(self.cookingTime / 60)),
-            rating: self.rating ?? 0
+            complexity: self.complexity
         )
     }
 }

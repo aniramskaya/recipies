@@ -21,13 +21,15 @@ public struct RecipeListItemDTO: Decodable, Sendable {
     let cookingTime: Int
     let imageUrl: URL
     let rating: Float?
-    
-    public init(id: UUID, name: String, cookingTime: Int, imageUrl: URL, rating: Float?) {
+    let complexity: Int
+
+    public init(id: UUID, name: String, cookingTime: Int, imageUrl: URL, rating: Float?, complexity: Int) {
         self.id = id
         self.name = name
         self.cookingTime = cookingTime
         self.imageUrl = imageUrl
         self.rating = rating
+        self.complexity = complexity
     }
 }
 
@@ -38,7 +40,8 @@ extension Array where Element == RecipeListItemDTO {
             name: $0.name,
             cookingTime: Double($0.cookingTime * 60),
             imageUrl: $0.imageUrl,
-            rating: $0.rating
+            rating: $0.rating,
+            complexity: $0.complexity
         ) }
     }
 }

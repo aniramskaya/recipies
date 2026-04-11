@@ -13,12 +13,14 @@ public struct RecipeListItem: Equatable, Sendable {
     let cookingTime: TimeInterval
     let imageUrl: URL
     let rating: Float?
-    
-    public init(id: UUID, name: String, cookingTime: TimeInterval, imageUrl: URL, rating: Float?) {
+    let complexity: Int
+
+    public init(id: UUID, name: String, cookingTime: TimeInterval, imageUrl: URL, rating: Float?, complexity: Int) {
         self.id = id
         self.name = name
         self.cookingTime = cookingTime
         self.imageUrl = imageUrl
         self.rating = rating
+        self.complexity = complexity
     }
 }

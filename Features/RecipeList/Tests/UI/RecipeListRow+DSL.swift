@@ -18,7 +18,7 @@ extension RecipeListRow {
         #expect(nameFound == name, "RecipeListRow name expected to be \(name), found \(nameFound) instead", sourceLocation: sourceLocation)
 
         #expect(throws: Never.self, "RecipeListRow does not have a complexity view with value \(complexity)", sourceLocation: sourceLocation) {
-            let found = try inspectable.find(viewWithAccessibilityIdentifier: A11y.complexity).find(RecipeComplexityView.self).actualView()
+            let found = try inspectable.find(RecipeComplexityView.self).actualView()
             #expect(found.value == complexity, "RecipeComplexityView expected value \(complexity), found \(found.value) instead", sourceLocation: sourceLocation)
         }
 
@@ -37,7 +37,7 @@ extension InspectableView where View == ViewType.View<RecipeListRow> {
         }
 
         do {
-            let found = try self.find(viewWithAccessibilityIdentifier: A11y.complexity).find(RecipeComplexityView.self).actualView()
+            let found = try self.find(RecipeComplexityView.self).actualView()
             guard found.value == complexity else {
                 throw TestError(reason: "RecipeComplexityView expected value \(complexity), found \(found.value) instead")
             }
