@@ -21,7 +21,7 @@ struct CookingTimeView: View {
         
         HStack(spacing: 8) {
             Image(systemName: "hourglass")
-                .foregroundStyle(Color("icon.primary", bundle: RecipeListUIAssets.bundle))
+                .foregroundStyle(RecipeListUIAssets.Color.iconPrimary)
                 .font(.system(size: 18, weight: .semibold))
             Text("\(value) \(unit)")
         }
