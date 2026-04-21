@@ -5,6 +5,7 @@
 //  Created by Марина Чемезова on 17.01.2026.
 //
 
+import Foundation
 import Combine
 
 final class RecipeListDTOPublisherStub: RecipeListDTOPublisher {

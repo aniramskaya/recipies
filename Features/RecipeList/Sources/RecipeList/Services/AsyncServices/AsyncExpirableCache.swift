@@ -4,6 +4,7 @@
 //
 //  Created by Марина Чемезова on 07.04.2026.
 //
+import Foundation
 
 actor AsyncExpirableCache<WrappedCache: AsyncCacheable>: AsyncCacheable  {
     typealias Key = WrappedCache.Key

@@ -15,12 +15,12 @@ public enum RecipeListUIAssets {
     }()
 
     public static func image(named: String) -> UIImage? {
-        .init(named: named, in: bundle, compatibleWith: nil)
+        .init(named: named, in: .module, compatibleWith: nil)
     }
 
     public enum Color {
         public static var iconPrimary: SwiftUI.Color {
-            SwiftUI.Color("icon.primary", bundle: RecipeListUIAssets.bundle)
+            SwiftUI.Color("icon.primary", bundle: .module)
         }
     }
 

@@ -4,6 +4,7 @@
 //
 //  Created by Марина Чемезова on 07.04.2026.
 //
+import Foundation
 
 actor AsyncRecipeListDTOLoaderStub: AsyncRecipeListDTOLoader {
     private let results: [Result<RecipeListDTO, Error>]

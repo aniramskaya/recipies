@@ -4,6 +4,7 @@
 //
 //  Created by Марина Чемезова on 17.01.2026.
 //
+import Foundation
 
 final class RecipeListDTOLoaderStub: RecipeListDTOLoader {
     func load(completion: @escaping (Result<RecipeListDTO, any Error>) -> Void) {
