@@ -42,13 +42,6 @@
 		CC7E36ED2F975BE500BF78F2 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		CC7E36F82F975D1900BF78F2 /* RecipeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListItem.swift; sourceTree = "<group>"; };
 		CC7E36FA2F975D1900BF78F2 /* RecipeListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListAssembly.swift; sourceTree = "<group>"; };
-		CC7E36FB2F975D1900BF78F2 /* CallAsFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallAsFunction.swift; sourceTree = "<group>"; };
-		CC7E36FC2F975D1900BF78F2 /* Fallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fallback.swift; sourceTree = "<group>"; };
-		CC7E36FD2F975D1900BF78F2 /* Flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flow.swift; sourceTree = "<group>"; };
-		CC7E36FE2F975D1900BF78F2 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
-		CC7E36FF2F975D1900BF78F2 /* OnError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnError.swift; sourceTree = "<group>"; };
-		CC7E37002F975D1900BF78F2 /* OnSuccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnSuccess.swift; sourceTree = "<group>"; };
-		CC7E37012F975D1900BF78F2 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		CC7E37032F975D1900BF78F2 /* AnyAsyncCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyAsyncCache.swift; sourceTree = "<group>"; };
 		CC7E37042F975D1900BF78F2 /* AsyncCacheable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCacheable.swift; sourceTree = "<group>"; };
 		CC7E37052F975D1900BF78F2 /* AsyncExpirableCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncExpirableCache.swift; sourceTree = "<group>"; };
@@ -107,6 +100,7 @@
 		CC7E374B2F975D3100BF78F2 /* RecipeListRowSnapshot.1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RecipeListRowSnapshot.1.png; sourceTree = "<group>"; };
 		CC7E374E2F975D3100BF78F2 /* RecipeListRow+DSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListRow+DSL.swift"; sourceTree = "<group>"; };
 		CC7E374F2F975D3100BF78F2 /* RecipeListRowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListRowTests.swift; sourceTree = "<group>"; };
+		CC7E37582F97668700BF78F2 /* Flow */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Flow; sourceTree = "<group>"; };
 		CC9D232D2F0A4F660039E3D4 /* 004 - UI Content Testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "004 - UI Content Testing.md"; sourceTree = "<group>"; };
 		CC9D23302F0BB42D0039E3D4 /* 005 - Acceptance testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "005 - Acceptance testing.md"; sourceTree = "<group>"; };
 		CC9D23332F0BC8F70039E3D4 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
@@ -188,6 +182,7 @@
 		CC7E36E42F97567B00BF78F2 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				CC7E37582F97668700BF78F2 /* Flow */,
 				CC7E36E52F9756A700BF78F2 /* RecipeUIKit */,
 			);
 			path = Shared;
@@ -251,24 +246,9 @@
 			path = Domain;
 			sourceTree = "<group>";
 		};
-		CC7E37022F975D1900BF78F2 /* Flow */ = {
-			isa = PBXGroup;
-			children = (
-				CC7E36FB2F975D1900BF78F2 /* CallAsFunction.swift */,
-				CC7E36FC2F975D1900BF78F2 /* Fallback.swift */,
-				CC7E36FD2F975D1900BF78F2 /* Flow.swift */,
-				CC7E36FE2F975D1900BF78F2 /* Map.swift */,
-				CC7E36FF2F975D1900BF78F2 /* OnError.swift */,
-				CC7E37002F975D1900BF78F2 /* OnSuccess.swift */,
-				CC7E37012F975D1900BF78F2 /* Readme.md */,
-			);
-			path = Flow;
-			sourceTree = "<group>";
-		};
 		CC7E370B2F975D1900BF78F2 /* AsyncServices */ = {
 			isa = PBXGroup;
 			children = (
-				CC7E37022F975D1900BF78F2 /* Flow */,
 				CC7E37032F975D1900BF78F2 /* AnyAsyncCache.swift */,
 				CC7E37042F975D1900BF78F2 /* AsyncCacheable.swift */,
 				CC7E37052F975D1900BF78F2 /* AsyncExpirableCache.swift */,

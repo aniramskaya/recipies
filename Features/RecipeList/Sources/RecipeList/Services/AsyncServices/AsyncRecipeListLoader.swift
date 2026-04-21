@@ -5,6 +5,8 @@
 //  Created by Марина Чемезова on 07.04.2026.
 //
 
+import Flow
+
 let AsyncRecipeListCacheKey = "RecipeList"
 
 struct AsyncRecipeListLoader: RecipeListLoaderAsync {

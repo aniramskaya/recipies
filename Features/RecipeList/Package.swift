@@ -15,6 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../../Shared/RecipeUIKit"),
+        .package(path: "../../Shared/Flow"),
         .package(url: "https://github.com/apple/swift-async-algorithms.git", from: "1.0.0"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.0.0"),
         .package(url: "https://github.com/nalexn/ViewInspector.git", from: "0.10.0"),
@@ -26,6 +27,7 @@ let package = Package(
             name: "RecipeList",
             dependencies: [
                 .product(name: "RecipeUIKit", package: "RecipeUIKit"),
+                .product(name: "Flow", package: "Flow"),
                 .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
             ]
         ),
