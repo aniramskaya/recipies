@@ -29,6 +29,7 @@ extension RecipeListRow {
 }
 
 extension InspectableView where View == ViewType.View<RecipeListRow> {
+    @MainActor
     func assertIsDisplaying(name: String, complexity: Int, cookingTime: String) throws {
 
         let nameFound = try self.find(viewWithAccessibilityIdentifier: A11y.name).text().string()
