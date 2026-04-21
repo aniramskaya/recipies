@@ -1,18 +1,21 @@
-
 //
-//  LoadingView.swift
-//  RecipeList
+//  ErrorView.swift
 //
 //  Created by Марина Чемезова on 05.01.2026.
 //
 
 import SwiftUI
 
-struct ErrorView: View {
-    let error: String
-    let onRetry: () -> Void
+public struct ErrorView: View {
+    public let error: String
+    public let onRetry: () -> Void
     
-    var body: some View {
+    public init(error: String, onRetry: @escaping () -> Void) {
+        self.error = error
+        self.onRetry = onRetry
+    }
+    
+    public var body: some View {
         VStack(alignment: .center, spacing: 12) {
             Text(error)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -32,10 +35,10 @@ struct ErrorView: View {
     }
 }
 
-struct ErrorViewA11y {
-    static let component = "ErrorView"
-    static let errorText = "ErrorText"
-    static let retryButton = "RetryButton"
+public struct ErrorViewA11y {
+    public static let component = "ErrorView"
+    public static let errorText = "ErrorText"
+    public static let retryButton = "RetryButton"
 }
 
 #Preview {

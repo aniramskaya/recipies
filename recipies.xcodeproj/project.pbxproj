@@ -29,7 +29,6 @@
 		CC5C8BF82EFAA8B000D14CF1 /* CookingTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */; };
 		CC5C8BF92EFAA8B000D14CF1 /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BF22EFAA8B000D14CF1 /* RatingView.swift */; };
 		CC5C8BFA2EFAA8B000D14CF1 /* RecipeListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8BF32EFAA8B000D14CF1 /* RecipeListRow.swift */; };
-		CCAB00022EFAA8B000D14CF1 /* RecipeComplexityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAB00012EFAA8B000D14CF1 /* RecipeComplexityView.swift */; };
 		CC5C8C042EFAAA9F00D14CF1 /* RecipeListImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC5C8C022EFAAA9600D14CF1 /* RecipeListImage.swift */; };
 		CC6269D42F83AC90003FCA1B /* RecipeListLoaderAsync.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269D32F83AC85003FCA1B /* RecipeListLoaderAsync.swift */; };
 		CC6269D72F83C82C003FCA1B /* CombineRecipeListLoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6269D62F83C823003FCA1B /* CombineRecipeListLoder.swift */; };
@@ -77,8 +76,6 @@
 		CC9D23322F0BC05E0039E3D4 /* RecipeListAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D23312F0BC05E0039E3D4 /* RecipeListAcceptanceTests.swift */; };
 		CC9D23362F0BCCBA0039E3D4 /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D23352F0BCCBA0039E3D4 /* RecipeListView.swift */; };
 		CC9D23392F0BCD330039E3D4 /* RecipeListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D23382F0BCD330039E3D4 /* RecipeListScreen.swift */; };
-		CC9D233D2F0BD3CE0039E3D4 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D233B2F0BD3CE0039E3D4 /* LoadingView.swift */; };
-		CC9D233F2F0BD4E30039E3D4 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D233E2F0BD4E30039E3D4 /* ErrorView.swift */; };
 		CC9D23442F160D200039E3D4 /* RecipeListLoaderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D23432F160D100039E3D4 /* RecipeListLoaderAssembly.swift */; };
 		CC9D23462F1657610039E3D4 /* RecipeListDTO+TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9D23452F16575F0039E3D4 /* RecipeListDTO+TestData.swift */; };
 		CC9F64BB2F1E2E9600357A55 /* CombineRecipeListLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9F64BA2F1E2E9600357A55 /* CombineRecipeListLoaderTests.swift */; };
@@ -86,6 +83,9 @@
 		CC9F64C32F1E40AC00357A55 /* CombineRecipeListDTOExpirableCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9F64C22F1E40A000357A55 /* CombineRecipeListDTOExpirableCache.swift */; };
 		CCA610202AF74A0A001D3F1C /* InMemoryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */; };
 		CCA610222AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */; };
+		CCAB00022EFAA8B000D14CF1 /* RecipeComplexityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAB00012EFAA8B000D14CF1 /* RecipeComplexityView.swift */; };
+		CCD868902F9720FA0033B725 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD8688F2F9720FA0033B725 /* LoadingView.swift */; };
+		CCD868922F9721260033B725 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD868912F9721260033B725 /* ErrorView.swift */; };
 		CCF62CBD2ADA82BB009537A9 /* recipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */; };
 		CCF62CBF2ADA82BB009537A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBE2ADA82BB009537A9 /* ContentView.swift */; };
 		CCF62CC12ADA82CB009537A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCF62CC02ADA82CB009537A9 /* Assets.xcassets */; };
@@ -188,7 +188,6 @@
 		CC5C8BE42EFA9A1F00D14CF1 /* 003 - Snapshot testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "003 - Snapshot testing.md"; sourceTree = "<group>"; };
 		CC5C8BF12EFAA8B000D14CF1 /* CookingTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingTimeView.swift; sourceTree = "<group>"; };
 		CC5C8BF22EFAA8B000D14CF1 /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
-		CCAB00012EFAA8B000D14CF1 /* RecipeComplexityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeComplexityView.swift; sourceTree = "<group>"; };
 		CC5C8BF32EFAA8B000D14CF1 /* RecipeListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListRow.swift; sourceTree = "<group>"; };
 		CC5C8C022EFAAA9600D14CF1 /* RecipeListImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListImage.swift; sourceTree = "<group>"; };
 		CC6269D32F83AC85003FCA1B /* RecipeListLoaderAsync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListLoaderAsync.swift; sourceTree = "<group>"; };
@@ -238,14 +237,15 @@
 		CC9D23332F0BC8F70039E3D4 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		CC9D23352F0BCCBA0039E3D4 /* RecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListView.swift; sourceTree = "<group>"; };
 		CC9D23382F0BCD330039E3D4 /* RecipeListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListScreen.swift; sourceTree = "<group>"; };
-		CC9D233B2F0BD3CE0039E3D4 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		CC9D233E2F0BD4E30039E3D4 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		CC9D23432F160D100039E3D4 /* RecipeListLoaderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListLoaderAssembly.swift; sourceTree = "<group>"; };
 		CC9D23452F16575F0039E3D4 /* RecipeListDTO+TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListDTO+TestData.swift"; sourceTree = "<group>"; };
 		CC9F64BA2F1E2E9600357A55 /* CombineRecipeListLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineRecipeListLoaderTests.swift; sourceTree = "<group>"; };
 		CC9F64C22F1E40A000357A55 /* CombineRecipeListDTOExpirableCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineRecipeListDTOExpirableCache.swift; sourceTree = "<group>"; };
 		CCA6101F2AF74A0A001D3F1C /* InMemoryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorageTests.swift; sourceTree = "<group>"; };
 		CCA610212AF7548A001D3F1C /* RecipeListItem+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecipeListItem+TestHelpers.swift"; sourceTree = "<group>"; };
+		CCAB00012EFAA8B000D14CF1 /* RecipeComplexityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeComplexityView.swift; sourceTree = "<group>"; };
+		CCD8688F2F9720FA0033B725 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		CCD868912F9721260033B725 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		CCF62CB92ADA82BB009537A9 /* recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipesApp.swift; sourceTree = "<group>"; };
 		CCF62CBE2ADA82BB009537A9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -401,8 +401,6 @@
 			isa = PBXGroup;
 			children = (
 				CC5C8C022EFAAA9600D14CF1 /* RecipeListImage.swift */,
-				CC9D233B2F0BD3CE0039E3D4 /* LoadingView.swift */,
-				CC9D233E2F0BD4E30039E3D4 /* ErrorView.swift */,
 			);
 			path = PossiblySharedComponents;
 			sourceTree = "<group>";
@@ -519,6 +517,7 @@
 		CC9D231D2F0A2D7E0039E3D4 /* RecipeUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				CCD8688E2F9720F10033B725 /* Views */,
 				CC9D231B2F0A2D7E0039E3D4 /* Assets.xcassets */,
 				CC9D231C2F0A2D7E0039E3D4 /* RecipeUIKit.swift */,
 				CC9D22E82F0A27E10039E3D4 /* UIImage+Extensions.swift */,
@@ -570,6 +569,15 @@
 				CC9F64BA2F1E2E9600357A55 /* CombineRecipeListLoaderTests.swift */,
 			);
 			path = CombineServices;
+			sourceTree = "<group>";
+		};
+		CCD8688E2F9720F10033B725 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CCD868912F9721260033B725 /* ErrorView.swift */,
+				CCD8688F2F9720FA0033B725 /* LoadingView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		CCF62CB02ADA82BB009537A9 = {
@@ -970,6 +978,8 @@
 			files = (
 				CC9D231E2F0A2D7E0039E3D4 /* RecipeUIKit.swift in Sources */,
 				CC9D23272F0A33FD0039E3D4 /* UIImage+Extensions.swift in Sources */,
+				CCD868902F9720FA0033B725 /* LoadingView.swift in Sources */,
+				CCD868922F9721260033B725 /* ErrorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1041,9 +1051,7 @@
 				CC56EACB2F17B1C00044956B /* RecipeListScreenViewModel.swift in Sources */,
 				CC2B54CA2F1BEE7E00B251CE /* RecipeListDTOPublisher.swift in Sources */,
 				CC2B54E52F1BFF8800B251CE /* CombineRecipeListLoaderAssembly.swift in Sources */,
-				CC9D233F2F0BD4E30039E3D4 /* ErrorView.swift in Sources */,
 				CCF62D0D2ADA89B3009537A9 /* RecipeItemDTO.swift in Sources */,
-				CC9D233D2F0BD3CE0039E3D4 /* LoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

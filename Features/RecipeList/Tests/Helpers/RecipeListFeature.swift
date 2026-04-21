@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import ViewInspector
 import TestHelpers
+import RecipeUIKit
 
 @testable import RecipeList
 
