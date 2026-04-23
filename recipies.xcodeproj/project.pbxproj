@@ -104,6 +104,7 @@
 		CC9D232D2F0A4F660039E3D4 /* 004 - UI Content Testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "004 - UI Content Testing.md"; sourceTree = "<group>"; };
 		CC9D23302F0BB42D0039E3D4 /* 005 - Acceptance testing.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "005 - Acceptance testing.md"; sourceTree = "<group>"; };
 		CC9D23332F0BC8F70039E3D4 /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
+		CCF5A9282F99E47900F5846E /* RecipeEdit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RecipeEdit; sourceTree = "<group>"; };
 		CCF62CB92ADA82BB009537A9 /* recipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipesApp.swift; sourceTree = "<group>"; };
 		CCF62CBE2ADA82BB009537A9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -512,6 +513,7 @@
 		CCF62CE62ADA8906009537A9 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				CCF5A9282F99E47900F5846E /* RecipeEdit */,
 				CC7E36EE2F975BE500BF78F2 /* RecipeList */,
 			);
 			path = Features;

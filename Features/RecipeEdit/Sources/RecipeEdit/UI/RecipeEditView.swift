@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct EditRecipeView: View {
-    let data: EditRecipeFormData
-    let errors: EditRecipeFormErrors
+struct RecipeEditView: View {
+    let data: RecipeEditFormData
+    let errors: RecipeEditFormErrors
     let onSave: () -> Void
 
     var body: some View {
@@ -11,22 +11,22 @@ struct EditRecipeView: View {
                 formField(title: "Название") {
                     TextField("Введите название", text: .constant(data.name))
                         .textFieldStyle(.roundedBorder)
-                        .accessibilityIdentifier(EditRecipeA11y.nameField)
+                        .accessibilityIdentifier(RecipeEditA11y.nameField)
                 } error: {
                     errors.name
                 } errorIdentifier: {
-                    EditRecipeA11y.nameError
+                    RecipeEditA11y.nameError
                 }
 
                 formField(title: "Длительность (мин)") {
                     TextField("Введите длительность", text: .constant(data.cookingTime))
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
-                        .accessibilityIdentifier(EditRecipeA11y.cookingTimeField)
+                        .accessibilityIdentifier(RecipeEditA11y.cookingTimeField)
                 } error: {
                     errors.cookingTime
                 } errorIdentifier: {
-                    EditRecipeA11y.cookingTimeError
+                    RecipeEditA11y.cookingTimeError
                 }
 
                 formField(title: "Сложность (1–5)") {
@@ -35,14 +35,14 @@ struct EditRecipeView: View {
                         in: 1...5,
                         label: {
                             Text("\(data.complexity)")
-                                .accessibilityIdentifier(EditRecipeA11y.complexityValue)
+                                .accessibilityIdentifier(RecipeEditA11y.complexityValue)
                         }
                     )
-                    .accessibilityIdentifier(EditRecipeA11y.complexityField)
+                    .accessibilityIdentifier(RecipeEditA11y.complexityField)
                 } error: {
                     errors.complexity
                 } errorIdentifier: {
-                    EditRecipeA11y.complexityError
+                    RecipeEditA11y.complexityError
                 }
 
                 Button(action: onSave) {
@@ -53,7 +53,7 @@ struct EditRecipeView: View {
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
-                .accessibilityIdentifier(EditRecipeA11y.saveButton)
+                .accessibilityIdentifier(RecipeEditA11y.saveButton)
                 .padding(.top, 8)
             }
             .padding()
@@ -83,17 +83,17 @@ struct EditRecipeView: View {
 }
 
 #Preview("Заполненная форма") {
-    EditRecipeView(
-        data: EditRecipeFormData(name: "Котлета по-киевски", cookingTime: "35", complexity: 3),
+    RecipeEditView(
+        data: RecipeEditFormData(name: "Котлета по-киевски", cookingTime: "35", complexity: 3),
         errors: .none,
         onSave: {}
     )
 }
 
 #Preview("Ошибки валидации") {
-    EditRecipeView(
+    RecipeEditView(
         data: .empty,
-        errors: EditRecipeFormErrors(
+        errors: RecipeEditFormErrors(
             name: "Поле обязательно",
             cookingTime: "Поле обязательно",
             complexity: nil

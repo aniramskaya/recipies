@@ -3,12 +3,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "EditRecipe",
+    name: "RecipeEdit",
     platforms: [.iOS(.v16), .macOS(.v15)],
     products: [
         .library(
-            name: "EditRecipe",
-            targets: ["EditRecipe"]
+            name: "RecipeEdit",
+            targets: ["RecipeEdit"]
         ),
     ],
     dependencies: [
@@ -18,15 +18,15 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "EditRecipe",
+            name: "RecipeEdit",
             dependencies: [
                 .product(name: "RecipeUIKit", package: "RecipeUIKit"),
             ]
         ),
         .testTarget(
-            name: "EditRecipeTests",
+            name: "RecipeEditTests",
             dependencies: [
-                "EditRecipe",
+                "RecipeEdit",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 .product(name: "ViewInspector", package: "ViewInspector"),
             ]
