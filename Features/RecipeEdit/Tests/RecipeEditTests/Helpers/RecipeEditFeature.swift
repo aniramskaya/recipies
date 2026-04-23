@@ -29,21 +29,40 @@ final class RecipeEditFeature: RecipeEditUser {
     }
 
     func ensureIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        // TODO: waitFor — найти LoadingView в иерархии вью
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let _ = try self.view.inspect().find(viewWithAccessibilityIdentifier: LoadingViewA11y.component)
+            return true
+        }
     }
 
     func ensureIsDisplayingError(sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        // TODO: waitFor — найти ErrorView в иерархии вью
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let _ = try self.view.inspect().find(viewWithAccessibilityIdentifier: ErrorViewA11y.component)
+            return true
+        }
     }
 
     func ensureIsDisplayingForm(data: RecipeData, sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        // TODO: waitFor — проверить что форма отображает name, cookingTime и complexity из data
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let inspectable = try self.view.inspect()
+            let complexityText = try inspectable
+                .find(viewWithAccessibilityIdentifier: RecipeEditA11y.complexityValue)
+                .text()
+                .string()
+            return complexityText == String(data.complexity)
+        }
     }
 
     // MARK: RecipeEditUser
 
     func tapRetryButton() throws {
-        // TODO: найти кнопку повтора через ErrorViewA11y.retryButton и нажать
+        let button = try view.inspect()
+            .find(viewWithAccessibilityIdentifier: ErrorViewA11y.retryButton)
+            .button()
+        try button.tap()
     }
 }
 #endif
