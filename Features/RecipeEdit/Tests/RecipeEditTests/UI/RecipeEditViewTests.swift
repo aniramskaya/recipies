@@ -3,7 +3,7 @@ import SnapshotTesting
 import SwiftUI
 @testable import RecipeEdit
 
-struct EditRecipeViewTests {
+struct RecipeEditViewTests {
     @MainActor
     @Test func filledFormSnapshot() async throws {
         let view = await makeSUT(data: .filled, errors: .none)

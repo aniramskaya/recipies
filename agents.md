@@ -26,12 +26,13 @@ This document gives AI coding agents the context needed to work effectively in t
 - Acceptance tests should use human intuitive terminology like Feature, Server, User and so on to provide readers clear understanding how feature works
 - DSL objects and functions should be used to adapt technical feature terminology to acceptance tests terminology
 - Agents should not modify acceptance tests unless it is explicitly stated in the task
-- DSL object can be modified by agents while implementing a feature with explicit confirmation from the task owner
+- DSL objects can be modified by agents while implementing a feature with explicit confirmation from the task owner
 
 ## Git
 - Agents must create git branches with prefix "dev/ai"
 - Agents cannot commiе into branches not prefixed with "dev/ai" unless it is explicitly stated in task
 - Branches connected with Github issues should be named as "issue-N" where N is the number of the issue
 
-## Task processing rules
-- If task given by agent user contains names for certan types to create, agent should use them without changes  
+## Task processing rules and code style
+- If task given by agent user contains names for certan types to create, agent should use them without changes
+- Naming for screens and views should start with the name of the entity they are related to (RecipeEdit, not EditRecipe)  
