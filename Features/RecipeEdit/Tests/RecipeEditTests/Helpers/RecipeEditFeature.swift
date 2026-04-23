@@ -48,11 +48,26 @@ final class RecipeEditFeature: RecipeEditUser {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
             guard let self else { return false }
             let inspectable = try self.view.inspect()
-            let complexityText = try inspectable
+
+            let name = try inspectable
+                .find(viewWithAccessibilityIdentifier: RecipeEditA11y.nameField)
+                .textField()
+                .input()
+            guard name == data.name else { return false }
+
+            let cookingTime = try inspectable
+                .find(viewWithAccessibilityIdentifier: RecipeEditA11y.cookingTimeField)
+                .textField()
+                .input()
+            guard cookingTime == String(data.cookingTime) else { return false }
+
+            let complexity = try inspectable
                 .find(viewWithAccessibilityIdentifier: RecipeEditA11y.complexityValue)
                 .text()
                 .string()
-            return complexityText == String(data.complexity)
+            guard complexity == String(data.complexity) else { return false }
+
+            return true
         }
     }
 

@@ -2,10 +2,10 @@ import SwiftUI
 import RecipeUIKit
 
 struct RecipeEditScreen: View {
-    @StateObject private var viewModel: RecipeEditViewModel
+    @ObservedObject private var viewModel: RecipeEditViewModel
 
     init(viewModel: RecipeEditViewModel) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
+        self.viewModel = viewModel
     }
 
     var body: some View {

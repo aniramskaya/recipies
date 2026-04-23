@@ -26,7 +26,7 @@ This document gives AI coding agents the context needed to work effectively in t
 - Acceptance tests should use human intuitive terminology like Feature, Server, User and so on to provide readers clear understanding how feature works
 - DSL objects and functions should be used to adapt technical feature terminology to acceptance tests terminology
 - Agents should not modify acceptance tests unless it is explicitly stated in the task
-- DSL object can be modified by agents while implementing a feature with explicit confirmation from the task owner
+- DSL objects can be modified by agents while implementing a feature with explicit confirmation from the task owner
 
 ## Git
 - Agents must create git branches with prefix "dev/ai"
