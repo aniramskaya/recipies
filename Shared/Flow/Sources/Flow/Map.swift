@@ -4,11 +4,11 @@
 
 extension Flow {
     public func map<NewValue: Sendable>(
-        _ transform: @escaping @Sendable (Value) -> NewValue
+        _ transform: @escaping @Sendable (Value) async throws -> NewValue
     ) -> Flow<NewValue> {
         Flow<NewValue> {
             let value = try await self.operation()
-            return transform(value)
+            return try await transform(value)
         }
     }
 }
