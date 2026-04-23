@@ -33,5 +33,6 @@ This document gives AI coding agents the context needed to work effectively in t
 - Agents cannot commiе into branches not prefixed with "dev/ai" unless it is explicitly stated in task
 - Branches connected with Github issues should be named as "issue-N" where N is the number of the issue
 
-## Task processing rules
-- If task given by agent user contains names for certan types to create, agent should use them without changes  
+## Task processing rules and code style
+- If task given by agent user contains names for certan types to create, agent should use them without changes
+- Naming for screens and views should start with the name of the entity they are related to (RecipeEdit, not EditRecipe)  
