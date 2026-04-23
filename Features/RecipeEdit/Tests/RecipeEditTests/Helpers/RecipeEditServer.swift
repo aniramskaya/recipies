@@ -5,7 +5,7 @@ final class RecipeEditServer: RecipeLoader, @unchecked Sendable {
     private var continuations: [CheckedContinuation<RecipeData, Error>] = []
     private var onLoad: (() -> Void)?
 
-    func load(id: UUID) async throws -> RecipeData {
+    func load() async throws -> RecipeData {
         try await withCheckedThrowingContinuation { continuation in
             continuations.append(continuation)
             if let onLoad {

@@ -12,18 +12,15 @@ final class RecipeEditViewModel: ObservableObject {
     @Published private(set) var state: RecipeLoadingState = .idle
 
     private let loader: any RecipeLoader
-    private let recipeId: UUID
 
-    init(loader: any RecipeLoader, recipeId: UUID) {
+    init(loader: any RecipeLoader) {
         self.loader = loader
-        self.recipeId = recipeId
     }
 
     func load() async {
-        if case .loading = state { return }
         state = .loading
         do {
-            let data = try await loader.load(id: recipeId)
+            let data = try await loader.load()
             state = .loaded(data)
         } catch {
             state = .failed(error)

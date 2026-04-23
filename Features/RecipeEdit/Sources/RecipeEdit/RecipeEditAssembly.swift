@@ -3,10 +3,9 @@ import Foundation
 enum RecipeEditAssembly {
     @MainActor
     static func composeInternal(
-        loader: any RecipeLoader,
-        recipeId: UUID = UUID()
+        loader: any RecipeLoader
     ) -> (RecipeEditScreen, [AnyObject]) {
-        let viewModel = RecipeEditViewModel(loader: loader, recipeId: recipeId)
+        let viewModel = RecipeEditViewModel(loader: loader)
         let screen = RecipeEditScreen(viewModel: viewModel)
         return (screen, [viewModel])
     }
