@@ -5,9 +5,11 @@
 //  Created by Марина Чемезова on 19.01.2026.
 //
 
+import Foundation
 import Combine
 import Testing
 import AsyncAlgorithms
+import TestHelpers
 @testable import RecipeList
 
 struct CombineRecipeListLoaderTests {

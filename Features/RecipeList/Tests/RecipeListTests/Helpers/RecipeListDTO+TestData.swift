@@ -4,6 +4,7 @@
 //
 //  Created by Марина Чемезова on 13.01.2026.
 //
+import Foundation
 @testable import RecipeList
 
 extension RecipeListDTO {

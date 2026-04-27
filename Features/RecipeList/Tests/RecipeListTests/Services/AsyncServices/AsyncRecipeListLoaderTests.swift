@@ -5,7 +5,9 @@
 //  Created by Марина Чемезова on 07.04.2026.
 //
 
+import Foundation
 import Testing
+import TestHelpers
 @testable import RecipeList
 
 struct AsyncRecipeListLoaderTests {

@@ -16,6 +16,7 @@ let package = Package(
     dependencies: [
         .package(path: "../../Shared/RecipeUIKit"),
         .package(path: "../../Shared/Flow"),
+        .package(path: "../../Shared/TestHelpers"),
         .package(url: "https://github.com/apple/swift-async-algorithms.git", from: "1.0.0"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.0.0"),
         .package(url: "https://github.com/nalexn/ViewInspector.git", from: "0.10.0"),
@@ -35,6 +36,7 @@ let package = Package(
             name: "RecipeListTests",
             dependencies: [
                 "RecipeList",
+                .product(name: "TestHelpers", package: "TestHelpers"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 .product(name: "ViewInspector", package: "ViewInspector"),
             ]
