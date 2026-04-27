@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:Features"
+      name = "Features">
+      <FileRef
+         location = "group:RecipeList">
+      </FileRef>
+      <FileRef
+         location = "group:RecipeEdit">
+      </FileRef>
+   </Group>
+   <Group
+      location = "group:Shared"
+      name = "Shared">
+      <FileRef
+         location = "group:TestHelpers">
+      </FileRef>
+      <FileRef
+         location = "group:RecipeUIKit">
+      </FileRef>
+      <FileRef
+         location = "group:Flow">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:recipies.xcodeproj">
+   </FileRef>
+</Workspace>

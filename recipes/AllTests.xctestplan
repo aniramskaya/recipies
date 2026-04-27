@@ -1,0 +1,52 @@
+{
+  "configurations" : [
+    {
+      "id" : "4A4AC182-768B-4629-84D1-5EBA09D02AD9",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Shared\/RecipeUIKit",
+        "identifier" : "RecipeUIKitTests",
+        "name" : "RecipeUIKitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Features\/RecipeEdit",
+        "identifier" : "RecipeEditTests",
+        "name" : "RecipeEditTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Shared\/Flow",
+        "identifier" : "FlowTests",
+        "name" : "FlowTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:recipies.xcodeproj",
+        "identifier" : "CCF62CC82ADA82CB009537A9",
+        "name" : "recipesTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Features\/RecipeList",
+        "identifier" : "RecipeListTests",
+        "name" : "RecipeListTests"
+      }
+    }
+  ],
+  "version" : 1
+}
