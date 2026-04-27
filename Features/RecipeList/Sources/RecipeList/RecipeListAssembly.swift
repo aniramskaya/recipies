@@ -5,19 +5,21 @@
 //  Created by Марина Чемезова on 15.01.2026.
 //
 
+import Foundation
+
 public enum RecipeListAssembly {
     @MainActor
     public static func composeWithCalbackServices() -> RecipeListScreen {
         return composeInternalWithCallbackServices(
             dtoLoader: RecipeListDTOLoaderStub(),
-            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300))
+            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300)),
         ).0
     }
     
     @MainActor
     static func composeInternalWithCallbackServices(
         dtoLoader: RecipeListDTOLoader,
-        cacheExpirationPolicy: TimestampExpirationPolicy
+        cacheExpirationPolicy: TimestampExpirationPolicy,
     ) -> (RecipeListScreen, [AnyObject]) {
         let (recipeListLoader, leakable) = RecipeListLoaderAssembly.composeInternal(
             dtoLoader: dtoLoader,
@@ -25,7 +27,7 @@ public enum RecipeListAssembly {
         )
         let asyncLoader = RecipeListLoaderAsyncAdapter(loader: recipeListLoader)
         let viewModel = RecipeListScreenViewModel(loader: asyncLoader)
-        let screen = RecipeListScreen(viewModel: viewModel)
+        let screen = RecipeListScreen(viewModel: viewModel, onSelectItem: { _ in })
         return (screen, leakable + [recipeListLoader, viewModel])
     }
     
@@ -47,29 +49,33 @@ public enum RecipeListAssembly {
             cacheExpirationPolicy: cacheExpirationPolicy
         )
         let viewModel = RecipeListScreenViewModel(loader: recipeListLoader)
-        let screen = RecipeListScreen(viewModel: viewModel)
+        let screen = RecipeListScreen(viewModel: viewModel, onSelectItem: { _ in })
         return (screen, leakable + [viewModel])
     }
     
     @MainActor
-    public static func composeWithAsyncServices() -> RecipeListScreen {
+    public static func composeWithAsyncServices(
+        onSelectItem: @escaping @MainActor (_: UUID) -> Void
+    ) -> RecipeListScreen {
         return composeInternalWithAsyncServices(
             dtoLoader: AsyncRecipeListDTOLoaderStub(),
-            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300))
+            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300)),
+            onSelectItem: onSelectItem
         ).0
     }
     
     @MainActor
     static func composeInternalWithAsyncServices(
         dtoLoader: AsyncRecipeListDTOLoader,
-        cacheExpirationPolicy: TimestampExpirationPolicy
+        cacheExpirationPolicy: TimestampExpirationPolicy,
+        onSelectItem: @escaping @MainActor (_: UUID) -> Void
     ) -> (RecipeListScreen, [AnyObject]) {
         let (recipeListLoader, leakable) = AsyncRecipeListLoaderAssembly.composeInternal(
             dtoLoader: dtoLoader,
             cacheExpirationPolicy: cacheExpirationPolicy
         )
         let viewModel = RecipeListScreenViewModel(loader: recipeListLoader)
-        let screen = RecipeListScreen(viewModel: viewModel)
+        let screen = RecipeListScreen(viewModel: viewModel, onSelectItem: onSelectItem)
         return (screen, leakable + [viewModel])
     }
 }
