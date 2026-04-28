@@ -26,7 +26,9 @@ struct RecipeEditScreen: View {
                 cookingTime: $formViewModel.cookingTime,
                 complexity: $formViewModel.complexity,
                 errors: formViewModel.errors,
-                onSave: formViewModel.save
+                savingState: formViewModel.savingState,
+                onSave: formViewModel.save,
+                onClose: formViewModel.dismissError
             )
         case .failed(let error):
             ErrorView(error: error.localizedDescription) {

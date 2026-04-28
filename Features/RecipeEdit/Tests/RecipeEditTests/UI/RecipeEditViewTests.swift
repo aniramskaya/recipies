@@ -35,7 +35,7 @@ private struct RecipeEditViewTestWrapper: View {
     }
 
     var body: some View {
-        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, onSave: {})
+        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, savingState: .idle, onSave: {}, onClose: {})
     }
 }
 

@@ -14,6 +14,7 @@ protocol RecipeEditUser {
     func tapSaveButton() throws
     func fillNameField(_ text: String) throws
     func fillCookingTimeField(_ text: String) throws
+    func tapCloseErrorOverlay() throws
 }
 
 // MARK: - Feature DSL
@@ -135,6 +136,40 @@ final class RecipeEditFeature: RecipeEditUser {
             .find(viewWithAccessibilityIdentifier: RecipeEditA11y.cookingTimeField)
             .textField()
         try field.setInput(text)
+    }
+
+    func tapCloseErrorOverlay() throws {
+        let button = try view.inspect()
+            .find(viewWithAccessibilityIdentifier: RecipeEditA11y.errorOverlayCloseButton)
+            .button()
+        try button.tap()
+    }
+
+    func ensureIsDisplayingSuccessOverlay(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let _ = try self.view.inspect().find(viewWithAccessibilityIdentifier: RecipeEditA11y.successOverlay)
+            return true
+        }
+    }
+
+    func ensureIsDisplayingErrorOverlay(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let _ = try self.view.inspect().find(viewWithAccessibilityIdentifier: RecipeEditA11y.errorOverlay)
+            return true
+        }
+    }
+
+    func ensureIsDisplayingNoSavingOverlay(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(timeout: 2.2, sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let inspectable = try self.view.inspect()
+            let hasSaving = (try? inspectable.find(viewWithAccessibilityIdentifier: RecipeEditA11y.savingOverlay)) != nil
+            let hasSuccess = (try? inspectable.find(viewWithAccessibilityIdentifier: RecipeEditA11y.successOverlay)) != nil
+            let hasError = (try? inspectable.find(viewWithAccessibilityIdentifier: RecipeEditA11y.errorOverlay)) != nil
+            return !hasSaving && !hasSuccess && !hasError
+        }
     }
 }
 #endif

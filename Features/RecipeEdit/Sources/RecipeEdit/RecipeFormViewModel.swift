@@ -1,11 +1,33 @@
 import Foundation
 
+enum SavingState: Equatable {
+    case idle
+    case saving
+    case succeeded
+    case failed(Error)
+
+    static func == (lhs: SavingState, rhs: SavingState) -> Bool {
+        switch (lhs, rhs) {
+        case (.idle, .idle), (.saving, .saving), (.succeeded, .succeeded): return true
+        case (.failed, .failed): return true
+        default: return false
+        }
+    }
+}
+
 @MainActor
 final class RecipeFormViewModel: ObservableObject {
     @Published var name: String = ""
     @Published var cookingTime: String = ""
     @Published var complexity: Int = 1
     @Published private(set) var errors: RecipeEditFormErrors = .none
+    @Published private(set) var savingState: SavingState = .idle
+
+    private let saver: any RecipeSaver
+
+    init(saver: any RecipeSaver) {
+        self.saver = saver
+    }
 
     func populate(from data: RecipeData) {
         name = data.name
@@ -14,6 +36,16 @@ final class RecipeFormViewModel: ObservableObject {
     }
 
     func save() {
+        Task { await performSave() }
+    }
+
+    func dismissError() {
+        if case .failed = savingState {
+            savingState = .idle
+        }
+    }
+
+    private func performSave() async {
         let nameError: String? = name.isEmpty ? "Поле обязательно" : nil
 
         let cookingTimeError: String?
@@ -26,8 +58,17 @@ final class RecipeFormViewModel: ObservableObject {
         }
 
         errors = RecipeEditFormErrors(name: nameError, cookingTime: cookingTimeError, complexity: nil)
-
         guard nameError == nil, cookingTimeError == nil else { return }
-        print("RecipeEdit: saved name=\(name) cookingTime=\(cookingTime) complexity=\(complexity)")
+
+        savingState = .saving
+        do {
+            let data = RecipeData(name: name, cookingTime: Int(cookingTime)!, complexity: complexity)
+            try await saver.save(data)
+            savingState = .succeeded
+            try? await Task.sleep(for: .seconds(2))
+            savingState = .idle
+        } catch {
+            savingState = .failed(error)
+        }
     }
 }
