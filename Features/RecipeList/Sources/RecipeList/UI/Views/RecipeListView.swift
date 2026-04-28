@@ -11,11 +11,18 @@ import RecipeUIKit
 struct RecipeListView: View {
     let model: [RecipeListRowModel]
     let reload: @MainActor () async -> Void
+    let onSelectItem: @MainActor (_: UUID) -> Void
     
     var body: some View {
         List(model) { item in
-            RecipeListRow(model: item)
-                .listRowSeparator(.hidden)
+            Button {
+                onSelectItem(item.id)
+            } label: {
+                RecipeListRow(model: item)
+                    .listRowSeparator(.hidden)
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier(RecipeListViewA11y.listItemButton)
         }
         .listStyle(.plain)
         .listRowSpacing(10)
@@ -26,6 +33,10 @@ struct RecipeListView: View {
             await reload()
         }
     }
+}
+
+enum RecipeListViewA11y {
+    static let listItemButton = "RecipeListItemButton"
 }
 
 #Preview {
@@ -42,7 +53,8 @@ struct RecipeListView: View {
             imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
             complexity: 3
-        )]) {
-            
-        }
+        )],
+        reload: {},
+        onSelectItem: { _ in }
+    )
 }

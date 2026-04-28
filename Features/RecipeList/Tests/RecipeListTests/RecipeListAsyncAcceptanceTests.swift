@@ -70,10 +70,35 @@ struct RecipeListAsyncAcceptanceTests {
     }
     
     @MainActor
-    func makeFeature() -> (feature: RecipeListFeature, server: AsyncServer, user: RecipeListUser, expiration: TimestampExpirationPolicyStub) {
+    @Test func tapOnListItemCallsOnSelectItem() async throws {
+        var selectItemCalls: [UUID] = []
+        
+        let (feature, server, user, _) = makeFeature() { selectItemCalls.append($0) }
+        
+        feature.start()
+        
+        try await server.respond(with: .success(RecipeListDTO.test()), at: 0)
+
+        try await feature.ensureIsDisplayingData(model: testModels())
+        
+        try user.tapListItem(at: 0)
+        
+        #expect(selectItemCalls == [UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!])
+    }
+    
+    @MainActor
+    func makeFeature(onSelectItem: (@MainActor (_: UUID) -> Void)? = nil) -> (
+        feature: RecipeListFeature,
+        server: AsyncServer,
+        user: RecipeListUser, expiration: TimestampExpirationPolicyStub
+    ) {
         let server = AsyncServer()
         let expiration = TimestampExpirationPolicyStub()
-        let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(dtoLoader: server, cacheExpirationPolicy: expiration)
+        let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
+            dtoLoader: server,
+            cacheExpirationPolicy: expiration,
+            onSelectItem: onSelectItem ?? { _ in }
+        )
         let feature = RecipeListFeature(view: screen)
         leakChecker.track([server, expiration])
         leakChecker.track(leakable)

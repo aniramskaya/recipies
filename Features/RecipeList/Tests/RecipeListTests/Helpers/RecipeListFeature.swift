@@ -17,6 +17,7 @@ import RecipeUIKit
 protocol RecipeListUser {
     func tapReloadButton() throws
     func pullToRefresh() throws
+    func tapListItem(at index: Int?) throws
 }
 
 @MainActor
@@ -89,5 +90,15 @@ final class RecipeListFeature: RecipeListUser {
         Task { @MainActor in
             try await inspectable.find(ViewType.List.self).callRefreshable()
         }
+    }
+    
+    @MainActor
+    func tapListItem(at index: Int? = 0) throws {
+        let inspectable = try view.inspect()
+        let listButtons = inspectable.findAll { view in
+            try view.accessibilityIdentifier() == RecipeListViewA11y.listItemButton
+        }
+        let listButton = try listButtons[index ?? 0].button()
+        try listButton.tap()
     }
 }
