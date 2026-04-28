@@ -24,12 +24,14 @@ final class RecipeFormViewModel: ObservableObject {
     @Published private(set) var savingState: SavingState = .idle
 
     private let saver: any RecipeSaver
+    private var recipeId: UUID?
 
     init(saver: any RecipeSaver) {
         self.saver = saver
     }
 
     func populate(from data: RecipeData) {
+        recipeId = data.id
         name = data.name
         cookingTime = String(data.cookingTime)
         complexity = data.complexity
@@ -51,18 +53,20 @@ final class RecipeFormViewModel: ObservableObject {
         let cookingTimeError: String?
         if cookingTime.isEmpty {
             cookingTimeError = "Поле обязательно"
-        } else if Int(cookingTime) == nil || Int(cookingTime)! <= 0 {
+        } else if Int(cookingTime).map({ $0 <= 0 }) ?? true {
             cookingTimeError = "Введите корректное число"
         } else {
             cookingTimeError = nil
         }
 
         errors = RecipeEditFormErrors(name: nameError, cookingTime: cookingTimeError, complexity: nil)
-        guard nameError == nil, cookingTimeError == nil else { return }
+        guard nameError == nil, cookingTimeError == nil,
+              let cookingTimeInt = Int(cookingTime),
+              let recipeId else { return }
 
         savingState = .saving
         do {
-            let data = RecipeData(name: name, cookingTime: Int(cookingTime)!, complexity: complexity)
+            let data = RecipeData(id: recipeId, name: name, cookingTime: cookingTimeInt, complexity: complexity)
             try await saver.save(data)
             savingState = .succeeded
             try? await Task.sleep(for: .seconds(2))

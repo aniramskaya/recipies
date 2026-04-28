@@ -79,6 +79,6 @@ struct RecipeEditSavingAcceptanceTests {
 }
 
 private func validRecipeData() -> RecipeData {
-    RecipeData(name: "Котлета по-киевски", cookingTime: 35, complexity: 3)
+    RecipeData(id: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!, name: "Котлета по-киевски", cookingTime: 35, complexity: 3)
 }
 #endif
