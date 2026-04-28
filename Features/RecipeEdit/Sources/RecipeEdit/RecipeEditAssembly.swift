@@ -4,10 +4,11 @@ import SwiftUI
 public enum RecipeEditAssembly {
     @MainActor
     static func composeInternal(
-        loader: any RecipeLoader
+        loader: any RecipeLoader,
+        saver: any RecipeSaver = RecipeSaverStub()
     ) -> (RecipeEditScreen, [AnyObject]) {
         let loadingViewModel = RecipeLoadingViewModel(loader: loader)
-        let formViewModel = RecipeFormViewModel()
+        let formViewModel = RecipeFormViewModel(saver: saver)
         loadingViewModel.onLoaded = { [weak formViewModel] data in
             formViewModel?.populate(from: data)
         }

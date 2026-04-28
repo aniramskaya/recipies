@@ -26,8 +26,15 @@ struct RecipeEditScreen: View {
                 cookingTime: $formViewModel.cookingTime,
                 complexity: $formViewModel.complexity,
                 errors: formViewModel.errors,
+                savingState: formViewModel.savingState,
                 onSave: formViewModel.save
             )
+            .overlay {
+                SavingOverlayView(
+                    savingState: formViewModel.savingState,
+                    onClose: { formViewModel.dismissError() }
+                )
+            }
         case .failed(let error):
             ErrorView(error: error.localizedDescription) {
                 Task { await loadingViewModel.load() }
