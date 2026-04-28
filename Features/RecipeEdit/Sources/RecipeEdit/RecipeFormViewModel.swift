@@ -24,7 +24,7 @@ final class RecipeFormViewModel: ObservableObject {
     @Published private(set) var savingState: SavingState = .idle
 
     private let saver: any RecipeSaver
-    private var recipeId: RecipeId?
+    private var recipeId: UUID?
 
     init(saver: any RecipeSaver) {
         self.saver = saver
