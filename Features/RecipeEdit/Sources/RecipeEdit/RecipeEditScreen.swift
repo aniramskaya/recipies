@@ -18,15 +18,13 @@ struct RecipeEditScreen: View {
         switch viewModel.state {
         case .idle, .loading:
             LoadingView()
-        case .loaded(let data):
+        case .loaded:
             RecipeEditView(
-                data: RecipeEditFormData(
-                    name: data.name,
-                    cookingTime: String(data.cookingTime),
-                    complexity: data.complexity
-                ),
-                errors: .none,
-                onSave: {}
+                name: $viewModel.name,
+                cookingTime: $viewModel.cookingTime,
+                complexity: $viewModel.complexity,
+                errors: viewModel.errors,
+                onSave: viewModel.save
             )
         case .failed(let error):
             ErrorView(error: error.localizedDescription) {

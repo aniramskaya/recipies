@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct RecipeEditView: View {
-    let data: RecipeEditFormData
+    @Binding var name: String
+    @Binding var cookingTime: String
+    @Binding var complexity: Int
     let errors: RecipeEditFormErrors
     let onSave: () -> Void
 
@@ -9,7 +11,7 @@ struct RecipeEditView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 formField(title: "Название") {
-                    TextField("Введите название", text: .constant(data.name))
+                    TextField("Введите название", text: $name)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityIdentifier(RecipeEditA11y.nameField)
                 } error: {
@@ -19,7 +21,7 @@ struct RecipeEditView: View {
                 }
 
                 formField(title: "Длительность (мин)") {
-                    TextField("Введите длительность", text: .constant(data.cookingTime))
+                    TextField("Введите длительность", text: $cookingTime)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .accessibilityIdentifier(RecipeEditA11y.cookingTimeField)
@@ -31,10 +33,10 @@ struct RecipeEditView: View {
 
                 formField(title: "Сложность (1–5)") {
                     Stepper(
-                        value: .constant(data.complexity),
+                        value: $complexity,
                         in: 1...5,
                         label: {
-                            Text("\(data.complexity)")
+                            Text("\(complexity)")
                                 .accessibilityIdentifier(RecipeEditA11y.complexityValue)
                         }
                     )
@@ -83,21 +85,34 @@ struct RecipeEditView: View {
 }
 
 #Preview("Заполненная форма") {
-    RecipeEditView(
-        data: RecipeEditFormData(name: "Котлета по-киевски", cookingTime: "35", complexity: 3),
-        errors: .none,
-        onSave: {}
+    RecipeEditViewPreviewWrapper(
+        name: "Котлета по-киевски",
+        cookingTime: "35",
+        complexity: 3,
+        errors: .none
     )
 }
 
 #Preview("Ошибки валидации") {
-    RecipeEditView(
-        data: .empty,
+    RecipeEditViewPreviewWrapper(
+        name: "",
+        cookingTime: "",
+        complexity: 1,
         errors: RecipeEditFormErrors(
             name: "Поле обязательно",
             cookingTime: "Поле обязательно",
             complexity: nil
-        ),
-        onSave: {}
+        )
     )
+}
+
+private struct RecipeEditViewPreviewWrapper: View {
+    @State var name: String
+    @State var cookingTime: String
+    @State var complexity: Int
+    let errors: RecipeEditFormErrors
+
+    var body: some View {
+        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, onSave: {})
+    }
 }

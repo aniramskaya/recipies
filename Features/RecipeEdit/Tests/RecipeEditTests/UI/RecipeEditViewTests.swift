@@ -17,7 +17,25 @@ struct RecipeEditViewTests {
     }
 
     private func makeSUT(data: RecipeEditFormData, errors: RecipeEditFormErrors) async -> some View {
-        await RecipeEditView(data: data, errors: errors, onSave: {})
+        await RecipeEditViewTestWrapper(data: data, errors: errors)
+    }
+}
+
+private struct RecipeEditViewTestWrapper: View {
+    @State var name: String
+    @State var cookingTime: String
+    @State var complexity: Int
+    let errors: RecipeEditFormErrors
+
+    init(data: RecipeEditFormData, errors: RecipeEditFormErrors) {
+        _name = State(initialValue: data.name)
+        _cookingTime = State(initialValue: data.cookingTime)
+        _complexity = State(initialValue: data.complexity)
+        self.errors = errors
+    }
+
+    var body: some View {
+        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, onSave: {})
     }
 }
 
