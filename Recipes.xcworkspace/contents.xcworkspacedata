@@ -27,4 +27,7 @@
    <FileRef
       location = "group:recipies.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Features/RecipeEdit/RecipeEdit.xctestplan">
+   </FileRef>
 </Workspace>

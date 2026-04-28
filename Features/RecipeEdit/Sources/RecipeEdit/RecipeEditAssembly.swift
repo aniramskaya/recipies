@@ -6,11 +6,15 @@ public enum RecipeEditAssembly {
     static func composeInternal(
         loader: any RecipeLoader
     ) -> (RecipeEditScreen, [AnyObject]) {
-        let viewModel = RecipeEditViewModel(loader: loader)
-        let screen = RecipeEditScreen(viewModel: viewModel)
-        return (screen, [viewModel])
+        let loadingViewModel = RecipeLoadingViewModel(loader: loader)
+        let formViewModel = RecipeFormViewModel()
+        loadingViewModel.onLoaded = { [weak formViewModel] data in
+            formViewModel?.populate(from: data)
+        }
+        let screen = RecipeEditScreen(loadingViewModel: loadingViewModel, formViewModel: formViewModel)
+        return (screen, [loadingViewModel, formViewModel])
     }
-    
+
     @MainActor
     public static func compose(id: RecipeId) -> some View {
         let loader = RecipeLoaderStub()
