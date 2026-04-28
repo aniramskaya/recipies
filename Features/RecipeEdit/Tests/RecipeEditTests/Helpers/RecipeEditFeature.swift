@@ -11,6 +11,9 @@ import RecipeUIKit
 @MainActor
 protocol RecipeEditUser {
     func tapRetryButton() throws
+    func tapSaveButton() throws
+    func fillNameField(_ text: String) throws
+    func fillCookingTimeField(_ text: String) throws
 }
 
 // MARK: - Feature DSL
@@ -71,6 +74,39 @@ final class RecipeEditFeature: RecipeEditUser {
         }
     }
 
+    func ensureIsDisplayingNameError(_ message: String, sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let text = try self.view.inspect()
+                .find(viewWithAccessibilityIdentifier: RecipeEditA11y.nameError)
+                .text()
+                .string()
+            return text == message
+        }
+    }
+
+    func ensureIsDisplayingCookingTimeError(_ message: String, sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let text = try self.view.inspect()
+                .find(viewWithAccessibilityIdentifier: RecipeEditA11y.cookingTimeError)
+                .text()
+                .string()
+            return text == message
+        }
+    }
+
+    func ensureIsDisplayingNoValidationErrors(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let inspectable = try self.view.inspect()
+            let hasNameError = (try? inspectable.find(viewWithAccessibilityIdentifier: RecipeEditA11y.nameError)) != nil
+            let hasCookingTimeError = (try? inspectable.find(viewWithAccessibilityIdentifier: RecipeEditA11y.cookingTimeError)) != nil
+            let hasComplexityError = (try? inspectable.find(viewWithAccessibilityIdentifier: RecipeEditA11y.complexityError)) != nil
+            return !hasNameError && !hasCookingTimeError && !hasComplexityError
+        }
+    }
+
     // MARK: RecipeEditUser
 
     func tapRetryButton() throws {
@@ -78,6 +114,27 @@ final class RecipeEditFeature: RecipeEditUser {
             .find(viewWithAccessibilityIdentifier: ErrorViewA11y.retryButton)
             .button()
         try button.tap()
+    }
+
+    func tapSaveButton() throws {
+        let button = try view.inspect()
+            .find(viewWithAccessibilityIdentifier: RecipeEditA11y.saveButton)
+            .button()
+        try button.tap()
+    }
+
+    func fillNameField(_ text: String) throws {
+        let field = try view.inspect()
+            .find(viewWithAccessibilityIdentifier: RecipeEditA11y.nameField)
+            .textField()
+        try field.setInput(text)
+    }
+
+    func fillCookingTimeField(_ text: String) throws {
+        let field = try view.inspect()
+            .find(viewWithAccessibilityIdentifier: RecipeEditA11y.cookingTimeField)
+            .textField()
+        try field.setInput(text)
     }
 }
 #endif

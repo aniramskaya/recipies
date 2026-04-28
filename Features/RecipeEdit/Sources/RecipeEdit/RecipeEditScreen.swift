@@ -2,35 +2,35 @@ import SwiftUI
 import RecipeUIKit
 
 struct RecipeEditScreen: View {
-    @ObservedObject private var viewModel: RecipeEditViewModel
+    @ObservedObject private var loadingViewModel: RecipeLoadingViewModel
+    @ObservedObject private var formViewModel: RecipeFormViewModel
 
-    init(viewModel: RecipeEditViewModel) {
-        self.viewModel = viewModel
+    init(loadingViewModel: RecipeLoadingViewModel, formViewModel: RecipeFormViewModel) {
+        self.loadingViewModel = loadingViewModel
+        self.formViewModel = formViewModel
     }
 
     var body: some View {
         content
-            .task { await viewModel.load() }
+            .task { await loadingViewModel.load() }
     }
 
     @ViewBuilder
     private var content: some View {
-        switch viewModel.state {
+        switch loadingViewModel.state {
         case .idle, .loading:
             LoadingView()
-        case .loaded(let data):
+        case .loaded:
             RecipeEditView(
-                data: RecipeEditFormData(
-                    name: data.name,
-                    cookingTime: String(data.cookingTime),
-                    complexity: data.complexity
-                ),
-                errors: .none,
-                onSave: {}
+                name: $formViewModel.name,
+                cookingTime: $formViewModel.cookingTime,
+                complexity: $formViewModel.complexity,
+                errors: formViewModel.errors,
+                onSave: formViewModel.save
             )
         case .failed(let error):
             ErrorView(error: error.localizedDescription) {
-                Task { await viewModel.load() }
+                Task { await loadingViewModel.load() }
             }
         }
     }
