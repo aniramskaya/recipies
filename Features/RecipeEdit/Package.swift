@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "RecipeEdit",
-    platforms: [.iOS(.v16), .macOS(.v15)],
+    platforms: [.iOS(.v17), .macOS(.v15)],
     products: [
         .library(
             name: "RecipeEdit",
