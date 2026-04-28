@@ -7,11 +7,10 @@ public enum RecipeEditAssembly {
         loader: any RecipeLoader,
         saver: any RecipeSaver = RecipeSaverStub()
     ) -> (RecipeEditScreen, [AnyObject]) {
-        let loadingViewModel = RecipeLoadingViewModel(loader: loader)
         let formViewModel = RecipeFormViewModel(saver: saver)
-        loadingViewModel.onLoaded = { [weak formViewModel] data in
+        let loadingViewModel = RecipeLoadingViewModel(loader: loader, onLoaded: { [weak formViewModel] data in
             formViewModel?.populate(from: data)
-        }
+        })
         let screen = RecipeEditScreen(loadingViewModel: loadingViewModel, formViewModel: formViewModel)
         return (screen, [loadingViewModel, formViewModel])
     }

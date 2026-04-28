@@ -39,7 +39,12 @@ private struct RecipeEditViewTestWrapper: View {
     }
 }
 
-private extension RecipeEditFormData {
+private struct RecipeEditFormData {
+    let name: String
+    let cookingTime: String
+    let complexity: Int
+
+    static let empty = RecipeEditFormData(name: "", cookingTime: "", complexity: 1)
     static let filled = RecipeEditFormData(
         name: "Котлета по-киевски",
         cookingTime: "35",

@@ -10,12 +10,13 @@ final class RecipeLoadingViewModel: ObservableObject {
     }
 
     @Published private(set) var state: State = .idle
-    var onLoaded: (RecipeData) -> Void = { _ in }
 
     private let loader: any RecipeLoader
+    private let onLoaded: (RecipeData) -> Void
 
-    init(loader: any RecipeLoader) {
+    init(loader: any RecipeLoader, onLoaded: @escaping (RecipeData) -> Void) {
         self.loader = loader
+        self.onLoaded = onLoaded
     }
 
     func load() async {
