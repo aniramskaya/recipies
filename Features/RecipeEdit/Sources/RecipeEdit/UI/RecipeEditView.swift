@@ -7,6 +7,7 @@ struct RecipeEditView: View {
     let errors: RecipeEditFormErrors
     let savingState: SavingState
     let onSave: () -> Void
+    let onClose: () -> Void
 
     var body: some View {
         ScrollView {
@@ -69,6 +70,9 @@ struct RecipeEditView: View {
                 .padding(.top, 8)
             }
             .padding()
+        }
+        .overlay {
+            SavingOverlayView(savingState: savingState, onClose: onClose)
         }
     }
 
@@ -136,6 +140,6 @@ private struct RecipeEditViewPreviewWrapper: View {
     let savingState: SavingState
 
     var body: some View {
-        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, savingState: savingState, onSave: {})
+        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, savingState: savingState, onSave: {}, onClose: {})
     }
 }
