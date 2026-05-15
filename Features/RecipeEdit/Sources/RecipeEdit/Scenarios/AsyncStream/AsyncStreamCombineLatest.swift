@@ -5,16 +5,16 @@
 //  Created by Марина Чемезова on 14.05.2026.
 //
 
-extension AsyncStream  {
+extension AsyncStream where Element == Sendable {
     func combineLatest<Other: Sendable, Result: Sendable>(
         with other: AsyncStream<Other>,
         transform: @escaping @Sendable (Element, Other) -> Result
-    ) -> AsyncStream<Result> where Element == Sendable {
+    ) -> AsyncStream<Result>  {
         combineStreamsLatest(self, other, transform)
     }
 }
 
-private func combineStreamsLatest<A: Sendable, B: Sendable, Result: Sendable>(
+func combineStreamsLatest<A: Sendable, B: Sendable, Result: Sendable>(
     _ streamA: AsyncStream<A>,
     _ streamB: AsyncStream<B>,
     _ transform: @escaping @Sendable (A, B) -> Result

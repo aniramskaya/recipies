@@ -26,42 +26,43 @@ enum RecipeFormValidationError: LocalizedError {
     }
 }
 
-final class RecipeFormSubmitScenario {
-    private let continuation: AsyncStream<FormSubmitState>.Continuation
+actor RecipeFormSubmitScenario: Scenario {
+    private let stream: CurrentValueStream<State>
 
-    private let getModel: @Sendable () -> RecipeFormData
+    private let getModel: @Sendable () async -> RecipeFormData
     private let save: @Sendable (_: RecipeData) async throws -> Void
     
-    public init(
-        getModel: @escaping @Sendable () -> RecipeFormData,
+    init(
+        getModel: @escaping @Sendable () async -> RecipeFormData,
         save: @escaping @Sendable (_: RecipeData) async throws -> Void
     ) {
         self.getModel = getModel
         self.save = save
-        (states, continuation) = AsyncStream.makeStream(
-            of: FormSubmitState.self,
-            bufferingPolicy: .bufferingNewest(1)
-        )
-        continuation.yield(.idle)
+        self.stream = CurrentValueStream(.idle)
     }
     
     // MARK: FormSubmitScenario
     
-    var states: AsyncStream<FormSubmitState>
+    typealias State = FormSubmitState
+
+    func statesStream() async -> AsyncStream<FormSubmitState> {
+        await stream.makeStream()
+    }
     
     func start() async {
-        continuation.yield(.validating)
-        switch RecipeData.validate(getModel()) {
+        await stream.yield(.validating)
+        let model = await getModel()
+        switch RecipeData.validate(model) {
         case let .success(data):
-            continuation.yield(.saving)
+            await stream.yield(.saving)
             do {
                 try await save(data)
-                continuation.yield(.idle)
+                await stream.yield(.saved)
             } catch {
-                continuation.yield(.savingFailed(error))
+                await stream.yield(.savingFailed(error))
             }
         case let .failure(error):
-            continuation.yield(.validationFailed(error))
+            await stream.yield(.validationFailed(error))
         }
     }
 }
@@ -74,11 +75,13 @@ extension RecipeData {
             .flatMap { Int($0) }
             .flatMap { $0 > 0 ? $0 : nil }
 
-        let errors: [FieldValidationError] = [
-            name == nil        ? .init(field: "name", error: RecipeFormValidationError.required)  : nil,
-            cookingTime == nil ? .init(field: "cookingTime", error: RecipeFormValidationError.required) : nil,
-            cookingTimeInt == nil ? .init(field: "cookingTime", error: RecipeFormValidationError.numberInvalid) : nil
-        ].compactMap { $0 }
+        var errors: Dictionary<String, LocalizedError> = [:]
+        errors["name"] = name == nil ? RecipeFormValidationError.required : nil
+        if cookingTime == nil {
+            errors["cookingTime"] = RecipeFormValidationError.required
+        } else if cookingTimeInt == nil {
+            errors["cookingTime"] = RecipeFormValidationError.numberInvalid
+        }
 
         guard let name, let cookingTimeInt else {
             return .failure(.init(form: nil, field: errors))

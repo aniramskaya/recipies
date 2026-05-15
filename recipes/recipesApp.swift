@@ -24,7 +24,8 @@ struct recipesApp: App {
                         path.append(RecipeId(id: $0))
                     } )
                     .navigationDestination(for: RecipeId.self) { id in
-                        RecipeEditAssembly.compose(id: id)
+                        RecipeEditScenarioAssembly.compose(id: id)
+                        //RecipeEditAssembly.compose(id: id)
                     }
             }
         }

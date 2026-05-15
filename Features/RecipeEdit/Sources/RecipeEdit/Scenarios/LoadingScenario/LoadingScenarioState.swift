@@ -10,5 +10,6 @@ public enum LoadingScenarioState<Resource: Sendable>: Sendable {
     case loading
     case success(Resource)
     case failure(Error)
+    case finished
 }
 

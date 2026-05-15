@@ -32,17 +32,43 @@ struct BasicLoadingScenarioTests {
         }
         
         let collectTask = Task {
-            for await state in sut.states {
+            for await state in sut.futureStates {
                 states.append(state)
             }
         }
         
+        states.append(await sut.currentState())
+
         await sut.start()
-        sut.finish()
+        await sut.finish()
         
         await collectTask.value
         
-        #expect(states.count == 2)
-        #expect(states[0] == .loading)
+        #expect(states.count == 3)
+        #expect(states == [.idle, .loading, .failure(LoadingError.undefined)])
+    }
+    
+    @Test func loadingEmitsSuccess() async throws {
+        var states: [LoadingScenarioState<Int>] = []
+        
+        let sut = BasicLoadingScenario<Int> {
+            return 42
+        }
+        
+        let collectTask = Task {
+            for await state in sut.futureStates {
+                states.append(state)
+            }
+        }
+        
+        states.append(await sut.currentState())
+
+        await sut.start()
+        await sut.finish()
+        
+        await collectTask.value
+        
+        #expect(states.count == 3)
+        #expect(states == [.idle, .loading, .success(42)])
     }
 }

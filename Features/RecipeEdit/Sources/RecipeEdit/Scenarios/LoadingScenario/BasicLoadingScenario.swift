@@ -8,49 +8,53 @@
 
 import Foundation
 
-public final class BasicLoadingScenario<Data: Sendable>: Sendable {
-    private let continuation: AsyncStream<LoadingScenarioState<Resource>>.Continuation
-    
+public actor BasicLoadingScenario<Data: Sendable>: Scenario {
+    private let stream: CurrentValueStream<State>
     private let load: @Sendable () async throws -> Resource
     
     public init(loader: @escaping @Sendable () async throws -> Resource) {
         self.load = loader
-        (states, continuation) = AsyncStream.makeStream(
-            of: LoadingScenarioState<Resource>.self,
-            bufferingPolicy: .bufferingNewest(1)
-        )
+        stream = CurrentValueStream(.idle)
     }
     
     // MARK: LoadingScenario
     public typealias Resource = Data
+    public typealias State = LoadingScenarioState<Resource>
     
-    public let states: AsyncStream<LoadingScenarioState<Resource>>
+    public func statesStream() async -> AsyncStream<State> {
+        await stream.makeStream()
+    }
 
     public func start() async {
-        continuation.yield(.loading)
+        await stream.yield(.loading)
 
         guard !Task.isCancelled else {
-            continuation.yield(.idle)
+            await stream.yield(.idle)
             return
         }
 
         do {
             let data = try await load()
             guard !Task.isCancelled else {
-                continuation.yield(.idle)
+                await stream.yield(.idle)
                 return
             }
-            continuation.yield(.success(data))
+            await stream.yield(.success(data))
+            await stream.yield(.finished)
         } catch {
             guard !Task.isCancelled else {
-                continuation.yield(.idle)
+                await stream.yield(.idle)
                 return
             }
-            continuation.yield(.failure(error))
+            await stream.yield(.failure(error))
         }
     }
     
-    internal func finish() {
-        continuation.finish()
+    internal func finish() async {
+        await stream.finish()
+    }
+        
+    deinit {
+        print("Loading scenario deinited")
     }
 }
