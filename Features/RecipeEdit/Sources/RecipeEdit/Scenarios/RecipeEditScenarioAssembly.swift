@@ -33,23 +33,40 @@ public enum RecipeEditScenarioAssembly {
             }
         )
         
-        let viewModel = RecipeEditViewModel(
-            load: { Task { await loadingScenario.start() }},
-            save: { Task { await formScenario.start() }}
-        )
+        var loadingTask: Task<Void, Never>? = nil
+        var formTask: Task<Void, Never>? = nil
         
-        Task {
+        let viewModel = RecipeEditViewModel(
+            load: {
+                loadingTask?.cancel()
+                loadingTask = Task { await loadingScenario.start() }
+            },
+            save: {
+                formTask?.cancel()
+                formTask = Task { await formScenario.start() }
+            },
+            onDisappear: {  }
+        )
+
+        let loadingStatesTask = Task {
             let states = await loadingScenario.statesStream()
             for await state in states {
                 setLoadingState(state, viewModel: viewModel, editModel: editModel)
             }
         }
         
-        Task {
+        let formStatesTask = Task {
             let states = await formScenario.statesStream()
             for await state in states {
                 setFormState(state, viewModel: viewModel)
             }
+        }
+        
+        viewModel.onDisappear = {
+            loadingStatesTask.cancel()
+            formStatesTask.cancel()
+            loadingTask?.cancel()
+            formTask?.cancel()
         }
         
         let screen = RecipeEditScenarioScreen(recipeEditViewModel: viewModel)

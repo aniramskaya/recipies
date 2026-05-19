@@ -32,10 +32,12 @@ final class RecipeEditViewModel: ObservableObject {
     // Actions
     let load: () -> Void
     let save: () -> Void
+    var onDisappear: () -> Void
     
-    init(load: @escaping () -> Void, save: @escaping () -> Void) {
+    init(load: @escaping () -> Void, save: @escaping () -> Void, onDisappear: @escaping () -> Void) {
         self.load = load
         self.save = save
+        self.onDisappear = onDisappear
     }
 }
 
@@ -49,6 +51,7 @@ struct RecipeEditScenarioScreen: View {
     var body: some View {
         content
             .task { recipeEditViewModel.load() }
+            .onDisappear(perform: { recipeEditViewModel.onDisappear() })
     }
 
     @ViewBuilder
