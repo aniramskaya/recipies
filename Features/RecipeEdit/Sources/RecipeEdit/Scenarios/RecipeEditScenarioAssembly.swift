@@ -34,8 +34,8 @@ public enum RecipeEditScenarioAssembly {
         )
         
         let viewModel = RecipeEditViewModel(
-            load: loadingScenario.start,
-            save: formScenario.start
+            load: { Task { await loadingScenario.start() }},
+            save: { Task { await formScenario.start() }}
         )
         
         Task {

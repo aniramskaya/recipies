@@ -30,10 +30,10 @@ final class RecipeEditViewModel: ObservableObject {
     @Published var errors: RecipeEditFormErrors = .none
     
     // Actions
-    let load: () async -> Void
-    let save: () async -> Void
+    let load: () -> Void
+    let save: () -> Void
     
-    init(load: @escaping () async -> Void, save: @escaping () async -> Void) {
+    init(load: @escaping () -> Void, save: @escaping () -> Void) {
         self.load = load
         self.save = save
     }
@@ -48,7 +48,7 @@ struct RecipeEditScenarioScreen: View {
 
     var body: some View {
         content
-            .task { await recipeEditViewModel.load() }
+            .task { recipeEditViewModel.load() }
     }
 
     @ViewBuilder
@@ -66,9 +66,7 @@ struct RecipeEditScenarioScreen: View {
             )
         case .failed(let error):
             ErrorView(error: error.localizedDescription) {
-                Task {
-                    await recipeEditViewModel.load()
-                }
+                recipeEditViewModel.load()
             }
         }
     }

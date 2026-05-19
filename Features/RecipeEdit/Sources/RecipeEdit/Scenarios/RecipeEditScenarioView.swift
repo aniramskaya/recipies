@@ -18,7 +18,7 @@ struct RecipeEditScenarioView: View {
     
     let errors: RecipeEditFormErrors
     let savingState: SavingState
-    let onSave: () async -> Void
+    let onSave: () -> Void
     let onClose: () -> Void
 
     var body: some View {
@@ -61,11 +61,7 @@ struct RecipeEditScenarioView: View {
                     RecipeEditA11y.complexityError
                 }
 
-                Button(action: {
-                    Task{
-                        await onSave()
-                    }
-                }) {
+                Button(action: onSave) {
                     Group {
                         if case .saving = savingState {
                             ProgressView()
