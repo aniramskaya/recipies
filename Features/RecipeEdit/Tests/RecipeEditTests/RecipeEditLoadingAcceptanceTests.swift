@@ -9,47 +9,72 @@ import Testing
 import UIKit
 @testable import RecipeEdit
 
+@MainActor
 struct RecipeEditLoadingAcceptanceTests {
     let leakChecker = LeakChecker()
 
-    @MainActor
     @Test func loadFailureRetrySuccessScenario() async throws {
-        let (feature, server, user) = makeFeature()
-
-        feature.start()
-
-        try await feature.ensureIsDisplayingLoadingState()
-
-        try await server.respond(with: .failure(NSError.any()), at: 0)
-
-        try await feature.ensureIsDisplayingError()
-
-        try user.tapRetryButton()
-
-        try await feature.ensureIsDisplayingLoadingState()
-
-        try await server.respond(with: .success(testRecipeData()), at: 1)
-
-        try await feature.ensureIsDisplayingForm(data: testRecipeData())
+        do {
+            let (feature, server, user) = makeFeature()
+            
+            feature.start()
+            
+            try await feature.ensureIsDisplayingLoadingState()
+            
+            try await server.respond(with: .failure(NSError.any()), at: 0)
+            
+            try await feature.ensureIsDisplayingError()
+            
+            try user.tapRetryButton()
+            
+            try await feature.ensureIsDisplayingLoadingState()
+            
+            try await server.respond(with: .success(testRecipeData()), at: 1)
+            
+            try await feature.ensureIsDisplayingForm(data: testRecipeData())
+            
+            feature.finish()
+        }
+        await leakChecker.awaitAllReleased()
     }
 
-    @MainActor
     @Test func loadSuccessScenario() async throws {
-        let (feature, server, _) = makeFeature()
+        do {
+            let (feature, server, _) = makeFeature()
+            
+            feature.start()
+            
+            try await feature.ensureIsDisplayingLoadingState()
+            
+            try await server.respond(with: .success(testRecipeData()), at: 0)
+            
+            try await feature.ensureIsDisplayingForm(data: testRecipeData())
+            
+            feature.finish()
+        }
+        await leakChecker.awaitAllReleased()
+    }
+    
+    @Test func noMemoryLeaksInInterruptedScenario() async throws {
+        do {
+            let (feature, _, _) = makeFeature()
+            
+            feature.start()
+            
+            try await feature.ensureIsDisplayingLoadingState()
 
-        feature.start()
+            feature.finish()
+        }
 
-        try await feature.ensureIsDisplayingLoadingState()
-
-        try await server.respond(with: .success(testRecipeData()), at: 0)
-
-        try await feature.ensureIsDisplayingForm(data: testRecipeData())
+        await leakChecker.awaitAllReleased()
     }
 
-    @MainActor
     private func makeFeature() -> (RecipeEditFeature, RecipeEditServer, RecipeEditUser) {
         let server = RecipeEditServer()
-        let (screen, leakable) = RecipeEditAssembly.composeInternal(loader: server)
+        let (screen, leakable) = RecipeEditScenarioAssembly.composeInternal(
+            recipeId: testRecipeData().id,
+            loader: server,
+        )
         let feature = RecipeEditFeature(view: screen)
         leakChecker.track(server)
         leakChecker.track(leakable)

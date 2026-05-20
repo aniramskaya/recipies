@@ -21,15 +21,19 @@ protocol RecipeEditUser {
 
 @MainActor
 final class RecipeEditFeature: RecipeEditUser {
-    let view: RecipeEditScreen
+    let view: RecipeEditScenarioScreen
     private var host: (UIWindow, UIViewController)?
 
-    init(view: RecipeEditScreen) {
+    init(view: RecipeEditScenarioScreen) {
         self.view = view
     }
 
     func start() {
         host = hostInWindow(view)
+    }
+    
+    func finish() {
+        host = nil
     }
 
     func ensureIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) async throws {

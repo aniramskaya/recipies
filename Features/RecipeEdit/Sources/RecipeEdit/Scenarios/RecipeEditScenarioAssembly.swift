@@ -33,38 +33,42 @@ public enum RecipeEditScenarioAssembly {
             }
         )
         
-        var loadingTask: Task<Void, Never>? = nil
-        var formTask: Task<Void, Never>? = nil
+        let viewModel = RecipeEditViewModel()
         
-        let viewModel = RecipeEditViewModel(
-            load: {
-                loadingTask?.cancel()
-                loadingTask = Task { await loadingScenario.start() }
-            },
-            save: {
-                formTask?.cancel()
-                formTask = Task { await formScenario.start() }
-            },
-            onDisappear: {  }
-        )
-
-        let loadingStatesTask = Task {
-            let states = await loadingScenario.statesStream()
-            for await state in states {
-                setLoadingState(state, viewModel: viewModel, editModel: editModel)
+        var loadingTask: Task<Void, Never>? = nil
+        viewModel.load = { [weak viewModel, weak editModel] in
+            loadingTask?.cancel()
+            loadingTask = Task { [weak viewModel, weak editModel] in
+                let stream = loadingScenario.start()
+                for await state in stream {
+                    guard let viewModel, let editModel else { return }
+                    setLoadingState(state, viewModel: viewModel, editModel: editModel)
+                }
             }
         }
         
-        let formStatesTask = Task {
-            let states = await formScenario.statesStream()
-            for await state in states {
-                setFormState(state, viewModel: viewModel)
+        var formTask: Task<Void, Never>? = nil
+        viewModel.save = { [weak viewModel] in
+            guard formTask == nil else { return }
+            formTask = Task { [weak viewModel] in
+                let states = formScenario.start()
+                for await state in states {
+                    guard let viewModel else { return }
+                    setFormState(state, viewModel: viewModel)
+                    // TODO: Remove when SavingOverlay will be replaced with toast
+                    if case .saved = state {
+                        try? await Task.sleep(for: .seconds(0.5))
+                        viewModel.savingState = .idle
+                    }
+                }
             }
+        }
+        
+        viewModel.onCloseError = { [weak viewModel] in
+            viewModel?.loadingState = .idle
         }
         
         viewModel.onDisappear = {
-            loadingStatesTask.cancel()
-            formStatesTask.cancel()
             loadingTask?.cancel()
             formTask?.cancel()
         }
@@ -80,11 +84,11 @@ public enum RecipeEditScenarioAssembly {
         editModel: RecipeEditModel
     ) {
         switch state {
-        case .idle: viewModel.loadingState = .idle
         case .loading: viewModel.loadingState = .loading
         case let .failure(error): viewModel.loadingState = .failed(error)
-        case let .success(data): editModel.populate(with: data)
-        case .finished: viewModel.loadingState = .loaded(editModel)
+        case let .loaded(data):
+            editModel.populate(with: data)
+            viewModel.loadingState = .loaded(editModel)
         }
     }
     
@@ -101,7 +105,8 @@ public enum RecipeEditScenarioAssembly {
             )
             viewModel.savingState = .idle
         case let .savingFailed(error): viewModel.savingState = .failed(error)
-        case .saved: viewModel.savingState = .succeeded
+        case .saved:
+            viewModel.savingState = .succeeded
         }
     }
 }

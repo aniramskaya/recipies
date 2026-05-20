@@ -8,53 +8,40 @@
 
 import Foundation
 
-public actor BasicLoadingScenario<Data: Sendable>: Scenario {
-    private let stream: CurrentValueStream<State>
-    private let load: @Sendable () async throws -> Resource
+public final class BasicLoadingScenario<Data: Sendable>: Sendable {
+    private let load: @Sendable () async throws -> Data
     
-    public init(loader: @escaping @Sendable () async throws -> Resource) {
+    public init(loader: @escaping @Sendable () async throws -> Data) {
         self.load = loader
-        stream = CurrentValueStream(.idle)
     }
     
     // MARK: LoadingScenario
-    public typealias Resource = Data
-    public typealias State = LoadingScenarioState<Resource>
-    
-    public func statesStream() async -> AsyncStream<State> {
-        await stream.makeStream()
-    }
 
-    public func start() async {
-        await stream.yield(.loading)
+    public func start() -> AsyncStream<LoadingScenarioState<Data>> {
+        let (stream, continuation) = AsyncStream.makeStream(
+            of: LoadingScenarioState<Data>.self,
+            bufferingPolicy: .bufferingNewest(1)
+        )
+        let load = self.load
+        let task = Task {
+            continuation.yield(.loading)
 
-        guard !Task.isCancelled else {
-            await stream.yield(.idle)
-            return
-        }
+            guard !Task.isCancelled else { continuation.finish(); return }
 
-        do {
-            let data = try await load()
-            guard !Task.isCancelled else {
-                await stream.yield(.idle)
-                return
+            do {
+                let data = try await load()
+                guard !Task.isCancelled else { continuation.finish(); return }
+                continuation.yield(.loaded(data))
+                continuation.finish()
+            } catch {
+                guard !Task.isCancelled else { continuation.finish(); return }
+                continuation.yield(.failure(error))
+                continuation.finish()
             }
-            await stream.yield(.success(data))
-            await stream.yield(.finished)
-        } catch {
-            guard !Task.isCancelled else {
-                await stream.yield(.idle)
-                return
-            }
-            await stream.yield(.failure(error))
         }
-    }
-    
-    internal func finish() async {
-        await stream.finish()
-    }
-        
-    deinit {
-        print("Loading scenario deinited")
+        continuation.onTermination = { _ in
+            task.cancel()
+        }
+        return stream
     }
 }

@@ -14,11 +14,12 @@ extension NSError {
 
 // MARK: - LeakChecker
 
-private struct EntityLeakChecker {
+private struct EntityLeakChecker: @unchecked Sendable {
     let sourceLocation: SourceLocation
     weak var weakObject: AnyObject?
 }
 
+@MainActor
 final class LeakChecker {
     private var trackedEntities: [EntityLeakChecker] = []
 
@@ -29,6 +30,13 @@ final class LeakChecker {
     func track(_ objects: [AnyObject], sourceLocation: SourceLocation = #_sourceLocation) {
         objects.forEach { track($0, sourceLocation: sourceLocation) }
     }
+    
+    func awaitAllReleased() async {
+        // Sending value of non-Sendable type '() -> Bool' risks causing data races
+        await waitFor {
+            self.trackedEntities.allSatisfy { $0.weakObject == nil }
+        }
+    }
 
     deinit {
         for item in trackedEntities {
@@ -38,6 +46,17 @@ final class LeakChecker {
                 "\(String(describing: type(of: leaked))) не освобождён. Возможна утечка памяти.",
                 sourceLocation: item.sourceLocation
             )
+        }
+    }
+}
+
+enum TestError: LocalizedError {
+    case memoryLeak(String)
+    
+    var errorDescription: String? {
+        switch self {
+        case .memoryLeak(let object):
+            return "\(object) не освобождён. Возможна утечка памяти."
         }
     }
 }

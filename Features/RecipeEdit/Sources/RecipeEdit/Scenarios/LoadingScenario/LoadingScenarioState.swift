@@ -6,10 +6,8 @@
 //
 
 public enum LoadingScenarioState<Resource: Sendable>: Sendable {
-    case idle
     case loading
-    case success(Resource)
     case failure(Error)
-    case finished
+    case loaded(Resource)
 }
 

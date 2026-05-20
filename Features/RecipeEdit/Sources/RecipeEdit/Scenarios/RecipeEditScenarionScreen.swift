@@ -30,15 +30,10 @@ final class RecipeEditViewModel: ObservableObject {
     @Published var errors: RecipeEditFormErrors = .none
     
     // Actions
-    let load: () -> Void
-    let save: () -> Void
-    var onDisappear: () -> Void
-    
-    init(load: @escaping () -> Void, save: @escaping () -> Void, onDisappear: @escaping () -> Void) {
-        self.load = load
-        self.save = save
-        self.onDisappear = onDisappear
-    }
+    var load: () -> Void = {}
+    var save: () -> Void = {}
+    var onCloseError: () -> Void = {}
+    var onDisappear: () -> Void = {}
 }
 
 struct RecipeEditScenarioScreen: View {
@@ -65,7 +60,7 @@ struct RecipeEditScenarioScreen: View {
                 errors: recipeEditViewModel.errors,
                 savingState: recipeEditViewModel.savingState,
                 onSave: recipeEditViewModel.save,
-                onClose: {}
+                onClose: recipeEditViewModel.onCloseError
             )
         case .failed(let error):
             ErrorView(error: error.localizedDescription) {

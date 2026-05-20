@@ -20,7 +20,6 @@ struct recipesApp: App {
                 // RecipeListAssembly.composeWithCombineServices()
                 RecipeListAssembly
                     .composeWithAsyncServices(onSelectItem: {
-                        print("Selected recipe \($0)")
                         path.append(RecipeId(id: $0))
                     } )
                     .navigationDestination(for: RecipeId.self) { id in

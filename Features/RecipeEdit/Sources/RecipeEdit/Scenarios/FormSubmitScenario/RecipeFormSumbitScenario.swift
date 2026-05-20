@@ -7,27 +7,19 @@
 
 import Foundation
 
-struct RecipeFormData: Sendable {
-    let id: UUID
-    let name: String?
-    let cookingTime: String?
-    let complexity: Int?
-}
-
 enum RecipeFormValidationError: LocalizedError {
     case required
     case numberInvalid
 
     var errorDescription: String? {
         switch self {
-        case .required:      "Field is required"
-        case .numberInvalid: "Cooking time must be a positive number"
+        case .required:      "Поле обязательно"
+        case .numberInvalid: "Введите корректное число"
         }
     }
 }
 
-actor RecipeFormSubmitScenario: Scenario {
-    private let stream: CurrentValueStream<State>
+public final class RecipeFormSubmitScenario: Sendable {
 
     private let getModel: @Sendable () async -> RecipeFormData
     private let save: @Sendable (_: RecipeData) async throws -> Void
@@ -38,32 +30,41 @@ actor RecipeFormSubmitScenario: Scenario {
     ) {
         self.getModel = getModel
         self.save = save
-        self.stream = CurrentValueStream(.idle)
     }
     
     // MARK: FormSubmitScenario
-    
-    typealias State = FormSubmitState
-
-    func statesStream() async -> AsyncStream<FormSubmitState> {
-        await stream.makeStream()
-    }
-    
-    func start() async {
-        await stream.yield(.validating)
-        let model = await getModel()
-        switch RecipeData.validate(model) {
-        case let .success(data):
-            await stream.yield(.saving)
-            do {
-                try await save(data)
-                await stream.yield(.saved)
-            } catch {
-                await stream.yield(.savingFailed(error))
+        
+    func start() -> AsyncStream<FormSubmitState> {
+        let (stream, continuation) = AsyncStream.makeStream(
+            of: FormSubmitState.self,
+            bufferingPolicy: .bufferingNewest(1)
+        )
+        let task = Task {
+            continuation.yield(.validating)
+            guard !Task.isCancelled else { continuation.finish(); return }
+            let model = await getModel()
+            guard !Task.isCancelled else { continuation.finish(); return }
+            switch RecipeData.validate(model) {
+            case let .success(data):
+                continuation.yield(.saving)
+                guard !Task.isCancelled else { continuation.finish(); return }
+                do {
+                    try await save(data)
+                    guard !Task.isCancelled else { continuation.finish(); return }
+                    continuation.yield(.saved)
+                    continuation.finish()
+                } catch {
+                    guard !Task.isCancelled else { continuation.finish(); return }
+                    continuation.yield(.savingFailed(error))
+                    continuation.finish()
+                }
+            case let .failure(error):
+                continuation.yield(.validationFailed(error))
+                continuation.finish()
             }
-        case let .failure(error):
-            await stream.yield(.validationFailed(error))
         }
+        continuation.onTermination = { _ in task.cancel() }
+        return stream
     }
 }
 
