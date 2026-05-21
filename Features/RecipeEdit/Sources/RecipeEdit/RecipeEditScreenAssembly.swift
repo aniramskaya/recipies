@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public enum RecipeEditAssembly {
+public enum RecipeEditScreenAssembly {
     @MainActor
     public static func compose(id: RecipeId) -> some View {
         let loader = RecipeLoaderStub()
@@ -66,8 +66,8 @@ public enum RecipeEditAssembly {
             }
         }
         
-        editViewModel.onClose = { [weak screenModel] in
-            screenModel?.loadingState = .idle
+        editViewModel.onClose = { [weak editViewModel] in
+            editViewModel?.savingState = .idle
         }
         
         screenModel.onDisappear = {
