@@ -21,7 +21,7 @@ public enum RecipeEditAssembly {
         saver: any RecipeSaver = RecipeSaverStub()
     ) -> (RecipeEditScreen, [AnyObject]) {
         
-        let editModel = RecipeEditModel()
+        let editModel = RecipeDataModel()
         
         let loadingScenario = BasicLoadingScenario(loader: { try await loader.load() })
         let formScenario = RecipeFormSubmitScenario(
@@ -33,55 +33,61 @@ public enum RecipeEditAssembly {
             }
         )
         
-        let viewModel = RecipeEditViewModel()
+        let screenModel = RecipeEditScreenModel()
         
         var loadingTask: Task<Void, Never>? = nil
-        viewModel.load = { [weak viewModel, weak editModel] in
+        screenModel.load = { [weak screenModel, weak editModel] in
             loadingTask?.cancel()
-            loadingTask = Task { [weak viewModel, weak editModel] in
+            loadingTask = Task { [weak screenModel, weak editModel] in
                 let stream = loadingScenario.start()
                 for await state in stream {
-                    guard let viewModel, let editModel else { return }
-                    setLoadingState(state, viewModel: viewModel, editModel: editModel)
+                    guard let screenModel, let editModel else { return }
+                    setLoadingState(state, viewModel: screenModel, editModel: editModel)
                 }
             }
         }
         
+        let editViewModel = RecipeEditViewModel()
+        
         var formTask: Task<Void, Never>? = nil
-        viewModel.save = { [weak viewModel] in
+        editViewModel.onSave = { [weak editViewModel] in
             guard formTask == nil else { return }
-            formTask = Task { [weak viewModel] in
+            formTask = Task { [weak editViewModel] in
                 let states = formScenario.start()
                 for await state in states {
-                    guard let viewModel else { return }
-                    setFormState(state, viewModel: viewModel)
+                    guard let editViewModel else { return }
+                    setFormState(state, viewModel: editViewModel)
                     // TODO: Remove when SavingOverlay will be replaced with toast
                     if case .saved = state {
                         try? await Task.sleep(for: .seconds(0.5))
-                        viewModel.savingState = .idle
+                        editViewModel.savingState = .idle
                     }
                 }
             }
         }
         
-        viewModel.onCloseError = { [weak viewModel] in
-            viewModel?.loadingState = .idle
+        editViewModel.onClose = { [weak screenModel] in
+            screenModel?.loadingState = .idle
         }
         
-        viewModel.onDisappear = {
+        screenModel.onDisappear = {
             loadingTask?.cancel()
             formTask?.cancel()
         }
         
-        let screen = RecipeEditScreen(recipeEditViewModel: viewModel)
-        return (screen, [editModel, loadingScenario, formScenario, viewModel])
+        let screen = RecipeEditScreen(
+            recipeEditScreenModel: screenModel,
+            recipeEditDataModel: editModel,
+            recipeEditViewModel: editViewModel
+        )
+        return (screen, [editModel, loadingScenario, formScenario, screenModel])
     }
 
     @MainActor
     private static func setLoadingState(
         _ state: LoadingScenarioState<RecipeData>,
-        viewModel: RecipeEditViewModel,
-        editModel: RecipeEditModel
+        viewModel: RecipeEditScreenModel,
+        editModel: RecipeDataModel
     ) {
         switch state {
         case .loading: viewModel.loadingState = .loading
@@ -112,7 +118,7 @@ public enum RecipeEditAssembly {
 }
 
 
-private extension RecipeEditModel {
+private extension RecipeDataModel {
     func populate(with data: RecipeData) {
         self.name = data.name
         self.cookingTime = "\(data.cookingTime)"
@@ -121,7 +127,7 @@ private extension RecipeEditModel {
 }
 
 private extension RecipeFormData {
-    static func fromModel(id: UUID, model: RecipeEditModel) async -> RecipeFormData {
+    static func fromModel(id: UUID, model: RecipeDataModel) async -> RecipeFormData {
         async let name = model.name
         async let cookingTime = model.cookingTime
         async let complexity = model.complexity

@@ -13,7 +13,7 @@ enum RecipeLoadState {
     case idle
     case loading
     case failed(Error)
-    case loaded(RecipeEditModel)
+    case loaded(RecipeDataModel)
 }
 enum RecipeEditState {
     case idle
@@ -23,48 +23,47 @@ enum RecipeEditState {
 }
 
 @MainActor
-final class RecipeEditViewModel: ObservableObject {
+final class RecipeEditScreenModel: ObservableObject {
     @Published var loadingState: RecipeLoadState = .idle
-    @Published var savingState: SavingState = .idle
 
-    @Published var errors: RecipeEditFormErrors = .none
-    
-    // Actions
     var load: () -> Void = {}
-    var save: () -> Void = {}
-    var onCloseError: () -> Void = {}
     var onDisappear: () -> Void = {}
 }
 
 struct RecipeEditScreen: View {
+    @ObservedObject private var recipeEditScreenModel: RecipeEditScreenModel
+    @ObservedObject private var recipeEditDataModel: RecipeDataModel
     @ObservedObject private var recipeEditViewModel: RecipeEditViewModel
 
-    init(recipeEditViewModel: RecipeEditViewModel) {
+    init(
+        recipeEditScreenModel: RecipeEditScreenModel,
+        recipeEditDataModel: RecipeDataModel,
+        recipeEditViewModel: RecipeEditViewModel
+    ) {
+        self.recipeEditScreenModel = recipeEditScreenModel
+        self.recipeEditDataModel = recipeEditDataModel
         self.recipeEditViewModel = recipeEditViewModel
     }
 
     var body: some View {
         content
-            .task { recipeEditViewModel.load() }
-            .onDisappear(perform: { recipeEditViewModel.onDisappear() })
+            .task { recipeEditScreenModel.load() }
+            .onDisappear(perform: { recipeEditScreenModel.onDisappear() })
     }
 
     @ViewBuilder
     private var content: some View {
-        switch recipeEditViewModel.loadingState {
+        switch recipeEditScreenModel.loadingState {
         case .idle, .loading:
             LoadingView()
         case let .loaded(model):
             RecipeEditView(
-                model: model,
-                errors: recipeEditViewModel.errors,
-                savingState: recipeEditViewModel.savingState,
-                onSave: recipeEditViewModel.save,
-                onClose: recipeEditViewModel.onCloseError
+                dataModel: recipeEditDataModel,
+                viewModel: recipeEditViewModel
             )
         case .failed(let error):
             ErrorView(error: error.localizedDescription) {
-                recipeEditViewModel.load()
+                recipeEditScreenModel.load()
             }
         }
     }

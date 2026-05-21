@@ -6,79 +6,55 @@
 //
 import SwiftUI
 
-enum SavingState: Equatable {
-    case idle
-    case saving
-    case succeeded
-    case failed(Error)
 
-    static func == (lhs: SavingState, rhs: SavingState) -> Bool {
-        switch (lhs, rhs) {
-        case (.idle, .idle), (.saving, .saving), (.succeeded, .succeeded): return true
-        case (.failed, .failed): return true
-        default: return false
-        }
-    }
-}
-
-@MainActor
-final class RecipeEditModel: ObservableObject {
-    @Published var name: String = ""
-    @Published var cookingTime: String = ""
-    @Published var complexity: Int = 1
-}
 
 struct RecipeEditView: View {
-    @ObservedObject var model: RecipeEditModel
-    
-    let errors: RecipeEditFormErrors
-    let savingState: SavingState
-    let onSave: () -> Void
-    let onClose: () -> Void
+    @ObservedObject var dataModel: RecipeDataModel
+    @ObservedObject var viewModel: RecipeEditViewModel
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 formField(title: "Название") {
-                    TextField("Введите название", text: $model.name)
+                    TextField("Введите название", text: $dataModel.name)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityIdentifier(RecipeEditA11y.nameField)
                 } error: {
-                    errors.name
+                    viewModel.errors.name
                 } errorIdentifier: {
                     RecipeEditA11y.nameError
                 }
 
                 formField(title: "Длительность (мин)") {
-                    TextField("Введите длительность", text: $model.cookingTime)
+                    TextField("Введите длительность", text: $dataModel.cookingTime)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .accessibilityIdentifier(RecipeEditA11y.cookingTimeField)
                 } error: {
-                    errors.cookingTime
+                    viewModel.errors.cookingTime
                 } errorIdentifier: {
                     RecipeEditA11y.cookingTimeError
                 }
 
                 formField(title: "Сложность (1–5)") {
                     Stepper(
-                        value: $model.complexity,
+                        value: $dataModel.complexity,
                         in: 1...5,
                         label: {
-                            Text("\(model.complexity)")
+                            Text("\(dataModel.complexity)")
                                 .accessibilityIdentifier(RecipeEditA11y.complexityValue)
                         }
                     )
                     .accessibilityIdentifier(RecipeEditA11y.complexityField)
                 } error: {
-                    errors.complexity
+                    viewModel.errors.complexity
                 } errorIdentifier: {
                     RecipeEditA11y.complexityError
                 }
 
-                Button(action: onSave) {
+                Button(action: viewModel.onSave) {
                     Group {
-                        if case .saving = savingState {
+                        if case .saving = viewModel.savingState {
                             ProgressView()
                                 .progressViewStyle(.circular)
                                 .tint(.white)
@@ -92,14 +68,17 @@ struct RecipeEditView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
                 }
-                .disabled(savingState == .saving)
+                .disabled(viewModel.savingState == .saving)
                 .accessibilityIdentifier(RecipeEditA11y.saveButton)
                 .padding(.top, 8)
             }
             .padding()
         }
         .overlay {
-            SavingOverlayView(savingState: savingState, onClose: onClose)
+            SavingOverlayView(
+                savingState: viewModel.savingState,
+                onClose: viewModel.onClose
+            )
         }
     }
 
@@ -126,54 +105,60 @@ struct RecipeEditView: View {
 }
 
 #Preview("Заполненная форма") {
-    let model = RecipeEditModel()
-    model.name = "Котлета по-киевски"
-    model.cookingTime = "35"
-    model.complexity = 3
+    let dataModel = RecipeDataModel()
+    dataModel.name = "Котлета по-киевски"
+    dataModel.cookingTime = "35"
+    dataModel.complexity = 3
+    
+    let viewModel = RecipeEditViewModel()
 
     return RecipeEditViewPreviewWrapper(
-        model: model,
-        errors: .none,
-        savingState: .idle
+        dataModel: dataModel,
+        viewModel: viewModel
     )
 }
 
 #Preview("Сохранение") {
-    let model = RecipeEditModel()
-    model.name = "Котлета по-киевски"
-    model.cookingTime = "35"
-    model.complexity = 3
+    let dataModel = RecipeDataModel()
+    dataModel.name = "Котлета по-киевски"
+    dataModel.cookingTime = "35"
+    dataModel.complexity = 3
     
+    let viewModel = RecipeEditViewModel()
+    viewModel.savingState = .saving
+
     return RecipeEditViewPreviewWrapper(
-        model: model,
-        errors: .none,
-        savingState: .saving
+        dataModel: dataModel,
+        viewModel: viewModel
     )
 }
 
 #Preview("Ошибки валидации") {
-    let model = RecipeEditModel()
-    model.name = ""
-    model.cookingTime = ""
-    model.complexity = 1
+    let dataModel = RecipeDataModel()
+    dataModel.name = ""
+    dataModel.cookingTime = ""
+    dataModel.complexity = 1
+    
+    let viewModel = RecipeEditViewModel()
+    viewModel.errors = .init(
+        name: "Поле обязательно",
+        cookingTime: "Поле обязательно",
+        complexity: nil
+    )
+    viewModel.savingState = .saving
+
     
     return RecipeEditViewPreviewWrapper(
-        model: model,
-        errors: RecipeEditFormErrors(
-            name: "Поле обязательно",
-            cookingTime: "Поле обязательно",
-            complexity: nil
-        ),
-        savingState: .idle
+        dataModel: dataModel,
+        viewModel: viewModel
     )
 }
 
 private struct RecipeEditViewPreviewWrapper: View {
-    @State var model: RecipeEditModel
-    let errors: RecipeEditFormErrors
-    let savingState: SavingState
+    @State var dataModel: RecipeDataModel
+    @State var viewModel: RecipeEditViewModel
     
     var body: some View {
-        RecipeEditView(model: model, errors: errors, savingState: savingState, onSave: {}, onClose: {})
+        RecipeEditView(dataModel: dataModel, viewModel: viewModel)
     }
 }
