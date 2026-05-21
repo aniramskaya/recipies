@@ -77,7 +77,6 @@ public enum RecipeEditAssembly {
         
         let screen = RecipeEditScreen(
             recipeEditScreenModel: screenModel,
-            recipeEditDataModel: editModel,
             recipeEditViewModel: editViewModel
         )
         return (screen, [editModel, loadingScenario, formScenario, screenModel])

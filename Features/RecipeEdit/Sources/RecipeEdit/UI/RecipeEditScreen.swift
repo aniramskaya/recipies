@@ -32,16 +32,13 @@ final class RecipeEditScreenModel: ObservableObject {
 
 struct RecipeEditScreen: View {
     @ObservedObject private var recipeEditScreenModel: RecipeEditScreenModel
-    @ObservedObject private var recipeEditDataModel: RecipeDataModel
     @ObservedObject private var recipeEditViewModel: RecipeEditViewModel
 
     init(
         recipeEditScreenModel: RecipeEditScreenModel,
-        recipeEditDataModel: RecipeDataModel,
         recipeEditViewModel: RecipeEditViewModel
     ) {
         self.recipeEditScreenModel = recipeEditScreenModel
-        self.recipeEditDataModel = recipeEditDataModel
         self.recipeEditViewModel = recipeEditViewModel
     }
 
@@ -58,7 +55,7 @@ struct RecipeEditScreen: View {
             LoadingView()
         case let .loaded(model):
             RecipeEditView(
-                dataModel: recipeEditDataModel,
+                dataModel: model,
                 viewModel: recipeEditViewModel
             )
         case .failed(let error):
