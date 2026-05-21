@@ -21,10 +21,10 @@ protocol RecipeEditUser {
 
 @MainActor
 final class RecipeEditFeature: RecipeEditUser {
-    let view: RecipeEditScenarioScreen
+    let view: RecipeEditScreen
     private var host: (UIWindow, UIViewController)?
 
-    init(view: RecipeEditScenarioScreen) {
+    init(view: RecipeEditScreen) {
         self.view = view
     }
 

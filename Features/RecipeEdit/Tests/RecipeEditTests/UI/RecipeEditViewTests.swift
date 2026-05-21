@@ -22,20 +22,19 @@ struct RecipeEditViewTests {
 }
 
 private struct RecipeEditViewTestWrapper: View {
-    @State var name: String
-    @State var cookingTime: String
-    @State var complexity: Int
+    let model: RecipeEditModel
     let errors: RecipeEditFormErrors
 
     init(data: RecipeEditFormData, errors: RecipeEditFormErrors) {
-        _name = State(initialValue: data.name)
-        _cookingTime = State(initialValue: data.cookingTime)
-        _complexity = State(initialValue: data.complexity)
+        model = .init()
+        model.name = data.name
+        model.cookingTime = data.cookingTime
+        model.complexity = data.complexity
         self.errors = errors
     }
 
     var body: some View {
-        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, savingState: .idle, onSave: {}, onClose: {})
+        RecipeEditView(model: model, errors: errors, savingState: .idle, onSave: {}, onClose: {})
     }
 }
 

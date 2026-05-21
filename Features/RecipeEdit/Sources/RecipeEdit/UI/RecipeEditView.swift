@@ -1,9 +1,36 @@
+//
+//  RecipeEditView.swift
+//  RecipeEdit
+//
+//  Created by Марина Чемезова on 15.05.2026.
+//
 import SwiftUI
 
+enum SavingState: Equatable {
+    case idle
+    case saving
+    case succeeded
+    case failed(Error)
+
+    static func == (lhs: SavingState, rhs: SavingState) -> Bool {
+        switch (lhs, rhs) {
+        case (.idle, .idle), (.saving, .saving), (.succeeded, .succeeded): return true
+        case (.failed, .failed): return true
+        default: return false
+        }
+    }
+}
+
+@MainActor
+final class RecipeEditModel: ObservableObject {
+    @Published var name: String = ""
+    @Published var cookingTime: String = ""
+    @Published var complexity: Int = 1
+}
+
 struct RecipeEditView: View {
-    @Binding var name: String
-    @Binding var cookingTime: String
-    @Binding var complexity: Int
+    @ObservedObject var model: RecipeEditModel
+    
     let errors: RecipeEditFormErrors
     let savingState: SavingState
     let onSave: () -> Void
@@ -13,7 +40,7 @@ struct RecipeEditView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 formField(title: "Название") {
-                    TextField("Введите название", text: $name)
+                    TextField("Введите название", text: $model.name)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityIdentifier(RecipeEditA11y.nameField)
                 } error: {
@@ -23,7 +50,7 @@ struct RecipeEditView: View {
                 }
 
                 formField(title: "Длительность (мин)") {
-                    TextField("Введите длительность", text: $cookingTime)
+                    TextField("Введите длительность", text: $model.cookingTime)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .accessibilityIdentifier(RecipeEditA11y.cookingTimeField)
@@ -35,10 +62,10 @@ struct RecipeEditView: View {
 
                 formField(title: "Сложность (1–5)") {
                     Stepper(
-                        value: $complexity,
+                        value: $model.complexity,
                         in: 1...5,
                         label: {
-                            Text("\(complexity)")
+                            Text("\(model.complexity)")
                                 .accessibilityIdentifier(RecipeEditA11y.complexityValue)
                         }
                     )
@@ -99,30 +126,39 @@ struct RecipeEditView: View {
 }
 
 #Preview("Заполненная форма") {
-    RecipeEditViewPreviewWrapper(
-        name: "Котлета по-киевски",
-        cookingTime: "35",
-        complexity: 3,
+    let model = RecipeEditModel()
+    model.name = "Котлета по-киевски"
+    model.cookingTime = "35"
+    model.complexity = 3
+
+    return RecipeEditViewPreviewWrapper(
+        model: model,
         errors: .none,
         savingState: .idle
     )
 }
 
 #Preview("Сохранение") {
-    RecipeEditViewPreviewWrapper(
-        name: "Котлета по-киевски",
-        cookingTime: "35",
-        complexity: 3,
+    let model = RecipeEditModel()
+    model.name = "Котлета по-киевски"
+    model.cookingTime = "35"
+    model.complexity = 3
+    
+    return RecipeEditViewPreviewWrapper(
+        model: model,
         errors: .none,
         savingState: .saving
     )
 }
 
 #Preview("Ошибки валидации") {
-    RecipeEditViewPreviewWrapper(
-        name: "",
-        cookingTime: "",
-        complexity: 1,
+    let model = RecipeEditModel()
+    model.name = ""
+    model.cookingTime = ""
+    model.complexity = 1
+    
+    return RecipeEditViewPreviewWrapper(
+        model: model,
         errors: RecipeEditFormErrors(
             name: "Поле обязательно",
             cookingTime: "Поле обязательно",
@@ -133,13 +169,11 @@ struct RecipeEditView: View {
 }
 
 private struct RecipeEditViewPreviewWrapper: View {
-    @State var name: String
-    @State var cookingTime: String
-    @State var complexity: Int
+    @State var model: RecipeEditModel
     let errors: RecipeEditFormErrors
     let savingState: SavingState
-
+    
     var body: some View {
-        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, savingState: savingState, onSave: {}, onClose: {})
+        RecipeEditView(model: model, errors: errors, savingState: savingState, onSave: {}, onClose: {})
     }
 }

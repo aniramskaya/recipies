@@ -82,7 +82,7 @@ struct RecipeEditSavingAcceptanceTests {
     private func makeFeature() -> (RecipeEditFeature, RecipeEditServer, RecipeSaverServer, RecipeEditUser) {
         let loader = RecipeEditServer()
         let saver = RecipeSaverServer()
-        let (screen, leakable) = RecipeEditScenarioAssembly.composeInternal(
+        let (screen, leakable) = RecipeEditAssembly.composeInternal(
             recipeId: validRecipeData().id,
             loader: loader,
             saver: saver

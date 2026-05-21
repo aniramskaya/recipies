@@ -36,7 +36,7 @@ final class RecipeEditViewModel: ObservableObject {
     var onDisappear: () -> Void = {}
 }
 
-struct RecipeEditScenarioScreen: View {
+struct RecipeEditScreen: View {
     @ObservedObject private var recipeEditViewModel: RecipeEditViewModel
 
     init(recipeEditViewModel: RecipeEditViewModel) {
@@ -55,7 +55,7 @@ struct RecipeEditScenarioScreen: View {
         case .idle, .loading:
             LoadingView()
         case let .loaded(model):
-            RecipeEditScenarioView(
+            RecipeEditView(
                 model: model,
                 errors: recipeEditViewModel.errors,
                 savingState: recipeEditViewModel.savingState,
