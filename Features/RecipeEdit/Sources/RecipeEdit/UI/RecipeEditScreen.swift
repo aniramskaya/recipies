@@ -33,11 +33,11 @@ struct RecipeEditScreen<Content: View>: View {
             state: model.loadingState,
             loading: {
                 LoadingView()
-            }, failure: { error in
-                ErrorView(error: error.localizedDescription) {
-                    model.load()
-                }
-            }, content: { _ in
+            },
+            failure: { error in
+                ErrorView(error: error.localizedDescription) { model.load() }
+            },
+            content: { _ in
                 editView()
             }
         )

@@ -7,16 +7,15 @@
 
 import Foundation
 
-public final class RecipeFormSubmitScenario: Sendable {
-
-    private let getModel: @Sendable () async -> RecipeFormData
-    private let validate: @Sendable (RecipeFormData) async -> Result<RecipeData, FormValidationError>
-    private let save: @Sendable (_: RecipeData) async throws -> Void
+public final class FormSubmitScenario<RawData: Sendable, Model: Sendable>: Sendable {
+    private let getModel: @Sendable () async -> RawData
+    private let validate: @Sendable (RawData) async -> Result<Model, FormValidationError>
+    private let save: @Sendable (_: Model) async throws -> Void
     
-    init(
-        getModel: @escaping @Sendable () async -> RecipeFormData,
-        validate: @escaping @Sendable (RecipeFormData) async -> Result<RecipeData, FormValidationError>,
-        save: @escaping @Sendable (_: RecipeData) async throws -> Void
+    public init(
+        getModel: @escaping @Sendable () async -> RawData,
+        validate: @escaping @Sendable (RawData) async -> Result<Model, FormValidationError>,
+        save: @escaping @Sendable (_: Model) async throws -> Void
     ) {
         self.getModel = getModel
         self.validate = validate
@@ -25,7 +24,7 @@ public final class RecipeFormSubmitScenario: Sendable {
     
     // MARK: FormSubmitScenario
         
-    func start() -> AsyncStream<FormSubmitState> {
+    public func start() -> AsyncStream<FormSubmitState> {
         let (stream, continuation) = AsyncStream.makeStream(
             of: FormSubmitState.self,
             bufferingPolicy: .bufferingNewest(1)

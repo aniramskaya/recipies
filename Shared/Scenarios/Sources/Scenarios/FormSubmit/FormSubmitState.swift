@@ -7,10 +7,14 @@
 
 import Foundation
 
-
 public struct FormValidationError: Error, Sendable {
     public let form: [String]?
     public let field: Dictionary<String, String>?
+    
+    public init(form: [String]?, field: Dictionary<String, String>?) {
+        self.form = form
+        self.field = field
+    }
 }
 
 public enum FormSubmitState: Sendable {

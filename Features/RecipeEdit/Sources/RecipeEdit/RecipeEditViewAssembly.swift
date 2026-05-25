@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Scenarios
 
 public enum RecipeEditViewAssembly {
     @MainActor
@@ -17,9 +18,9 @@ public enum RecipeEditViewAssembly {
         
         let dataModel = model
         
-        let formScenario = RecipeFormSubmitScenario(
+        let formScenario = FormSubmitScenario(
             getModel: {
-                await RecipeFormData.fromModel(id: recipeId, model: dataModel)
+                await RecipeFormRawData.fromModel(id: recipeId, model: dataModel)
             },
             validate: { data in
                 return data.validateAndMapToData()
@@ -82,8 +83,8 @@ public enum RecipeEditViewAssembly {
     }
 }
 
-private extension RecipeFormData {
-    static func fromModel(id: UUID, model: RecipeDataModel) async -> RecipeFormData {
+private extension RecipeFormRawData {
+    static func fromModel(id: UUID, model: RecipeDataModel) async -> RecipeFormRawData {
         async let name = model.name
         async let cookingTime = model.cookingTime
         async let complexity = model.complexity
@@ -94,46 +95,5 @@ private extension RecipeFormData {
             cookingTime: await cookingTime,
             complexity: await complexity
         )
-    }
-}
-
-extension RecipeFormData {
-    func validateAndMapToData() -> Result<RecipeData, FormValidationError> {
-        let name = self.name.isEmpty ? nil : self.name
-        let cookingTime = self.cookingTime.isEmpty ? nil : self.cookingTime
-        let cookingTimeInt = cookingTime
-            .flatMap { Int($0) }
-            .flatMap { $0 > 0 ? $0 : nil }
-
-        var errors: Dictionary<String, String> = [:]
-        errors["name"] = name == nil ? RecipeFormValidationError.required.description : nil
-        if cookingTime == nil {
-            errors["cookingTime"] = RecipeFormValidationError.required.description
-        } else if cookingTimeInt == nil {
-            errors["cookingTime"] = RecipeFormValidationError.numberInvalid.description
-        }
-
-        guard let name, let cookingTimeInt else {
-            return .failure(.init(form: nil, field: errors))
-        }
-
-        return .success(RecipeData(
-            id: self.id,
-            name: name,
-            cookingTime: cookingTimeInt,
-            complexity: self.complexity
-        ))
-    }
-}
-
-enum RecipeFormValidationError: Error {
-    case required
-    case numberInvalid
-
-    var description: String? {
-        switch self {
-        case .required:      "Поле обязательно"
-        case .numberInvalid: "Введите корректное число"
-        }
     }
 }
