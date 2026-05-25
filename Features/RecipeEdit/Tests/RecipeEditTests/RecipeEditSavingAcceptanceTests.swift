@@ -10,65 +10,83 @@ import Testing
 import UIKit
 @testable import RecipeEdit
 
+@MainActor
 struct RecipeEditSavingAcceptanceTests {
     let leakChecker = LeakChecker()
 
-    @MainActor
     @Test func successfulSaveShowsAndDismissesSuccessOverlay() async throws {
-        let (feature, loader, saver, user) = makeFeature()
-
-        feature.start()
-
-        try await loader.respond(with: .success(validRecipeData()), at: 0)
-        try await feature.ensureIsDisplayingForm(data: validRecipeData())
-
-        try user.tapSaveButton()
-        try await saver.respond(with: .success(()), at: 0)
-
-        try await feature.ensureIsDisplayingSuccessOverlay()
-        try await feature.ensureIsDisplayingNoSavingOverlay()
+        do {
+            let (feature, loader, saver, user) = makeFeature()
+            
+            feature.start()
+            
+            try await loader.respond(with: .success(validRecipeData()), at: 0)
+            try await feature.ensureIsDisplayingForm(data: validRecipeData())
+            
+            try user.tapSaveButton()
+            try await saver.respond(with: .success(()), at: 0)
+            
+            try await feature.ensureIsDisplayingSuccessOverlay()
+            try await feature.ensureIsDisplayingNoSavingOverlay()
+            
+            feature.finish()
+        }
+        
+        await leakChecker.awaitAllReleased()
     }
 
-    @MainActor
     @Test func failedSaveShowsErrorOverlayAndDismissesOnClose() async throws {
-        let (feature, loader, saver, user) = makeFeature()
-
-        feature.start()
-
-        try await loader.respond(with: .success(validRecipeData()), at: 0)
-        try await feature.ensureIsDisplayingForm(data: validRecipeData())
-
-        try user.tapSaveButton()
-        try await saver.respond(with: .failure(NSError.any()), at: 0)
-
-        try await feature.ensureIsDisplayingErrorOverlay()
-
-        try user.tapCloseErrorOverlay()
-
-        try await feature.ensureIsDisplayingNoSavingOverlay()
+        do {
+            let (feature, loader, saver, user) = makeFeature()
+            
+            feature.start()
+            
+            try await loader.respond(with: .success(validRecipeData()), at: 0)
+            try await feature.ensureIsDisplayingForm(data: validRecipeData())
+            
+            try user.tapSaveButton()
+            try await saver.respond(with: .failure(NSError.any()), at: 0)
+            
+            try await feature.ensureIsDisplayingErrorOverlay()
+            
+            try user.tapCloseErrorOverlay()
+            
+            try await feature.ensureIsDisplayingNoSavingOverlay()
+            
+            feature.finish()
+        }
+        
+        await leakChecker.awaitAllReleased()
     }
 
-    @MainActor
     @Test func invalidFieldsDoNotTriggerSave() async throws {
-        let (feature, loader, _, user) = makeFeature()
-
-        feature.start()
-
-        try await loader.respond(with: .success(validRecipeData()), at: 0)
-        try await feature.ensureIsDisplayingForm(data: validRecipeData())
-
-        try user.fillNameField("")
-        try user.tapSaveButton()
-
-        try await feature.ensureIsDisplayingNameError("Поле обязательно")
-        try await feature.ensureIsDisplayingNoSavingOverlay()
+        do {
+            let (feature, loader, _, user) = makeFeature()
+            
+            feature.start()
+            
+            try await loader.respond(with: .success(validRecipeData()), at: 0)
+            try await feature.ensureIsDisplayingForm(data: validRecipeData())
+            
+            try user.fillNameField("")
+            try user.tapSaveButton()
+            
+            try await feature.ensureIsDisplayingNameError("Поле обязательно")
+            try await feature.ensureIsDisplayingNoSavingOverlay()
+            
+            feature.finish()
+        }
+        await leakChecker.awaitAllReleased()
     }
 
-    @MainActor
     private func makeFeature() -> (RecipeEditFeature, RecipeEditServer, RecipeSaverServer, RecipeEditUser) {
         let loader = RecipeEditServer()
         let saver = RecipeSaverServer()
-        let (screen, leakable) = RecipeEditAssembly.composeInternal(loader: loader, saver: saver)
+        let (screen, leakable) = RecipeEditScreenAssembly.composeInternal(
+            recipeId: validRecipeData().id,
+            loader: loader,
+            saver: saver
+        )
         let feature = RecipeEditFeature(view: screen)
         leakChecker.track(loader)
         leakChecker.track(saver)

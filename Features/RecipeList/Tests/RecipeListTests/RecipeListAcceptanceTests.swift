@@ -62,9 +62,6 @@ struct RecipeListAcceptanceTests {
 
         try await server.respond(with: .success(RecipeListDTO.test2()), at: 1)
 
-        print("Waiting for second request")
-        
-
         try await feature.ensureIsDisplayingData(model: testModels2())
     }
     

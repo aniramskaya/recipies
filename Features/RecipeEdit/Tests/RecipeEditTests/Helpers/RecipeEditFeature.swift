@@ -31,6 +31,10 @@ final class RecipeEditFeature: RecipeEditUser {
     func start() {
         host = hostInWindow(view)
     }
+    
+    func finish() {
+        host = nil
+    }
 
     func ensureIsDisplayingLoadingState(sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in

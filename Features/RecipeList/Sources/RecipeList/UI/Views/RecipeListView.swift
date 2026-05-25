@@ -29,7 +29,6 @@ struct RecipeListView: View {
         .scrollContentBackground(.hidden)
         .background(Color.white)
         .refreshable {
-            print("AAAA Reloading started")
             await reload()
         }
     }

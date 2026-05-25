@@ -6,12 +6,18 @@ final class RecipeSaverServer: RecipeSaver, @unchecked Sendable {
     private var onSave: (() -> Void)?
 
     func save(_ data: RecipeData) async throws {
-        try await withCheckedThrowingContinuation { continuation in
-            continuations.append(continuation)
-            if let onSave {
-                onSave()
-                self.onSave = nil
+        let index = continuations.count
+        return try await withTaskCancellationHandler {
+            try await withCheckedThrowingContinuation { continuation in
+                continuations.append(continuation)
+                if let onSave {
+                    onSave()
+                    self.onSave = nil
+                }
             }
+        } onCancel: {
+            guard index < continuations.count else { return }
+            continuations[index].resume(throwing: CancellationError())
         }
     }
 

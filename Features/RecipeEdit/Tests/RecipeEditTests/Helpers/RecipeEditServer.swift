@@ -6,12 +6,18 @@ final class RecipeEditServer: RecipeLoader, @unchecked Sendable {
     private var onLoad: (() -> Void)?
 
     func load() async throws -> RecipeData {
-        try await withCheckedThrowingContinuation { continuation in
-            continuations.append(continuation)
-            if let onLoad {
-                onLoad()
-                self.onLoad = nil
+        let index = continuations.count
+        return try await withTaskCancellationHandler {
+            try await withCheckedThrowingContinuation { continuation in
+                continuations.append(continuation)
+                if let onLoad {
+                    onLoad()
+                    self.onLoad = nil
+                }
             }
+        } onCancel: {
+            guard index < continuations.count else { return }
+            continuations[index].resume(throwing: CancellationError())
         }
     }
 

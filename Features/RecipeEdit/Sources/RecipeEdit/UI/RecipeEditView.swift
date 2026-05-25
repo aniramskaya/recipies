@@ -1,57 +1,60 @@
+//
+//  RecipeEditView.swift
+//  RecipeEdit
+//
+//  Created by Марина Чемезова on 15.05.2026.
+//
 import SwiftUI
 
+
+
 struct RecipeEditView: View {
-    @Binding var name: String
-    @Binding var cookingTime: String
-    @Binding var complexity: Int
-    let errors: RecipeEditFormErrors
-    let savingState: SavingState
-    let onSave: () -> Void
-    let onClose: () -> Void
+    @ObservedObject var dataModel: RecipeDataModel
+    @ObservedObject var viewModel: RecipeEditViewModel
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 formField(title: "Название") {
-                    TextField("Введите название", text: $name)
+                    TextField("Введите название", text: $dataModel.name)
                         .textFieldStyle(.roundedBorder)
                         .accessibilityIdentifier(RecipeEditA11y.nameField)
                 } error: {
-                    errors.name
+                    viewModel.errors.name
                 } errorIdentifier: {
                     RecipeEditA11y.nameError
                 }
 
                 formField(title: "Длительность (мин)") {
-                    TextField("Введите длительность", text: $cookingTime)
+                    TextField("Введите длительность", text: $dataModel.cookingTime)
                         .textFieldStyle(.roundedBorder)
                         .keyboardType(.numberPad)
                         .accessibilityIdentifier(RecipeEditA11y.cookingTimeField)
                 } error: {
-                    errors.cookingTime
+                    viewModel.errors.cookingTime
                 } errorIdentifier: {
                     RecipeEditA11y.cookingTimeError
                 }
 
                 formField(title: "Сложность (1–5)") {
                     Stepper(
-                        value: $complexity,
+                        value: $dataModel.complexity,
                         in: 1...5,
                         label: {
-                            Text("\(complexity)")
+                            Text("\(dataModel.complexity)")
                                 .accessibilityIdentifier(RecipeEditA11y.complexityValue)
                         }
                     )
                     .accessibilityIdentifier(RecipeEditA11y.complexityField)
                 } error: {
-                    errors.complexity
+                    viewModel.errors.complexity
                 } errorIdentifier: {
                     RecipeEditA11y.complexityError
                 }
 
-                Button(action: onSave) {
+                Button(action: viewModel.onSave) {
                     Group {
-                        if case .saving = savingState {
+                        if case .saving = viewModel.savingState {
                             ProgressView()
                                 .progressViewStyle(.circular)
                                 .tint(.white)
@@ -65,14 +68,17 @@ struct RecipeEditView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
                 }
-                .disabled(savingState == .saving)
+                .disabled(viewModel.savingState == .saving)
                 .accessibilityIdentifier(RecipeEditA11y.saveButton)
                 .padding(.top, 8)
             }
             .padding()
         }
         .overlay {
-            SavingOverlayView(savingState: savingState, onClose: onClose)
+            SavingOverlayView(
+                savingState: viewModel.savingState,
+                onClose: viewModel.onClose
+            )
         }
     }
 
@@ -99,47 +105,60 @@ struct RecipeEditView: View {
 }
 
 #Preview("Заполненная форма") {
-    RecipeEditViewPreviewWrapper(
-        name: "Котлета по-киевски",
-        cookingTime: "35",
-        complexity: 3,
-        errors: .none,
-        savingState: .idle
+    let dataModel = RecipeDataModel()
+    dataModel.name = "Котлета по-киевски"
+    dataModel.cookingTime = "35"
+    dataModel.complexity = 3
+    
+    let viewModel = RecipeEditViewModel()
+
+    return RecipeEditViewPreviewWrapper(
+        dataModel: dataModel,
+        viewModel: viewModel
     )
 }
 
 #Preview("Сохранение") {
-    RecipeEditViewPreviewWrapper(
-        name: "Котлета по-киевски",
-        cookingTime: "35",
-        complexity: 3,
-        errors: .none,
-        savingState: .saving
+    let dataModel = RecipeDataModel()
+    dataModel.name = "Котлета по-киевски"
+    dataModel.cookingTime = "35"
+    dataModel.complexity = 3
+    
+    let viewModel = RecipeEditViewModel()
+    viewModel.savingState = .saving
+
+    return RecipeEditViewPreviewWrapper(
+        dataModel: dataModel,
+        viewModel: viewModel
     )
 }
 
 #Preview("Ошибки валидации") {
-    RecipeEditViewPreviewWrapper(
-        name: "",
-        cookingTime: "",
-        complexity: 1,
-        errors: RecipeEditFormErrors(
-            name: "Поле обязательно",
-            cookingTime: "Поле обязательно",
-            complexity: nil
-        ),
-        savingState: .idle
+    let dataModel = RecipeDataModel()
+    dataModel.name = ""
+    dataModel.cookingTime = ""
+    dataModel.complexity = 1
+    
+    let viewModel = RecipeEditViewModel()
+    viewModel.errors = .init(
+        name: "Поле обязательно",
+        cookingTime: "Поле обязательно",
+        complexity: nil
+    )
+    viewModel.savingState = .saving
+
+    
+    return RecipeEditViewPreviewWrapper(
+        dataModel: dataModel,
+        viewModel: viewModel
     )
 }
 
 private struct RecipeEditViewPreviewWrapper: View {
-    @State var name: String
-    @State var cookingTime: String
-    @State var complexity: Int
-    let errors: RecipeEditFormErrors
-    let savingState: SavingState
-
+    @State var dataModel: RecipeDataModel
+    @State var viewModel: RecipeEditViewModel
+    
     var body: some View {
-        RecipeEditView(name: $name, cookingTime: $cookingTime, complexity: $complexity, errors: errors, savingState: savingState, onSave: {}, onClose: {})
+        RecipeEditView(dataModel: dataModel, viewModel: viewModel)
     }
 }
