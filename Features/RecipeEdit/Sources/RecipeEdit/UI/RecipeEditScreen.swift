@@ -13,7 +13,7 @@ enum RecipeLoadState {
     case idle
     case loading
     case failed(Error)
-    case loaded(RecipeDataModel)
+    case loaded
 }
 enum RecipeEditState {
     case idle
@@ -30,16 +30,16 @@ final class RecipeEditScreenModel: ObservableObject {
     var onDisappear: () -> Void = {}
 }
 
-struct RecipeEditScreen: View {
+struct RecipeEditScreen<Content: View>: View {
     @ObservedObject private var recipeEditScreenModel: RecipeEditScreenModel
-    @ObservedObject private var recipeEditViewModel: RecipeEditViewModel
+    @ViewBuilder private var editContent: () -> Content
 
     init(
         recipeEditScreenModel: RecipeEditScreenModel,
-        recipeEditViewModel: RecipeEditViewModel
+        editContent: @escaping () -> Content
     ) {
         self.recipeEditScreenModel = recipeEditScreenModel
-        self.recipeEditViewModel = recipeEditViewModel
+        self.editContent = editContent
     }
 
     var body: some View {
@@ -53,11 +53,8 @@ struct RecipeEditScreen: View {
         switch recipeEditScreenModel.loadingState {
         case .idle, .loading:
             LoadingView()
-        case let .loaded(model):
-            RecipeEditView(
-                dataModel: model,
-                viewModel: recipeEditViewModel
-            )
+        case .loaded:
+            editContent()
         case .failed(let error):
             ErrorView(error: error.localizedDescription) {
                 recipeEditScreenModel.load()
