@@ -9,8 +9,8 @@ import Foundation
 
 
 public struct FormValidationError: Error, Sendable {
-    public let form: [LocalizedError]?
-    public let field: Dictionary<String, LocalizedError>?
+    public let form: [String]?
+    public let field: Dictionary<String, String>?
 }
 
 public enum FormSubmitState: Sendable {

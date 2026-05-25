@@ -70,9 +70,9 @@ public enum RecipeEditViewAssembly {
         case .validating, .saving: viewModel.savingState = .saving
         case let .validationFailed(error):
             viewModel.errors = .init(
-                name: error.field?["name"]?.localizedDescription,
-                cookingTime: error.field?["cookingTime"]?.localizedDescription,
-                complexity: error.field?["complexity"]?.localizedDescription
+                name: error.field?["name"],
+                cookingTime: error.field?["cookingTime"],
+                complexity: error.field?["complexity"]
             )
             viewModel.savingState = .idle
         case let .savingFailed(error): viewModel.savingState = .failed(error)
@@ -99,18 +99,18 @@ private extension RecipeFormData {
 
 extension RecipeFormData {
     func validateAndMapToData() -> Result<RecipeData, FormValidationError> {
-        let name = self.name.flatMap { $0.isEmpty ? nil : $0 }
-        let cookingTime = self.cookingTime.flatMap { $0.isEmpty ? nil : $0 }
+        let name = self.name.isEmpty ? nil : self.name
+        let cookingTime = self.cookingTime.isEmpty ? nil : self.cookingTime
         let cookingTimeInt = cookingTime
             .flatMap { Int($0) }
             .flatMap { $0 > 0 ? $0 : nil }
 
-        var errors: Dictionary<String, LocalizedError> = [:]
-        errors["name"] = name == nil ? RecipeFormValidationError.required : nil
+        var errors: Dictionary<String, String> = [:]
+        errors["name"] = name == nil ? RecipeFormValidationError.required.description : nil
         if cookingTime == nil {
-            errors["cookingTime"] = RecipeFormValidationError.required
+            errors["cookingTime"] = RecipeFormValidationError.required.description
         } else if cookingTimeInt == nil {
-            errors["cookingTime"] = RecipeFormValidationError.numberInvalid
+            errors["cookingTime"] = RecipeFormValidationError.numberInvalid.description
         }
 
         guard let name, let cookingTimeInt else {
@@ -121,7 +121,19 @@ extension RecipeFormData {
             id: self.id,
             name: name,
             cookingTime: cookingTimeInt,
-            complexity: self.complexity ?? 1
+            complexity: self.complexity
         ))
+    }
+}
+
+enum RecipeFormValidationError: Error {
+    case required
+    case numberInvalid
+
+    var description: String? {
+        switch self {
+        case .required:      "Поле обязательно"
+        case .numberInvalid: "Введите корректное число"
+        }
     }
 }

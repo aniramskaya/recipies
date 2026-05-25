@@ -7,18 +7,6 @@
 
 import Foundation
 
-enum RecipeFormValidationError: LocalizedError {
-    case required
-    case numberInvalid
-
-    var errorDescription: String? {
-        switch self {
-        case .required:      "Поле обязательно"
-        case .numberInvalid: "Введите корректное число"
-        }
-    }
-}
-
 public final class RecipeFormSubmitScenario: Sendable {
 
     private let getModel: @Sendable () async -> RecipeFormData

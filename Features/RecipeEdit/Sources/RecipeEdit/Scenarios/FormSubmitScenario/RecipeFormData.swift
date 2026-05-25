@@ -9,7 +9,7 @@ import Foundation
 
 struct RecipeFormData: Sendable {
     let id: UUID
-    let name: String?
-    let cookingTime: String?
-    let complexity: Int?
+    let name: String
+    let cookingTime: String
+    let complexity: Int
 }
