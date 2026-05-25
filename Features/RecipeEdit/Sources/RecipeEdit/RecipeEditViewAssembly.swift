@@ -21,6 +21,9 @@ public enum RecipeEditViewAssembly {
             getModel: {
                 await RecipeFormData.fromModel(id: recipeId, model: dataModel)
             },
+            validate: { data in
+                return data.validateAndMapToData()
+            },
             save: { data in
                 try await saver.save(data)
             }
@@ -94,3 +97,31 @@ private extension RecipeFormData {
     }
 }
 
+extension RecipeFormData {
+    func validateAndMapToData() -> Result<RecipeData, FormValidationError> {
+        let name = self.name.flatMap { $0.isEmpty ? nil : $0 }
+        let cookingTime = self.cookingTime.flatMap { $0.isEmpty ? nil : $0 }
+        let cookingTimeInt = cookingTime
+            .flatMap { Int($0) }
+            .flatMap { $0 > 0 ? $0 : nil }
+
+        var errors: Dictionary<String, LocalizedError> = [:]
+        errors["name"] = name == nil ? RecipeFormValidationError.required : nil
+        if cookingTime == nil {
+            errors["cookingTime"] = RecipeFormValidationError.required
+        } else if cookingTimeInt == nil {
+            errors["cookingTime"] = RecipeFormValidationError.numberInvalid
+        }
+
+        guard let name, let cookingTimeInt else {
+            return .failure(.init(form: nil, field: errors))
+        }
+
+        return .success(RecipeData(
+            id: self.id,
+            name: name,
+            cookingTime: cookingTimeInt,
+            complexity: self.complexity ?? 1
+        ))
+    }
+}
