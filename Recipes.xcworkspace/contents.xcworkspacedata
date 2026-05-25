@@ -15,6 +15,9 @@
       location = "group:Shared"
       name = "Shared">
       <FileRef
+         location = "group:Scenarios">
+      </FileRef>
+      <FileRef
          location = "group:TestHelpers">
       </FileRef>
       <FileRef
@@ -29,5 +32,8 @@
    </FileRef>
    <FileRef
       location = "group:Features/RecipeEdit/RecipeEdit.xctestplan">
+   </FileRef>
+   <FileRef
+      location = "group:Shared/Scenarios/Tests/Scenarios.xctestplan">
    </FileRef>
 </Workspace>

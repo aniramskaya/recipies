@@ -13,6 +13,8 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../../Shared/RecipeUIKit"),
+        .package(path: "../../Shared/Scenarios"),
+        .package(path: "../../Shared/TestHelpers"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.0.0"),
         .package(url: "https://github.com/nalexn/ViewInspector.git", from: "0.10.0"),
     ],
@@ -21,12 +23,14 @@ let package = Package(
             name: "RecipeEdit",
             dependencies: [
                 .product(name: "RecipeUIKit", package: "RecipeUIKit"),
+                .product(name: "Scenarios", package: "Scenarios"),
             ]
         ),
         .testTarget(
             name: "RecipeEditTests",
             dependencies: [
                 "RecipeEdit",
+                .product(name: "TestHelpers", package: "TestHelpers"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 .product(name: "ViewInspector", package: "ViewInspector"),
             ]

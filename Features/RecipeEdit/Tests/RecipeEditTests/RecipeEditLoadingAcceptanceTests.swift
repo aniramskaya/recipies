@@ -7,6 +7,7 @@
 
 import Testing
 import UIKit
+import TestHelpers
 @testable import RecipeEdit
 
 @MainActor

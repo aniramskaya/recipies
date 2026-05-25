@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "32D651C2-FEF7-4296-9347-55C068EDD6EE",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "ScenariosTests",
+        "name" : "ScenariosTests"
+      }
+    }
+  ],
+  "version" : 1
+}

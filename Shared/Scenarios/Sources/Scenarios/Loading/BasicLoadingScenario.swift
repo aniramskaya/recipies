@@ -1,10 +1,9 @@
 //
 //  BasicLoadingScenario.swift
-//  RecipeEdit
+//  Scenarios
 //
 //  Created by Марина Чемезова on 12.05.2026.
 //
-
 
 import Foundation
 
