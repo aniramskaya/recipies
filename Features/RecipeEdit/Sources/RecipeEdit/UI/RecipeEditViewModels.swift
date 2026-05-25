@@ -14,6 +14,7 @@ final class RecipeEditViewModel: ObservableObject {
     
     var onSave: () -> Void = {}
     var onClose: () -> Void = {}
+    var onDisappear: () -> Void = {}
 }
 
 struct RecipeEditFormErrors {

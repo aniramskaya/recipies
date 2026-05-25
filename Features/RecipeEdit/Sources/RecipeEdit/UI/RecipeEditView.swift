@@ -80,6 +80,7 @@ struct RecipeEditView: View {
                 onClose: viewModel.onClose
             )
         }
+        .onDisappear(perform: viewModel.onDisappear)
     }
 
     @ViewBuilder
