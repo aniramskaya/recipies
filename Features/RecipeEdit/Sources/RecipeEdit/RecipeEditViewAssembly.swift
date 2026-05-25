@@ -44,7 +44,7 @@ public enum RecipeEditViewAssembly {
                         viewModel.savingState = .idle
                     }
                 }
-                
+                formTask = nil
             }
         }
         
