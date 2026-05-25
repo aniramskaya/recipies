@@ -27,29 +27,29 @@ public enum RecipeEditScreenAssembly {
         
         let loadingScenario = BasicLoadingScenario(loader: { try await loader.load() })
         
-        let screenModel = RecipeEditScreenModel()
+        let model = RecipeEditScreenModel()
         
         var loadingTask: Task<Void, Never>? = nil
-        screenModel.load = { [weak screenModel, weak editModel] in
+        model.load = { [weak model, weak editModel] in
             loadingTask?.cancel()
-            loadingTask = Task { [weak screenModel, weak editModel] in
+            loadingTask = Task { [weak model, weak editModel] in
                 let stream = loadingScenario.start()
                 for await state in stream {
-                    guard let screenModel, let editModel else { return }
-                    setLoadingState(state, viewModel: screenModel, editModel: editModel)
+                    guard let model, let editModel else { return }
+                    setLoadingState(state, viewModel: model, editModel: editModel)
                 }
             }
         }
         
-        screenModel.onDisappear = {
+        model.onDisappear = {
             loadingTask?.cancel()
         }
         
-        let screen = RecipeEditScreen(recipeEditScreenModel: screenModel) {
+        let screen = RecipeEditScreen(model: model) {
                 editView
         }
         
-        return (screen, [editModel, loadingScenario, screenModel] + editLeakables)
+        return (screen, [editModel, loadingScenario, model] + editLeakables)
     }
 
     @MainActor
@@ -63,7 +63,7 @@ public enum RecipeEditScreenAssembly {
         case let .failure(error): viewModel.loadingState = .failed(error)
         case let .loaded(data):
             editModel.populate(with: data)
-            viewModel.loadingState = .loaded
+            viewModel.loadingState = .loaded(Void())
         }
     }
 }

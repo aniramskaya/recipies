@@ -24,41 +24,38 @@ enum RecipeEditState {
 
 @MainActor
 final class RecipeEditScreenModel: ObservableObject {
-    @Published var loadingState: RecipeLoadState = .idle
+    @Published var loadingState: ResourceLoadState<Void> = .loading
 
     var load: () -> Void = {}
     var onDisappear: () -> Void = {}
 }
 
 struct RecipeEditScreen<Content: View>: View {
-    @ObservedObject private var recipeEditScreenModel: RecipeEditScreenModel
+    @ObservedObject private var model: RecipeEditScreenModel
     @ViewBuilder private var editContent: () -> Content
 
     init(
-        recipeEditScreenModel: RecipeEditScreenModel,
+        model: RecipeEditScreenModel,
         editContent: @escaping () -> Content
     ) {
-        self.recipeEditScreenModel = recipeEditScreenModel
+        self.model = model
         self.editContent = editContent
     }
 
     var body: some View {
-        content
-            .task { recipeEditScreenModel.load() }
-            .onDisappear(perform: { recipeEditScreenModel.onDisappear() })
-    }
-
-    @ViewBuilder
-    private var content: some View {
-        switch recipeEditScreenModel.loadingState {
-        case .idle, .loading:
-            LoadingView()
-        case .loaded:
-            editContent()
-        case .failed(let error):
-            ErrorView(error: error.localizedDescription) {
-                recipeEditScreenModel.load()
+        ResourceLoadingView(
+            state: model.loadingState,
+            loading: {
+                LoadingView()
+            }, failure: { error in
+                ErrorView(error: error.localizedDescription) {
+                    model.load()
+                }
+            }, content: { _ in
+                editContent()
             }
-        }
+        )
+        .task { model.load() }
+        .onDisappear(perform: { model.onDisappear() })
     }
 }
