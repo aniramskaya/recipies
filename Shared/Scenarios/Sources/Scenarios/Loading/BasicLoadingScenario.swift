@@ -61,7 +61,11 @@ public final class BasicLoadingScenario<Data: Sendable>: Sendable {
 
             do {
                 let data = try await load()
-                guard !Task.isCancelled else { continuation.finish(); return }
+                guard !Task.isCancelled else {
+                    print("Loading cancelled")
+                    continuation.finish();
+                    return
+                }
                 continuation.yield(.loaded(data))
                 continuation.finish()
             } catch {
@@ -71,6 +75,7 @@ public final class BasicLoadingScenario<Data: Sendable>: Sendable {
             }
         }
         continuation.onTermination = { _ in
+            print("Cancelling AsyncStream")
             task.cancel()
         }
         return stream

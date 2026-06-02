@@ -10,19 +10,20 @@ import RecipeUIKit
 
 @MainActor
 final class RecipeEditScreenModel: ObservableObject {
-    @Published var loadingState: ResourceLoadState<Void> = .loading
+    @Published var loadingState: ResourceLoadState<RecipeDataModel> = .loading
 
-    var load: () -> Void = {}
+    var onAppear: () -> Void = {}
     var onDisappear: () -> Void = {}
+    var onRetry: () -> Void = {}
 }
 
 struct RecipeEditScreen<Content: View>: View {
     @ObservedObject private var model: RecipeEditScreenModel
-    @ViewBuilder private var editView: () -> Content
+    @ViewBuilder private var editView: (_: RecipeDataModel) -> Content
 
     init(
         model: RecipeEditScreenModel,
-        editContent: @escaping () -> Content
+        editContent: @escaping (_: RecipeDataModel) -> Content
     ) {
         self.model = model
         self.editView = editContent
@@ -35,13 +36,13 @@ struct RecipeEditScreen<Content: View>: View {
                 LoadingView()
             },
             failure: { error in
-                ErrorView(error: error.localizedDescription) { model.load() }
+                ErrorView(error: error.localizedDescription) { model.onRetry() }
             },
-            content: { _ in
-                editView()
+            content: { model in
+                editView(model)
             }
         )
-        .task { model.load() }
+        .onAppear(perform: { model.onAppear() })
         .onDisappear(perform: { model.onDisappear() })
     }
 }

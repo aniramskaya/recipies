@@ -27,6 +27,7 @@ struct RecipeEditSavingAcceptanceTests {
             try user.tapSaveButton()
             try await saver.respond(with: .success(()), at: 0)
             
+            try await feature.ensureIsDisplayingNoValidationErrors()
             try await feature.ensureIsDisplayingSuccessOverlay()
             try await feature.ensureIsDisplayingNoSavingOverlay()
             
@@ -48,6 +49,7 @@ struct RecipeEditSavingAcceptanceTests {
             try user.tapSaveButton()
             try await saver.respond(with: .failure(NSError.any()), at: 0)
             
+            try await feature.ensureIsDisplayingNoValidationErrors()
             try await feature.ensureIsDisplayingErrorOverlay()
             
             try user.tapCloseErrorOverlay()

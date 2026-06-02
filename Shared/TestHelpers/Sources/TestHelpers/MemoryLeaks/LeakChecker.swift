@@ -84,8 +84,8 @@ public final class LeakChecker {
     /// This is necessary because the Swift concurrency runtime holds a `Task` alive until it
     /// receives a scheduler turn, even after cancellation or normal completion. Without this
     /// call, `deinit` may fire before async teardown chains finish, causing false leak reports.
-    public func awaitAllReleased() async {
-        await waitFor {
+    public func awaitAllReleased(timeout: TimeInterval = 1, sourceLocation: SourceLocation = #_sourceLocation) async {
+        await waitFor(timeout: timeout, sourceLocation: sourceLocation) {
             self.trackedEntities.allSatisfy { $0.weakObject == nil }
         }
     }

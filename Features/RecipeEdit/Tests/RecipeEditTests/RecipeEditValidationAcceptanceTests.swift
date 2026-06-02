@@ -73,6 +73,33 @@ struct RecipeEditValidationAcceptanceTests {
         
         await leakChecker.awaitAllReleased()
     }
+    
+    @Test func validationErrorsAreDismissedAfterCorrectInput() async throws {
+        do {
+            let (feature, server, user) = makeFeature()
+            
+            feature.start()
+            
+            try await server.respond(with: .success(validRecipeData()), at: 0)
+            try await feature.ensureIsDisplayingForm(data: validRecipeData())
+            
+            try user.fillNameField("")
+            try user.fillCookingTimeField("")
+            try user.tapSaveButton()
+
+            try await feature.ensureIsDisplayingNameError("Поле обязательно")
+            try await feature.ensureIsDisplayingCookingTimeError("Поле обязательно")
+
+            try user.fillNameField("name")
+            try user.fillCookingTimeField("30")
+            try user.tapSaveButton()
+            
+            try await feature.ensureIsDisplayingNoValidationErrors()
+
+            feature.finish()
+        }
+        await leakChecker.awaitAllReleased()
+    }
 
     private func makeFeature() -> (RecipeEditFeature, RecipeEditServer, RecipeEditUser) {
         let server = RecipeEditServer()

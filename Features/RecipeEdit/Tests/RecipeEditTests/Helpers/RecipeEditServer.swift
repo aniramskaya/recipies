@@ -1,8 +1,9 @@
 import Foundation
 @testable import RecipeEdit
 
-final class RecipeEditServer: RecipeLoader, @unchecked Sendable {
-    private var continuations: [CheckedContinuation<RecipeData, Error>] = []
+@MainActor
+final class RecipeEditServer: RecipeLoader {
+    private var continuations: [CheckedContinuation<RecipeData, Error>?] = []
     private var onLoad: (() -> Void)?
 
     func load() async throws -> RecipeData {
@@ -16,8 +17,15 @@ final class RecipeEditServer: RecipeLoader, @unchecked Sendable {
                 }
             }
         } onCancel: {
-            guard index < continuations.count else { return }
-            continuations[index].resume(throwing: CancellationError())
+            // onCancel вызывается с произвольного потока — диспатчим на MainActor,
+            // где continuation гарантированно уже добавлен в массив.
+            Task { @MainActor [weak self] in
+                guard let self,
+                      index < self.continuations.count,
+                      let cont = self.continuations[index] else { return }
+                self.continuations[index] = nil
+                cont.resume(throwing: CancellationError())
+            }
         }
     }
 
@@ -34,6 +42,8 @@ final class RecipeEditServer: RecipeLoader, @unchecked Sendable {
 
     func respond(with result: Result<RecipeData, Error>, at index: Int = 0) async throws {
         await waitForRequest(index: index)
-        continuations[index].resume(with: result)
+        guard let cont = continuations[index] else { return }
+        continuations[index] = nil
+        cont.resume(with: result)
     }
 }

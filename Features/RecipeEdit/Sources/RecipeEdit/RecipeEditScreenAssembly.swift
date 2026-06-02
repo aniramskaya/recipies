@@ -22,49 +22,53 @@ public enum RecipeEditScreenAssembly {
         saver: any RecipeSaver = RecipeSaverStub()
     ) -> (RecipeEditScreen<RecipeEditView>, [AnyObject]) {
         
-        let editModel = RecipeDataModel()
-        
-        let (editView, editLeakables) = RecipeEditViewAssembly.composeInternal(recipeId: recipeId, model: editModel, saver: saver)
+        let (editView, editLeakables) = RecipeEditViewAssembly.composeInternal(recipeId: recipeId, saver: saver)
         
         let loadingScenario = BasicLoadingScenario(loader: { try await loader.load() })
-        
+
         let model = RecipeEditScreenModel()
-        
+
         var loadingTask: Task<Void, Never>? = nil
-        model.load = { [weak model, weak editModel] in
+        let load = { [weak model] in
+            if case .loaded = model?.loadingState { return }
             loadingTask?.cancel()
-            loadingTask = Task { [weak model, weak editModel] in
+            loadingTask = Task { [weak model] in
                 let stream = loadingScenario.start()
                 for await state in stream {
-                    guard let model, let editModel else { return }
-                    setLoadingState(state, viewModel: model, editModel: editModel)
+                    guard let model else { return }
+                    setLoadingState(state, viewModel: model)
                 }
             }
         }
+                
+        model.onAppear = load
         
         model.onDisappear = {
+            print("Cancelling loading task")
             loadingTask?.cancel()
         }
         
-        let screen = RecipeEditScreen(model: model) {
-                editView
+        model.onRetry = load
+        
+        let screen = RecipeEditScreen(model: model) { dataModel in
+            editView(dataModel)
         }
         
-        return (screen, [editModel, loadingScenario, model] + editLeakables)
+        return (screen, [loadingScenario, model] + editLeakables)
     }
 
     @MainActor
     private static func setLoadingState(
         _ state: LoadingScenarioState<RecipeData>,
         viewModel: RecipeEditScreenModel,
-        editModel: RecipeDataModel
     ) {
         switch state {
         case .loading: viewModel.loadingState = .loading
         case let .failure(error): viewModel.loadingState = .failed(error)
         case let .loaded(data):
+            let editModel = RecipeDataModel()
             editModel.populate(with: data)
-            viewModel.loadingState = .loaded(Void())
+            viewModel.loadingState = .loaded(editModel)
         }
     }
 }

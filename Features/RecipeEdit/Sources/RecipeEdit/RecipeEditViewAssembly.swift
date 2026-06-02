@@ -12,15 +12,18 @@ public enum RecipeEditViewAssembly {
     @MainActor
     static func composeInternal(
         recipeId: UUID,
-        model: RecipeDataModel,
         saver: any RecipeSaver = RecipeSaverStub()
-    ) -> (RecipeEditView, [AnyObject]) {
+    ) -> ((_: RecipeDataModel) -> RecipeEditView, [AnyObject]) {
         
-        let dataModel = model
+        let viewModel = RecipeEditViewModel()
+        let dataModelRef = Ref<RecipeDataModel>()
         
-        let formScenario = FormSubmitScenario(
+        var formTask: Task<Void, Never>? = nil
+        
+        let formScenario = FormSubmitScenario<RecipeFormRawData, RecipeData>(
             getModel: {
-                await RecipeFormRawData.fromModel(id: recipeId, model: dataModel)
+                guard let dataModel = dataModelRef.value else { return nil }
+                return await RecipeFormRawData.fromModel(id: recipeId, model: dataModel)
             },
             validate: { data in
                 return data.validateAndMapToData()
@@ -29,10 +32,6 @@ public enum RecipeEditViewAssembly {
                 try await saver.save(data)
             }
         )
-        
-        let viewModel = RecipeEditViewModel()
-        
-        var formTask: Task<Void, Never>? = nil
         
         viewModel.onSave = { [weak viewModel] in
             guard formTask == nil else { return }
@@ -51,7 +50,6 @@ public enum RecipeEditViewAssembly {
                 formTask = nil
             }
         }
-        
         viewModel.onClose = { [weak viewModel] in
             viewModel?.savingState = .idle
         }
@@ -60,15 +58,23 @@ public enum RecipeEditViewAssembly {
             formTask?.cancel()
         }
         
-        let view = RecipeEditView(dataModel: dataModel, viewModel: viewModel)
-        return (view, [dataModel, formScenario, viewModel])
+        let view: (_: RecipeDataModel) -> RecipeEditView = { model in
+            let dataModel = model
+            dataModelRef.value = dataModel
+            
+            return RecipeEditView(dataModel: model, viewModel: viewModel)
+        }
+        return (view, [viewModel])
     }
     
     @MainActor
     private static func setFormState(_ state: FormSubmitState, viewModel: RecipeEditViewModel) {
         switch state {
         case .idle: viewModel.savingState = .idle
-        case .validating, .saving: viewModel.savingState = .saving
+        case .validating: viewModel.savingState = .saving
+        case .saving:
+            viewModel.savingState = .saving
+            viewModel.errors = .none
         case let .validationFailed(error):
             viewModel.errors = .init(
                 name: error.field?["name"],
@@ -96,4 +102,8 @@ private extension RecipeFormRawData {
             complexity: await complexity
         )
     }
+}
+
+private final class Ref<T>: @unchecked Sendable {
+    var value: T?
 }

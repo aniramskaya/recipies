@@ -8,12 +8,12 @@
 import Foundation
 
 public final class FormSubmitScenario<RawData: Sendable, Model: Sendable>: Sendable {
-    private let getModel: @Sendable () async -> RawData
+    private let getModel: @Sendable () async -> RawData?
     private let validate: @Sendable (RawData) async -> Result<Model, FormValidationError>
     private let save: @Sendable (_: Model) async throws -> Void
     
     public init(
-        getModel: @escaping @Sendable () async -> RawData,
+        getModel: @escaping @Sendable () async -> RawData?,
         validate: @escaping @Sendable (RawData) async -> Result<Model, FormValidationError>,
         save: @escaping @Sendable (_: Model) async throws -> Void
     ) {
@@ -32,7 +32,7 @@ public final class FormSubmitScenario<RawData: Sendable, Model: Sendable>: Senda
         let task = Task {
             continuation.yield(.validating)
             guard !Task.isCancelled else { continuation.finish(); return }
-            let model = await getModel()
+            guard let model = await getModel() else { return }
             guard !Task.isCancelled else { continuation.finish(); return }
             switch await validate(model) {
             case let .success(data):
