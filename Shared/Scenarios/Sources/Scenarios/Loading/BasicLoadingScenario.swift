@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// A one-shot loading scenario that wraps an async throwing closure and emits a stream of ``LoadingScenarioState`` values.
+/// A one-shot loading scenario that wraps an async throwing closure and emits a stream of ``BasicLoadingScenario.State`` values.
 ///
 /// Create a scenario with a loader closure, then call ``start()`` each time you want to trigger a load.
 /// Every call to `start()` produces an independent stream and runs the loader from scratch,
@@ -25,6 +25,16 @@ import Foundation
 /// }
 /// ```
 public final class BasicLoadingScenario<Data: Sendable>: Sendable {
+    /// The state of a loading operation managed by ``BasicLoadingScenario``.
+    public enum State: Sendable {
+        /// The resource is being fetched.
+        case loading
+        /// The fetch failed with the given error.
+        case failure(Error)
+        /// The fetch succeeded and the resource is available.
+        case loaded(Data)
+    }
+    
     private let load: @Sendable () async throws -> Data
 
     /// Creates a scenario with the given async loader.
@@ -48,9 +58,9 @@ public final class BasicLoadingScenario<Data: Sendable>: Sendable {
     /// Abandoning the returned stream cancels the underlying load task automatically.
     ///
     /// - Returns: An `AsyncStream` that emits at most two values and always completes.
-    public func start() -> AsyncStream<LoadingScenarioState<Data>> {
+    public func start() -> AsyncStream<State> {
         let (stream, continuation) = AsyncStream.makeStream(
-            of: LoadingScenarioState<Data>.self,
+            of: State.self,
             bufferingPolicy: .bufferingNewest(1)
         )
         let load = self.load
@@ -62,7 +72,6 @@ public final class BasicLoadingScenario<Data: Sendable>: Sendable {
             do {
                 let data = try await load()
                 guard !Task.isCancelled else {
-                    print("Loading cancelled")
                     continuation.finish();
                     return
                 }
@@ -75,7 +84,6 @@ public final class BasicLoadingScenario<Data: Sendable>: Sendable {
             }
         }
         continuation.onTermination = { _ in
-            print("Cancelling AsyncStream")
             task.cancel()
         }
         return stream

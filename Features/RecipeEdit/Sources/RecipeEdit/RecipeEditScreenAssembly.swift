@@ -59,7 +59,7 @@ public enum RecipeEditScreenAssembly {
 
     @MainActor
     private static func setLoadingState(
-        _ state: LoadingScenarioState<RecipeData>,
+        _ state: BasicLoadingScenario<RecipeData>.State,
         viewModel: RecipeEditScreenModel,
     ) {
         switch state {
