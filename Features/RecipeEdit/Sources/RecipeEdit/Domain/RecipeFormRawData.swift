@@ -16,7 +16,7 @@ struct RecipeFormRawData: Sendable {
 }
 
 extension RecipeFormRawData {
-    func validateAndMapToData() -> Result<RecipeData, FormSubmitScenario.FormValidationError> {
+    func validateAndMapToData() -> Result<RecipeData, FormValidationError> {
         let name = self.name.isEmpty ? nil : self.name
         let cookingTime = self.cookingTime.isEmpty ? nil : self.cookingTime
         let cookingTimeInt = cookingTime

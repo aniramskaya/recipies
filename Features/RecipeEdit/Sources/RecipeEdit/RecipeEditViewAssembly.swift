@@ -25,12 +25,8 @@ public enum RecipeEditViewAssembly {
                 guard let dataModel = dataModelRef.value else { return nil }
                 return await RecipeFormRawData.fromModel(id: recipeId, model: dataModel)
             },
-            validate: { data in
-                return data.validateAndMapToData()
-            },
-            save: { data in
-                try await saver.save(data)
-            }
+            validate: { $0.validateAndMapToData() },
+            save: saver.save
         )
         
         viewModel.onSave = { [weak viewModel] in

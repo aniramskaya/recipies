@@ -24,7 +24,7 @@ public enum RecipeEditScreenAssembly {
         
         let (editView, editLeakables) = RecipeEditViewAssembly.composeInternal(recipeId: recipeId, saver: saver)
         
-        let loadingScenario = BasicLoadingScenario(loader: { try await loader.load() })
+        let loadingScenario = BasicLoadingScenario(loader: loader.load )
 
         let model = RecipeEditScreenModel()
 
@@ -43,10 +43,7 @@ public enum RecipeEditScreenAssembly {
                 
         model.onAppear = load
         
-        model.onDisappear = {
-            print("Cancelling loading task")
-            loadingTask?.cancel()
-        }
+        model.onDisappear = { loadingTask?.cancel() }
         
         model.onRetry = load
         
