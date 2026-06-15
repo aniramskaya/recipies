@@ -6,23 +6,14 @@
 //
 
 import Foundation
+import RecipeUIKit
 
 @MainActor
 final class RecipeListScreenViewModel: ObservableObject {
-    @Published private(set) var state: RecipeListScreenViewState = .loading
-    private let loader: RecipeListLoaderAsync
-    
-    init(loader: RecipeListLoaderAsync) {
-        self.loader = loader
-    }
-    
-    func loadRecipes() async {
-        state = .loading
-        do {
-            let data = try await loader.load()
-            state = .data(data.asViewModels())
-        } catch {
-            state = .error(error)
-        }
-    }
+    @Published var state: ResourceLoadState<[RecipeListRowModel]> = .loading
+
+    var onAppear: () -> Void = {}
+    var onDisappear: () -> Void = {}
+    var onRetry: () -> Void = {}
+    var onSelectItem: @MainActor (_: UUID) -> Void = { _ in }
 }
