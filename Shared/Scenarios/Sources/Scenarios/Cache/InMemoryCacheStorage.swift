@@ -5,25 +5,25 @@
 //  Created by Марина Чемезова on 16.06.2026.
 //
 
-actor InMemoryCacheStorage<Key: Hashable & Sendable, Data: Sendable>: CacheStorage {
-    typealias Key = Key
-    typealias Data = Data
+public actor InMemoryCacheStorage<Key: Hashable & Sendable, Data: Sendable>: CacheStorage {
+    public typealias Key = Key
+    public typealias Data = Data
 
     private var storage: [Key: Data] = [:]
 
-    func get(key: Key) async -> Data? {
+    public func get(key: Key) async -> Data? {
         storage[key]
     }
     
-    func set(key: Key, data: Data) async {
+    public func set(key: Key, data: Data) async {
         storage[key] = data
     }
     
-    func clear(key: Key) async {
+    public func clear(key: Key) async {
         storage[key] = nil
     }
     
-    func clearAll() async {
+    public func clearAll() async {
         storage = [:]
     }
 }

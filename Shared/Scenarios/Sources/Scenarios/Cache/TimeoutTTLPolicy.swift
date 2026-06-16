@@ -6,14 +6,14 @@
 //
 import Foundation
 
-struct TimeoutTTLPolicy {
-    let timeout: TimeInterval
+public struct TimeoutTTLPolicy: TTLPolicy {
+    private let timeout: TimeInterval
     
-    init(timeout: TimeInterval) {
+    public init(timeout: TimeInterval) {
         self.timeout = timeout
     }
     
-    func isValid(_ date: Date) -> Bool {
-        return Date().timeIntervalSince(date) < timeout
+    public func isValid(savedAt: Date) -> Bool {
+        return Date().timeIntervalSince(savedAt) < timeout
     }
 }

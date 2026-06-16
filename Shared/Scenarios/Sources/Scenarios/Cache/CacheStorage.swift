@@ -9,7 +9,7 @@
 // чтобы реализация точно была reference типом
 
 /// Protocol for asynchronously caching items of a single type using hasheable keys
-protocol CacheStorage: AnyObject, Sendable {
+public protocol CacheStorage: AnyObject, Sendable {
     associatedtype Key: Hashable & Sendable
     associatedtype Data: Sendable
     

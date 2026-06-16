@@ -6,7 +6,7 @@
 //
 
 /// Result of reading from the cache by the given key
-enum CacheEntry<Data: Sendable> {
+public enum CacheEntry<Data: Sendable>: Sendable {
     /// No entry for the given key in the cache
     case empty
     /// Data for the given key is present in the cache and **is not marked as stale**
@@ -19,7 +19,7 @@ enum CacheEntry<Data: Sendable> {
 // чтобы реализация точно была reference типом
 
 /// Protocol for asynchronously caching items of a single type using hasheable keys
-protocol Cache: AnyObject, Sendable {
+public protocol Cache: AnyObject, Sendable {
     associatedtype Key: Hashable & Sendable
     associatedtype Data: Sendable
     
@@ -38,7 +38,7 @@ protocol Cache: AnyObject, Sendable {
 }
 
 extension CacheEntry: Equatable where Data: Equatable {
-    static func == (lhs: CacheEntry, rhs: CacheEntry) -> Bool {
+    public static func == (lhs: CacheEntry, rhs: CacheEntry) -> Bool {
         switch (lhs, rhs) {
         case (.empty, .empty): return true
         case let (.fresh(lhsData), .fresh(rhsData)): return lhsData == rhsData
