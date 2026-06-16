@@ -6,7 +6,7 @@
 //
 
 /// Result of reading from the cache by the given key
-enum AsyncCacheableResult<Data: Sendable> {
+enum CacheEntry<Data: Sendable> {
     /// No entry for the given key in the cache
     case empty
     /// Data for the given key is present in the cache and **is not marked as stale**
@@ -19,12 +19,12 @@ enum AsyncCacheableResult<Data: Sendable> {
 // чтобы реализация точно была reference типом
 
 /// Protocol for asynchronously caching items of a single type using hasheable keys
-protocol AsyncCacheable: AnyObject, Sendable {
+protocol Cache: AnyObject, Sendable {
     associatedtype Key: Hashable & Sendable
     associatedtype Data: Sendable
     
     /// Returns cache reading tesult for the given key
-    func get(key: Key) async -> AsyncCacheableResult<Data>
+    func get(key: Key) async -> CacheEntry<Data>
 
     /// Stores the data for the given key.
     /// Note that in general this method is not intended for removing data for given key even is Data is an optional type. Use ``clear`` method instead
@@ -37,8 +37,8 @@ protocol AsyncCacheable: AnyObject, Sendable {
     func clearAll() async
 }
 
-extension AsyncCacheableResult: Equatable where Data: Equatable {
-    static func == (lhs: AsyncCacheableResult, rhs: AsyncCacheableResult) -> Bool {
+extension CacheEntry: Equatable where Data: Equatable {
+    static func == (lhs: CacheEntry, rhs: CacheEntry) -> Bool {
         switch (lhs, rhs) {
         case (.empty, .empty): return true
         case let (.fresh(lhsData), .fresh(rhsData)): return lhsData == rhsData

@@ -5,15 +5,14 @@
 //  Created by Марина Чемезова on 16.06.2026.
 //
 
-actor AsyncInMemoryCache<Key: Hashable & Sendable, Data: Sendable>: AsyncCacheable {
+actor InMemoryCacheStorage<Key: Hashable & Sendable, Data: Sendable>: CacheStorage {
     typealias Key = Key
     typealias Data = Data
 
     private var storage: [Key: Data] = [:]
 
-    func get(key: Key) async -> Scenarios.AsyncCacheableResult<Data> {
-        guard let data = storage[key] else { return .empty }
-        return .fresh(data)
+    func get(key: Key) async -> Data? {
+        storage[key]
     }
     
     func set(key: Key, data: Data) async {

@@ -9,6 +9,10 @@
     }
   ],
   "defaultOptions" : {
+    "mallocStackLoggingOptions" : {
+      "loggingType" : "liveAllocations"
+    },
+    "nsZombieEnabled" : true,
     "performanceAntipatternCheckerEnabled" : true
   },
   "testTargets" : [

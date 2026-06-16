@@ -93,6 +93,7 @@ public final class LeakChecker {
     deinit {
         for item in trackedEntities {
             guard let leaked = item.weakObject else { continue }
+            print("Leak detected")
             #expect(
                 Bool(false),
                 "\(String(describing: type(of: leaked))) не освобождён. Возможна утечка памяти.",

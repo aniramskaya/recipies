@@ -79,31 +79,33 @@ struct BasicLoadingScenarioTests {
     }
     
     @Test func cancelDontCausesLeaks() async throws {
-        var states: [BasicLoadingScenario<Int>.State] = []
-        
-        let loader = IntLoaderSpy()
-        let sut = BasicLoadingScenario<Int>(loader: { try await loader.load() })
-        
-        leakChecker.track(sut)
-        leakChecker.track(loader)
-        
-        let started = AsyncStream<Void>.makeStream()
-
-        let collectTask = Task {
-            let stream = sut.start()
-            started.continuation.yield(())
-            for await state in stream {
-                states.append(state)
+        do {
+            var states: [BasicLoadingScenario<Int>.State] = []
+            
+            let loader = IntLoaderSpy()
+            let sut = BasicLoadingScenario<Int>(loader: loader.load)
+            
+            leakChecker.track(sut)
+            leakChecker.track(loader)
+            
+            let started = AsyncStream<Void>.makeStream()
+            
+            let collectTask = Task {
+                let stream = sut.start()
+                started.continuation.yield(())
+                for await state in stream {
+                    states.append(state)
+                }
             }
+            
+            for await _ in started.stream {
+                break
+            }
+            
+            collectTask.cancel()
+            await collectTask.value
         }
-
-        for await _ in started.stream {
-            break
-        }
-        
-        collectTask.cancel()
-        await collectTask.value
-        await Task.yield()
+        await leakChecker.awaitAllReleased()
     }
 }
 
@@ -122,7 +124,7 @@ enum LoadingError: Error, Equatable {
 }
 
 class IntLoaderSpy: @unchecked Sendable {
-    private var continuations: [CheckedContinuation<Int, Error>] = []
+    private var continuations: [CheckedContinuation<Int, Error>?] = []
     private var onLoad: (() -> Void)?
     
     func load() async throws -> Int {
@@ -136,9 +138,20 @@ class IntLoaderSpy: @unchecked Sendable {
                 }
             }
         } onCancel: {
-            guard index < continuations.count else { return }
-            continuations[index].resume(throwing: CancellationError())
-            continuations.remove(at: index)
+            // onCancel вызывается с произвольного потока — диспатчим на MainActor,
+            // где continuation гарантированно уже добавлен в массив.
+            Task { @MainActor [weak self] in
+                guard let self,
+                      index < self.continuations.count,
+                      let continuation = continuations[index]
+                else {
+                    print("no item at \(index)")
+                    return
+                }
+                print("cancelling item at \(index)")
+                continuation.resume(throwing: CancellationError())
+                continuations[index] = nil
+            }
         }
     }
     
@@ -155,6 +168,12 @@ class IntLoaderSpy: @unchecked Sendable {
     
     func respond(with result: Result<Int, Error>, at index: Int = 0) async throws {
         await waitForRequest(index: index)
-        continuations[index].resume(with: result)
+        guard let continuation = continuations[index] else { return }
+        continuation.resume(with: result)
+        continuations[index] = nil
+    }
+    
+    deinit {
+        print("IntLoaderSpy deinit")
     }
 }

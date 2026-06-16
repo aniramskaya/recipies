@@ -78,12 +78,17 @@ public final class BasicLoadingScenario<Data: Sendable>: Sendable {
                 continuation.yield(.loaded(data))
                 continuation.finish()
             } catch {
-                guard !Task.isCancelled else { continuation.finish(); return }
+                guard !Task.isCancelled else {
+                    print("Loading cancelled")
+                    continuation.finish();
+                    return
+                }
                 continuation.yield(.failure(error))
                 continuation.finish()
             }
         }
         continuation.onTermination = { _ in
+            print("Stream terminated")
             task.cancel()
         }
         return stream
