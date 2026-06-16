@@ -15,7 +15,7 @@ struct BasicLoadingScenarioTests {
     let leakChecker = LeakChecker()
 
     @Test func failureEmitsError() async throws {
-        var states: [LoadingScenarioState<Int>] = []
+        var states: [BasicLoadingScenario<Int>.State] = []
         
         let loader = IntLoaderSpy()
         let sut = BasicLoadingScenario<Int>(loader: { try await loader.load() })
@@ -47,7 +47,7 @@ struct BasicLoadingScenarioTests {
         await Task.yield()    }
     
     @Test func loadingEmitsSuccess() async throws {
-        var states: [LoadingScenarioState<Int>] = []
+        var states: [BasicLoadingScenario<Int>.State] = []
 
         let loader = IntLoaderSpy()
         let sut = BasicLoadingScenario<Int>(loader: { try await loader.load() })
@@ -79,7 +79,7 @@ struct BasicLoadingScenarioTests {
     }
     
     @Test func cancelDontCausesLeaks() async throws {
-        var states: [LoadingScenarioState<Int>] = []
+        var states: [BasicLoadingScenario<Int>.State] = []
         
         let loader = IntLoaderSpy()
         let sut = BasicLoadingScenario<Int>(loader: { try await loader.load() })
@@ -107,8 +107,8 @@ struct BasicLoadingScenarioTests {
     }
 }
 
-extension LoadingScenarioState: Equatable where Resource: Equatable {
-    public static func == (lhs: LoadingScenarioState<Resource>, rhs: LoadingScenarioState<Resource>) -> Bool {
+extension BasicLoadingScenario.State: Equatable where Data: Equatable {
+    public static func == (lhs: BasicLoadingScenario<Data>.State, rhs: BasicLoadingScenario<Data>.State) -> Bool {
         switch (lhs, rhs) {
         case (.loading, .loading), (.failure, .failure): return true
         case let (.loaded(lv), .loaded(rv)): return lv == rv
