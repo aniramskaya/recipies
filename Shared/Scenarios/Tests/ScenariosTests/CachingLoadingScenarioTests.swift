@@ -102,6 +102,35 @@ struct CachingLoadingScenarioTests {
                 .init(isLoading: false, data: 42, error: nil)
             ])
         }
+        
+        @Test
+        func returnsCachedDataAndLoadsFromRemote() async throws {
+            let (sut, loader, cache) = makeSUT(leakChecker: leakChecker)
+            
+            await cache.set(data: 42)
+
+            var states: [CachingLoadingScenario<Int>.State] = []
+            let started = AsyncStream<Void>.makeStream()
+
+            let collectTask = Task {
+                let stream = sut.reload()
+                started.continuation.yield(())
+                for await state in stream {
+                    states.append(state)
+                }
+            }
+
+            for await _ in started.stream { break }
+            try await loader.respond(with: .success(53))
+            await collectTask.value
+
+            #expect(loader.loadCallCount == 1)
+            #expect(states.count == 2)
+            #expect(states == [
+                .init(isLoading: true, data: 42, error: nil),
+                .init(isLoading: false, data: 53, error: nil)
+            ])
+        }
     }
     
     @Suite("Stale cached data")

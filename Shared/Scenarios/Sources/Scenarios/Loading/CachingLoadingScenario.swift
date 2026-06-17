@@ -42,6 +42,14 @@ public final class CachingLoadingScenario<Data: Sendable>: Sendable {
     }
     
     public func load() -> AsyncStream<State> {
+        loadInternal(force: false)
+    }
+
+    public func reload() -> AsyncStream<State> {
+        loadInternal(force: true)
+    }
+
+    private func loadInternal(force: Bool) -> AsyncStream<State> {
         let (stream, continuation) = AsyncStream.makeStream(
             of: State.self,
             bufferingPolicy: .bufferingNewest(1)
@@ -54,8 +62,13 @@ public final class CachingLoadingScenario<Data: Sendable>: Sendable {
                 continuation.yield(.init(isLoading: true, data: nil, error: nil))
                 await loadFromRemote(cachedData: nil, continuation: continuation)
             case let .fresh(value):
-                continuation.yield(.init(isLoading: false, data: value, error: nil))
-                continuation.finish()
+                if(force) {
+                    continuation.yield(.init(isLoading: true, data: value, error: nil))
+                    await loadFromRemote(cachedData: value, continuation: continuation)
+                } else {
+                    continuation.yield(.init(isLoading: false, data: value, error: nil))
+                    continuation.finish()
+                }
             case let .stale(value):
                 continuation.yield(.init(isLoading: true, data: value, error: nil))
                 await loadFromRemote(cachedData: value, continuation: continuation)
