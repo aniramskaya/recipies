@@ -19,11 +19,11 @@ public enum CacheEntry<Data: Sendable>: Sendable {
 // чтобы реализация точно была reference типом
 
 /// Protocol for asynchronously caching items of a single type using hasheable keys
-public protocol Cache: AnyObject, Sendable {
+public protocol Cache<Data>: AnyObject, Sendable {
     associatedtype Key: Hashable & Sendable
     associatedtype Data: Sendable
     
-    /// Returns cache reading tesult for the given key
+    /// Returns cache entry for the given key
     func get(key: Key) async -> CacheEntry<Data>
 
     /// Stores the data for the given key.
@@ -35,6 +35,20 @@ public protocol Cache: AnyObject, Sendable {
     
     /// Removes all entries from the cache
     func clearAll() async
+}
+
+/// Helper protocol to represent a cache for a single value
+public protocol SingleValueCache<Data>: AnyObject, Sendable {
+    associatedtype Data: Sendable
+    
+    /// Returns cache entry
+    func get() async -> CacheEntry<Data>
+
+    /// Stores the data
+    func set(data: Data) async
+    
+    /// Removes entry from the cache
+    func clear() async
 }
 
 extension CacheEntry: Equatable where Data: Equatable {

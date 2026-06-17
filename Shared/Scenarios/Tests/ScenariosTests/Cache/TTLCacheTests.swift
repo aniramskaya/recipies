@@ -116,11 +116,3 @@ struct TTLCacheTests {
         return (TTLCache(storage: storage, expirationPolicy: policy), policy)
     }
 }
-
-private final class TTLPolicyStub: TTLPolicy, @unchecked Sendable {
-    var stubValid = true
-
-    func isValid(savedAt: Date) -> Bool {
-        stubValid
-    }
-}
