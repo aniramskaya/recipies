@@ -28,9 +28,9 @@
 public final class CachingLoadingScenario<Data: Sendable>: Sendable {
     /// The state of a loading operation managed by ``CachingLoadingScenario``.
     public struct State: Sendable {
-        let isLoading: Bool
-        let data: Data?
-        let error: Error?
+        public let isLoading: Bool
+        public let data: Data?
+        public let error: Error?
     }
     
     private let cache: any SingleValueCache<Data>
@@ -60,18 +60,18 @@ public final class CachingLoadingScenario<Data: Sendable>: Sendable {
             switch data {
             case .empty:
                 continuation.yield(.init(isLoading: true, data: nil, error: nil))
-                await loadFromRemote(cachedData: nil, continuation: continuation)
+                await loadFromRemote(cachedData: nil, continuation: continuation, onSuccess: cache.set)
             case let .fresh(value):
                 if(force) {
                     continuation.yield(.init(isLoading: true, data: value, error: nil))
-                    await loadFromRemote(cachedData: value, continuation: continuation)
+                    await loadFromRemote(cachedData: value, continuation: continuation, onSuccess: cache.set)
                 } else {
                     continuation.yield(.init(isLoading: false, data: value, error: nil))
                     continuation.finish()
                 }
             case let .stale(value):
                 continuation.yield(.init(isLoading: true, data: value, error: nil))
-                await loadFromRemote(cachedData: value, continuation: continuation)
+                await loadFromRemote(cachedData: value, continuation: continuation, onSuccess: cache.set)
             }
 
         }
@@ -83,11 +83,13 @@ public final class CachingLoadingScenario<Data: Sendable>: Sendable {
     
     private func loadFromRemote(
         cachedData: Data?,
-        continuation:  AsyncStream<CachingLoadingScenario<Data>.State>.Continuation
+        continuation:  AsyncStream<CachingLoadingScenario<Data>.State>.Continuation,
+        onSuccess: (Data) async -> Void
     ) async {
         do {
             guard !Task.isCancelled else { continuation.finish(); return }
             let data = try await self.remoteLoader()
+            await onSuccess(data)
             guard !Task.isCancelled else { continuation.finish(); return }
             continuation.yield(.init(isLoading: false, data: data, error: nil))
             continuation.finish()

@@ -15,7 +15,6 @@ public enum RecipeListAssembly {
     ) -> RecipeListScreen {
         return composeInternalWithAsyncServices(
             dtoLoader: AsyncRecipeListDTOLoaderStub(),
-            cacheExpirationPolicy: RecipeListExpirationPolicy(timeout: (300)),
             onSelectItem: onSelectItem
         ).0
     }
@@ -23,44 +22,61 @@ public enum RecipeListAssembly {
     @MainActor
     static func composeInternalWithAsyncServices(
         dtoLoader: AsyncRecipeListDTOLoader,
-        cacheExpirationPolicy: TimestampExpirationPolicy,
         onSelectItem: @escaping @MainActor (_: UUID) -> Void
     ) -> (RecipeListScreen, [AnyObject]) {
-        let (recipeListLoader, leakable) = AsyncRecipeListLoaderAssembly.composeInternal(
-            dtoLoader: dtoLoader,
-            cacheExpirationPolicy: cacheExpirationPolicy
-        )
         let viewModel = RecipeListScreenViewModel()
         
-        let loadingScenario = BasicLoadingScenario(loader: recipeListLoader.load)
+        let storage = InMemoryCacheStorage<String, RecipeListDTO>()
+        let cache = TTLCache(storage: storage, expirationPolicy: TimeoutTTLPolicy(timeout: 300))
+        let loadingScenario = CachingLoadingScenario(
+            cache: cache.scoped(to: "RecipeList"),
+            loader: { try await dtoLoader.load() }
+        )
         
         var loadingTask: Task<Void, Never>? = nil
         
         let load = { [weak viewModel] in
             loadingTask?.cancel()
             loadingTask = Task { [weak viewModel] in
-                let stream = loadingScenario.start()
+                let stream = loadingScenario.load()
                 for await state in stream {
                     guard let viewModel else { return }
-                    switch state {
-                    case .loading:
-                        viewModel.state = .loading
-                    case let .failure(error):
-                        viewModel.state = .failed(error)
-                    case let .loaded(data):
-                        viewModel.state = .loaded(data.asViewModels())
-                    }
+                    setViewModelState(viewModel: viewModel, state)
                 }
             }
-            
         }
         
         viewModel.onAppear = load
         viewModel.onRetry = load
+        viewModel.onReload = { [weak viewModel] in
+            let stream = loadingScenario.reload()
+            for await state in stream {
+                guard let viewModel else { return }
+                setViewModelState(viewModel: viewModel, state)
+            }
+        }
         viewModel.onDisappear = { loadingTask?.cancel() }
         viewModel.onSelectItem = onSelectItem
         
         let screen = RecipeListScreen(viewModel: viewModel)
-        return (screen, leakable + [viewModel])
+        return (screen, [viewModel, storage, cache, loadingScenario])
+    }
+    
+    @MainActor
+    private static func setViewModelState(
+        viewModel: RecipeListScreenViewModel,
+        _ state: CachingLoadingScenario<RecipeListDTO>.State
+    ) {
+        if let data = state.data {
+            viewModel.state = .loaded(data.items.models.asViewModels())
+            return
+        }
+        if state.isLoading {
+            viewModel.state = .loading
+            return
+        }
+        if let error = state.error {
+            viewModel.state = .failed(error)
+        }
     }
 }

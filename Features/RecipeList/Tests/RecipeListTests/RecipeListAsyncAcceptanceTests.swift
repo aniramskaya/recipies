@@ -21,86 +21,88 @@ import ViewInspector
  
  */
 
+@MainActor
 struct RecipeListAsyncAcceptanceTests {
     let leakChecker = LeakChecker()
     
-    @MainActor
     @Test func loadErrorReloadResultScenario() async throws {
-        let (feature, server, user, _) = makeFeature()
-        
-        feature.start()
-        
-        try await feature.ensureIsDisplayingLoadingState()
-
-        try await server.respond(with: .failure(NSError.any()), at: 0)
-        
-        try await feature.ensureIsDisplayingError(text: "Не удалось загрузить список рецептов")
-
-        try user.tapReloadButton()
-        
-        try await feature.ensureIsDisplayingLoadingState()
-        
-        try await server.respond(with: .success(RecipeListDTO.test()), at: 1)
-
-        try await feature.ensureIsDisplayingData(model: testModels())
+        do {
+            let (feature, server, user) = makeFeature()
+            
+            feature.start()
+            
+            try await feature.ensureIsDisplayingLoadingState()
+            
+            try await server.respond(with: .failure(NSError.any()), at: 0)
+            
+            try await feature.ensureIsDisplayingError(text: "Не удалось загрузить список рецептов")
+            
+            try user.tapReloadButton()
+            
+            try await feature.ensureIsDisplayingLoadingState()
+            
+            try await server.respond(with: .success(RecipeListDTO.test()), at: 1)
+            
+            try await feature.ensureIsDisplayingData(model: testModels())
+        }
+        await leakChecker.awaitAllReleased()
     }
     
-    @MainActor
     @Test func loadResultReloadSecondResultScenario() async throws {
-        let (feature, server, user, expiration) = makeFeature()
-        
-        feature.start()
-                
-        try await feature.ensureIsDisplayingLoadingState()
-        
-        try await server.respond(with: .success(RecipeListDTO.test()), at: 0)
-
-        try await feature.ensureIsDisplayingData(model: testModels())
-
-
-        expiration.validationResult = true
-        try user.pullToRefresh()
-
-        try await server.respond(with: .success(RecipeListDTO.test2()), at: 1)
-
-        try await feature.ensureIsDisplayingData(model: testModels2())
+        do {
+            let (feature, server, user) = makeFeature()
+            
+            feature.start()
+            
+            try await feature.ensureIsDisplayingLoadingState()
+            
+            try await server.respond(with: .success(RecipeListDTO.test()), at: 0)
+            
+            try await feature.ensureIsDisplayingData(model: testModels())
+            
+            
+            try user.pullToRefresh()
+            
+            try await server.respond(with: .success(RecipeListDTO.test2()), at: 1)
+            
+            try await feature.ensureIsDisplayingData(model: testModels2())
+        }
+        await leakChecker.awaitAllReleased()
     }
     
-    @MainActor
     @Test func tapOnListItemCallsOnSelectItem() async throws {
-        var selectItemCalls: [UUID] = []
-        
-        let (feature, server, user, _) = makeFeature() { selectItemCalls.append($0) }
-        
-        feature.start()
-        
-        try await server.respond(with: .success(RecipeListDTO.test()), at: 0)
-
-        try await feature.ensureIsDisplayingData(model: testModels())
-        
-        try user.tapListItem(at: 0)
-        
-        #expect(selectItemCalls == [UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!])
+        do {
+            var selectItemCalls: [UUID] = []
+            
+            let (feature, server, user) = makeFeature() { selectItemCalls.append($0) }
+            
+            feature.start()
+            
+            try await server.respond(with: .success(RecipeListDTO.test()), at: 0)
+            
+            try await feature.ensureIsDisplayingData(model: testModels())
+            
+            try user.tapListItem(at: 0)
+            
+            #expect(selectItemCalls == [UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!])
+        }
+        await leakChecker.awaitAllReleased()
     }
     
-    @MainActor
     func makeFeature(onSelectItem: (@MainActor (_: UUID) -> Void)? = nil) -> (
         feature: RecipeListFeature,
         server: AsyncServer,
-        user: RecipeListUser, expiration: TimestampExpirationPolicyStub
+        user: RecipeListUser
     ) {
         let server = AsyncServer()
-        let expiration = TimestampExpirationPolicyStub()
         let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
             dtoLoader: server,
-            cacheExpirationPolicy: expiration,
             onSelectItem: onSelectItem ?? { _ in }
         )
         let feature = RecipeListFeature(view: screen)
-        leakChecker.track([server, expiration])
+        leakChecker.track([server, feature])
         leakChecker.track(leakable)
-        leakChecker.track(feature)
-        return (feature, server, feature, expiration)
+        return (feature, server, feature)
     }
 }
 

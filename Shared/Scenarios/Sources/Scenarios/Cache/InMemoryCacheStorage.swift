@@ -1,5 +1,5 @@
 //
-//  AsyncInMemoryCache.swift
+//  InMemoryCacheStorage.swift
 //  Scenarios
 //
 //  Created by Марина Чемезова on 16.06.2026.
@@ -11,6 +11,8 @@ public actor InMemoryCacheStorage<Key: Hashable & Sendable, Data: Sendable>: Cac
 
     private var storage: [Key: Data] = [:]
 
+    public init() {}
+    
     public func get(key: Key) async -> Data? {
         storage[key]
     }

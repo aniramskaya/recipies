@@ -28,7 +28,7 @@ public struct RecipeListScreen: View {
             RecipeListView(
                 model: model,
                 reload: { [weak viewModel] in
-                    viewModel?.onRetry()
+                    await viewModel?.onReload()
                 },
                 onSelectItem: { [weak viewModel] id in
                     viewModel?.onSelectItem(id)

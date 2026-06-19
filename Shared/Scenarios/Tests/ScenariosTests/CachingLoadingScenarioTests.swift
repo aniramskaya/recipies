@@ -90,13 +90,15 @@ struct CachingLoadingScenarioTests {
 
         @Test
         func returnsCachedData() async throws {
-            let (sut, loader, cache) = makeSUT(leakChecker: leakChecker)
+            let (sut, loader, _) = makeSUT(leakChecker: leakChecker)
             
-            await cache.set(data: 42)
+            let _ = try await collectStates(from: sut) {
+                try await loader.respond(with: .success(42))
+            }
 
             let states = try await collectStates(from: sut) { }
 
-            #expect(loader.loadCallCount == 0)
+            #expect(loader.loadCallCount == 1)
             #expect(states.count == 1)
             #expect(states == [
                 .init(isLoading: false, data: 42, error: nil)
@@ -105,9 +107,11 @@ struct CachingLoadingScenarioTests {
         
         @Test
         func returnsCachedDataAndLoadsFromRemote() async throws {
-            let (sut, loader, cache) = makeSUT(leakChecker: leakChecker)
+            let (sut, loader, _) = makeSUT(leakChecker: leakChecker)
             
-            await cache.set(data: 42)
+            let _ = try await collectStates(from: sut) {
+                try await loader.respond(with: .success(42), at: 0)
+            }
 
             var states: [CachingLoadingScenario<Int>.State] = []
             let started = AsyncStream<Void>.makeStream()
@@ -121,10 +125,10 @@ struct CachingLoadingScenarioTests {
             }
 
             for await _ in started.stream { break }
-            try await loader.respond(with: .success(53))
+            try await loader.respond(with: .success(53), at: 1)
             await collectTask.value
 
-            #expect(loader.loadCallCount == 1)
+            #expect(loader.loadCallCount == 2)
             #expect(states.count == 2)
             #expect(states == [
                 .init(isLoading: true, data: 42, error: nil),
@@ -143,14 +147,16 @@ struct CachingLoadingScenarioTests {
             let (sut, loader, cache) = makeSUT(leakChecker: leakChecker)
             let error = NSError.any()
 
-            await cache.set(data: 42)
+            let _ = try await collectStates(from: sut) {
+                try await loader.respond(with: .success(42), at: 0)
+            }
             await cache.setIsValid(false)
             
             let states = try await collectStates(from: sut) {
-                try await loader.respond(with: .failure(error))
+                try await loader.respond(with: .failure(error), at: 1)
             }
 
-            #expect(loader.loadCallCount == 1)
+            #expect(loader.loadCallCount == 2)
             #expect(states.count == 2)
             #expect(states == [
                 .init(isLoading: true, data: 42, error: nil),
@@ -162,14 +168,16 @@ struct CachingLoadingScenarioTests {
         func successReturnsUpdatedData() async throws {
             let (sut, loader, cache) = makeSUT(leakChecker: leakChecker)
 
-            await cache.set(data: 42)
+            let _ = try await collectStates(from: sut) {
+                try await loader.respond(with: .success(42), at: 0)
+            }
             await cache.setIsValid(false)
 
             let states = try await collectStates(from: sut) {
-                try await loader.respond(with: .success(53))
+                try await loader.respond(with: .success(53), at: 1)
             }
 
-            #expect(loader.loadCallCount == 1)
+            #expect(loader.loadCallCount == 2)
             #expect(states.count == 2)
             #expect(states == [
                 .init(isLoading: true, data: 42, error: nil),

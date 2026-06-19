@@ -1,5 +1,5 @@
 //
-//  AsyncInMemoryCache.swift
+//  InMemoryCacheStorage.swift
 //  Scenarios
 //
 //  Created by Марина Чемезова on 15.06.2026.
