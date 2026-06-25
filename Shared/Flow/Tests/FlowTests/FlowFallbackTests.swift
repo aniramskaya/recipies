@@ -20,15 +20,45 @@ struct FlowFallbackTests {
         #expect(result == 42)
     }
 
-    @Test func fallbackThrowsPrimaryErrorWhenBothFail() async throws {
-        let primary = TestError.primary
-        let flow = Flow<Int> { throw primary }.fallback { throw TestError.secondary }
+    @Test func fallbackThrowsSecondaryErrorWhenBothFail() async throws {
+        let secondary = TestError.secondary
+        let flow = Flow<Int> { throw TestError.primary }.fallback { throw secondary }
 
         do {
             _ = try await flow.run()
             #expect(Bool(false), "Expected to throw but got value instead")
         } catch {
-            #expect(error as? TestError == primary, "Expected primary error, got \(error) instead")
+            #expect(error as? TestError == secondary, "Expected secondary error, got \(error) instead")
         }
+    }
+    
+    @Test func fallbackIsNotExecutedOnCancel() async throws {
+        actor OnFallbackSpy {
+            var called = false
+            func setIsCalled() { called = true }
+        }
+        let onfallbackSpy = OnFallbackSpy()
+        let started = AsyncStream<Void>.makeStream()
+        
+        let flow = Flow<Int> {
+            started.continuation.yield()
+            try await Task.sleep(for: .seconds(1))
+            return 42
+        }.fallback {
+            await onfallbackSpy.setIsCalled()
+            return 53
+        }
+
+        let task = Task { try await flow.run() }
+        for await _ in started.stream { break }
+        task.cancel()
+        
+        do {
+            _ = try await task.value
+            Issue.record("Expected CancellationError")
+        } catch {
+            #expect(error is CancellationError)
+        }
+        #expect(await onfallbackSpy.called == false)
     }
 }
