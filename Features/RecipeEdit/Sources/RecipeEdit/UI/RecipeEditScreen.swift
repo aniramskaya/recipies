@@ -8,60 +8,41 @@
 import SwiftUI
 import RecipeUIKit
 
-
-enum RecipeLoadState {
-    case idle
-    case loading
-    case failed(Error)
-    case loaded(RecipeDataModel)
-}
-enum RecipeEditState {
-    case idle
-    case saving
-    case savingFailed(Error)
-    case saved
-}
-
 @MainActor
 final class RecipeEditScreenModel: ObservableObject {
-    @Published var loadingState: RecipeLoadState = .idle
+    @Published var loadingState: ResourceLoadState<RecipeDataModel> = .loading
 
-    var load: () -> Void = {}
+    var onAppear: () -> Void = {}
     var onDisappear: () -> Void = {}
+    var onRetry: () -> Void = {}
 }
 
-struct RecipeEditScreen: View {
-    @ObservedObject private var recipeEditScreenModel: RecipeEditScreenModel
-    @ObservedObject private var recipeEditViewModel: RecipeEditViewModel
+struct RecipeEditScreen<Content: View>: View {
+    @ObservedObject private var model: RecipeEditScreenModel
+    @ViewBuilder private var editView: (_: RecipeDataModel) -> Content
 
     init(
-        recipeEditScreenModel: RecipeEditScreenModel,
-        recipeEditViewModel: RecipeEditViewModel
+        model: RecipeEditScreenModel,
+        editContent: @escaping (_: RecipeDataModel) -> Content
     ) {
-        self.recipeEditScreenModel = recipeEditScreenModel
-        self.recipeEditViewModel = recipeEditViewModel
+        self.model = model
+        self.editView = editContent
     }
 
     var body: some View {
-        content
-            .task { recipeEditScreenModel.load() }
-            .onDisappear(perform: { recipeEditScreenModel.onDisappear() })
-    }
-
-    @ViewBuilder
-    private var content: some View {
-        switch recipeEditScreenModel.loadingState {
-        case .idle, .loading:
-            LoadingView()
-        case let .loaded(model):
-            RecipeEditView(
-                dataModel: model,
-                viewModel: recipeEditViewModel
-            )
-        case .failed(let error):
-            ErrorView(error: error.localizedDescription) {
-                recipeEditScreenModel.load()
+        ResourceLoadingView(
+            state: model.loadingState,
+            loading: {
+                LoadingView()
+            },
+            failure: { error in
+                ErrorView(error: error.localizedDescription) { model.onRetry() }
+            },
+            content: { model in
+                editView(model)
             }
-        }
+        )
+        .onAppear(perform: { model.onAppear() })
+        .onDisappear(perform: { model.onDisappear() })
     }
 }

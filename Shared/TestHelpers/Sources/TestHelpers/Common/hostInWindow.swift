@@ -26,6 +26,6 @@ public func hostInWindow<V: View>(_ view: V, size: CGSize = .init(width: 320, he
     vc.loadViewIfNeeded()
     vc.view.setNeedsLayout()
     vc.view.layoutIfNeeded()
-
+    
     return (window, vc)
 }

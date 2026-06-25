@@ -13,6 +13,7 @@ struct RecipeEditView: View {
     @ObservedObject var viewModel: RecipeEditViewModel
 
     var body: some View {
+        // let _ = Self._printChanges()
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 formField(title: "Название") {
@@ -80,6 +81,7 @@ struct RecipeEditView: View {
                 onClose: viewModel.onClose
             )
         }
+        .onDisappear(perform: viewModel.onDisappear)
     }
 
     @ViewBuilder

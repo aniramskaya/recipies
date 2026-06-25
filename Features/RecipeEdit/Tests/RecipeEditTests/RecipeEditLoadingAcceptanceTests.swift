@@ -7,6 +7,7 @@
 
 import Testing
 import UIKit
+import TestHelpers
 @testable import RecipeEdit
 
 @MainActor
@@ -66,7 +67,7 @@ struct RecipeEditLoadingAcceptanceTests {
             feature.finish()
         }
 
-        await leakChecker.awaitAllReleased()
+        await leakChecker.awaitAllReleased(timeout: 3)
     }
 
     private func makeFeature() -> (RecipeEditFeature, RecipeEditServer, RecipeEditUser) {

@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "8A635ED5-1400-45CD-AAE2-87141C511005",
+      "id" : "32D651C2-FEF7-4296-9347-55C068EDD6EE",
       "name" : "Test Scheme Action",
       "options" : {
 
@@ -9,16 +9,18 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false,
+    "mallocStackLoggingOptions" : {
+      "loggingType" : "liveAllocations"
+    },
+    "nsZombieEnabled" : true,
     "performanceAntipatternCheckerEnabled" : true
   },
   "testTargets" : [
     {
-      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "RecipeEditTests",
-        "name" : "RecipeEditTests"
+        "identifier" : "ScenariosTests",
+        "name" : "ScenariosTests"
       }
     }
   ],
