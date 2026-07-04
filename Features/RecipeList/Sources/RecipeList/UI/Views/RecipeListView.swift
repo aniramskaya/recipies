@@ -43,13 +43,13 @@ enum RecipeListViewA11y {
         model: [RecipeListRowModel(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cf")!,
             name: "Котлета по-киевски",
-            imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
+            imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
             complexity: 3
         ), RecipeListRowModel(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cd")!,
             name: "Котлета по-киевски",
-            imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
+            imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
             complexity: 3
         )],

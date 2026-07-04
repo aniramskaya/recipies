@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SwiftUI
 
-public enum RecipeListUIAssets {
+public enum RecipeUIKitAssets {
     public static let bundle: Bundle = {
         Bundle(for: BundleToken.self)
     }()

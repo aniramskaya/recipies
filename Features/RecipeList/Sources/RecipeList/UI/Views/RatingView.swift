@@ -14,7 +14,7 @@ struct RatingView: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "star")
-                .foregroundStyle(RecipeListUIAssets.Color.iconPrimary)
+                .foregroundStyle(RecipeUIKitAssets.Color.iconPrimary)
                 .font(.system(size: 18, weight: .semibold))
             Text(value, format: .number.precision(.fractionLength(1)))
                 .font(.system(size: 18, weight: .bold))
