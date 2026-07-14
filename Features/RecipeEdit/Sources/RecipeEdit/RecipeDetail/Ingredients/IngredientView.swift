@@ -1,5 +1,5 @@
 //
-//  Ingredient.swift
+//  IngredientView.swift
 //  RecipeEdit
 //
 //  Created by Марина Чемезова on 04.07.2026.
@@ -17,17 +17,18 @@ final class IngredientModel: ObservableObject {
     }
 }
 
-struct Ingredient: View {
+struct IngredientView: View {
     @ObservedObject var model: IngredientModel
     
     var body: some View {
-        VStack {
-            Toggle(isOn: $model.isOn) {
-                Text(model.name)
-            }
-            .toggleStyle(IngredientToggleStyle())
-            .tint(Color.black)
+        Toggle(isOn: $model.isOn) {
+            Text(model.name)
+                .multilineTextAlignment(.leading)
+                .accessibilityIdentifier(IngredientViewA11y.name)
         }
+        .toggleStyle(IngredientToggleStyle())
+        .tint(Color.primary)
+        .accessibilityIdentifier(IngredientViewA11y.component)
     }
 }
 
@@ -36,7 +37,7 @@ private struct IngredientToggleStyle: ToggleStyle {
         Button(action: {
             configuration.isOn.toggle()
         }) {
-            HStack {
+            HStack(alignment: .top) {
                 NotesCheckbox(isOn: configuration.isOn)
                 configuration.label
             }
@@ -44,7 +45,12 @@ private struct IngredientToggleStyle: ToggleStyle {
     }
 }
 
+enum IngredientViewA11y {
+    static let component = "Ingredient"
+    static let name = "Name"
+}
+
 #Preview {
     let model = IngredientModel(isOn: false, name: "Куриное филе")
-    Ingredient(model: model)
+    IngredientView(model: model)
 }
