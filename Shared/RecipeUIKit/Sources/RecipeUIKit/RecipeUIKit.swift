@@ -22,6 +22,10 @@ public enum RecipeUIKitAssets {
         public static var iconPrimary: SwiftUI.Color {
             SwiftUI.Color("icon.primary", bundle: .module)
         }
+        
+        public static var cookingStepBackground: SwiftUI.Color {
+            SwiftUI.Color("cookingStep.background", bundle: .module)
+        }
     }
 
     private final class BundleToken {}

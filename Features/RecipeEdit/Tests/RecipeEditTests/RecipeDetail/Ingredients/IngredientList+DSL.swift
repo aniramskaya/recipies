@@ -16,7 +16,7 @@ extension InspectableView where View == ViewType.View<IngredientListView> {
 
         let foundItems = self.findAll(IngredientView.self)
         #expect(foundItems.count == items.count)
-        for (index, item) in foundItems.enumerated() {
+        for (index, _) in foundItems.enumerated() {
             try foundItems[index].assertIsDisplaying(name: items[index].name)
         }
     }

@@ -4,6 +4,23 @@
     "%lld" : {
       "shouldTranslate" : false
     },
+    "cookingStepHeader" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %1$(step)llu: %2$(name)@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаг %1$(step)llu: %2$(name)@"
+          }
+        }
+      }
+    },
     "IngredientsHint" : {
       "extractionState" : "manual",
       "localizations" : {
