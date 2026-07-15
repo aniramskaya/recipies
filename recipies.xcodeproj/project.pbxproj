@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -42,6 +42,10 @@
 		CCF62CC92ADA82CB009537A9 /* recipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recipesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCF62CCD2ADA82CB009537A9 /* recipesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = recipesTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CC20586C3007A7AD0031B7F6 /* модули */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "модули"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		CCF62CB62ADA82BB009537A9 /* Frameworks */ = {
@@ -92,6 +96,7 @@
 		CCF62CB02ADA82BB009537A9 = {
 			isa = PBXGroup;
 			children = (
+				CC20586C3007A7AD0031B7F6 /* модули */,
 				CC90AB382F9F68CC00ABED7F /* AllTests.xctestplan */,
 				CC626A0B2F88D524003FCA1B /* agents.md */,
 				CCF62CBB2ADA82BB009537A9 /* recipes */,

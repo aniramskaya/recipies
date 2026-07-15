@@ -47,7 +47,6 @@ public enum RecipeListRowA11y {
     static let component = "RecipeListRow"
     static let name = "RecipeName"
     static let cookingTime = "CookingTime"
-    static let rating = "Rating"
     static let complexity = "Complexity"
 }
 

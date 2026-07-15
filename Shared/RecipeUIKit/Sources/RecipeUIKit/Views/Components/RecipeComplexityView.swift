@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import RecipeUIKit
 
-struct RecipeComplexityView: View {
+public struct RecipeComplexityView: View {
     let value: Int
 
     private var clampedValue: Int {
@@ -18,8 +17,12 @@ struct RecipeComplexityView: View {
     private let barHeights: [CGFloat] = [4, 8, 14, 18, 22]
     private let activeColor = RecipeUIKitAssets.Color.iconPrimary
     private let inactiveColor = RecipeUIKitAssets.Color.iconPrimary.opacity(0.4)
+    
+    public init(value: Int) {
+        self.value = value
+    }
 
-    var body: some View {
+    public var body: some View {
         HStack(alignment: .bottom, spacing: 4) {
             ForEach(0..<5, id: \.self) { index in
                 Rectangle()

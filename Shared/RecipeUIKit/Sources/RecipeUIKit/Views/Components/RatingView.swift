@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
-import RecipeUIKit
 
-struct RatingView: View {
+public struct RatingView: View {
     let value: Float
     
-    var body: some View {
+    public init(value: Float) {
+        self.value = value
+    }
+    
+    public var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "star")
                 .foregroundStyle(RecipeUIKitAssets.Color.iconPrimary)

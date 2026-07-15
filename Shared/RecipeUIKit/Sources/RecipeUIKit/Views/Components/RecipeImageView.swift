@@ -8,17 +8,21 @@
 import SwiftUI
 import UIKit
 
-enum RecipeImageSource {
+public enum RecipeImageSource {
     case remote(URL)
     case asset(String)     // имя ассета
     case system(String)    // SF Symbol
     case uiImage(UIImage)  // для тестов/генерации
 }
 
-struct RecipeImageView: View {
+public struct RecipeImageView: View {
     let source: RecipeImageSource
+    
+    public init(source: RecipeImageSource) {
+        self.source = source
+    }
 
-    var body: some View {
+    public var body: some View {
         switch source {
         case .remote(let url):
             AsyncImage(url: url) { phase in
