@@ -32,4 +32,4 @@ struct IngredientTests {
     }
 }
 
-nonisolated(unsafe) let testModel = IngredientModel(isOn: false, name: "Соль")
+nonisolated(unsafe) private let testModel = IngredientModel(isOn: false, name: "Соль")

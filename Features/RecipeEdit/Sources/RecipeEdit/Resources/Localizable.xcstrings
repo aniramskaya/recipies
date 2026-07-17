@@ -4,6 +4,26 @@
     "%lld" : {
       "shouldTranslate" : false
     },
+    "%llu" : {
+
+    },
+    "cookingBlock.header" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приготовление"
+          }
+        }
+      }
+    },
     "cookingStepHeader" : {
       "extractionState" : "manual",
       "localizations" : {

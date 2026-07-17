@@ -60,3 +60,20 @@ public struct RecipeImageView: View {
         }
     }
 }
+
+extension RecipeImageSource: Equatable {
+    public static func ==(lhs: RecipeImageSource, rhs: RecipeImageSource) -> Bool {
+        switch (lhs, rhs) {
+        case (.remote(let lhsURL), .remote(let rhsURL)):
+            return lhsURL == rhsURL
+        case (.asset(let lhsName), .asset(let rhsName)):
+            return lhsName == rhsName
+        case (.system(let lhsName), .system(let rhsName)):
+            return lhsName == rhsName
+        case (.uiImage(let lhsImage), .uiImage(let rhsImage)):
+            return lhsImage.pngData() == rhsImage.pngData()
+        default:
+            return false
+        }
+    }
+}

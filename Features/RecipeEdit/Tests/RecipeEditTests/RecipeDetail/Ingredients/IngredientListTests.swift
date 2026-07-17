@@ -22,7 +22,7 @@ struct IngredientListTests {
     }
 }
 
-nonisolated(unsafe) let testItems: [IngredientModel] = [
+nonisolated(unsafe) private let testItems: [IngredientModel] = [
     IngredientModel(isOn: false, name: "Соль"),
     IngredientModel(isOn: false, name: "Вода")
 ]
