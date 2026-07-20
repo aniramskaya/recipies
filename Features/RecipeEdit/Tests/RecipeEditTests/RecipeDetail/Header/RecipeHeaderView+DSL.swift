@@ -14,20 +14,24 @@ import TestHelpers
 extension InspectableView where View == ViewType.View<RecipeHeaderView> {
     @MainActor
     func assertIsDisplaying(image: RecipeImageSource, complexity: Int, cookingTime: String, sourceLocation: SourceLocation = #_sourceLocation) throws {
+
+        guard let found = try? self.find(RecipeImageView.self).actualView() else {
+            throw sourceLocation.error("RecipeHeaderView does not have an image")
+        }
+        guard found.source == image else {
+            throw sourceLocation.error("RecipeHeaderView image mismatch")
+        }
+
+
+        guard let found = try? self.find(RecipeComplexityView.self).actualView() else {
+            throw sourceLocation.error("RecipeHeaderView does not have a complexity view with value \(complexity)")
+        }
+        guard found.value == complexity else {
+            throw sourceLocation.error("RecipeComplexityView expected value \(complexity), found \(found.value) instead")
+        }
         
-        #expect(throws: Never.self, "RecipeHeaderView does not have an image", sourceLocation: sourceLocation) {
-            let found = try self.find(RecipeImageView.self).actualView()
-            #expect(found.source == image, "RecipeHeaderView image mismatch", sourceLocation: sourceLocation)
-        }
-
-        #expect(throws: Never.self, "RecipeHeaderView does not have a complexity view with value \(complexity)", sourceLocation: sourceLocation) {
-            
-            let found = try self.find(RecipeComplexityView.self).actualView()
-            #expect(found.value == complexity, "RecipeComplexityView expected value \(complexity), found \(found.value) instead", sourceLocation: sourceLocation)
-        }
-
-        #expect(throws: Never.self, "RecipeHeaderView does not have a cookingTime view with text \(cookingTime)", sourceLocation: sourceLocation) {
-            let _ = try self.find(viewWithAccessibilityIdentifier: RecipeHeaderViewA11y.cookingTime).find(text: cookingTime)
+        guard let _ = try? self.find(viewWithAccessibilityIdentifier: RecipeHeaderViewA11y.cookingTime).find(text: cookingTime) else {
+            throw sourceLocation.error("RecipeHeaderView does not have a cookingTime view with text \(cookingTime)")
         }
     }
 }

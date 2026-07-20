@@ -12,11 +12,13 @@ import TestHelpers
 
 extension InspectableView where View == ViewType.View<RecipeTitleView> {
     @MainActor
-    func assertIsDisplaying(title: String) throws {
+    func assertIsDisplaying(title: String, sourceLocation: SourceLocation = #_sourceLocation) throws {
 
-        let valueFound = try self.find(viewWithAccessibilityIdentifier: A11y.component).text().string()
+        guard let valueFound = try? self.find(viewWithAccessibilityIdentifier: A11y.component).text().string() else {
+            throw sourceLocation.error("Recipe title is not displayed")
+        }
         guard valueFound == title else {
-            throw TestError(reason: "RecipeTitle is expected to be \(title), found \(valueFound) instead")
+            throw sourceLocation.error("RecipeTitle is expected to be \(title), found \(valueFound) instead")
         }
     }
 }

@@ -8,6 +8,7 @@
 import Testing
 import ViewInspector
 import TestHelpers
+@testable import RecipeUIKit
 @testable import RecipeList
 
 extension RecipeListRow {

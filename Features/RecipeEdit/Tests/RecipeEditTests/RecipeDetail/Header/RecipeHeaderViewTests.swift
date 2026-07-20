@@ -22,7 +22,7 @@ struct RecipeHeaderViewTests {
             try inspectable.assertIsDisplaying(
                 image: model.imageSource,
                 complexity: model.complexity,
-                cookingTime: "45 min"
+                cookingTime: "35 min"
             )
         }
     }

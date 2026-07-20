@@ -12,14 +12,15 @@ import TestHelpers
 
 extension InspectableView where View == ViewType.View<RecipeCookingBlock> {
     @MainActor
-    func assertIsDisplaying(steps: [RecipeStepViewModel]) throws {
+    func assertIsDisplaying(steps: [RecipeStepViewModel], sourceLocation: SourceLocation = #_sourceLocation) throws {
         let found = self.findAll(RecipeStepView.self)
         
-        #expect(found.count == steps.count)
+        guard found.count == steps.count else {
+            throw sourceLocation.error("Invalid number of cooking steps. Expected: \(steps.count), found \(found.count).")
+        }
+        
         for (index, _) in found.enumerated() {
-            #expect(throws: Never.self) {
-                try found[index].assertIsDisplaying(model: steps[index])
-            }
+            try found[index].assertIsDisplaying(model: steps[index], sourceLocation: sourceLocation)
         }
     }
 }

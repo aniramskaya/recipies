@@ -12,12 +12,14 @@ import TestHelpers
 
 extension InspectableView where View == ViewType.View<IngredientListView> {
     @MainActor
-    func assertIsDisplaying(items: [IngredientModel]) throws {
+    func assertIsDisplaying(items: [IngredientModel], sourceLocation: SourceLocation = #_sourceLocation) throws {
 
         let foundItems = self.findAll(IngredientView.self)
-        #expect(foundItems.count == items.count)
+        guard foundItems.count == items.count else {
+            throw sourceLocation.error("Ingredients count mismatch. Expected \(items.count), found \(foundItems.count)")
+        }
         for (index, _) in foundItems.enumerated() {
-            try foundItems[index].assertIsDisplaying(name: items[index].name)
+            try foundItems[index].assertIsDisplaying(name: items[index].name, sourceLocation: sourceLocation)
         }
     }
 }

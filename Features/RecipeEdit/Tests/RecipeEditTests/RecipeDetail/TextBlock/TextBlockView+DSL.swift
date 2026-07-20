@@ -12,24 +12,28 @@ import TestHelpers
 
 extension InspectableView where View == ViewType.View<TextBlockView> {
     @MainActor
-    func assertIsDisplaying(title: String?, text: String) throws {
+    func assertIsDisplaying(title: String?, text: String, sourceLocation: SourceLocation = #_sourceLocation) throws {
         if let title {
-            let valueFound = try self.find(viewWithAccessibilityIdentifier: A11y.title).text().string()
+            guard let valueFound = try? self.find(viewWithAccessibilityIdentifier: A11y.title).text().string() else {
+                throw sourceLocation.error("TextBlock title not found")
+            }
             guard valueFound == title else {
-                throw TestError(reason: "TextBlock title is expected to be \(title), found \(valueFound) instead")
+                throw sourceLocation.error("TextBlock title is expected to be \(title), found \(valueFound) instead")
             }
         } else {
             do {
                 _ = try self.find(viewWithAccessibilityIdentifier: A11y.title)
-                throw TestError(reason: "TextBlock title view is expected to be missing bot is was found")
+                throw sourceLocation.error("TextBlock title view is expected to be missing bot is was found")
             } catch {
                 // do nothing, expcted behaviour
             }
         }
     
-        let valueFound = try self.find(viewWithAccessibilityIdentifier: A11y.text).text().string()
+        guard let valueFound = try? self.find(viewWithAccessibilityIdentifier: A11y.text).text().string() else {
+            throw sourceLocation.error("TextBlock text not found")
+        }
         guard valueFound == text else {
-            throw TestError(reason: "TextBlock text is expected to be \(text), found \(valueFound) instead")
+            throw sourceLocation.error("TextBlock text is expected to be \(text), found \(valueFound) instead")
         }
     }
 }

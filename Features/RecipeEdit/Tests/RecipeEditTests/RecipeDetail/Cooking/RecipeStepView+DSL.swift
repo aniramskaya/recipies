@@ -12,28 +12,35 @@ import TestHelpers
 
 extension InspectableView where View == ViewType.View<RecipeStepView> {
     @MainActor
-    func assertIsDisplaying(model: RecipeStepViewModel) throws {
-        let stepValue = try self.find(viewWithAccessibilityIdentifier: RecipeStepHeaderA11y.step).text().string()
+    func assertIsDisplaying(model: RecipeStepViewModel, sourceLocation: SourceLocation = #_sourceLocation) throws {
+        guard let stepValue = try? self.find(viewWithAccessibilityIdentifier: RecipeStepHeaderA11y.step).text().string() else {
+            throw sourceLocation.error("RecipeStepHeader step number is missing")
+        }
         guard stepValue == "\(model.step)" else {
-            throw TestError(reason: "RecipeStep expected to be \(model.step), found \(stepValue) instead")
+            throw sourceLocation.error("RecipeStep expected to be \(model.step), found \(stepValue) instead")
         }
 
-        let titleValue = try self.find(viewWithAccessibilityIdentifier: RecipeStepHeaderA11y.title).text().string()
+        guard let titleValue = try? self.find(viewWithAccessibilityIdentifier: RecipeStepHeaderA11y.title).text().string() else {
+            throw sourceLocation.error("RecipeStepHeader title is missing")
+        }
         guard titleValue == model.title else {
-            throw TestError(reason: "RecipeTitle expected to be \(model.title), found \(titleValue) instead")
+            throw sourceLocation.error("RecipeTitle expected to be \(model.title), found \(titleValue) instead")
         }
 
-        let textValue = try self.find(viewWithAccessibilityIdentifier: RecipeStepViewA11y.text).text().string()
+        guard let textValue = try? self.find(viewWithAccessibilityIdentifier: RecipeStepViewA11y.text).text().string() else {
+            throw sourceLocation.error("RecipeStep text is missing")
+        }
+        
         guard textValue == model.text else {
-            throw TestError(reason: "RecipeText expected to be \(model.text), found \(textValue) instead")
+            throw sourceLocation.error("RecipeText expected to be \(model.text), found \(textValue) instead")
         }
         
         let imageView = try? self.find(viewWithAccessibilityIdentifier: RecipeStepViewA11y.image)
         switch (model.imageSource, imageView) {
         case (.some, .none):
-            throw TestError(reason: "RecipeImage expected to be on screen, but not found")
+            throw sourceLocation.error("RecipeImage expected to be on screen, but not found")
         case (.none, .some):
-            throw TestError(reason: "RecipeImage expected to absent on screen, but is found")
+            throw sourceLocation.error("RecipeImage expected to absent on screen, but is found")
         default:
             break
         }
