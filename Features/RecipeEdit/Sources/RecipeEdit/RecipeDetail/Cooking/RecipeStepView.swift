@@ -8,13 +8,6 @@
 import SwiftUI
 import RecipeUIKit
 
-struct RecipeStepViewModel {
-    let step: UInt
-    let title: String
-    let imageSource: RecipeImageSource?
-    let text: String
-}
-
 struct RecipeStepView: View {
     let model: RecipeStepViewModel
     

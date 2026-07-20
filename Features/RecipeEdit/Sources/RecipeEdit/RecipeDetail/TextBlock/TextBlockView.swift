@@ -6,13 +6,6 @@
 //
 
 import SwiftUI
-import Foundation
-
-struct TextBlockViewModel: Identifiable {
-    let id: UUID
-    let text: String
-    let title: String?
-}
 
 struct TextBlockView: View {
     let model: TextBlockViewModel

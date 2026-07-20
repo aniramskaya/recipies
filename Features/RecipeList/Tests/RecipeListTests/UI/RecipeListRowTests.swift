@@ -33,12 +33,13 @@ struct RecipeListRowTests {
         }
     }
 
+    @MainActor
     private func makeSUT() -> RecipeListRow {
         .init(model: testModel)
     }
 }
 
-let testModel = RecipeListRowModel(
+nonisolated(unsafe) let testModel = RecipeListRowModel(
     id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cf")!,
     name: "Котлета по-киевски",
     imageSource: .uiImage(.make(withColor: .red)),
