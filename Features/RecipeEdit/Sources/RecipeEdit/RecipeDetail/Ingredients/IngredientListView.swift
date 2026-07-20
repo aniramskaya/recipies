@@ -24,6 +24,7 @@ struct IngredientListView: View {
                 IngredientView(model: item)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

@@ -12,7 +12,7 @@ struct RecipeDescriptionView: View {
     let description: String
     
     var body: some View {
-        VStack(alignment: .leading,spacing: 16) {
+        VStack(alignment: .leading, spacing: 16) {
             Text(description)
                 .multilineTextAlignment(.leading)
                 .lineLimit(isExpanded ? nil : 4)
@@ -27,6 +27,7 @@ struct RecipeDescriptionView: View {
             }
         }
         .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityIdentifier(A11y.component)
     }
 }
@@ -40,6 +41,7 @@ enum RecipeDescriptionViewA11y {
 
 #Preview {
     VStack {
+        RecipeDescriptionView(description: "Нежные кусочки")
         RecipeDescriptionView(description: "Нежные кусочки маринованной курицы, обжаренные на сильном огне, томятся в насыщенном соусе из спелых томатов, сливок и ароматных специй — гарам масала, имбиря, кориандра. Одно из самых знаменитых блюд индийской кухни, покорившее весь мир своим глубоким, бархатным вкусом.")
     }
     .frame(maxHeight: .infinity, alignment: .top)

@@ -22,12 +22,14 @@ struct TextBlockView: View {
             if let title = model.title {
                 Text(title)
                     .font(.title2)
+                    .bold()
                     .accessibilityIdentifier(A11y.title)
             }
             Text(model.text)
                 .accessibilityIdentifier(A11y.text)
         }
         .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityIdentifier(A11y.component)
     }
 }

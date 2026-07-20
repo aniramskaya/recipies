@@ -11,12 +11,22 @@ struct RecipeTitleView: View {
     let title: String
     
     var body: some View {
-        Text(title)
-            .font(.title)
-            .accessibility(identifier: RecipeTitleViewA11y.component)
+        HStack{
+            Text(title)
+                .font(.title)
+                .bold()
+                .accessibility(identifier: RecipeTitleViewA11y.component)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.init(top: 16, leading: 20, bottom: 12, trailing: 20))
     }
 }
 
 enum RecipeTitleViewA11y {
     static let component = "RecipeDescriptionTitle"
+}
+
+#Preview {
+    RecipeTitleView(title: "Tikka Masala")
 }
