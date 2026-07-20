@@ -7,27 +7,23 @@
 import SwiftUI
 import RecipeUIKit
 
-struct RecipeHeaderViewModel {
+struct RecipeHeaderView: View {
     let imageSource: RecipeImageSource
     let cookingTimeMins: Int
     let complexity: Int
-}
 
-struct RecipeHeaderView: View {
-    let model: RecipeHeaderViewModel
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ClampedHeightLayout(maxHeight: 260) {
-                RecipeImageView(source: model.imageSource)
+                RecipeImageView(source: imageSource)
                     .accessibilityIdentifier(A11y.image)
             }
             
             HStack {
-                CookingTimeView(minutes: model.cookingTimeMins)
+                CookingTimeView(minutes: cookingTimeMins)
                     .accessibilityIdentifier(A11y.cookingTime)
                 Spacer()
-                RecipeComplexityView(value: model.complexity)
+                RecipeComplexityView(value: complexity)
                     .accessibilityIdentifier(A11y.complexity)
             }
             .padding(20)
@@ -65,9 +61,9 @@ private struct ClampedHeightLayout: Layout {
 
 
 #Preview {
-    RecipeHeaderView(model: .init(
+    RecipeHeaderView(
         imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
         cookingTimeMins: 45,
         complexity: 4
-    ))
+    )
 }

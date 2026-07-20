@@ -15,21 +15,20 @@ struct RecipeHeaderViewTests {
     @MainActor
     @Test("RecipeHeader is displaying model correctly")
     func recipeHeaderDisplaysModelCorrectly() throws {
-        let sut = RecipeHeaderView(model: model)
+        let sut = RecipeHeaderView(
+            imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
+            cookingTimeMins: 45,
+            complexity: 4
+        )
         let inspectable = try sut.inspect().find(RecipeHeaderView.self)
         
         #expect(throws: Never.self) {
             try inspectable.assertIsDisplaying(
-                image: model.imageSource,
-                complexity: model.complexity,
-                cookingTime: "35 min"
+                image: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
+                complexity: 4,
+                cookingTime: "45 min"
             )
         }
     }
 }
 
-nonisolated(unsafe) private let model = RecipeHeaderViewModel(
-    imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
-    cookingTimeMins: 45,
-    complexity: 4
-)
