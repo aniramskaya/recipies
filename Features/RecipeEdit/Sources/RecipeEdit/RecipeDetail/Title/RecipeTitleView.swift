@@ -15,10 +15,9 @@ struct RecipeTitleView: View {
             Text(title)
                 .font(.title)
                 .bold()
-                .accessibility(identifier: RecipeTitleViewA11y.component)
-            Spacer()
+                .accessibilityIdentifier(RecipeTitleViewA11y.component)
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.init(top: 16, leading: 20, bottom: 12, trailing: 20))
     }
 }

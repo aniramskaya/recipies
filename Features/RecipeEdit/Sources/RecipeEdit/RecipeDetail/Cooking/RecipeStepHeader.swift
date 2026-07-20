@@ -19,7 +19,7 @@ struct RecipeStepHeader: View {
                 .overlay {
                     Text("\(step)")
                         .font(.headline)
-                        .foregroundColor(Color.white)
+                        .foregroundStyle(.white)
                         .accessibilityIdentifier(A11y.step)
                 }
             

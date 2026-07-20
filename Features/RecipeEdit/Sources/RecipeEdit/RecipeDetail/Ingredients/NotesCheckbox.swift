@@ -8,10 +8,10 @@ import SwiftUI
 import RecipeUIKit
 
 struct NotesCheckbox: View {
-    let SIZE: CGFloat = 24
-    let BORDER_COLOR = Color(white: 0.77)
-    let BORDER_WIDTH: CGFloat = 1.5
-    let CHECK_LINE_WIDTH: CGFloat = 2
+    private static let size: CGFloat = 24
+    private static let borderColor = Color(.separator)
+    private static let borderWidth: CGFloat = 1.5
+    private static let checkLineWidth: CGFloat = 2
 
     let isOn: Bool
     
@@ -21,13 +21,13 @@ struct NotesCheckbox: View {
                 .fill(RecipeUIKitAssets.Color.iconPrimary)
                 .overlay(content: {
                     Check()
-                        .stroke(.white, lineWidth: CHECK_LINE_WIDTH)
+                        .stroke(.white, lineWidth: Self.checkLineWidth)
                 })
-                .frame(width: SIZE, height: SIZE)
+                .frame(width: Self.size, height: Self.size)
         } else {
             Circle()
-                .strokeBorder(BORDER_COLOR, lineWidth: BORDER_WIDTH)
-                .frame(width: SIZE, height: SIZE)
+                .strokeBorder(Self.borderColor, lineWidth: Self.borderWidth)
+                .frame(width: Self.size, height: Self.size)
         }
     }
 }

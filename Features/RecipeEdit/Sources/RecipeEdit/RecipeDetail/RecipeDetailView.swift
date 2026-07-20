@@ -34,28 +34,28 @@ struct RecipeDetailView: View {
                     complexity: model.complexity
                 )
                 
-                Separator()
+                Divider()
                 
                 RecipeTitleView(title: model.title)
                 
                 if let description = model.description {
-                    Separator()
+                    Divider()
                     RecipeDescriptionView(description: description)
                 }
                 
-                Separator()
+                Divider()
                 IngredientsBlock(model: model.ingredients, onShare: model.onShare)
                 
                 if let topText = model.topText {
-                    Separator()
+                    Divider()
                     TextBlockView(model: topText)
                 }
                 
-                Separator()
+                Divider()
                 RecipeCookingBlock(steps: model.steps)
                 
                 if let bottomText = model.bottomText {
-                    Separator()
+                    Divider()
                     TextBlockView(model: bottomText)
                 }
             }
