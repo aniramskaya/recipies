@@ -40,6 +40,7 @@ private struct IngredientToggleStyle: ToggleStyle {
             HStack(alignment: .top) {
                 NotesCheckbox(isOn: configuration.isOn)
                 configuration.label
+                    .opacity(configuration.isOn ? 0.4 : 1)
             }
         }
     }
