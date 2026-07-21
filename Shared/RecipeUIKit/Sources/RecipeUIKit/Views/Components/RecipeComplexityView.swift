@@ -16,7 +16,7 @@ public struct RecipeComplexityView: View {
 
     private let barHeights: [CGFloat] = [4, 8, 14, 18, 22]
     private let activeColor = RecipeUIKitAssets.Color.iconPrimary
-    private let inactiveColor = RecipeUIKitAssets.Color.iconPrimary.opacity(0.4)
+    private let inactiveColor = RecipeUIKitAssets.Color.iconPrimary.opacity(0.2)
     
     public init(value: Int) {
         self.value = value
