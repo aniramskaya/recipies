@@ -14,23 +14,23 @@ public enum RecipeListAssembly {
         onSelectItem: @escaping @MainActor (_: UUID) -> Void
     ) -> RecipeListScreen {
         return composeInternalWithAsyncServices(
-            dtoLoader: AsyncRecipeListDTOLoaderStub(),
+            loader: AsyncRecipeListLoaderStub(),
             onSelectItem: onSelectItem
         ).0
     }
-    
+
     @MainActor
     static func composeInternalWithAsyncServices(
-        dtoLoader: AsyncRecipeListDTOLoader,
+        loader: RecipeListLoader,
         onSelectItem: @escaping @MainActor (_: UUID) -> Void
     ) -> (RecipeListScreen, [AnyObject]) {
         let viewModel = RecipeListScreenViewModel()
-        
-        let storage = InMemoryCacheStorage<String, RecipeListDTO>()
+
+        let storage = InMemoryCacheStorage<String, [RecipeListItem]>()
         let cache = TTLCache(storage: storage, expirationPolicy: TimeoutTTLPolicy(timeout: 300))
         let loadingScenario = CachingLoadingScenario(
             cache: cache.scoped(to: "RecipeList"),
-            loader: { try await dtoLoader.load() }
+            loader: { try await loader.load() }
         )
         
         var loadingTask: Task<Void, Never>? = nil
@@ -65,10 +65,10 @@ public enum RecipeListAssembly {
     @MainActor
     private static func setViewModelState(
         viewModel: RecipeListScreenViewModel,
-        _ state: CachingLoadingScenario<RecipeListDTO>.State
+        _ state: CachingLoadingScenario<[RecipeListItem]>.State
     ) {
         if let data = state.data {
-            viewModel.state = .loaded(data.items.models.asViewModels())
+            viewModel.state = .loaded(data.asViewModels())
             return
         }
         if state.isLoading {
