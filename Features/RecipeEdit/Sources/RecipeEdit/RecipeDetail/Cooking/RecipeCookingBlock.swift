@@ -16,7 +16,9 @@ struct RecipeCookingBlock: View {
             Text(.cookingBlockHeader)
                 .font(.title2)
                 .bold()
-            
+                .accessibilityAddTraits([.isHeader])
+                .accessibilityHeading(.h1)
+
             ForEach(Array(steps.enumerated()), id: \.element.id) { index, step in
                 RecipeStepView(model: step, stepNumber: UInt(index + 1))
             }

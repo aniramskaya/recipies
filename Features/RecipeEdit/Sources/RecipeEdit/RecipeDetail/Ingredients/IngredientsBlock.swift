@@ -17,7 +17,9 @@ struct IngredientsBlock: View {
             Text(.ingredientsTitle)
                 .font(.title2.bold())
                 .accessibilityIdentifier(A11y.title)
-            
+                .accessibilityAddTraits([.isHeader])
+                .accessibilityHeading(.h1)
+
             Text(.ingredientsHint)
                 .accessibilityIdentifier(A11y.hint)
 

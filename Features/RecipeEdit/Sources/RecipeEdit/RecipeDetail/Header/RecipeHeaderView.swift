@@ -18,6 +18,7 @@ struct RecipeHeaderView: View {
                 RecipeImageView(source: imageSource)
                     .accessibilityIdentifier(A11y.image)
             }
+            .clipped()
             
             HStack {
                 CookingTimeView(minutes: cookingTimeMins)
