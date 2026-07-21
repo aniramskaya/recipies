@@ -26,7 +26,7 @@ struct recipesApp: App {
                         }
                     )
                     .navigationDestination(for: RecipeId.self) { id in
-                        RecipeEditScreenAssembly.compose(id: id)
+                        RecipeDetailScreenAssembly.compose(loader: RecipeLoader(id: id.id))
                     }
             }
         }

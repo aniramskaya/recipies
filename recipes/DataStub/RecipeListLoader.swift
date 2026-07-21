@@ -25,7 +25,7 @@ private extension Array where Element == Recipe {
             RecipeListItem(
                 id: item.id,
                 name: item.title,
-                cookingTime: TimeInterval(item.cookingTimeMins * 60),
+                cookingTimeMins: item.cookingTimeMins,
                 imageUrl: item.imageSource,
                 rating: nil,
                 complexity: item.complexity
