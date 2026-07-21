@@ -11,10 +11,11 @@ import Scenarios
 public enum RecipeListAssembly {
     @MainActor
     public static func composeWithAsyncServices(
+        loader: RecipeListLoader,
         onSelectItem: @escaping @MainActor (_: UUID) -> Void
     ) -> RecipeListScreen {
         return composeInternalWithAsyncServices(
-            loader: AsyncRecipeListLoaderStub(),
+            loader: loader,
             onSelectItem: onSelectItem
         ).0
     }
