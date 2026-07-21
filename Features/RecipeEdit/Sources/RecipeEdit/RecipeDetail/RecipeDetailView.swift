@@ -30,7 +30,7 @@ struct RecipeDetailView: View {
                 }
                 
                 Divider()
-                IngredientsBlock(model: model.ingredients, onShare: model.onShare)
+                IngredientsBlock(model: model.ingredients, recipeTitle: model.title)
                 
                 if let topText = model.topText {
                     Divider()

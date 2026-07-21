@@ -10,8 +10,8 @@ import RecipeUIKit
 
 struct IngredientsBlock: View {
     @ObservedObject var model: IngredientListModel
-    let onShare: () -> Void
-    
+    let recipeTitle: String
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(.ingredientsTitle)
@@ -23,12 +23,8 @@ struct IngredientsBlock: View {
             IngredientListView(model: model)
                 .accessibilityIdentifier(A11y.list)
 
-            Button {
-                onShare()
-            }
-            label:{
-                Image(systemName: "square.and.arrow.up")
-                Text("Список покупок (\(model.uncheckedCount))")
+            ShareLink(item: shoppingListText) {
+                Label("Список покупок (\(model.uncheckedCount))", systemImage: "square.and.arrow.up")
             }
             .buttonStyle(.borderless)
             .frame(maxWidth: .infinity)
@@ -38,6 +34,16 @@ struct IngredientsBlock: View {
             .accessibilityIdentifier(A11y.share)
         }
         .padding(20)
+    }
+
+    private var shoppingListText: String {
+        let date = Date().formatted(.dateTime.day().month().locale(Locale(identifier: "ru_RU")))
+        let header = "Купить для \(recipeTitle) · \(date)"
+        let lines = model.items
+            .filter { !$0.isOn }
+            .map { "• \($0.name)" }
+            .joined(separator: "\n")
+        return "\(header)\n\n\(lines)"
     }
 }
 
@@ -60,7 +66,5 @@ enum IngredientsBlockA11y {
         .init(isOn: false, name: "1 ч.л. паприки"),
     ])
     
-    IngredientsBlock(model: model) {
-        print("Share pressed")
-    }
+    IngredientsBlock(model: model, recipeTitle: "Баттер Чикен")
 }
