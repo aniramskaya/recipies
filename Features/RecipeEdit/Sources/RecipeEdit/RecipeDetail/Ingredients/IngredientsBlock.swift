@@ -20,9 +20,6 @@ struct IngredientsBlock: View {
                 .accessibilityAddTraits([.isHeader])
                 .accessibilityHeading(.h1)
 
-            Text(.ingredientsHint)
-                .accessibilityIdentifier(A11y.hint)
-
             IngredientListView(model: model)
                 .accessibilityIdentifier(A11y.list)
 
@@ -31,12 +28,13 @@ struct IngredientsBlock: View {
             }
             label:{
                 Image(systemName: "square.and.arrow.up")
-                Text(.ingredientsShare)
+                Text("Список покупок (\(model.uncheckedCount))")
             }
             .buttonStyle(.borderless)
             .frame(maxWidth: .infinity)
             .frame(height: 48)
             .tint(RecipeUIKitAssets.Color.iconPrimary)
+            .disabled(model.uncheckedCount == 0)
             .accessibilityIdentifier(A11y.share)
         }
         .padding(20)
@@ -47,7 +45,6 @@ private typealias A11y = IngredientsBlockA11y
 
 enum IngredientsBlockA11y {
     static let title = "IngredientsTitle"
-    static let hint = "IngredientsHint"
     static let list = "IngredientsList"
     static let share = "IngredientsShare"
 }

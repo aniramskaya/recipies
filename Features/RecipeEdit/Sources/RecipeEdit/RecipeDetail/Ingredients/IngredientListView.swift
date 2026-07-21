@@ -6,12 +6,24 @@
 //
 
 import SwiftUI
+import Combine
 
 class IngredientListModel: ObservableObject {
     @Published var items: [IngredientModel]
-    
+    private var cancellables: Set<AnyCancellable> = []
+
     init(items: [IngredientModel]) {
         self.items = items
+        items.forEach { item in
+            item.$isOn
+                .dropFirst()
+                .sink { [weak self] _ in self?.objectWillChange.send() }
+                .store(in: &cancellables)
+        }
+    }
+
+    var uncheckedCount: Int {
+        items.filter { !$0.isOn }.count
     }
 }
 
