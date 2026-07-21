@@ -35,6 +35,7 @@ struct RecipeListRow: View {
                 Spacer()
                 RecipeComplexityView(value: model.complexity)
                     .accessibilityIdentifier(A11y.complexity)
+                    .frame(width: 44, height: 18)
             }
         }
         .padding(.horizontal, 20)
