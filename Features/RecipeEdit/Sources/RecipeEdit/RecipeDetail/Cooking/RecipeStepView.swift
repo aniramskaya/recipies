@@ -10,10 +10,11 @@ import RecipeUIKit
 
 struct RecipeStepView: View {
     let model: RecipeStepViewModel
-    
+    let stepNumber: UInt
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            RecipeStepHeader(step: model.step, title: model.title)
+            RecipeStepHeader(step: stepNumber, title: model.title)
             
             if let imageSource = model.imageSource {
                 RecipeImageView(source: imageSource)
@@ -43,23 +44,25 @@ enum RecipeStepViewA11y {
 }
 
 #Preview {
-    RecipeStepView(model:
-        .init(
-            step: 1,
+    RecipeStepView(
+        model: .init(
+            id: .init(),
             title: "Маринование",
             imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             text: "Нарежьте куриные бёдра на кусочки 4–5 см. Смешайте с йогуртом, чесноком, имбирём и специями маринада. Накройте и оставьте в холодильнике минимум на 1 час."
-        )
+        ),
+        stepNumber: 1
     )
     .padding(20)
-    
-    RecipeStepView(model:
-        .init(
-            step: 1,
+
+    RecipeStepView(
+        model: .init(
+            id: .init(),
             title: "Маринование",
             imageSource: nil,
             text: "Нарежьте куриные бёдра на кусочки 4–5 см. Смешайте с йогуртом, чесноком, имбирём и специями маринада. Накройте и оставьте в холодильнике минимум на 1 час."
-        )
+        ),
+        stepNumber: 2
     )
     .padding(20)
 }

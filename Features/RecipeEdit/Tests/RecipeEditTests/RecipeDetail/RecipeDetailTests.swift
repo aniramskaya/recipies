@@ -27,8 +27,8 @@ struct RecipeDetailTests {
             ]),
             topText: .init(id: .init(), text: "Маринуйте курицу не менее часа", title: "Советы"),
             steps: [
-                .init(step: 1, title: "Маринование", imageSource: nil, text: "Нарежьте курицу на кусочки"),
-                .init(step: 2, title: "Обжарка", imageSource: nil, text: "Обжаривайте до румяной корочки"),
+                .init(id: .init(), title: "Маринование", imageSource: nil, text: "Нарежьте курицу на кусочки"),
+                .init(id: .init(), title: "Обжарка", imageSource: nil, text: "Обжаривайте до румяной корочки"),
             ],
             bottomText: .init(id: .init(), text: "Подавайте горячим с рисом", title: nil),
             onShare: {}
@@ -52,7 +52,7 @@ struct RecipeDetailTests {
             ]),
             topText: nil,
             steps: [
-                .init(step: 1, title: "Шаг", imageSource: nil, text: "Описание шага"),
+                .init(id: .init(), title: "Шаг", imageSource: nil, text: "Описание шага"),
             ],
             bottomText: nil,
             onShare: {}

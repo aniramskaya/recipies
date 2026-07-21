@@ -12,12 +12,12 @@ import TestHelpers
 
 extension InspectableView where View == ViewType.View<RecipeStepView> {
     @MainActor
-    func assertIsDisplaying(model: RecipeStepViewModel, sourceLocation: SourceLocation = #_sourceLocation) throws {
+    func assertIsDisplaying(model: RecipeStepViewModel, stepNumber: UInt, sourceLocation: SourceLocation = #_sourceLocation) throws {
         guard let stepValue = try? self.find(viewWithAccessibilityIdentifier: RecipeStepHeaderA11y.step).text().string() else {
             throw sourceLocation.error("RecipeStepHeader step number is missing")
         }
-        guard stepValue == "\(model.step)" else {
-            throw sourceLocation.error("RecipeStep expected to be \(model.step), found \(stepValue) instead")
+        guard stepValue == "\(stepNumber)" else {
+            throw sourceLocation.error("RecipeStep expected to be \(stepNumber), found \(stepValue) instead")
         }
 
         guard let titleValue = try? self.find(viewWithAccessibilityIdentifier: RecipeStepHeaderA11y.title).text().string() else {

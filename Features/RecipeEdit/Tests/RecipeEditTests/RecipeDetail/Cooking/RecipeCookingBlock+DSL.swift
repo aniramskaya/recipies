@@ -20,7 +20,7 @@ extension InspectableView where View == ViewType.View<RecipeCookingBlock> {
         }
         
         for (index, _) in found.enumerated() {
-            try found[index].assertIsDisplaying(model: steps[index], sourceLocation: sourceLocation)
+            try found[index].assertIsDisplaying(model: steps[index], stepNumber: UInt(index + 1), sourceLocation: sourceLocation)
         }
     }
 }

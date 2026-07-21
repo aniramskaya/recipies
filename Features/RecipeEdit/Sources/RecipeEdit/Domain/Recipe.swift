@@ -1,32 +1,63 @@
 import Foundation
 
-struct Recipe: Sendable, Identifiable {
-    let id: UUID
-    let imageSource: URL
-    let cookingTimeMins: Int
-    let complexity: Int
-    let title: String
-    let description: String?
-    let ingredients: [Ingredient]
-    let topText: TextBlock?
-    let steps: [RecipeStep]
-    let bottomText: TextBlock?
+public struct Recipe: Sendable, Identifiable {
+    public let id: UUID
+    public let imageSource: URL
+    public let cookingTimeMins: Int
+    public let complexity: Int
+    public let title: String
+    public let description: String?
+    public let ingredients: [Ingredient]
+    public let topText: TextBlock?
+    public let steps: [RecipeStep]
+    public let bottomText: TextBlock?
+    
+    public init(id: UUID, imageSource: URL, cookingTimeMins: Int, complexity: Int, title: String, description: String?, ingredients: [Ingredient], topText: TextBlock?, steps: [RecipeStep], bottomText: TextBlock?) {
+        self.id = id
+        self.imageSource = imageSource
+        self.cookingTimeMins = cookingTimeMins
+        self.complexity = complexity
+        self.title = title
+        self.description = description
+        self.ingredients = ingredients
+        self.topText = topText
+        self.steps = steps
+        self.bottomText = bottomText
+    }
 }
 
-struct Ingredient: Sendable {
-    let isOn: Bool
-    let name: String
+public struct Ingredient: Sendable {
+    public let isOn: Bool
+    public let name: String
+    
+    public init(isOn: Bool = false, name: String) {
+        self.isOn = isOn
+        self.name = name
+    }
 }
 
-struct RecipeStep: Sendable {
-    let step: UInt
-    let title: String
-    let imageSource: URL?
-    let text: String
+public struct RecipeStep: Sendable, Identifiable {
+    public let id: UUID
+    public let title: String
+    public let imageSource: URL?
+    public let text: String
+    
+    public init(id: UUID, title: String, imageSource: URL?, text: String) {
+        self.id = id
+        self.title = title
+        self.imageSource = imageSource
+        self.text = text
+    }
 }
 
-struct TextBlock: Identifiable, Sendable {
-    let id: UUID
-    let text: String
-    let title: String?
+public struct TextBlock: Identifiable, Sendable {
+    public let id: UUID
+    public let text: String
+    public let title: String?
+    
+    public init(id: UUID, text: String, title: String?) {
+        self.id = id
+        self.text = text
+        self.title = title
+    }
 }
