@@ -8,23 +8,13 @@
 import SwiftUI
 
 struct RecipeDescriptionView: View {
-    @State private var isExpanded = false
     let description: String
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(description)
                 .multilineTextAlignment(.leading)
-                .lineLimit(isExpanded ? nil : 4)
-                .animation(.easeInOut(duration: 0.25), value: isExpanded)
                 .accessibilityIdentifier(A11y.description)
-            Button {
-                isExpanded.toggle()
-            } label: {
-                let key: LocalizedStringResource = isExpanded ? .showLess : .showMore
-                Text(key)
-                    .animation(.easeInOut(duration: 0.25), value: isExpanded)
-            }
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
