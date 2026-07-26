@@ -10,6 +10,7 @@ extension Flow {
             do {
                 return try await self.operation()
             } catch {
+                try Task.checkCancellation()
                 await action(error)
                 throw error
             }

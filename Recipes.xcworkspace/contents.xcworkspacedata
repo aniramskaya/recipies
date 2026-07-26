@@ -36,4 +36,7 @@
    <FileRef
       location = "group:Shared/Scenarios/Tests/Scenarios.xctestplan">
    </FileRef>
+   <FileRef
+      location = "group:Features/RecipeList/RecipeList.xctestplan">
+   </FileRef>
 </Workspace>

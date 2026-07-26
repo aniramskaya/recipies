@@ -10,15 +10,15 @@ import Foundation
 public struct RecipeListItem: Equatable, Sendable {
     let id: UUID
     let name: String
-    let cookingTime: TimeInterval
+    let cookingTimeMins: Int
     let imageUrl: URL
     let rating: Float?
     let complexity: Int
 
-    public init(id: UUID, name: String, cookingTime: TimeInterval, imageUrl: URL, rating: Float?, complexity: Int) {
+    public init(id: UUID, name: String, cookingTimeMins: Int, imageUrl: URL, rating: Float?, complexity: Int) {
         self.id = id
         self.name = name
-        self.cookingTime = cookingTime
+        self.cookingTimeMins = cookingTimeMins
         self.imageUrl = imageUrl
         self.rating = rating
         self.complexity = complexity

@@ -88,7 +88,7 @@ final class RecipeListFeature: RecipeListUser {
     func pullToRefresh() throws {
         let inspectable = try view.inspect()
         Task { @MainActor in
-            try await inspectable.find(ViewType.List.self).callRefreshable()
+            try await inspectable.find(ViewType.ScrollView.self).callRefreshable()
         }
     }
     

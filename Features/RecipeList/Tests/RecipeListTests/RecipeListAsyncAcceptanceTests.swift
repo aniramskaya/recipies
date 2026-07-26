@@ -34,14 +34,14 @@ struct RecipeListAsyncAcceptanceTests {
             try await feature.ensureIsDisplayingLoadingState()
             
             try await server.respond(with: .failure(NSError.any()), at: 0)
-            
+
             try await feature.ensureIsDisplayingError(text: "Не удалось загрузить список рецептов")
-            
+
             try user.tapReloadButton()
-            
+
             try await feature.ensureIsDisplayingLoadingState()
-            
-            try await server.respond(with: .success(RecipeListDTO.test()), at: 1)
+
+            try await server.respond(with: .success(RecipeListItem.makeTestItems()), at: 1)
             
             try await feature.ensureIsDisplayingData(model: testModels())
         }
@@ -56,14 +56,13 @@ struct RecipeListAsyncAcceptanceTests {
             
             try await feature.ensureIsDisplayingLoadingState()
             
-            try await server.respond(with: .success(RecipeListDTO.test()), at: 0)
-            
+            try await server.respond(with: .success(RecipeListItem.makeTestItems()), at: 0)
+
             try await feature.ensureIsDisplayingData(model: testModels())
-            
-            
+
             try user.pullToRefresh()
-            
-            try await server.respond(with: .success(RecipeListDTO.test2()), at: 1)
+
+            try await server.respond(with: .success(RecipeListItem.makeTestItems2()), at: 1)
             
             try await feature.ensureIsDisplayingData(model: testModels2())
         }
@@ -78,10 +77,10 @@ struct RecipeListAsyncAcceptanceTests {
             
             feature.start()
             
-            try await server.respond(with: .success(RecipeListDTO.test()), at: 0)
-            
+            try await server.respond(with: .success(RecipeListItem.makeTestItems()), at: 0)
+
             try await feature.ensureIsDisplayingData(model: testModels())
-            
+
             try user.tapListItem(at: 0)
             
             #expect(selectItemCalls == [UUID(uuidString: "c1fb3a12-62fc-401e-861f-11594fe87c32")!])
@@ -96,7 +95,7 @@ struct RecipeListAsyncAcceptanceTests {
     ) {
         let server = AsyncServer()
         let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
-            dtoLoader: server,
+            loader: server,
             onSelectItem: onSelectItem ?? { _ in }
         )
         let feature = RecipeListFeature(view: screen)
@@ -107,11 +106,11 @@ struct RecipeListAsyncAcceptanceTests {
 }
 
 
-final class AsyncServer: AsyncRecipeListDTOLoader, @unchecked Sendable {
-    var continuations: [CheckedContinuation<RecipeListDTO, Error>] = []
+final class AsyncServer: RecipeListLoader, @unchecked Sendable {
+    var continuations: [CheckedContinuation<[RecipeListItem], Error>] = []
     private var onLoad: (() -> Void)?
-    
-    func load() async throws -> RecipeListDTO {
+
+    func load() async throws -> [RecipeListItem] {
         return try await withCheckedThrowingContinuation { continuation in
             continuations.append(continuation)
             if let onLoad {
@@ -120,7 +119,7 @@ final class AsyncServer: AsyncRecipeListDTOLoader, @unchecked Sendable {
             }
         }
     }
-    
+
     func waitForRequest(index: Int) async {
         await withCheckedContinuation { [weak self] continuation in
             self?.onLoad = {
@@ -133,8 +132,8 @@ final class AsyncServer: AsyncRecipeListDTOLoader, @unchecked Sendable {
             }
         }
     }
-    
-    func respond(with result: Result<RecipeListDTO, Error>, at index: Int? = nil) async throws {
+
+    func respond(with result: Result<[RecipeListItem], Error>, at index: Int? = nil) async throws {
         await waitForRequest(index: index ?? 0)
         continuations[index ?? 0].resume(with: result)
     }

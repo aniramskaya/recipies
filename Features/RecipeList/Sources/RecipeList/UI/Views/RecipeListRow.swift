@@ -35,6 +35,7 @@ struct RecipeListRow: View {
                 Spacer()
                 RecipeComplexityView(value: model.complexity)
                     .accessibilityIdentifier(A11y.complexity)
+                    .frame(width: 44, height: 18)
             }
         }
         .padding(.horizontal, 20)
@@ -47,7 +48,6 @@ public enum RecipeListRowA11y {
     static let component = "RecipeListRow"
     static let name = "RecipeName"
     static let cookingTime = "CookingTime"
-    static let rating = "Rating"
     static let complexity = "Complexity"
 }
 
@@ -58,7 +58,7 @@ private typealias A11y = RecipeListRowA11y
         model: .init(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cf")!,
             name: "Котлета по-киевски",
-            imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
+            imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
             complexity: 3
         )

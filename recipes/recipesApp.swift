@@ -19,11 +19,15 @@ struct recipesApp: App {
                 // RecipeListAssembly.composeWithCalbackServices()
                 // RecipeListAssembly.composeWithCombineServices()
                 RecipeListAssembly
-                    .composeWithAsyncServices(onSelectItem: {
-                        path.append(RecipeId(id: $0))
-                    } )
+                    .composeWithAsyncServices(
+                        loader: RecipeListLoaderStub(),
+                        onSelectItem: {
+                            path.append(RecipeId(id: $0))
+                        }
+                    )
+                    .navigationTitle("Мои рецепты")
                     .navigationDestination(for: RecipeId.self) { id in
-                        RecipeEditScreenAssembly.compose(id: id)
+                        RecipeDetailScreenAssembly.compose(loader: RecipeLoader(id: id.id))
                     }
             }
         }

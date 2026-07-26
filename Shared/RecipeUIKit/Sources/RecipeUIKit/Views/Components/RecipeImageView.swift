@@ -8,17 +8,21 @@
 import SwiftUI
 import UIKit
 
-enum RecipeImageSource {
+public enum RecipeImageSource {
     case remote(URL)
     case asset(String)     // имя ассета
     case system(String)    // SF Symbol
     case uiImage(UIImage)  // для тестов/генерации
 }
 
-struct RecipeImageView: View {
+public struct RecipeImageView: View {
     let source: RecipeImageSource
+    
+    public init(source: RecipeImageSource) {
+        self.source = source
+    }
 
-    var body: some View {
+    public var body: some View {
         switch source {
         case .remote(let url):
             AsyncImage(url: url) { phase in
@@ -53,6 +57,23 @@ struct RecipeImageView: View {
             Image(uiImage: img)
                 .resizable()
                 .scaledToFill()
+        }
+    }
+}
+
+extension RecipeImageSource: Equatable {
+    public static func ==(lhs: RecipeImageSource, rhs: RecipeImageSource) -> Bool {
+        switch (lhs, rhs) {
+        case (.remote(let lhsURL), .remote(let rhsURL)):
+            return lhsURL == rhsURL
+        case (.asset(let lhsName), .asset(let rhsName)):
+            return lhsName == rhsName
+        case (.system(let lhsName), .system(let rhsName)):
+            return lhsName == rhsName
+        case (.uiImage(let lhsImage), .uiImage(let rhsImage)):
+            return lhsImage.pngData() == rhsImage.pngData()
+        default:
+            return false
         }
     }
 }

@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
-import RecipeUIKit
 
-struct CookingTimeView: View {
+public struct CookingTimeView: View {
     let minutes: Int
     
-    var body: some View {
+    public init(minutes: Int) {
+        self.minutes = minutes
+    }
+    
+    public var body: some View {
         let value = Text("\(minutes)")
             .font(.system(size: 18, weight: .bold))
             .monospacedDigit()
@@ -21,7 +24,7 @@ struct CookingTimeView: View {
         
         HStack(spacing: 8) {
             Image(systemName: "hourglass")
-                .foregroundStyle(RecipeListUIAssets.Color.iconPrimary)
+                .foregroundStyle(RecipeUIKitAssets.Color.iconPrimary)
                 .font(.system(size: 18, weight: .semibold))
             Text("\(value) \(unit)")
         }

@@ -7,12 +7,9 @@ extension Flow {
         Flow {
             do {
                 return try await self.operation()
-            } catch let primaryError {
-                do {
-                    return try await fallback()
-                } catch {
-                    throw primaryError
-                }
+            } catch  {
+                try Task.checkCancellation()
+                return try await fallback()
             }
         }
     }

@@ -21,6 +21,35 @@ struct FlowOnErrorTests {
             #expect(error as? TestError == expected)
         }
     }
+    
+    @Test func onErrorThrowsCancellationErrorWhenCancelled() async throws {
+        actor OnErrorSpy {
+            var called = false
+            func setOnErrorCalled() { called = true }
+        }
+        let onErrorSpy = OnErrorSpy()
+        let started = AsyncStream<Void>.makeStream()
+        
+        let flow = Flow<Int> {
+            started.continuation.yield()
+            try await Task.sleep(for: .seconds(1))
+            return 0
+        }.onError { _ in
+            await onErrorSpy.setOnErrorCalled()
+        }
+
+        let task = Task { try await flow.run() }
+        for await _ in started.stream { break }
+        task.cancel()
+        
+        do {
+            _ = try await task.value
+            Issue.record("Expected CancellationError")
+        } catch {
+            #expect(error is CancellationError)
+        }
+        #expect(await onErrorSpy.called == false)
+    }
 
     @Test func onErrorNotCalledOnSuccess() async throws {
         let actionCalled = Box(false)

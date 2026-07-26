@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
-import RecipeUIKit
 
-struct RatingView: View {
+public struct RatingView: View {
     let value: Float
     
-    var body: some View {
+    public init(value: Float) {
+        self.value = value
+    }
+    
+    public var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "star")
-                .foregroundStyle(RecipeListUIAssets.Color.iconPrimary)
+                .foregroundStyle(RecipeUIKitAssets.Color.iconPrimary)
                 .font(.system(size: 18, weight: .semibold))
             Text(value, format: .number.precision(.fractionLength(1)))
                 .font(.system(size: 18, weight: .bold))

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SwiftUI
 
-public enum RecipeListUIAssets {
+public enum RecipeUIKitAssets {
     public static let bundle: Bundle = {
         Bundle(for: BundleToken.self)
     }()
@@ -21,6 +21,10 @@ public enum RecipeListUIAssets {
     public enum Color {
         public static var iconPrimary: SwiftUI.Color {
             SwiftUI.Color("icon.primary", bundle: .module)
+        }
+        
+        public static var cookingStepBackground: SwiftUI.Color {
+            SwiftUI.Color("cookingStep.background", bundle: .module)
         }
     }
 

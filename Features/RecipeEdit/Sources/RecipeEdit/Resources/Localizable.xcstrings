@@ -1,0 +1,149 @@
+{
+  "sourceLanguage" : "ru",
+  "strings" : {
+    "%lld" : {
+      "shouldTranslate" : false
+    },
+    "%llu" : {
+
+    },
+    "cookingBlock.header" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooking"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приготовление"
+          }
+        }
+      }
+    },
+    "cookingStepHeader" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %1$(step)llu: %2$(name)@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаг %1$(step)llu: %2$(name)@"
+          }
+        }
+      }
+    },
+    "IngredientsHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark what you already have at home and press “Send” to add unmarked to Notes or send to someone"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отметьте, что уже есть дома, и нажмите \\\"Отправить\\\" чтобы добавить остальные ингредиенты в Заметки или отправить кому-то"
+          }
+        }
+      }
+    },
+    "IngredientsShare" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отправить"
+          }
+        }
+      }
+    },
+    "IngredientsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingredients"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ингредиенты"
+          }
+        }
+      }
+    },
+    "showLess" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collapse ↑"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Свернуть ↑"
+          }
+        }
+      }
+    },
+    "showMore" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expand ↓"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать полностью ↓"
+          }
+        }
+      }
+    },
+    "Введите длительность" : {
+
+    },
+    "Введите название" : {
+
+    },
+    "Закрыть" : {
+
+    },
+    "Рецепт сохранён" : {
+
+    },
+    "Сохранить" : {
+
+    },
+    "Список покупок (%lld)" : {
+
+    }
+  },
+  "version" : "1.1"
+}

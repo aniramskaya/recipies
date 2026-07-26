@@ -14,20 +14,20 @@ struct RecipeListView: View {
     let onSelectItem: @MainActor (_: UUID) -> Void
     
     var body: some View {
-        List(model) { item in
-            Button {
-                onSelectItem(item.id)
-            } label: {
-                RecipeListRow(model: item)
-                    .listRowSeparator(.hidden)
+        ScrollView {
+            LazyVStack {
+                ForEach(model, id: \.id) { item in
+                    Button {
+                        onSelectItem(item.id)
+                    } label: {
+                        RecipeListRow(model: item)
+                            .listRowSeparator(.hidden)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier(RecipeListViewA11y.listItemButton)
+                }
             }
-            .buttonStyle(.plain)
-            .accessibilityIdentifier(RecipeListViewA11y.listItemButton)
         }
-        .listStyle(.plain)
-        .listRowSpacing(10)
-        .scrollContentBackground(.hidden)
-        .background(Color.white)
         .refreshable {
             await reload()
         }
@@ -43,13 +43,13 @@ enum RecipeListViewA11y {
         model: [RecipeListRowModel(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cf")!,
             name: "Котлета по-киевски",
-            imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
+            imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
             complexity: 3
         ), RecipeListRowModel(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cd")!,
             name: "Котлета по-киевски",
-            imageSource: .uiImage(RecipeListUIAssets.image(named: "kiev")!),
+            imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
             complexity: 3
         )],
