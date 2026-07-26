@@ -11,7 +11,7 @@ struct TextBlockView: View {
     let model: TextBlockViewModel
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: RecipeStyles.Spacing.medium) {
             if let title = model.title {
                 Text(title)
                     .font(.title2)
@@ -21,7 +21,7 @@ struct TextBlockView: View {
             Text(model.text)
                 .accessibilityIdentifier(A11y.text)
         }
-        .padding(20)
+        .padding(RecipeStyles.Padding.default)
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityIdentifier(A11y.component)
     }

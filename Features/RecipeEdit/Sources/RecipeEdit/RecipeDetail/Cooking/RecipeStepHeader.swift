@@ -12,7 +12,7 @@ struct RecipeStepHeader: View {
     let title: String
     
     var body: some View {
-        HStack(alignment: .top, spacing: 10) {
+        HStack(alignment: .top, spacing: RecipeStyles.Spacing.small) {
             Circle()
                 .fill(Color.orange)
                 .frame(width: 24, height: 24)

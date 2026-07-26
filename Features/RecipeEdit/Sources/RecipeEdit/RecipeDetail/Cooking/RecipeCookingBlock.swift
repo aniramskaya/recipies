@@ -12,7 +12,7 @@ struct RecipeCookingBlock: View {
     let steps: [RecipeStepViewModel]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: RecipeStyles.Spacing.medium) {
             Text(.cookingBlockHeader)
                 .font(.title2)
                 .bold()
@@ -23,7 +23,7 @@ struct RecipeCookingBlock: View {
                 RecipeStepView(model: step, stepNumber: UInt(index + 1))
             }
         }
-        .padding(20)
+        .padding(RecipeStyles.Padding.default)
         .accessibilityIdentifier(RecipeCookingBlockA11y.component)
     }
 }

@@ -28,7 +28,7 @@ struct RecipeHeaderView: View {
                     .accessibilityIdentifier(A11y.complexity)
                     .frame(width: 44, height: 18)
             }
-            .padding(20)
+            .padding(RecipeStyles.Padding.default)
         }
         .accessibilityIdentifier(A11y.component)
     }

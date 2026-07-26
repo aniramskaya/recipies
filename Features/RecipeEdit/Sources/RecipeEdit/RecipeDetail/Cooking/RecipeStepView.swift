@@ -13,13 +13,15 @@ struct RecipeStepView: View {
     let stepNumber: UInt
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
             RecipeStepHeader(step: stepNumber, title: model.title)
             
             if let imageSource = model.imageSource {
                 RecipeImageView(source: imageSource)
                     .frame(maxWidth: .infinity, minHeight: 120, maxHeight: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: RecipeStyles.Radius.small)
+                    )
                     .accessibilityIdentifier(A11y.image)
             }
             
@@ -28,7 +30,7 @@ struct RecipeStepView: View {
                 .accessibilityIdentifier(A11y.text)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
+        .padding(RecipeStyles.Padding.default)
         .background(RecipeUIKitAssets.Color.cookingStepBackground)
         .cornerRadius(12)
         .accessibilityIdentifier(A11y.component)

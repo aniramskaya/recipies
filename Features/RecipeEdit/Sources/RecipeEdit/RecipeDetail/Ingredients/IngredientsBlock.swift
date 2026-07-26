@@ -13,7 +13,7 @@ struct IngredientsBlock: View {
     let recipeTitle: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
             Text(.ingredientsTitle)
                 .font(.title2.bold())
                 .accessibilityIdentifier(A11y.title)
@@ -33,7 +33,7 @@ struct IngredientsBlock: View {
             .disabled(model.uncheckedCount == 0)
             .accessibilityIdentifier(A11y.share)
         }
-        .padding(20)
+        .padding(RecipeStyles.Padding.default)
     }
 
     private var shoppingListText: String {

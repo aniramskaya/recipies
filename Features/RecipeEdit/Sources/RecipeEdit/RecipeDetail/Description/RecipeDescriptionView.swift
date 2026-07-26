@@ -11,14 +11,12 @@ struct RecipeDescriptionView: View {
     let description: String
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text(description)
-                .multilineTextAlignment(.leading)
-                .accessibilityIdentifier(A11y.description)
-        }
-        .padding(20)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .accessibilityIdentifier(A11y.component)
+        Text(description)
+            .multilineTextAlignment(.leading)
+            .accessibilityIdentifier(A11y.description)
+            .padding(RecipeStyles.Padding.default)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityIdentifier(A11y.component)
     }
 }
 
