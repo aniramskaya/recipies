@@ -25,6 +25,7 @@ struct recipesApp: App {
                             path.append(RecipeId(id: $0))
                         }
                     )
+                    .navigationTitle("Мои рецепты")
                     .navigationDestination(for: RecipeId.self) { id in
                         RecipeDetailScreenAssembly.compose(loader: RecipeLoader(id: id.id))
                     }
