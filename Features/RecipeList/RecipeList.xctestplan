@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "A0058AF2-E228-4228-94B5-604E5A0A4F29",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "RecipeListTests",
+        "name" : "RecipeListTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -14,20 +14,20 @@ struct RecipeListView: View {
     let onSelectItem: @MainActor (_: UUID) -> Void
     
     var body: some View {
-        List(model) { item in
-            Button {
-                onSelectItem(item.id)
-            } label: {
-                RecipeListRow(model: item)
-                    .listRowSeparator(.hidden)
+        ScrollView {
+            LazyVStack {
+                ForEach(model, id: \.id) { item in
+                    Button {
+                        onSelectItem(item.id)
+                    } label: {
+                        RecipeListRow(model: item)
+                            .listRowSeparator(.hidden)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier(RecipeListViewA11y.listItemButton)
+                }
             }
-            .buttonStyle(.plain)
-            .accessibilityIdentifier(RecipeListViewA11y.listItemButton)
         }
-        .listStyle(.plain)
-        .listRowSpacing(10)
-        .scrollContentBackground(.hidden)
-        .background(Color.white)
         .refreshable {
             await reload()
         }
