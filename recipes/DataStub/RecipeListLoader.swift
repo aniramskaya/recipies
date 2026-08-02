@@ -6,7 +6,7 @@
 //
 
 import RecipeList
-import RecipeEdit
+import Recipe
 import Foundation
 
 actor RecipeListLoaderStub: RecipeListLoader {

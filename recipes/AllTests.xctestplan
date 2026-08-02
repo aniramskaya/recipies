@@ -21,9 +21,9 @@
     },
     {
       "target" : {
-        "containerPath" : "container:Features\/RecipeEdit",
-        "identifier" : "RecipeEditTests",
-        "name" : "RecipeEditTests"
+        "containerPath" : "container:Features\/Recipe",
+        "identifier" : "RecipeTests",
+        "name" : "RecipeTests"
       }
     },
     {

@@ -3,13 +3,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "RecipeEdit",
+    name: "Recipe",
     defaultLocalization: "ru",
     platforms: [.iOS(.v17), .macOS(.v15)],
     products: [
         .library(
-            name: "RecipeEdit",
-            targets: ["RecipeEdit"]
+            name: "Recipe",
+            targets: ["Recipe"]
         ),
     ],
     dependencies: [
@@ -21,16 +21,16 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "RecipeEdit",
+            name: "Recipe",
             dependencies: [
                 .product(name: "RecipeUIKit", package: "RecipeUIKit"),
                 .product(name: "Scenarios", package: "Scenarios"),
             ]
         ),
         .testTarget(
-            name: "RecipeEditTests",
+            name: "RecipeTests",
             dependencies: [
-                "RecipeEdit",
+                "Recipe",
                 .product(name: "TestHelpers", package: "TestHelpers"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 .product(name: "ViewInspector", package: "ViewInspector"),

@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "RecipeEdit"
-               BuildableName = "RecipeEdit"
-               BlueprintName = "RecipeEdit"
+               BlueprintIdentifier = "Recipe"
+               BuildableName = "Recipe"
+               BlueprintName = "Recipe"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,7 +30,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:RecipeEdit.xctestplan"
+            reference = "container:Recipe.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -55,9 +55,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "RecipeEdit"
-            BuildableName = "RecipeEdit"
-            BlueprintName = "RecipeEdit"
+            BlueprintIdentifier = "Recipe"
+            BuildableName = "Recipe"
+            BlueprintName = "Recipe"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

@@ -17,8 +17,8 @@
       "parallelizable" : false,
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "RecipeEditTests",
-        "name" : "RecipeEditTests"
+        "identifier" : "RecipeTests",
+        "name" : "RecipeTests"
       }
     }
   ],
