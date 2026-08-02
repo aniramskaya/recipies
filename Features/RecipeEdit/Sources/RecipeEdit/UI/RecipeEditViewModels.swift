@@ -2,15 +2,17 @@
 import SwiftUI
 
 @MainActor
-final class RecipeDataModel: ObservableObject {
-    @Published var name: String = ""
-    @Published var cookingTime: String = ""
-    @Published var complexity: Int = 1
+@Observable
+final class RecipeDataModel {
+    var name: String = ""
+    var cookingTime: String = ""
+    var complexity: Int = 1
 }
 
-final class RecipeEditViewModel: ObservableObject {
-    @Published var errors: RecipeEditFormErrors = .none
-    @Published var savingState: SavingState = .idle
+@Observable
+final class RecipeEditViewModel {
+    var errors: RecipeEditFormErrors = .none
+    var savingState: SavingState = .idle
     
     var onSave: () -> Void = {}
     var onClose: () -> Void = {}

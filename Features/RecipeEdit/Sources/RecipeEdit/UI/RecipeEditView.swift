@@ -9,8 +9,8 @@ import SwiftUI
 
 
 struct RecipeEditView: View {
-    @ObservedObject var dataModel: RecipeDataModel
-    @ObservedObject var viewModel: RecipeEditViewModel
+    @Bindable var dataModel: RecipeDataModel
+    var viewModel: RecipeEditViewModel
 
     var body: some View {
         // let _ = Self._printChanges()
