@@ -7,10 +7,11 @@
 
 import SwiftUI
 
-final class IngredientModel: ObservableObject {
-    @Published var isOn: Bool = false
+@Observable
+final class IngredientModel {
+    var isOn: Bool = false
     let name: String
-    
+
     init(isOn: Bool, name: String) {
         self.isOn = isOn
         self.name = name
@@ -18,7 +19,7 @@ final class IngredientModel: ObservableObject {
 }
 
 struct IngredientView: View {
-    @ObservedObject var model: IngredientModel
+    @Bindable var model: IngredientModel
     
     var body: some View {
         Toggle(isOn: $model.isOn) {
