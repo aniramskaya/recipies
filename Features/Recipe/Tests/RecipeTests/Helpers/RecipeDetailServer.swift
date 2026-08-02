@@ -1,5 +1,5 @@
 import Foundation
-@testable import RecipeEdit
+@testable import Recipe
 
 @MainActor
 final class RecipeDetailServer: RecipeDetailLoader {

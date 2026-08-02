@@ -8,7 +8,7 @@
 import Testing
 import ViewInspector
 import TestHelpers
-@testable import RecipeEdit
+@testable import Recipe
 
 extension InspectableView where View == ViewType.View<RecipeStepView> {
     @MainActor

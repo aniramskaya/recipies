@@ -1,7 +1,7 @@
 import Testing
 import SnapshotTesting
 import SwiftUI
-@testable import RecipeEdit
+@testable import Recipe
 
 struct RecipeEditViewTests {
     @MainActor

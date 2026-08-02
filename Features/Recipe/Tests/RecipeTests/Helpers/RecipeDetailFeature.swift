@@ -4,7 +4,7 @@ import UIKit
 import ViewInspector
 import RecipeUIKit
 import TestHelpers
-@testable import RecipeEdit
+@testable import Recipe
 
 @MainActor
 final class RecipeDetailFeature {

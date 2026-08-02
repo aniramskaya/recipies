@@ -9,7 +9,7 @@ import Testing
 import ViewInspector
 import TestHelpers
 @testable import RecipeUIKit
-@testable import RecipeEdit
+@testable import Recipe
 
 extension InspectableView where View == ViewType.View<RecipeDetailView> {
     @MainActor

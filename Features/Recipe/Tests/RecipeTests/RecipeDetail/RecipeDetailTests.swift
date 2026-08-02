@@ -8,7 +8,7 @@
 import Testing
 import ViewInspector
 import RecipeUIKit
-@testable import RecipeEdit
+@testable import Recipe
 
 struct RecipeDetailTests {
 

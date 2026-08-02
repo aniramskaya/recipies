@@ -7,7 +7,7 @@
 
 import Testing
 import ViewInspector
-@testable import RecipeEdit
+@testable import Recipe
 
 struct IngredientTests {
     @MainActor

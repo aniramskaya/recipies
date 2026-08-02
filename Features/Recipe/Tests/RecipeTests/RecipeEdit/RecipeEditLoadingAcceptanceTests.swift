@@ -8,7 +8,7 @@
 import Testing
 import UIKit
 import TestHelpers
-@testable import RecipeEdit
+@testable import Recipe
 
 @MainActor
 struct RecipeEditLoadingAcceptanceTests {

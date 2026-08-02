@@ -1,5 +1,5 @@
 import Foundation
-@testable import RecipeEdit
+@testable import Recipe
 
 final class RecipeSaverServer: RecipeSaver, @unchecked Sendable {
     private var continuations: [CheckedContinuation<Void, Error>?] = []

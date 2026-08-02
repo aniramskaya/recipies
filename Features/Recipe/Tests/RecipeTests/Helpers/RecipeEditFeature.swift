@@ -5,7 +5,7 @@ import SwiftUI
 import ViewInspector
 import RecipeUIKit
 import TestHelpers
-@testable import RecipeEdit
+@testable import Recipe
 
 // MARK: - User protocol
 

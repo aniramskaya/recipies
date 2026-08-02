@@ -8,7 +8,7 @@
 
 import Testing
 import ViewInspector
-@testable import RecipeEdit
+@testable import Recipe
 import Foundation
 
 struct TextBlockViewTests {
