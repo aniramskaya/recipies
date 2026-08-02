@@ -8,7 +8,7 @@
          location = "group:RecipeList">
       </FileRef>
       <FileRef
-         location = "group:RecipeEdit">
+         location = "group:Recipe">
       </FileRef>
    </Group>
    <Group
@@ -31,7 +31,7 @@
       location = "group:recipies.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Features/RecipeEdit/RecipeEdit.xctestplan">
+      location = "group:Features/Recipe/Recipe.xctestplan">
    </FileRef>
    <FileRef
       location = "group:Shared/Scenarios/Tests/Scenarios.xctestplan">

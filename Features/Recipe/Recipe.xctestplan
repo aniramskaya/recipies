@@ -1,0 +1,26 @@
+{
+  "configurations" : [
+    {
+      "id" : "8A635ED5-1400-45CD-AAE2-87141C511005",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "RecipeTests",
+        "name" : "RecipeTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import RecipeEdit
+import Recipe
 
 actor RecipeLoader: RecipeDetailLoader {
     let id: UUID

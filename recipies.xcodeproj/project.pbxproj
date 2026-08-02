@@ -13,7 +13,7 @@
 		CC7E37532F975E0900BF78F2 /* RecipeUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = CC7E37522F975E0900BF78F2 /* RecipeUIKit */; };
 		CC7E37562F975E2500BF78F2 /* RecipeList in Frameworks */ = {isa = PBXBuildFile; productRef = CC7E37552F975E2500BF78F2 /* RecipeList */; };
 		CC90AB342F9F686200ABED7F /* RecipeList in Frameworks */ = {isa = PBXBuildFile; productRef = CC90AB332F9F686200ABED7F /* RecipeList */; };
-		CC90AB372F9F687100ABED7F /* RecipeEdit in Frameworks */ = {isa = PBXBuildFile; productRef = CC90AB362F9F687100ABED7F /* RecipeEdit */; };
+		CC90AB372F9F687100ABED7F /* Recipe in Frameworks */ = {isa = PBXBuildFile; productRef = CC90AB362F9F687100ABED7F /* Recipe */; };
 		CCF62CBD2ADA82BB009537A9 /* recipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */; };
 		CCF62CBF2ADA82BB009537A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBE2ADA82BB009537A9 /* ContentView.swift */; };
 		CCF62CC12ADA82CB009537A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCF62CC02ADA82CB009537A9 /* Assets.xcassets */; };
@@ -58,7 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC90AB372F9F687100ABED7F /* RecipeEdit in Frameworks */,
+				CC90AB372F9F687100ABED7F /* Recipe in Frameworks */,
 				CC90AB342F9F686200ABED7F /* RecipeList in Frameworks */,
 				CC7E37562F975E2500BF78F2 /* RecipeList in Frameworks */,
 				CC7E37532F975E0900BF78F2 /* RecipeUIKit in Frameworks */,
@@ -224,7 +224,7 @@
 				CC9D232A2F0A36890039E3D4 /* XCRemoteSwiftPackageReference "ViewInspector" */,
 				CC9F64BF2F1E3C5400357A55 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				CC90AB322F9F686200ABED7F /* XCLocalSwiftPackageReference "Features/RecipeList" */,
-				CC90AB352F9F687100ABED7F /* XCLocalSwiftPackageReference "Features/RecipeEdit" */,
+				CC90AB352F9F687100ABED7F /* XCLocalSwiftPackageReference "Features/Recipe" */,
 			);
 			productRefGroup = CCF62CBA2ADA82BB009537A9 /* Products */;
 			projectDirPath = "";
@@ -532,9 +532,9 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Features/RecipeList;
 		};
-		CC90AB352F9F687100ABED7F /* XCLocalSwiftPackageReference "Features/RecipeEdit" */ = {
+		CC90AB352F9F687100ABED7F /* XCLocalSwiftPackageReference "Features/Recipe" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Features/RecipeEdit;
+			relativePath = Features/Recipe;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -578,9 +578,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = RecipeList;
 		};
-		CC90AB362F9F687100ABED7F /* RecipeEdit */ = {
+		CC90AB362F9F687100ABED7F /* Recipe */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = RecipeEdit;
+			productName = Recipe;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

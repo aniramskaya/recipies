@@ -7,7 +7,7 @@
 
 import SwiftUI
 import RecipeList
-import RecipeEdit
+import Recipe
 
 @main
 struct recipesApp: App {
