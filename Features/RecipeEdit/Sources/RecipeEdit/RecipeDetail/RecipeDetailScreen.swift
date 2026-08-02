@@ -9,8 +9,9 @@ import SwiftUI
 import RecipeUIKit
 
 @MainActor
-final class RecipeDetailScreenModel: ObservableObject {
-    @Published var loadingState: ResourceLoadState<RecipeDetailViewModel> = .loading
+@Observable
+final class RecipeDetailScreenModel {
+    var loadingState: ResourceLoadState<RecipeDetailViewModel> = .loading
 
     var onAppear: () -> Void = {}
     var onDisappear: () -> Void = {}
@@ -18,7 +19,7 @@ final class RecipeDetailScreenModel: ObservableObject {
 }
 
 public struct RecipeDetailScreen: View {
-    @ObservedObject private var model: RecipeDetailScreenModel
+    private var model: RecipeDetailScreenModel
 
     init(model: RecipeDetailScreenModel) {
         self.model = model

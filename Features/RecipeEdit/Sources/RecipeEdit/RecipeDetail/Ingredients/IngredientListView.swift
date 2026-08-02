@@ -6,20 +6,13 @@
 //
 
 import SwiftUI
-import Combine
 
-class IngredientListModel: ObservableObject {
-    @Published var items: [IngredientModel]
-    private var cancellables: Set<AnyCancellable> = []
+@Observable
+class IngredientListModel {
+    var items: [IngredientModel]
 
     init(items: [IngredientModel]) {
         self.items = items
-        items.forEach { item in
-            item.$isOn
-                .dropFirst()
-                .sink { [weak self] _ in self?.objectWillChange.send() }
-                .store(in: &cancellables)
-        }
     }
 
     var uncheckedCount: Int {
@@ -28,7 +21,7 @@ class IngredientListModel: ObservableObject {
 }
 
 struct IngredientListView: View {
-    @ObservedObject var model: IngredientListModel
+    var model: IngredientListModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: RecipeStyles.Spacing.xSmall) {

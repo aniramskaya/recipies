@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import Observation
 import RecipeUIKit
 
 @MainActor
-final class RecipeListScreenViewModel: ObservableObject {
-    @Published var state: ResourceLoadState<[RecipeListRowModel]> = .loading
+@Observable
+final class RecipeListScreenViewModel {
+    var state: ResourceLoadState<[RecipeListRowModel]> = .loading
 
     var onAppear: () -> Void = {}
     var onDisappear: () -> Void = {}

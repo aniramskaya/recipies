@@ -9,7 +9,7 @@ import SwiftUI
 import RecipeUIKit
 
 struct IngredientsBlock: View {
-    @ObservedObject var model: IngredientListModel
+    var model: IngredientListModel
     let recipeTitle: String
 
     var body: some View {

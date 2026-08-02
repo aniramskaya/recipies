@@ -9,7 +9,7 @@ import SwiftUI
 import RecipeUIKit
 
 public struct RecipeListScreen: View {
-    @ObservedObject var viewModel: RecipeListScreenViewModel
+    var viewModel: RecipeListScreenViewModel
     
     public var body: some View {
         content
