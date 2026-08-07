@@ -135,6 +135,16 @@
     "Закрыть" : {
 
     },
+    "Название рецепта" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe title"
+          }
+        }
+      }
+    },
     "Рецепт сохранён" : {
 
     },

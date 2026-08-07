@@ -26,6 +26,10 @@ public enum RecipeUIKitAssets {
         public static var cookingStepBackground: SwiftUI.Color {
             SwiftUI.Color("cookingStep.background", bundle: .module)
         }
+        
+        public static var fieldBackground: SwiftUI.Color {
+            SwiftUI.Color("field.background", bundle: .module)
+        }
     }
 
     private final class BundleToken {}
