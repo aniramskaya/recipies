@@ -1,5 +1,5 @@
 //
-//  RecipeHeaderEditView.swift
+//  HeaderEditView.swift
 //  Recipe
 //
 //  Created by Марина Чемезова on 07.08.2026.
@@ -8,7 +8,7 @@
 import SwiftUI
 import RecipeUIKit
 
-struct RecipeHeaderEditView: View {
+struct HeaderEditView: View {
     @Binding var value: String
     
     var body: some View {
@@ -35,17 +35,17 @@ struct RecipeHeaderEditView: View {
     }
 }
 
-private typealias A11y = RecipeHeaderEditViewA11y
+private typealias A11y = HeaderEditViewA11y
 
-enum RecipeHeaderEditViewA11y {
-    static let component = "RecipeHeaderEditView"
-    static let textField = "RecipeHeaderEditView.TextField"
+enum HeaderEditViewA11y {
+    static let component = "HeaderEditView"
+    static let textField = "HeaderEditView.TextField"
 }
 
 #Preview {
     @Previewable @State var title: String = ""
     
-    RecipeHeaderEditView(value: $title)
+    HeaderEditView(value: $title)
     
     Text(title)
 }
