@@ -28,6 +28,7 @@ struct IngredientsEditBlock: View {
                         .font(.headline)
                         .foregroundStyle(Color.orange)
                 }
+                .accessibilityIdentifier(A11y.addButton)
             }
         }
         .padding(RecipeStyles.Padding.default)
