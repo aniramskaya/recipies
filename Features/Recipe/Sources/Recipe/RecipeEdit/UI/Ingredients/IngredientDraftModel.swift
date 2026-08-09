@@ -1,12 +1,12 @@
 //
-//  IngredientDraft.swift
+//  IngredientDraftModel.swift
 //  Recipe
 //
 //  Created by Марина Чемезова on 09.08.2026.
 //
 import Foundation
 
-struct IngredientDraft: Identifiable, Equatable {
+struct IngredientDraftModel: Identifiable, Equatable {
     var id: UUID = UUID()
     var name: String
     

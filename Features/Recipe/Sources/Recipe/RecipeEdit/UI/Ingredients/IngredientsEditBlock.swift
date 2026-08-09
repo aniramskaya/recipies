@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct IngredientsEditBlock: View {
-    @Binding var items: [IngredientDraft]
+    @Binding var items: [IngredientDraftModel]
 
     var body: some View {
         VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
@@ -47,7 +47,7 @@ enum IngredientsEditBlockA11y {
 }
 
 #Preview {
-    @Previewable @State var items: [IngredientDraft] = [
+    @Previewable @State var items: [IngredientDraftModel] = [
         .init(id: UUID(), name: "400 мл воды"),
         .init(id: UUID(), name: "1 пакетик чая"),
     ]

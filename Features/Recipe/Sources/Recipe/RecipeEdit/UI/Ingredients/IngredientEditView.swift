@@ -9,8 +9,8 @@ import SwiftUI
 import RecipeUIKit
 
 struct IngredientEditView: View {
-    @Binding var ingredient: IngredientDraft
-    @Binding var draggedItem: IngredientDraft?
+    @Binding var ingredient: IngredientDraftModel
+    @Binding var draggedItem: IngredientDraftModel?
     let onDelete: () -> Void
 
     var body: some View {
@@ -51,8 +51,8 @@ enum IngredientEditViewA11y {
     static let textField = "IngredientEditView.TextField"
 }
 #Preview {
-    @Previewable @State var value = IngredientDraft(id: .init(), name: "Секретный ингредиент")
-    @Previewable @State var dragged: IngredientDraft?
+    @Previewable @State var value = IngredientDraftModel(id: .init(), name: "Секретный ингредиент")
+    @Previewable @State var dragged: IngredientDraftModel?
     
     IngredientEditView(ingredient: $value, draggedItem: $dragged) {
         

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct IngredientsEditView: View {
-    @Binding var ingredients: [IngredientDraft]
-    @State private var draggedItem: IngredientDraft?
+    @Binding var ingredients: [IngredientDraftModel]
+    @State private var draggedItem: IngredientDraftModel?
     
     var body: some View {
         VStack(spacing: RecipeStyles.Spacing.xSmall) {
@@ -32,15 +32,15 @@ struct IngredientsEditView: View {
         }
     }
     
-    private func delete(item: IngredientDraft) {
+    private func delete(item: IngredientDraftModel) {
         ingredients.removeAll { $0.id == item.id }
     }
 }
 
 private struct ReorderDropDelegate: DropDelegate {
-    let item: IngredientDraft
-    @Binding var items: [IngredientDraft]
-    @Binding var draggedItem: IngredientDraft?
+    let item: IngredientDraftModel
+    @Binding var items: [IngredientDraftModel]
+    @Binding var draggedItem: IngredientDraftModel?
     
     func dropEntered(info: DropInfo) {
         guard let draggedItem,
@@ -67,7 +67,7 @@ private struct ReorderDropDelegate: DropDelegate {
 }
 
 #Preview {
-    @Previewable @State var items: [IngredientDraft] = [
+    @Previewable @State var items: [IngredientDraftModel] = [
         .init(id: UUID(), name: "400 мл воды"),
         .init(id: UUID(), name: "1 пакетик чая"),
     ]
