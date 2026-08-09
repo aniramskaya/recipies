@@ -16,6 +16,7 @@ final class RecipeDetailScreenModel {
     var onAppear: () -> Void = {}
     var onDisappear: () -> Void = {}
     var onRetry: () -> Void = {}
+    var onEdit: () -> Void = {}
 }
 
 public struct RecipeDetailScreen: View {
@@ -38,6 +39,13 @@ public struct RecipeDetailScreen: View {
                 RecipeDetailView(model: viewModel)
             }
         )
+        .toolbar {
+            if case .loaded = model.loadingState {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Изменить", action: model.onEdit)
+                }
+            }
+        }
         .onAppear { model.onAppear() }
         .onDisappear { model.onDisappear() }
     }

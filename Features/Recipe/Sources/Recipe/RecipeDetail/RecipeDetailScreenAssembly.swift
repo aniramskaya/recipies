@@ -11,16 +11,21 @@ import RecipeUIKit
 
 public enum RecipeDetailScreenAssembly {
     @MainActor
-    public static func compose(loader: any RecipeDetailLoader) -> some View {
-        composeInternal(loader: loader).0
+    public static func compose(
+        loader: any RecipeDetailLoader,
+        onEdit: @escaping (RecipeDraftModel) -> Void = { _ in }
+    ) -> some View {
+        composeInternal(loader: loader, onEdit: onEdit).0
     }
 
     @MainActor
     static func composeInternal(
-        loader: any RecipeDetailLoader
+        loader: any RecipeDetailLoader,
+        onEdit: @escaping (RecipeDraftModel) -> Void = { _ in }
     ) -> (RecipeDetailScreen, [AnyObject]) {
         let loadingScenario = BasicLoadingScenario(loader: loader.load)
         let model = RecipeDetailScreenModel()
+        var recipe: Recipe?
 
         var loadingTask: Task<Void, Never>? = nil
         let load = { [weak model] in
@@ -31,6 +36,9 @@ public enum RecipeDetailScreenAssembly {
                 for await state in stream {
                     guard let model else { return }
                     setLoadingState(state, viewModel: model)
+                    if case let .loaded(data) = state {
+                        recipe = data
+                    }
                 }
             }
         }
@@ -38,6 +46,10 @@ public enum RecipeDetailScreenAssembly {
         model.onAppear = load
         model.onDisappear = { loadingTask?.cancel() }
         model.onRetry = load
+        model.onEdit = {
+            guard let recipe else { return }
+            onEdit(recipe.asDraftModel())
+        }
 
         let screen = RecipeDetailScreen(model: model)
         return (screen, [loadingScenario, model])
@@ -60,6 +72,16 @@ public enum RecipeDetailScreenAssembly {
 }
 
 private extension Recipe {
+    @MainActor
+    func asDraftModel() -> RecipeDraftModel {
+        RecipeDraftModel(
+            id: id,
+            title: title,
+            description: description ?? "",
+            ingredients: ingredients.map { IngredientDraftModel(id: UUID(), name: $0.name) }
+        )
+    }
+
     func asDetailViewModel() -> RecipeDetailViewModel {
         RecipeDetailViewModel(
             imageSource: .remote(imageSource),

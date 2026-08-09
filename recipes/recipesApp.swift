@@ -16,8 +16,6 @@ struct recipesApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $path) {
-                // RecipeListAssembly.composeWithCalbackServices()
-                // RecipeListAssembly.composeWithCombineServices()
                 RecipeListAssembly
                     .composeWithAsyncServices(
                         loader: RecipeListLoaderStub(),
@@ -27,7 +25,13 @@ struct recipesApp: App {
                     )
                     .navigationTitle("Мои рецепты")
                     .navigationDestination(for: RecipeId.self) { id in
-                        RecipeDetailScreenAssembly.compose(loader: RecipeLoader(id: id.id))
+                        RecipeDetailScreenAssembly.compose(
+                            loader: RecipeLoader(id: id.id),
+                            onEdit: { path.append($0) }
+                        )
+                    }
+                    .navigationDestination(for: RecipeDraftModel.self) { draft in
+                        RecipeEditScreenAssembly.compose(model: draft)
                     }
             }
         }
