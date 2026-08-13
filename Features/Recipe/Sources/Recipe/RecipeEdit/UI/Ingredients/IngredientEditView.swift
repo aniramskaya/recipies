@@ -8,10 +8,20 @@
 import SwiftUI
 import RecipeUIKit
 
-struct IngredientEditView: View {
+struct IngredientEditView<Handle: View>: View {
     @Binding var ingredient: IngredientDraftModel
-    @Binding var draggedItem: IngredientDraftModel?
     let onDelete: () -> Void
+    let handle: Handle
+
+    init(
+        ingredient: Binding<IngredientDraftModel>,
+        onDelete: @escaping () -> Void,
+        @ViewBuilder handle: () -> Handle
+    ) {
+        self._ingredient = ingredient
+        self.onDelete = onDelete
+        self.handle = handle()
+    }
 
     var body: some View {
         HStack(
@@ -22,8 +32,9 @@ struct IngredientEditView: View {
                 Image(systemName: "minus.circle")
                     .frame(width: 24, height: 24)
                     .foregroundStyle(Color.red)
+                    .background(.background, in: .circle)
             }
-            
+
             // TODO: Разобраться со строками из ресурсов
             TextField("Количество и название", text: $ingredient.name)
                 .accessibilityIdentifier(A11y.textField)
@@ -32,13 +43,8 @@ struct IngredientEditView: View {
                     RoundedRectangle(cornerRadius: RecipeStyles.Radius.small)
                         .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            
-            DragHandleView(width: 16, lineHeight: 2, spacing: 3)
-                .padding(8)
-                .onDrag {
-                    draggedItem = ingredient
-                    return NSItemProvider(object: ingredient.id.uuidString as NSString)
-                }
+
+            handle
         }
         .accessibilityIdentifier(A11y.component)
     }
@@ -50,11 +56,12 @@ enum IngredientEditViewA11y {
     static let component = "IngredientEditView"
     static let textField = "IngredientEditView.TextField"
 }
+
 #Preview {
     @Previewable @State var value = IngredientDraftModel(id: .init(), name: "Секретный ингредиент")
-    @Previewable @State var dragged: IngredientDraftModel?
-    
-    IngredientEditView(ingredient: $value, draggedItem: $dragged) {
-        
+
+    IngredientEditView(ingredient: $value, onDelete: {}) {
+        DragHandleView(width: 16, lineHeight: 2, spacing: 3)
+            .padding(8)
     }
 }
