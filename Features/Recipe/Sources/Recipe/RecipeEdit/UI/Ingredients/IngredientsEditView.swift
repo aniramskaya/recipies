@@ -47,70 +47,82 @@ struct IngredientsEditView: View {
         .gesture(
             DragGesture(coordinateSpace: .named("ingredientsList"))
                 .onChanged { value in
-                    if draggingId == nil {
-                        guard let touched = initialRectForTouch(at: value.startLocation) else { return }
-                        draggingId = touched.key
-                        dragStartIndex = ingredients.firstIndex(where: { $0.id == touched.key })!
-                        targetIndex = dragStartIndex
-                        fingerOffsetFromMidY = value.startLocation.y - touched.value.midY
-                        initialCellRects = cellRects
+                    guard let draggingId else {
+                        initDraggingIfNeeded(dragValue: value)
+                        return
                     }
-
-                    guard let id = draggingId,
-                          let startRect = initialCellRects[id] else { return }
-
-                    dragOffset = value.location.y - fingerOffsetFromMidY - startRect.midY
-
-                    let sortedOtherRects = initialCellRects
-                        .filter { $0.key != id }
-                        .sorted { initialCellRects[$0.key]!.midY < initialCellRects[$1.key]!.midY }
-                        .map(\.value)
-
-                    withAnimation(.spring(duration: 0.3)) {
-                        targetIndex = sortedOtherRects.reduce(0) { count, rect in
-                            value.location.y < rect.midY ? count : count + 1
-                        }
-                    }
-                    
-                    print("targetIndex \(targetIndex)")
+                    updateVisualOffsets(dragValue: value, draggingId: draggingId)
                 }
                 .onEnded { _ in
-                    if let id = draggingId {
-                        let currentIndex = ingredients.firstIndex(where: { $0.id == id })!
-                        if currentIndex != targetIndex {
-                            let toOffset = currentIndex < targetIndex ? targetIndex + 1 : targetIndex
-                            ingredients.move(fromOffsets: [currentIndex], toOffset: toOffset)
-                        }
-                    }
-//                    withAnimation(.spring(duration: 0.3)) {
-                        draggingId = nil
-                        dragOffset = 0
-//                    }
-                    dragStartIndex = 0
-                    targetIndex = 0
-                    fingerOffsetFromMidY = 0
-                    initialCellRects = [:]
+                    commitReorder()
                 }
         )
     }
+    
+    private func initDraggingIfNeeded(dragValue: DragGesture.Value) {
+        guard
+            let touched = initialRectForTouch(at: dragValue.startLocation),
+            let startIndex = ingredients.firstIndex(where: { $0.id == touched.key })
+        else { return }
+        draggingId = touched.key
+        dragStartIndex = startIndex
+        targetIndex = dragStartIndex
+        fingerOffsetFromMidY = dragValue.startLocation.y - touched.value.midY
+        initialCellRects = cellRects
+    }
+    
+    private func updateVisualOffsets(dragValue: DragGesture.Value, draggingId: UUID) {
+        guard let draggingCellMidY = initialCellRects[draggingId]?.midY else { return }
+
+        dragOffset = dragValue.location.y - fingerOffsetFromMidY - draggingCellMidY
+
+        let otherRects = cellRects
+            .filter { $0.key != draggingId }
+            .map(\.value)
+        
+        withAnimation(.spring(duration: 0.3)) {
+            targetIndex = otherRects.count(where: { $0.midY <= dragValue.location.y })
+        }
+    }
+    
+    private func commitReorder() {
+        guard let draggedId = draggingId else { return }
+
+        withAnimation(.spring(duration: 0.3)) {
+            dragOffset = ingredients[0..<targetIndex].reduce(0, { partialResult, item in
+                partialResult + (cellRects[item.id]?.height ?? 0) + spacing
+            }) - (initialCellRects[draggedId]?.minY ?? 0)
+        } completion: {
+            if dragStartIndex != targetIndex {
+                let toOffset = dragStartIndex < targetIndex ? targetIndex + 1 : targetIndex
+                ingredients.move(fromOffsets: [dragStartIndex], toOffset: toOffset)
+            }
+            draggingId = nil
+            dragOffset = 0
+            dragStartIndex = 0
+            targetIndex = 0
+            fingerOffsetFromMidY = 0
+            initialCellRects = [:]
+        }
+    }
 
     private func visualOffset(for id: UUID) -> CGFloat {
-        guard draggingId != nil else { return 0 }
+        guard let draggingId else { return 0 }
 
         if id == draggingId {
             return dragOffset
         }
 
         guard let currentIndex = ingredients.firstIndex(where: { $0.id == id }) else { return 0 }
-        let step = (initialCellRects[draggingId!]?.height ?? 0) + spacing
+        let offset = (initialCellRects[draggingId]?.height ?? 0) + spacing
 
         if dragStartIndex < targetIndex {
             if currentIndex > dragStartIndex && currentIndex <= targetIndex {
-                return -step
+                return -offset
             }
         } else if dragStartIndex > targetIndex {
             if currentIndex >= targetIndex && currentIndex < dragStartIndex {
-                return step
+                return offset
             }
         }
         return 0
