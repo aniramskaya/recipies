@@ -135,7 +135,9 @@ struct IngredientsEditView: View {
     }
 
     private func delete(item: IngredientDraftModel) {
-        ingredients.removeAll { $0.id == item.id }
+        withAnimation(.spring(duration: 0.3)) {
+            ingredients.removeAll { $0.id == item.id }
+        }
     }
 }
 
