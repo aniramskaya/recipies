@@ -9,6 +9,7 @@ import SwiftUI
 
 struct IngredientsEditBlock: View {
     @Binding var items: [IngredientDraftModel]
+    @State var lastAddedIngredientId: UUID?
 
     var body: some View {
         VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
@@ -18,13 +19,16 @@ struct IngredientsEditBlock: View {
                 .accessibilityAddTraits([.isHeader])
                 .accessibilityHeading(.h1)
 
-            IngredientsEditView(ingredients: $items)
+            IngredientsEditView(ingredients: $items, lastAddedIngredientId: lastAddedIngredientId)
                 .accessibilityIdentifier(A11y.list)
 
             HStack {
                 Spacer()
                 Button(action: addNewItem) {
-                    Text("+ Добавить ингредиент")
+                    Image(systemName: "plus.circle")
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.orange)
+                    Text(.addIngredient)
                         .font(.headline)
                         .foregroundStyle(Color.orange)
                 }
@@ -35,7 +39,11 @@ struct IngredientsEditBlock: View {
     }
     
     private func addNewItem() {
-        items.append(.init(id: .init(), name: ""))
+        let newItemId = UUID()
+        items.append(.init(id: newItemId, name: ""))
+        Task { @MainActor in
+            lastAddedIngredientId = newItemId
+        }
     }
 }
 

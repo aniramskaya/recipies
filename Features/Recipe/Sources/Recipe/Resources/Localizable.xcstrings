@@ -7,8 +7,22 @@
     "%llu" : {
 
     },
-    "+ Добавить ингредиент" : {
-
+    "addIngredient" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Add ingredient"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить ингредиент"
+          }
+        }
+      }
     },
     "cookingBlock.header" : {
       "extractionState" : "manual",
@@ -40,6 +54,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Шаг %1$(step)llu: %2$(name)@"
+          }
+        }
+      }
+    },
+    "deleteIngredient" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete ingredient"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить ингредиент"
           }
         }
       }
@@ -98,6 +129,57 @@
         }
       }
     },
+    "moveDown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Move down"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить вниз"
+          }
+        }
+      }
+    },
+    "moveUp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move up"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переместить вверх"
+          }
+        }
+      }
+    },
+    "quantityAndName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantity and name"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Количество и название"
+          }
+        }
+      }
+    },
     "showLess" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -133,9 +215,6 @@
       }
     },
     "Изменить" : {
-
-    },
-    "Количество и название" : {
 
     },
     "Название рецепта" : {

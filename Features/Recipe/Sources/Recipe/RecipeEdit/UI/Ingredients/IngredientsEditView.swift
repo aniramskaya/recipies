@@ -9,6 +9,7 @@ import SwiftUI
 
 struct IngredientsEditView: View {
     @Binding var ingredients: [IngredientDraftModel]
+    let lastAddedIngredientId: UUID?
 
     private let spacing = RecipeStyles.Spacing.xSmall
 
@@ -20,13 +21,16 @@ struct IngredientsEditView: View {
     @State private var cellRects: [UUID: CGRect] = [:]
     @State private var handleRects: [UUID: CGRect] = [:]
     @State private var initialCellRects: [UUID: CGRect] = [:]
-
+    
     var body: some View {
         VStack(spacing: spacing) {
             ForEach($ingredients, id: \.id) { item in
                 IngredientEditView(
                     ingredient: item,
-                    onDelete: { delete(item: item.wrappedValue) }
+                    onDelete: { delete(item: item.wrappedValue) },
+                    onMoveUp: { moveUp(id: item.wrappedValue.id )},
+                    onMoveDown: { moveDown(id: item.wrappedValue.id )},
+                    requestAccessibilityFocus: item.wrappedValue.id == lastAddedIngredientId
                 ) {
                     DragHandleView(width: 16, lineHeight: 2, spacing: 3)
                         .padding(8)
@@ -105,6 +109,22 @@ struct IngredientsEditView: View {
             initialCellRects = [:]
         }
     }
+    
+    private func moveUp(id: UUID) {
+        guard
+            let index = ingredients.firstIndex(where: { $0.id == id }),
+            index > 0
+        else { return }
+        ingredients.move(fromOffsets: [index], toOffset: index - 1)
+    }
+    
+    private func moveDown(id: UUID) {
+        guard
+            let index = ingredients.firstIndex(where: { $0.id == id }),
+            index + 1 < ingredients.count
+        else { return }
+        ingredients.move(fromOffsets: [index], toOffset: index + 2)
+    }
 
     private func visualOffset(for id: UUID) -> CGFloat {
         guard let draggingId else { return 0 }
@@ -147,5 +167,5 @@ struct IngredientsEditView: View {
         .init(id: UUID(), name: "1 пакетик чая"),
     ]
 
-    IngredientsEditView(ingredients: $items)
+    IngredientsEditView(ingredients: $items, lastAddedIngredientId: nil)
 }

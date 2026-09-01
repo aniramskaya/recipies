@@ -11,15 +11,27 @@ import RecipeUIKit
 struct IngredientEditView<Handle: View>: View {
     @Binding var ingredient: IngredientDraftModel
     let onDelete: () -> Void
+    let onMoveUp: () -> Void
+    let onMoveDown: () -> Void
     let handle: Handle
-
+    
+    // Accessibility
+    let requestAccessibilityFocus: Bool
+    @AccessibilityFocusState private var isAccessibilityFocused: Bool
+    
     init(
         ingredient: Binding<IngredientDraftModel>,
         onDelete: @escaping () -> Void,
+        onMoveUp: @escaping () -> Void,
+        onMoveDown: @escaping () -> Void,
+        requestAccessibilityFocus: Bool,
         @ViewBuilder handle: () -> Handle
     ) {
         self._ingredient = ingredient
         self.onDelete = onDelete
+        self.onMoveUp = onMoveUp
+        self.onMoveDown = onMoveDown
+        self.requestAccessibilityFocus = requestAccessibilityFocus
         self.handle = handle()
     }
 
@@ -34,19 +46,30 @@ struct IngredientEditView<Handle: View>: View {
                     .foregroundStyle(Color.red)
                     .background(.background, in: .circle)
             }
+            .accessibilityHidden(true)
 
             // TODO: Разобраться со строками из ресурсов
-            TextField("Количество и название", text: $ingredient.name)
+            TextField(String(localized: .quantityAndName), text: $ingredient.name)
                 .accessibilityIdentifier(A11y.textField)
                 .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 10))
                 .background(
                     RoundedRectangle(cornerRadius: RecipeStyles.Radius.small)
                         .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-
+                .accessibilityFocused($isAccessibilityFocused)
+                .accessibilityActions {
+                    Button(.moveUp, action: onMoveUp)
+                    Button(.moveDown, action: onMoveDown)
+                    Button(.deleteIngredient, action: onDelete)
+                }
+            
             handle
         }
         .accessibilityIdentifier(A11y.component)
+        .onChange(of: requestAccessibilityFocus) { _, newValue in
+            guard newValue else { return }
+            isAccessibilityFocused = true
+        }
     }
 }
 
@@ -60,7 +83,7 @@ enum IngredientEditViewA11y {
 #Preview {
     @Previewable @State var value = IngredientDraftModel(id: .init(), name: "Секретный ингредиент")
 
-    IngredientEditView(ingredient: $value, onDelete: {}) {
+    IngredientEditView(ingredient: $value, onDelete: {}, onMoveUp: {}, onMoveDown: {}, requestAccessibilityFocus: false) {
         DragHandleView(width: 16, lineHeight: 2, spacing: 3)
             .padding(8)
     }
