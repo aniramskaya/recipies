@@ -180,6 +180,23 @@
         }
       }
     },
+    "removeBlock" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove block"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить блок"
+          }
+        }
+      }
+    },
     "showLess" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -210,6 +227,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показать полностью ↓"
+          }
+        }
+      }
+    },
+    "textBlockText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your text (required)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш текст (обязательно)"
+          }
+        }
+      }
+    },
+    "textBlockTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Header (optional)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заголовок (необязательно)"
           }
         }
       }
