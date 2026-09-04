@@ -78,10 +78,15 @@ private extension Recipe {
             id: id,
             title: title,
             description: description ?? "",
-            ingredients: ingredients.map { IngredientDraftModel(id: UUID(), name: $0.name) }
+            ingredients: ingredients.map { IngredientDraftModel(id: UUID(), name: $0.name) },
+            // TODO: разобраться тут с опциональностью. Возможно убрать опционалы из TextBlock
+            topTextBlock: topText != nil ? .init(title: topText?.title ?? "", text: topText?.text ?? "") : nil,
+            bottomTextBlock: bottomText != nil ? .init(title: bottomText?.title ?? "", text: bottomText?.text ?? "") : nil,
         )
     }
+}
 
+private extension Recipe {
     func asDetailViewModel() -> RecipeDetailViewModel {
         RecipeDetailViewModel(
             imageSource: .remote(imageSource),

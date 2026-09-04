@@ -10,12 +10,23 @@ public final class RecipeDraftModel: Hashable {
     var ingredients: [IngredientDraftModel] = [
         .init(id: UUID(), name: ""),
     ]
-    
-    init(id: UUID, title: String, description: String, ingredients: [IngredientDraftModel]) {
+    var topTextBlock: TextBlockDraftModel?
+    var bottomTextBlock: TextBlockDraftModel?
+
+    init(
+        id: UUID,
+        title: String,
+        description: String,
+        ingredients: [IngredientDraftModel],
+        topTextBlock: TextBlockDraftModel?,
+        bottomTextBlock: TextBlockDraftModel?
+    ) {
         self.id = id
         self.title = title
         self.description = description
         self.ingredients = ingredients
+        self.topTextBlock = topTextBlock
+        self.bottomTextBlock = bottomTextBlock
     }
     
     nonisolated public func hash(into hasher: inout Hasher) {

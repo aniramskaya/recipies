@@ -20,6 +20,10 @@ struct RecipeEditView: View {
                 DescriptionEditView(text: $dataModel.description)
                 Divider()
                 IngredientsEditBlock(items: $dataModel.ingredients)
+                Divider()
+                TextBlockOptionalEditView(model: $dataModel.topTextBlock)
+                Divider()
+                TextBlockOptionalEditView(model: $dataModel.bottomTextBlock)
             }
         }
     }
@@ -35,7 +39,9 @@ struct RecipeEditView: View {
             .init(id: UUID(), name: "180 г сливочного масла (размягчённое)"),
             .init(id: UUID(), name: "100 г муки"),
             .init(id: UUID(), name: "200 г панировочных сухарей")
-        ]
+        ],
+        topTextBlock: .init(title: "Title", text: "Маринуйте курицу не менее часа, лучше — ночь в холодильнике. Обжаривайте небольшими порциями, чтобы кусочки подрумянились."),
+        bottomTextBlock: nil
     )
 
     return RecipeEditViewPreviewWrapper(
