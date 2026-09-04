@@ -8,7 +8,7 @@ private typealias A11y = IngredientsEditBlockA11y
 extension InspectableView where View == ViewType.View<IngredientsEditBlock> {
     @MainActor
     func assertIsDisplaying(ingredients: [String], sourceLocation: SourceLocation = #_sourceLocation) throws {
-        let foundItems = self.findAll(IngredientEditView.self)
+        let foundItems = self.findAll(IngredientEditView<DragHandleView>.self)
         guard foundItems.count == ingredients.count else {
             throw sourceLocation.error("Ingredients count mismatch: expected \(ingredients.count), found \(foundItems.count)")
         }
@@ -25,7 +25,7 @@ extension InspectableView where View == ViewType.View<IngredientsEditBlock> {
 
     @MainActor
     func typeIngredient(_ text: String, at index: Int, sourceLocation: SourceLocation = #_sourceLocation) throws {
-        let editViews = self.findAll(IngredientEditView.self)
+        let editViews = self.findAll(IngredientEditView<DragHandleView>.self)
         guard index < editViews.count else {
             throw sourceLocation.error("No ingredient at index \(index), found \(editViews.count) total")
         }
@@ -37,7 +37,7 @@ extension InspectableView where View == ViewType.View<IngredientsEditBlock> {
 
     @MainActor
     func deleteIngredient(at index: Int, sourceLocation: SourceLocation = #_sourceLocation) throws {
-        let editViews = self.findAll(IngredientEditView.self)
+        let editViews = self.findAll(IngredientEditView<DragHandleView>.self)
         guard index < editViews.count else {
             throw sourceLocation.error("No ingredient at index \(index), found \(editViews.count) total")
         }
