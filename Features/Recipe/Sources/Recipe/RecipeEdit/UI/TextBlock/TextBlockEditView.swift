@@ -38,7 +38,7 @@ struct TextBlockEditView: View {
                     Image(systemName: "minus.circle")
                         .frame(width: 24, height: 24)
                         .foregroundStyle(Color.red)
-                    Text(.removeBlock)
+                    Text(.textBlockRemove)
                         .font(.headline)
                         .foregroundStyle(Color.red)
                 }

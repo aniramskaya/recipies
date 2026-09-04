@@ -180,23 +180,6 @@
         }
       }
     },
-    "removeBlock" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove block"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить блок"
-          }
-        }
-      }
-    },
     "showLess" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -227,6 +210,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показать полностью ↓"
+          }
+        }
+      }
+    },
+    "textBlockAdd" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add block"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить блок"
+          }
+        }
+      }
+    },
+    "textBlockRemove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove block"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить блок"
           }
         }
       }
