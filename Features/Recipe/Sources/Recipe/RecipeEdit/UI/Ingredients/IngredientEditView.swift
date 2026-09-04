@@ -13,27 +13,10 @@ struct IngredientEditView<Handle: View>: View {
     let onDelete: () -> Void
     let onMoveUp: () -> Void
     let onMoveDown: () -> Void
-    let handle: Handle
-    
-    // Accessibility
     let requestAccessibilityFocus: Bool
+    @ViewBuilder let handle: Handle
+
     @AccessibilityFocusState private var isAccessibilityFocused: Bool
-    
-    init(
-        ingredient: Binding<IngredientDraftModel>,
-        onDelete: @escaping () -> Void,
-        onMoveUp: @escaping () -> Void,
-        onMoveDown: @escaping () -> Void,
-        requestAccessibilityFocus: Bool,
-        @ViewBuilder handle: () -> Handle
-    ) {
-        self._ingredient = ingredient
-        self.onDelete = onDelete
-        self.onMoveUp = onMoveUp
-        self.onMoveDown = onMoveDown
-        self.requestAccessibilityFocus = requestAccessibilityFocus
-        self.handle = handle()
-    }
 
     var body: some View {
         HStack(
@@ -56,6 +39,7 @@ struct IngredientEditView<Handle: View>: View {
                     RoundedRectangle(cornerRadius: RecipeStyles.Radius.small)
                         .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
+                // Accessing AccessibilityFocusState's value outside of the body of a View. This will result in a constant Binding of the initial value and will not update.
                 .accessibilityFocused($isAccessibilityFocused)
                 .accessibilityActions {
                     Button(.moveUp, action: onMoveUp)

@@ -50,13 +50,11 @@ public struct RecipeStep: Sendable, Identifiable {
     }
 }
 
-public struct TextBlock: Identifiable, Sendable {
-    public let id: UUID
+public struct TextBlock: Sendable {
     public let text: String
     public let title: String?
     
-    public init(id: UUID, text: String, title: String?) {
-        self.id = id
+    public init(text: String, title: String?) {
         self.text = text
         self.title = title
     }

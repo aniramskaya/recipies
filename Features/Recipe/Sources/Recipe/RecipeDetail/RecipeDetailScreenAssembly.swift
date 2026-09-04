@@ -92,7 +92,7 @@ private extension Recipe {
             ingredients: IngredientListModel(
                 items: ingredients.map { IngredientModel(isOn: $0.isOn, name: $0.name) }
             ),
-            topText: topText.map { TextBlockViewModel(id: $0.id, text: $0.text, title: $0.title) },
+            topText: topText.map { TextBlockViewModel(text: $0.text, title: $0.title) },
             steps: steps.map {
                 RecipeStepViewModel(
                     id: $0.id,
@@ -101,7 +101,7 @@ private extension Recipe {
                     text: $0.text
                 )
             },
-            bottomText: bottomText.map { TextBlockViewModel(id: $0.id, text: $0.text, title: $0.title) },
+            bottomText: bottomText.map { TextBlockViewModel(text: $0.text, title: $0.title) },
             onShare: {}
         )
     }

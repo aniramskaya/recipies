@@ -1,6 +1,8 @@
 import Testing
 import SwiftUI
 import ViewInspector
+import TestHelpers
+
 @testable import Recipe
 
 struct IngredientsEditBlockTests {
