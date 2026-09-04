@@ -16,11 +16,10 @@ struct TextBlockAddView: View {
             Button(action: onAdd) {
                 Image(systemName: "plus.circle")
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(Color.orange)
                 Text(.textBlockAdd)
                     .font(.headline)
-                    .foregroundStyle(Color.orange)
             }
+            .foregroundStyle(Color.orange)
             .accessibilityIdentifier(A11y.addButton)
         }
         .padding(RecipeStyles.Padding.default)

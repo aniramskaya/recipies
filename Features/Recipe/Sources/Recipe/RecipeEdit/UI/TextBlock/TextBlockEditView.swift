@@ -37,11 +37,10 @@ struct TextBlockEditView: View {
                 Button(action: onRemove) {
                     Image(systemName: "minus.circle")
                         .frame(width: 24, height: 24)
-                        .foregroundStyle(Color.red)
                     Text(.textBlockRemove)
                         .font(.headline)
-                        .foregroundStyle(Color.red)
                 }
+                .foregroundStyle(Color.red)
                 .accessibilityIdentifier(A11y.removeButton)
             }
         }

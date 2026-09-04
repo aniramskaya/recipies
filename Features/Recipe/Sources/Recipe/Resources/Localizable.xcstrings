@@ -24,6 +24,23 @@
         }
       }
     },
+    "addPhoto" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Add photo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить фото"
+          }
+        }
+      }
+    },
     "cookingBlock.header" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -41,6 +58,23 @@
         }
       }
     },
+    "cookingStepAdd" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add step"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить шаг"
+          }
+        }
+      }
+    },
     "cookingStepHeader" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -54,6 +88,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Шаг %1$(step)llu: %2$(name)@"
+          }
+        }
+      }
+    },
+    "cookingStepRemove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove step"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить шаг"
           }
         }
       }
