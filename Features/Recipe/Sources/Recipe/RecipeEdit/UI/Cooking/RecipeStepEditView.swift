@@ -29,17 +29,11 @@ struct RecipeStepEditView: View {
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
             
-            HStack {
-                Spacer()
-                Button(action: onRemove) {
-                    Image(systemName: "minus.circle")
-                        .frame(width: 24, height: 24)
-                    Text(.cookingStepRemove)
-                        .font(.headline)
-                }
-                .foregroundStyle(Color.red)
-                .accessibilityIdentifier(A11y.removeButton)
-            }
+            RemoveElementButton(
+                action: onRemove,
+                title: .cookingStepRemove,
+                accessibilityIdentifier: A11y.removeButton
+            )
         }
         .padding(RecipeStyles.Padding.default)
         .overlay {

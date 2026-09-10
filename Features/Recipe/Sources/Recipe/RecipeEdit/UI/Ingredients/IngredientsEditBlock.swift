@@ -22,18 +22,11 @@ struct IngredientsEditBlock: View {
             IngredientsEditView(ingredients: $items, lastAddedIngredientId: lastAddedIngredientId)
                 .accessibilityIdentifier(A11y.list)
 
-            HStack {
-                Spacer()
-                Button(action: addNewItem) {
-                    Image(systemName: "plus.circle")
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(Color.orange)
-                    Text(.addIngredient)
-                        .font(.headline)
-                        .foregroundStyle(Color.orange)
-                }
-                .accessibilityIdentifier(A11y.addButton)
-            }
+            AddElementButton(
+                action: addNewItem,
+                title: .addIngredient,
+                accessibilityIdentifier: A11y.addButton
+            )
         }
         .padding(RecipeStyles.Padding.default)
     }

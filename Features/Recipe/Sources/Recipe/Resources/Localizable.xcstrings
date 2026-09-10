@@ -302,13 +302,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add block"
+            "value" : "Add text block"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавить блок"
+            "value" : "Добавить блок текста"
           }
         }
       }
@@ -319,13 +319,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remove block"
+            "value" : "Remove text block"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Удалить блок"
+            "value" : "Удалить блок текста"
           }
         }
       }

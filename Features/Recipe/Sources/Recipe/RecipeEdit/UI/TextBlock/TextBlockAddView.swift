@@ -11,17 +11,11 @@ struct TextBlockAddView: View {
     let onAdd: () -> Void
     
     var body: some View {
-        HStack {
-            Spacer()
-            Button(action: onAdd) {
-                Image(systemName: "plus.circle")
-                    .frame(width: 24, height: 24)
-                Text(.textBlockAdd)
-                    .font(.headline)
-            }
-            .foregroundStyle(Color.orange)
-            .accessibilityIdentifier(A11y.addButton)
-        }
+        AddElementButton(
+            action: onAdd,
+            title: .textBlockAdd,
+            accessibilityIdentifier: A11y.addButton
+        )
         .padding(RecipeStyles.Padding.default)
     }
 }

@@ -24,17 +24,11 @@ struct RecipeCookingEditView: View {
                 }
             }
             
-            HStack {
-                Spacer()
-                Button(action: add) {
-                    Image(systemName: "plus.circle")
-                        .frame(width: 24, height: 24)
-                    Text(.cookingStepAdd)
-                        .font(.headline)
-                }
-                .foregroundStyle(Color.orange)
-                .accessibilityIdentifier(A11y.addButton)
-            }
+            AddElementButton(
+                action: add,
+                title: .cookingStepAdd,
+                accessibilityIdentifier: A11y.addButton
+            )
         }
         .padding(RecipeStyles.Padding.default)
         .accessibilityIdentifier(A11y.component)
