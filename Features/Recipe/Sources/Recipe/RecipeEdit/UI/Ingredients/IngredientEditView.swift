@@ -31,7 +31,6 @@ struct IngredientEditView<Handle: View>: View {
             }
             .accessibilityHidden(true)
 
-            // TODO: Разобраться со строками из ресурсов
             TextField(String(localized: .quantityAndName), text: $ingredient.name)
                 .accessibilityIdentifier(A11y.textField)
                 .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 10))
@@ -39,7 +38,6 @@ struct IngredientEditView<Handle: View>: View {
                     RoundedRectangle(cornerRadius: RecipeStyles.Radius.small)
                         .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-                // Accessing AccessibilityFocusState's value outside of the body of a View. This will result in a constant Binding of the initial value and will not update.
                 .accessibilityFocused($isAccessibilityFocused)
                 .accessibilityActions {
                     Button(.moveUp, action: onMoveUp)
