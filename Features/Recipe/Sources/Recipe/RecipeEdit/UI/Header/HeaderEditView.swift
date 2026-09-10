@@ -13,9 +13,9 @@ struct HeaderEditView: View {
     
     var body: some View {
         HStack {
-            TextField("Название рецепта", text: $value)
+            TextField(String(localized: .recipeName), text: $value)
             .accessibilityIdentifier(A11y.textField)
-            .padding(EdgeInsets(top: 9, leading: 12, bottom: 9, trailing: 12))
+            .padding(RecipeStyles.Padding.mulilineText)
             .background(
                 RoundedRectangle(cornerRadius: RecipeStyles.Radius.medium)
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
@@ -24,12 +24,7 @@ struct HeaderEditView: View {
             .bold()
         }
         .padding(
-            EdgeInsets(
-                top: 5,
-                leading: RecipeStyles.Padding.default,
-                bottom: 5,
-                trailing: RecipeStyles.Padding.default
-            )
+            RecipeStyles.Padding.default
         )
         .accessibilityIdentifier(A11y.component)
     }

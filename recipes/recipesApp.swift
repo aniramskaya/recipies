@@ -21,6 +21,9 @@ struct recipesApp: App {
                         loader: RecipeListLoaderStub(),
                         onSelectItem: {
                             path.append(RecipeId(id: $0))
+                        },
+                        onAddItem: {
+                            path.append(RecipeDraftModel.empty)
                         }
                     )
                     .navigationTitle("Мои рецепты")

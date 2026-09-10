@@ -40,3 +40,22 @@ public final class RecipeDraftModel: Hashable {
         lhs.id == rhs.id
     }
 }
+
+
+public extension RecipeDraftModel {
+    static var empty: RecipeDraftModel {
+        .init(
+            id: UUID(),
+            title: "",
+            description: "",
+            ingredients: [
+                .init(id: UUID(), name: "")
+            ],
+            topTextBlock: nil,
+            steps: [
+                .init(id: UUID(), title: "", imageSource: nil, text: "")
+            ],
+            bottomTextBlock: nil
+        )
+    }
+}

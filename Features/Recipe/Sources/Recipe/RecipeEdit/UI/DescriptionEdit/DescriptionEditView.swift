@@ -12,9 +12,9 @@ struct DescriptionEditView: View {
     @Binding var text: String
     
     var body: some View {
-        TextField("Description", text: $text, axis: .vertical)
+        TextField(String(localized: .recipeDescription), text: $text, axis: .vertical)
             .accessibilityIdentifier(A11y.field)
-            .padding(12)
+            .padding(RecipeStyles.Padding.mulilineText)
             .background(
                 RoundedRectangle(
                     cornerRadius: RecipeStyles.Radius.medium

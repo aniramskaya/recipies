@@ -11,6 +11,8 @@ import SwiftUI
 enum RecipeStyles {
     enum Padding {
         static let `default`: CGFloat = 20
+        static let mulilineText: CGFloat = 12
+        static let singleLineText = EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 10)
     }
     
     enum Spacing {

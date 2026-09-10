@@ -21,7 +21,7 @@ struct RecipeStepEditView: View {
             
             TextField(String(localized: .textBlockText), text: $model.text, axis: .vertical)
                 .accessibilityIdentifier(A11y.text)
-                .padding(12)
+                .padding(RecipeStyles.Padding.mulilineText)
                 .background(
                     RoundedRectangle(
                         cornerRadius: RecipeStyles.Radius.medium

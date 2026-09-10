@@ -19,6 +19,11 @@ public struct RecipeListScreen: View {
             .onDisappear {
                 viewModel.onDisappear()
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(.addRecipe, action: viewModel.onAddItem)
+                }
+            }
     }
     
     @ViewBuilder

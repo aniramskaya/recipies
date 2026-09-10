@@ -33,7 +33,7 @@ struct IngredientEditView<Handle: View>: View {
 
             TextField(String(localized: .quantityAndName), text: $ingredient.name)
                 .accessibilityIdentifier(A11y.textField)
-                .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 10))
+                .padding(RecipeStyles.Padding.singleLineText)
                 .background(
                     RoundedRectangle(cornerRadius: RecipeStyles.Radius.small)
                         .fill(RecipeUIKitAssets.Color.fieldBackground)

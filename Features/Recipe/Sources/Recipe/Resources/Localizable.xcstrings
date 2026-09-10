@@ -126,9 +126,6 @@
         }
       }
     },
-    "Description" : {
-
-    },
     "IngredientsHint" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -219,7 +216,7 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Quantity and name"
           }
         },
@@ -227,6 +224,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Количество и название"
+          }
+        }
+      }
+    },
+    "recipeDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General description*"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Несколько слов о рецепте в общем*"
+          }
+        }
+      }
+    },
+    "recipeName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recipe name*"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название рецепта*"
           }
         }
       }
@@ -305,13 +336,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your text (required)"
+            "value" : "Your text*"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ваш текст (обязательно)"
+            "value" : "Ваш текст*"
           }
         }
       }
@@ -321,30 +352,20 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Header (optional)"
+            "state" : "translated",
+            "value" : "Header"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Заголовок (необязательно)"
+            "value" : "Заголовок"
           }
         }
       }
     },
     "Изменить" : {
 
-    },
-    "Название рецепта" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recipe title"
-          }
-        }
-      }
     },
     "Список покупок (%lld)" : {
 

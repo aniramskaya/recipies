@@ -17,14 +17,14 @@ struct TextBlockEditView: View {
             TextField(String(localized: .textBlockTitle), text: $model.title)
                 .font(.title2).bold()
                 .accessibilityIdentifier(A11y.title)
-                .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 10))
+                .padding(RecipeStyles.Padding.singleLineText)
                 .background(
                     RoundedRectangle(cornerRadius: RecipeStyles.Radius.small)
                         .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
             TextField(String(localized: .textBlockText), text: $model.text, axis: .vertical)
                 .accessibilityIdentifier(A11y.text)
-                .padding(12)
+                .padding(RecipeStyles.Padding.mulilineText)
                 .background(
                     RoundedRectangle(
                         cornerRadius: RecipeStyles.Radius.medium
