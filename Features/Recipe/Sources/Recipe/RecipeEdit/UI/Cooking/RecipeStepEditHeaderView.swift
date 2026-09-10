@@ -21,10 +21,12 @@ struct RecipeStepEditHeaderView: View {
                         .font(.headline)
                         .foregroundStyle(.white)
                         .accessibilityIdentifier(A11y.step)
+                        .accessibilityHidden(true)
                 }
             
             TextField(String(localized: .textBlockTitle), text: $title)
                 .font(.headline).bold()
+                .accessibilityLabel(.cookingStepHeader(step: step, name: ""))
                 .accessibilityIdentifier(A11y.title)
                 .padding(EdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 10))
                 .background(
@@ -32,7 +34,6 @@ struct RecipeStepEditHeaderView: View {
                         .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
         }
-        .accessibilityLabel(.cookingStepHeader(step: step, name: title))
         .accessibilityIdentifier(A11y.component)
     }
 }

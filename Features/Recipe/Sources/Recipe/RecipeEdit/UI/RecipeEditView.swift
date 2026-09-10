@@ -23,36 +23,36 @@ struct RecipeEditView: View {
                 Divider()
                 TextBlockOptionalEditView(model: $dataModel.topTextBlock)
                 Divider()
+                RecipeCookingEditView(steps: $dataModel.steps)
+                Divider()
                 TextBlockOptionalEditView(model: $dataModel.bottomTextBlock)
             }
         }
+        .scrollDismissesKeyboard(.interactively)
     }
 }
 
 #Preview("Заполненная форма") {
-    let dataModel = RecipeDraftModel(
+    @Previewable @State var dataModel = RecipeDraftModel(
         id: UUID(),
         title: "Котлета по-киевски",
         description: "Котлеты по-киевски – любимое многими блюдо, которое не все берутся приготовить. Не стоит опасаться, что что-то не выйдет. Вооружившись этим рецептом, у вас непременно получатся аккуратные, а главное – вкусные котлеты из нежнейшего куриного мяса с восхитительным ароматом сливочного масла и зелени.",
         ingredients: [
-            .init(id: UUID(), name: "850 г куриного филе"),
-            .init(id: UUID(), name: "180 г сливочного масла (размягчённое)"),
-            .init(id: UUID(), name: "100 г муки"),
-            .init(id: UUID(), name: "200 г панировочных сухарей")
+            IngredientDraftModel(id: UUID(), name: "850 г куриного филе"),
+            IngredientDraftModel(id: UUID(), name: "180 г сливочного масла (размягчённое)"),
+            IngredientDraftModel(id: UUID(), name: "100 г муки"),
+            IngredientDraftModel(id: UUID(), name: "200 г панировочных сухарей")
         ],
-        topTextBlock: .init(title: "Title", text: "Маринуйте курицу не менее часа, лучше — ночь в холодильнике. Обжаривайте небольшими порциями, чтобы кусочки подрумянились."),
+        topTextBlock: TextBlockDraftModel(title: "Title", text: "Маринуйте курицу не менее часа, лучше — ночь в холодильнике. Обжаривайте небольшими порциями, чтобы кусочки подрумянились."),
+        steps: [
+            RecipeStepDraftModel(
+                id: UUID(),
+                title: "Приготовление",
+                imageSource: nil,
+                text: "Маринуйте курицу не менее часа, лучше — ночь в холодильнике. Обжаривайте небольшими порциями, чтобы кусочки подрумянились."),
+        ],
         bottomTextBlock: nil
     )
 
-    return RecipeEditViewPreviewWrapper(
-        dataModel: dataModel
-    )
-}
-
-private struct RecipeEditViewPreviewWrapper: View {
-    @State var dataModel: RecipeDraftModel
-    
-    var body: some View {
-        RecipeEditView(dataModel: dataModel)
-    }
+    return RecipeEditView(dataModel: dataModel)
 }

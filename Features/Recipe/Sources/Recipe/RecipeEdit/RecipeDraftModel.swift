@@ -11,14 +11,16 @@ public final class RecipeDraftModel: Hashable {
         .init(id: UUID(), name: ""),
     ]
     var topTextBlock: TextBlockDraftModel?
+    var steps: [RecipeStepDraftModel]
     var bottomTextBlock: TextBlockDraftModel?
-
+    
     init(
         id: UUID,
         title: String,
         description: String,
         ingredients: [IngredientDraftModel],
         topTextBlock: TextBlockDraftModel?,
+        steps: [RecipeStepDraftModel],
         bottomTextBlock: TextBlockDraftModel?
     ) {
         self.id = id
@@ -26,6 +28,7 @@ public final class RecipeDraftModel: Hashable {
         self.description = description
         self.ingredients = ingredients
         self.topTextBlock = topTextBlock
+        self.steps = steps
         self.bottomTextBlock = bottomTextBlock
     }
     
