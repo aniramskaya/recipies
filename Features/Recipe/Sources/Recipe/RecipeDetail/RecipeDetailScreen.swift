@@ -16,16 +16,17 @@ final class RecipeDetailScreenModel {
     var onAppear: () -> Void = {}
     var onDisappear: () -> Void = {}
     var onRetry: () -> Void = {}
+    var onEdit: () -> Void = {}
 }
 
-public struct RecipeDetailScreen: View {
+struct RecipeDetailScreen: View {
     private var model: RecipeDetailScreenModel
 
     init(model: RecipeDetailScreenModel) {
         self.model = model
     }
 
-    public var body: some View {
+    var body: some View {
         ResourceLoadingView(
             state: model.loadingState,
             loading: {
@@ -38,6 +39,13 @@ public struct RecipeDetailScreen: View {
                 RecipeDetailView(model: viewModel)
             }
         )
+        .toolbar {
+            if case .loaded = model.loadingState {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(.recipeEdit, action: model.onEdit)
+                }
+            }
+        }
         .onAppear { model.onAppear() }
         .onDisappear { model.onDisappear() }
     }

@@ -41,5 +41,5 @@ struct TextBlockViewTests {
     }
 }
 
-private let textBlockFull = TextBlockViewModel(id: UUID(), text: "Text block text", title: "Text block title")
-private let textBlockCompact = TextBlockViewModel(id: UUID(), text: "Text block text", title: nil)
+private let textBlockFull = TextBlockViewModel(text: "Text block text", title: "Text block title")
+private let textBlockCompact = TextBlockViewModel(text: "Text block text", title: nil)

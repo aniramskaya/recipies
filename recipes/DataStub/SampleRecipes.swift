@@ -32,7 +32,7 @@ let sampleRecipes: [Recipe] = [
             RecipeStep(id: UUID(), title: "Соединяем", imageSource: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Espaguetis_carbonara.jpg/960px-Espaguetis_carbonara.jpg")!,
                        text: "Горячую пасту перекладываем к гуанчале, снимаем сковороду с огня и вливаем яично-сырный соус, быстро перемешивая. При необходимости добавляем воду от варки для нужной консистенции. Посыпаем оставшимся пекорино и перцем."),
         ],
-        bottomText: TextBlock(id: UUID(), text: "Никаких сливок! Кремовость соуса достигается исключительно яйцами, сыром и крахмалистой водой от пасты.", title: "Секрет приготовления")
+        bottomText: TextBlock(text: "Никаких сливок! Кремовость соуса достигается исключительно яйцами, сыром и крахмалистой водой от пасты.", title: "Секрет приготовления")
     ),
 
     // MARK: - 2. Суши
@@ -135,7 +135,7 @@ let sampleRecipes: [Recipe] = [
             RecipeStep(id: UUID(), title: "Формируем и выпекаем", imageSource: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Croissant-Petr_Kratochvil.jpg/960px-Croissant-Petr_Kratochvil.jpg")!,
                        text: "Раскатываем тесто в тонкий пласт, нарезаем длинные треугольники. Сворачиваем каждый от основания к вершине. Оставляем расстояться 2 часа. Смазываем яйцом и выпекаем 18–20 минут при 200 °C до золотистого цвета."),
         ],
-        bottomText: TextBlock(id: UUID(), text: "Всё масло должно быть одинаковой температуры с тестом — холодным, но пластичным. Тёплое масло потечёт и испортит слоистость.", title: "Ключевой момент")
+        bottomText: TextBlock(text: "Всё масло должно быть одинаковой температуры с тестом — холодным, но пластичным. Тёплое масло потечёт и испортит слоистость.", title: "Ключевой момент")
     ),
 
     // MARK: - 5. Паэлья
@@ -275,7 +275,7 @@ let sampleRecipes: [Recipe] = [
             RecipeStep(id: UUID(), title: "Подача в блинчиках", imageSource: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Peking_Duck%2C_2014_%2802%29.jpg/960px-Peking_Duck%2C_2014_%2802%29.jpg")!,
                        text: "На прогретый блинчик наносим немного соуса хойсин. Кладём кусочек хрустящей кожи, ломтик мяса, полоску огурца и зелёный лук. Сворачиваем рулетиком и едим руками."),
         ],
-        bottomText: TextBlock(id: UUID(), text: "Секрет хрустящей корочки — полное высыхание кожи перед запеканием. Не торопитесь: 24 часа в холодильнике дают лучший результат.", title: "Совет")
+        bottomText: TextBlock(text: "Секрет хрустящей корочки — полное высыхание кожи перед запеканием. Не торопитесь: 24 часа в холодильнике дают лучший результат.", title: "Совет")
     ),
 
     // MARK: - 9. Шакшука
@@ -451,7 +451,7 @@ let sampleRecipes: [Recipe] = [
             RecipeStep(id: UUID(), title: "Охлаждаем и подаём", imageSource: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Tiramisu_-_Raffaele_Diomede.jpg/960px-Tiramisu_-_Raffaele_Diomede.jpg")!,
                        text: "Покрываем оставшимся кремом, разравниваем. Обильно посыпаем какао через сито. Убираем в холодильник минимум на 4 часа, лучше на ночь. Нарезаем и подаём."),
         ],
-        bottomText: TextBlock(id: UUID(), text: "Не замачивайте савоярди надолго — 1–2 секунды достаточно. Слишком влажное печенье сделает тирамису водянистым.", title: "Важно")
+        bottomText: TextBlock(text: "Не замачивайте савоярди надолго — 1–2 секунды достаточно. Слишком влажное печенье сделает тирамису водянистым.", title: "Важно")
     ),
 
     // MARK: - 14. Пицца Маргарита

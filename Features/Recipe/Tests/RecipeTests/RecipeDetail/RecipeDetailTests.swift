@@ -25,12 +25,12 @@ struct RecipeDetailTests {
                 .init(isOn: false, name: "700 г куриных бёдер"),
                 .init(isOn: false, name: "120 г натурального йогурта"),
             ]),
-            topText: .init(id: .init(), text: "Маринуйте курицу не менее часа", title: "Советы"),
+            topText: .init(text: "Маринуйте курицу не менее часа", title: "Советы"),
             steps: [
                 .init(id: .init(), title: "Маринование", imageSource: nil, text: "Нарежьте курицу на кусочки"),
                 .init(id: .init(), title: "Обжарка", imageSource: nil, text: "Обжаривайте до румяной корочки"),
             ],
-            bottomText: .init(id: .init(), text: "Подавайте горячим с рисом", title: nil),
+            bottomText: .init(text: "Подавайте горячим с рисом", title: nil),
             onShare: {}
         )
 

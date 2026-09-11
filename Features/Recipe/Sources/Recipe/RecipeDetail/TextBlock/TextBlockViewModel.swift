@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct TextBlockViewModel: Identifiable {
-    let id: UUID
+struct TextBlockViewModel {
     let text: String
     let title: String?
 }

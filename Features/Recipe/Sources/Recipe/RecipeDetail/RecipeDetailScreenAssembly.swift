@@ -11,16 +11,21 @@ import RecipeUIKit
 
 public enum RecipeDetailScreenAssembly {
     @MainActor
-    public static func compose(loader: any RecipeDetailLoader) -> some View {
-        composeInternal(loader: loader).0
+    static func compose(
+        loader: any RecipeDetailLoader,
+        onEdit: @escaping (RecipeDraftModel) -> Void = { _ in }
+    ) -> some View {
+        composeInternal(loader: loader, onEdit: onEdit).0
     }
 
     @MainActor
     static func composeInternal(
-        loader: any RecipeDetailLoader
+        loader: any RecipeDetailLoader,
+        onEdit: @escaping (RecipeDraftModel) -> Void = { _ in }
     ) -> (RecipeDetailScreen, [AnyObject]) {
         let loadingScenario = BasicLoadingScenario(loader: loader.load)
         let model = RecipeDetailScreenModel()
+        var recipe: Recipe?
 
         var loadingTask: Task<Void, Never>? = nil
         let load = { [weak model] in
@@ -31,6 +36,9 @@ public enum RecipeDetailScreenAssembly {
                 for await state in stream {
                     guard let model else { return }
                     setLoadingState(state, viewModel: model)
+                    if case let .loaded(data) = state {
+                        recipe = data
+                    }
                 }
             }
         }
@@ -38,6 +46,10 @@ public enum RecipeDetailScreenAssembly {
         model.onAppear = load
         model.onDisappear = { loadingTask?.cancel() }
         model.onRetry = load
+        model.onEdit = {
+            guard let recipe else { return }
+            onEdit(recipe.asDraftModel())
+        }
 
         let screen = RecipeDetailScreen(model: model)
         return (screen, [loadingScenario, model])
@@ -60,6 +72,22 @@ public enum RecipeDetailScreenAssembly {
 }
 
 private extension Recipe {
+    @MainActor
+    func asDraftModel() -> RecipeDraftModel {
+        RecipeDraftModel(
+            id: id,
+            title: title,
+            description: description ?? "",
+            ingredients: ingredients.map { IngredientDraftModel(id: UUID(), name: $0.name) },
+            // TODO: разобраться тут с опциональностью. Возможно убрать опционалы из TextBlock
+            topTextBlock: topText != nil ? .init(title: topText?.title ?? "", text: topText?.text ?? "") : nil,
+            steps: steps.map { RecipeStepDraftModel(id: $0.id, title: $0.title, imageSource: $0.imageSource, text: $0.text) },
+            bottomTextBlock: bottomText != nil ? .init(title: bottomText?.title ?? "", text: bottomText?.text ?? "") : nil,
+        )
+    }
+}
+
+private extension Recipe {
     func asDetailViewModel() -> RecipeDetailViewModel {
         RecipeDetailViewModel(
             imageSource: .remote(imageSource),
@@ -70,7 +98,7 @@ private extension Recipe {
             ingredients: IngredientListModel(
                 items: ingredients.map { IngredientModel(isOn: $0.isOn, name: $0.name) }
             ),
-            topText: topText.map { TextBlockViewModel(id: $0.id, text: $0.text, title: $0.title) },
+            topText: topText.map { TextBlockViewModel(text: $0.text, title: $0.title) },
             steps: steps.map {
                 RecipeStepViewModel(
                     id: $0.id,
@@ -79,7 +107,7 @@ private extension Recipe {
                     text: $0.text
                 )
             },
-            bottomText: bottomText.map { TextBlockViewModel(id: $0.id, text: $0.text, title: $0.title) },
+            bottomText: bottomText.map { TextBlockViewModel(text: $0.text, title: $0.title) },
             onShare: {}
         )
     }

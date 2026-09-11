@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Recipe",
-    defaultLocalization: "ru",
+    defaultLocalization: "en",
     platforms: [.iOS(.v17), .macOS(.v15)],
     products: [
         .library(
