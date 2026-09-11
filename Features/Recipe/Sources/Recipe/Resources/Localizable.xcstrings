@@ -245,6 +245,23 @@
         }
       }
     },
+    "recipeEdit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Edit"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить"
+          }
+        }
+      }
+    },
     "recipeName" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -364,7 +381,10 @@
         }
       }
     },
-    "Изменить" : {
+    "Отменить" : {
+
+    },
+    "Сохранить" : {
 
     },
     "Список покупок (%lld)" : {

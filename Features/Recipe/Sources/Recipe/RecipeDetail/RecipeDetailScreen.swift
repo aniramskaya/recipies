@@ -42,7 +42,7 @@ public struct RecipeDetailScreen: View {
         .toolbar {
             if case .loaded = model.loadingState {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Изменить", action: model.onEdit)
+                    Button(.recipeEdit, action: model.onEdit)
                 }
             }
         }

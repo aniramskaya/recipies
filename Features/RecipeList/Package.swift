@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "RecipeList",
-    defaultLocalization: "ru",
+    defaultLocalization: "en",
     platforms: [.iOS(.v17), .macOS(.v15)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.

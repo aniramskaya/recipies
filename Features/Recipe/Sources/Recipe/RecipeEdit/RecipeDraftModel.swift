@@ -3,8 +3,8 @@ import SwiftUI
 
 @MainActor
 @Observable
-public final class RecipeDraftModel: Hashable {
-    let id: UUID
+public final class RecipeDraftModel: Hashable, Identifiable {
+    public let id: UUID
     var title: String = ""
     var description: String = ""
     var ingredients: [IngredientDraftModel] = [

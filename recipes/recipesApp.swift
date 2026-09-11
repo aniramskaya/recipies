@@ -12,30 +12,24 @@ import Recipe
 @main
 struct recipesApp: App {
     @State private var path = NavigationPath()
+    @State private var isAddingRecipe = false
     
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $path) {
-                RecipeListAssembly
-                    .composeWithAsyncServices(
-                        loader: RecipeListLoaderStub(),
-                        onSelectItem: {
-                            path.append(RecipeId(id: $0))
-                        },
-                        onAddItem: {
-                            path.append(RecipeDraftModel.empty)
-                        }
-                    )
-                    .navigationTitle("Мои рецепты")
-                    .navigationDestination(for: RecipeId.self) { id in
-                        RecipeDetailScreenAssembly.compose(
-                            loader: RecipeLoader(id: id.id),
-                            onEdit: { path.append($0) }
+                WithAddRecipeSheet {
+                    RecipeListAssembly
+                        .composeWithAsyncServices(
+                            loader: RecipeListLoaderStub(),
+                            onSelectItem: {
+                                path.append(RecipeId(id: $0))
+                            },
                         )
-                    }
-                    .navigationDestination(for: RecipeDraftModel.self) { draft in
-                        RecipeEditScreenAssembly.compose(model: draft)
-                    }
+
+                }
+                .navigationDestination(for: RecipeId.self) { id in
+                    RecipeDetailWithEditScreenAssembly.compose(loader: RecipeLoader(id: id.id))
+                }
             }
         }
     }
