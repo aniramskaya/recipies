@@ -11,7 +11,7 @@ import RecipeUIKit
 
 public enum RecipeDetailScreenAssembly {
     @MainActor
-    public static func compose(
+    static func compose(
         loader: any RecipeDetailLoader,
         onEdit: @escaping (RecipeDraftModel) -> Void = { _ in }
     ) -> some View {

@@ -5,6 +5,7 @@
 //  Created by Марина Чемезова on 15.01.2026.
 //
 
+import SwiftUI
 import Foundation
 import Scenarios
 
@@ -13,7 +14,7 @@ public enum RecipeListAssembly {
     public static func composeWithAsyncServices(
         loader: RecipeListLoader,
         onSelectItem: @escaping @MainActor (_: UUID) -> Void,
-    ) -> RecipeListScreen {
+    ) -> some View {
         return composeInternalWithAsyncServices(
             loader: loader,
             onSelectItem: onSelectItem,

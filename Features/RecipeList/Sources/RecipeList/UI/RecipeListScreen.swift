@@ -8,10 +8,10 @@
 import SwiftUI
 import RecipeUIKit
 
-public struct RecipeListScreen: View {
+struct RecipeListScreen: View {
     var viewModel: RecipeListScreenViewModel
     
-    public var body: some View {
+    var body: some View {
         content
             .onAppear {
                 viewModel.onAppear()

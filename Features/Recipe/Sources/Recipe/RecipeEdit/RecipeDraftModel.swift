@@ -3,8 +3,8 @@ import SwiftUI
 
 @MainActor
 @Observable
-public final class RecipeDraftModel: Hashable, Identifiable {
-    public let id: UUID
+final class RecipeDraftModel: Hashable, Identifiable {
+    let id: UUID
     var title: String = ""
     var description: String = ""
     var ingredients: [IngredientDraftModel] = [
@@ -32,17 +32,17 @@ public final class RecipeDraftModel: Hashable, Identifiable {
         self.bottomTextBlock = bottomTextBlock
     }
     
-    nonisolated public func hash(into hasher: inout Hasher) {
+    nonisolated func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 
-    nonisolated public static func ==(lhs: RecipeDraftModel, rhs: RecipeDraftModel) -> Bool {
+    nonisolated static func ==(lhs: RecipeDraftModel, rhs: RecipeDraftModel) -> Bool {
         lhs.id == rhs.id
     }
 }
 
 
-public extension RecipeDraftModel {
+extension RecipeDraftModel {
     static var empty: RecipeDraftModel {
         .init(
             id: UUID(),

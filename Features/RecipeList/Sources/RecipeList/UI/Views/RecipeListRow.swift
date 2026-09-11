@@ -44,7 +44,7 @@ struct RecipeListRow: View {
     }
 }
 
-public enum RecipeListRowA11y {
+enum RecipeListRowA11y {
     static let component = "RecipeListRow"
     static let name = "RecipeName"
     static let cookingTime = "CookingTime"

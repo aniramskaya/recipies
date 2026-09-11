@@ -96,8 +96,7 @@ struct RecipeListAsyncAcceptanceTests {
         let server = AsyncServer()
         let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
             loader: server,
-            onSelectItem: onSelectItem ?? { _ in },
-            onAddItem: {}
+            onSelectItem: onSelectItem ?? { _ in }
         )
         let feature = RecipeListFeature(view: screen)
         leakChecker.track([server, feature])

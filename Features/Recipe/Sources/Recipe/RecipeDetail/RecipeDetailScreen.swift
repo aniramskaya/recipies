@@ -19,14 +19,14 @@ final class RecipeDetailScreenModel {
     var onEdit: () -> Void = {}
 }
 
-public struct RecipeDetailScreen: View {
+struct RecipeDetailScreen: View {
     private var model: RecipeDetailScreenModel
 
     init(model: RecipeDetailScreenModel) {
         self.model = model
     }
 
-    public var body: some View {
+    var body: some View {
         ResourceLoadingView(
             state: model.loadingState,
             loading: {
