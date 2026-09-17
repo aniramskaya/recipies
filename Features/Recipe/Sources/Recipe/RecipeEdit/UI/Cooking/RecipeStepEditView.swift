@@ -51,6 +51,7 @@ enum RecipeStepEditViewA11y {
     static let header = "RecipeStepEditViewHeader"
     static let photoPlaceholder = "RecipeStepEditViewPhotoPlaceholder"
     static let text = "RecipeStepEditViewText"
+    static let textErrorLabel = "RecipeStepEditViewTextErrorLabel"
     static let removeButton = "RecipeStepEditViewRemoveButton"
 }
 

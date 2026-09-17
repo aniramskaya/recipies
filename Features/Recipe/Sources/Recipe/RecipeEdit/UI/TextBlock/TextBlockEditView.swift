@@ -48,6 +48,7 @@ enum TextBlockEditViewA11y {
     static let component = "TextBlock"
     static let title = "TextBlockTitle"
     static let text = "TextBlockText"
+    static let textErrorLabel = "TextBlockTextErrorLabel"
     static let removeButton = "TextBlockRemoveButton"
 }
 

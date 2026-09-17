@@ -29,6 +29,7 @@ private typealias A11y = DescriptionEditViewA11y
 
 enum DescriptionEditViewA11y {
     static let field = "DescriptionEditViewField"
+    static let errorLabel = "DescriptionEditViewErrorLabel"
 }
 
 #Preview {

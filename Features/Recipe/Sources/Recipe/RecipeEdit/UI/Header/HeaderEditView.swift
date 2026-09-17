@@ -35,6 +35,7 @@ private typealias A11y = HeaderEditViewA11y
 enum HeaderEditViewA11y {
     static let component = "HeaderEditView"
     static let textField = "HeaderEditView.TextField"
+    static let errorLabel = "HeaderEditView.ErrorLabel"
 }
 
 #Preview {
