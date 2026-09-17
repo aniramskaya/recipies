@@ -50,4 +50,9 @@ extension InspectableView where View == ViewType.View<TextBlockEditView> {
         }
         try btn.tap()
     }
+
+    @MainActor
+    func assertIsDisplayingTextValidationError(sourceLocation: SourceLocation = #_sourceLocation) throws {
+        // TODO:
+    }
 }

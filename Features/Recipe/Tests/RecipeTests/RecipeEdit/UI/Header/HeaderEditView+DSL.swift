@@ -24,4 +24,9 @@ extension InspectableView where View == ViewType.View<HeaderEditView> {
         }
         try tf.setInput(text)
     }
+
+    @MainActor
+    func assertIsDisplayingValidationError(sourceLocation: SourceLocation = #_sourceLocation) throws {
+        // TODO:
+    }
 }
