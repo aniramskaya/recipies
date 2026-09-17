@@ -53,12 +53,14 @@ public enum RecipeEditScreenAssembly {
             getModel: { [weak viewModel] in
                 await MainActor.run { viewModel?.model }
             },
-            validate: { [weak viewModel] draftModel in
+            validate: { draftModel in
                 await MainActor.run { () -> Result<RecipeData, FormValidationError> in
                     let errors = RecipeFormValidator().validate(draftModel)
                     guard errors.isEmpty else {
-                        viewModel?.fieldErrors = errors
-                        return .failure(FormValidationError(form: nil, field: nil))
+                        let fieldErrors = Dictionary(
+                            uniqueKeysWithValues: errors.map { ($0.fieldKey, "") }
+                        )
+                        return .failure(FormValidationError(form: nil, field: fieldErrors))
                     }
                     return .success(draftModel.toRecipeData())
                 }
@@ -76,8 +78,9 @@ public enum RecipeEditScreenAssembly {
                     switch state {
                     case .validating:
                         viewModel.isSaving = true
-                    case .validationFailed:
+                    case .validationFailed(let error):
                         viewModel.isSaving = false
+                        viewModel.fieldErrors = RecipeFormValidationError.errors(from: error.field ?? [:])
                     case .saving:
                         viewModel.isSaving = true
                     case .saved:
