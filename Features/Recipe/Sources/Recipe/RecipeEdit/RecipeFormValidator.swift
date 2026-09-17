@@ -10,19 +10,19 @@ struct RecipeFormValidator {
         var errors: [String: String] = [:]
 
         if model.title.trimmingCharacters(in: .whitespaces).isEmpty {
-            errors["title"] = ""
+            errors["title"] = "titleValidationError"
         }
         if model.description.trimmingCharacters(in: .whitespaces).isEmpty {
-            errors["description"] = ""
+            errors["description"] = "descriptionValidationError"
         }
         for step in model.steps where step.text.trimmingCharacters(in: .whitespaces).isEmpty {
-            errors["step/\(step.id.uuidString)/text"] = ""
+            errors["step/\(step.id.uuidString)/text"] = "stepTextValidationError"
         }
         if let top = model.topTextBlock, top.text.trimmingCharacters(in: .whitespaces).isEmpty {
-            errors["topTextBlock/text"] = ""
+            errors["topTextBlock/text"] = "textBlockTextValidationError"
         }
         if let bottom = model.bottomTextBlock, bottom.text.trimmingCharacters(in: .whitespaces).isEmpty {
-            errors["bottomTextBlock/text"] = ""
+            errors["bottomTextBlock/text"] = "textBlockTextValidationError"
         }
 
         return errors

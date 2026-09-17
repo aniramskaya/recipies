@@ -23,8 +23,8 @@ struct HeaderEditView: View {
                 )
                 .font(.title)
                 .bold()
-            if fieldErrors["title"] != nil {
-                Text(.titleValidationError)
+            if let key = fieldErrors["title"] {
+                Text(LocalizedStringKey(key))
                     .font(.caption)
                     .foregroundStyle(.red)
                     .accessibilityIdentifier(A11y.errorLabel)

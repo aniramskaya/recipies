@@ -29,8 +29,8 @@ struct RecipeStepEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if fieldErrors["step/\(model.id.uuidString)/text"] != nil {
-                Text(.stepTextValidationError)
+            if let key = fieldErrors["step/\(model.id.uuidString)/text"] {
+                Text(LocalizedStringKey(key))
                     .font(.caption)
                     .foregroundStyle(.red)
                     .accessibilityIdentifier(A11y.textErrorLabel)

@@ -23,8 +23,8 @@ struct DescriptionEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if fieldErrors["description"] != nil {
-                Text(.descriptionValidationError)
+            if let key = fieldErrors["description"] {
+                Text(LocalizedStringKey(key))
                     .font(.caption)
                     .foregroundStyle(.red)
                     .accessibilityIdentifier(A11y.errorLabel)

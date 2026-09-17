@@ -33,8 +33,8 @@ struct TextBlockEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if fieldErrors["\(fieldKeyBase)/text"] != nil {
-                Text(.textBlockTextValidationError)
+            if let key = fieldErrors["\(fieldKeyBase)/text"] {
+                Text(LocalizedStringKey(key))
                     .font(.caption)
                     .foregroundStyle(.red)
                     .accessibilityIdentifier(A11y.textErrorLabel)
