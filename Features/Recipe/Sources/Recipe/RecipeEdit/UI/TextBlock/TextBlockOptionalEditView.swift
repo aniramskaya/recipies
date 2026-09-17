@@ -9,11 +9,13 @@ import SwiftUI
 
 struct TextBlockOptionalEditView: View {
     @Binding var model: TextBlockDraftModel?
+    var showsTextError: Bool = false
 
     var body: some View {
         if model != nil {
             TextBlockEditView(
                 model: $model.withDefault(.init(title: "", text: "")),
+                showsTextError: showsTextError,
                 onRemove: { model = nil }
             )
         } else {

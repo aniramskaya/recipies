@@ -14,6 +14,9 @@ final class RecipeEditModalFeature {
 
     init(view: RecipeEditScreenModal) {
         self.view = view
+        view.viewModel.onSaveCompleted = { [weak self] in
+            self?.onSaveCallCount += 1
+        }
     }
 
     func start() {
@@ -25,7 +28,10 @@ final class RecipeEditModalFeature {
     }
 
     func userTapsSave(sourceLocation: SourceLocation = #_sourceLocation) throws {
-        // TODO:
+        let button = try view.inspect()
+            .find(viewWithAccessibilityIdentifier: RecipeEditA11y.saveButton)
+            .button()
+        try button.tap()
     }
 
     func ensureIsSaving(sourceLocation: SourceLocation = #_sourceLocation) async throws {
@@ -38,7 +44,12 @@ final class RecipeEditModalFeature {
     }
 
     func ensureFormIsDisabled(sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        // TODO:
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let _ = try self.view.inspect()
+                .find(viewWithAccessibilityIdentifier: RecipeEditA11y.savingOverlay)
+            return true
+        }
     }
 
     func ensureIsDisplayingTitleValidationError(sourceLocation: SourceLocation = #_sourceLocation) async throws {

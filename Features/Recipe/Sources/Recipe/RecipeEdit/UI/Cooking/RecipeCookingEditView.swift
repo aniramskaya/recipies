@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RecipeCookingEditView: View {
     @Binding var steps: [RecipeStepDraftModel]
-    
+    var stepTextErrors: Set<UUID> = []
+
     var body: some View {
         VStack(alignment: .leading, spacing: RecipeStyles.Spacing.medium) {
             Text(.cookingBlockHeader)
@@ -19,9 +20,12 @@ struct RecipeCookingEditView: View {
                 .accessibilityHeading(.h1)
 
             ForEach(Array($steps.enumerated()), id: \.element.id) { index, item in
-                RecipeStepEditView(step: UInt(index + 1), model: item) {
-                    remove(at: index)
-                }
+                RecipeStepEditView(
+                    step: UInt(index + 1),
+                    model: item,
+                    showsTextError: stepTextErrors.contains(item.wrappedValue.id),
+                    onRemove: { remove(at: index) }
+                )
             }
             
             AddElementButton(

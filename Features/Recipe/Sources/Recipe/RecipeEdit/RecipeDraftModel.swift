@@ -3,7 +3,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-final class RecipeDraftModel: Hashable, Identifiable {
+final class RecipeDraftModel: Hashable, Identifiable, @unchecked Sendable {
     let id: UUID
     var title: String = ""
     var description: String = ""
@@ -43,6 +43,18 @@ final class RecipeDraftModel: Hashable, Identifiable {
 
 
 extension RecipeDraftModel {
+    func toRecipeData() -> RecipeData {
+        RecipeData(
+            id: id,
+            title: title,
+            description: description,
+            ingredients: ingredients.map(\.name),
+            topTextBlock: topTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) },
+            steps: steps.map { RecipeStep(id: $0.id, title: $0.title, imageSource: $0.imageSource, text: $0.text) },
+            bottomTextBlock: bottomTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) }
+        )
+    }
+
     static var empty: RecipeDraftModel {
         .init(
             id: UUID(),

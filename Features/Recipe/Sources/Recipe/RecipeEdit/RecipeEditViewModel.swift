@@ -1,0 +1,19 @@
+import Foundation
+
+@MainActor
+@Observable
+final class RecipeEditViewModel {
+    let model: RecipeDraftModel
+
+    var onCancelTapped: () -> Void = {}
+    var onSubmitTapped: () -> Void = {}
+    var onSaveCompleted: () -> Void = {}
+
+    var isSaving = false
+    var fieldErrors: [RecipeFormValidationError] = []
+    var saveError: Error? = nil
+
+    init(model: RecipeDraftModel) {
+        self.model = model
+    }
+}

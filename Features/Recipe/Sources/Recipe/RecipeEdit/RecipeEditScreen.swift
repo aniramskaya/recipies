@@ -16,22 +16,30 @@ struct RecipeEditScreen: View {
 }
 
 struct RecipeEditScreenModal: View {
-    private(set) var model: RecipeDraftModel
-    let onCancel: () -> Void
-    let onSave: () -> Void
+    let viewModel: RecipeEditViewModel
 
     var body: some View {
         NavigationStack {
-            RecipeEditView(dataModel: model)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Отменить", action: onCancel)
-                    }
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Сохранить", action: onSave)
+            RecipeEditView(
+                dataModel: viewModel.model,
+                fieldErrors: viewModel.fieldErrors,
+                isSaving: viewModel.isSaving
+            )
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Отменить", action: viewModel.onCancelTapped)
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    if viewModel.isSaving {
+                        ProgressView()
+                            .accessibilityIdentifier(RecipeEditA11y.savingIndicator)
+                    } else {
+                        Button("Сохранить", action: viewModel.onSubmitTapped)
+                            .accessibilityIdentifier(RecipeEditA11y.saveButton)
                     }
                 }
+            }
         }
     }
 }

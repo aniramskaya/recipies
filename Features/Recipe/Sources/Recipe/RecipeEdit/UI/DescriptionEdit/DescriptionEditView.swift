@@ -10,18 +10,27 @@ import RecipeUIKit
 
 struct DescriptionEditView: View {
     @Binding var text: String
-    
+    var showsError: Bool = false
+
     var body: some View {
-        TextField(String(localized: .recipeDescription), text: $text, axis: .vertical)
-            .accessibilityIdentifier(A11y.field)
-            .padding(RecipeStyles.Padding.mulilineText)
-            .background(
-                RoundedRectangle(
-                    cornerRadius: RecipeStyles.Radius.medium
+        VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
+            TextField(String(localized: .recipeDescription), text: $text, axis: .vertical)
+                .accessibilityIdentifier(A11y.field)
+                .padding(RecipeStyles.Padding.mulilineText)
+                .background(
+                    RoundedRectangle(
+                        cornerRadius: RecipeStyles.Radius.medium
+                    )
+                    .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-                .fill(RecipeUIKitAssets.Color.fieldBackground)
-            )
-            .padding(RecipeStyles.Padding.default)
+            if showsError {
+                Text(.descriptionValidationError)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+                    .accessibilityIdentifier(A11y.errorLabel)
+            }
+        }
+        .padding(RecipeStyles.Padding.default)
     }
 }
 

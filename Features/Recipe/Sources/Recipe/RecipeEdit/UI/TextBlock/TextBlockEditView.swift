@@ -10,10 +10,11 @@ import RecipeUIKit
 
 struct TextBlockEditView: View {
     @Binding var model: TextBlockDraftModel
+    var showsTextError: Bool = false
     let onRemove: () -> Void
-    
+
     var body: some View {
-        VStack(spacing: RecipeStyles.Spacing.small) {
+        VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
             TextField(String(localized: .textBlockTitle), text: $model.title)
                 .font(.title2).bold()
                 .accessibilityIdentifier(A11y.title)
@@ -31,7 +32,12 @@ struct TextBlockEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            
+            if showsTextError {
+                Text(.textBlockTextValidationError)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+                    .accessibilityIdentifier(A11y.textErrorLabel)
+            }
             RemoveElementButton(
                 action: onRemove,
                 title: .textBlockRemove,

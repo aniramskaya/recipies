@@ -10,22 +10,27 @@ import RecipeUIKit
 
 struct HeaderEditView: View {
     @Binding var value: String
-    
+    var showsError: Bool = false
+
     var body: some View {
-        HStack {
+        VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
             TextField(String(localized: .recipeName), text: $value)
-            .accessibilityIdentifier(A11y.textField)
-            .padding(RecipeStyles.Padding.mulilineText)
-            .background(
-                RoundedRectangle(cornerRadius: RecipeStyles.Radius.medium)
-                    .fill(RecipeUIKitAssets.Color.fieldBackground)
-            )
-            .font(.title)
-            .bold()
+                .accessibilityIdentifier(A11y.textField)
+                .padding(RecipeStyles.Padding.mulilineText)
+                .background(
+                    RoundedRectangle(cornerRadius: RecipeStyles.Radius.medium)
+                        .fill(RecipeUIKitAssets.Color.fieldBackground)
+                )
+                .font(.title)
+                .bold()
+            if showsError {
+                Text(.titleValidationError)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+                    .accessibilityIdentifier(A11y.errorLabel)
+            }
         }
-        .padding(
-            RecipeStyles.Padding.default
-        )
+        .padding(RecipeStyles.Padding.default)
         .accessibilityIdentifier(A11y.component)
     }
 }

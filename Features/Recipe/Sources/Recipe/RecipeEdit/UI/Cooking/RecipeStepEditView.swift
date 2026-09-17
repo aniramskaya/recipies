@@ -11,14 +11,15 @@ import RecipeUIKit
 struct RecipeStepEditView: View {
     let step: UInt
     @Binding var model: RecipeStepDraftModel
+    var showsTextError: Bool = false
     let onRemove: () -> Void
 
     var body: some View {
-        VStack(spacing: RecipeStyles.Spacing.small) {
+        VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
             RecipeStepEditHeaderView(step: step, title: $model.title)
-            
+
             PhotoPlaceholder(onAdd: {})
-            
+
             TextField(String(localized: .textBlockText), text: $model.text, axis: .vertical)
                 .accessibilityIdentifier(A11y.text)
                 .padding(RecipeStyles.Padding.mulilineText)
@@ -28,7 +29,12 @@ struct RecipeStepEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            
+            if showsTextError {
+                Text(.stepTextValidationError)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+                    .accessibilityIdentifier(A11y.textErrorLabel)
+            }
             RemoveElementButton(
                 action: onRemove,
                 title: .cookingStepRemove,
