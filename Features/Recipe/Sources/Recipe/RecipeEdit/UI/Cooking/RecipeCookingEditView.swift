@@ -23,7 +23,7 @@ struct RecipeCookingEditView: View {
                 RecipeStepEditView(
                     step: UInt(index + 1),
                     model: item,
-                    showsTextError: fieldErrors["step/\(item.wrappedValue.id.uuidString)/text"] != nil,
+                    fieldErrors: fieldErrors,
                     onRemove: { remove(at: index) }
                 )
             }

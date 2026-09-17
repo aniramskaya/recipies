@@ -11,7 +11,7 @@ import RecipeUIKit
 struct RecipeStepEditView: View {
     let step: UInt
     @Binding var model: RecipeStepDraftModel
-    var showsTextError: Bool = false
+    var fieldErrors: [String: String] = [:]
     let onRemove: () -> Void
 
     var body: some View {
@@ -29,7 +29,7 @@ struct RecipeStepEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if showsTextError {
+            if fieldErrors["step/\(model.id.uuidString)/text"] != nil {
                 Text(.stepTextValidationError)
                     .font(.caption)
                     .foregroundStyle(.red)

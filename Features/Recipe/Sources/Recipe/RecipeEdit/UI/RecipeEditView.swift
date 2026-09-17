@@ -19,19 +19,20 @@ struct RecipeEditView: View {
             VStack(alignment: .leading, spacing: 0) {
                 HeaderEditView(
                     value: $dataModel.title,
-                    showsError: fieldErrors["title"] != nil
+                    fieldErrors: fieldErrors
                 )
                 Divider()
                 DescriptionEditView(
                     text: $dataModel.description,
-                    showsError: fieldErrors["description"] != nil
+                    fieldErrors: fieldErrors
                 )
                 Divider()
                 IngredientsEditBlock(items: $dataModel.ingredients)
                 Divider()
                 TextBlockOptionalEditView(
                     model: $dataModel.topTextBlock,
-                    showsTextError: fieldErrors["topTextBlock/text"] != nil
+                    fieldErrors: fieldErrors,
+                    fieldKeyBase: "topTextBlock"
                 )
                 Divider()
                 RecipeCookingEditView(
@@ -41,7 +42,8 @@ struct RecipeEditView: View {
                 Divider()
                 TextBlockOptionalEditView(
                     model: $dataModel.bottomTextBlock,
-                    showsTextError: fieldErrors["bottomTextBlock/text"] != nil
+                    fieldErrors: fieldErrors,
+                    fieldKeyBase: "bottomTextBlock"
                 )
             }
         }

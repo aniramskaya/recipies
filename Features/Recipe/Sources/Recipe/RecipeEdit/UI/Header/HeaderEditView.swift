@@ -10,7 +10,7 @@ import RecipeUIKit
 
 struct HeaderEditView: View {
     @Binding var value: String
-    var showsError: Bool = false
+    var fieldErrors: [String: String] = [:]
 
     var body: some View {
         VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
@@ -23,7 +23,7 @@ struct HeaderEditView: View {
                 )
                 .font(.title)
                 .bold()
-            if showsError {
+            if fieldErrors["title"] != nil {
                 Text(.titleValidationError)
                     .font(.caption)
                     .foregroundStyle(.red)

@@ -10,7 +10,8 @@ import RecipeUIKit
 
 struct TextBlockEditView: View {
     @Binding var model: TextBlockDraftModel
-    var showsTextError: Bool = false
+    var fieldErrors: [String: String] = [:]
+    var fieldKeyBase: String = ""
     let onRemove: () -> Void
 
     var body: some View {
@@ -32,7 +33,7 @@ struct TextBlockEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if showsTextError {
+            if fieldErrors["\(fieldKeyBase)/text"] != nil {
                 Text(.textBlockTextValidationError)
                     .font(.caption)
                     .foregroundStyle(.red)

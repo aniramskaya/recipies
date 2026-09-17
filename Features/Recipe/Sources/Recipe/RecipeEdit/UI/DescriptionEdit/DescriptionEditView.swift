@@ -10,7 +10,7 @@ import RecipeUIKit
 
 struct DescriptionEditView: View {
     @Binding var text: String
-    var showsError: Bool = false
+    var fieldErrors: [String: String] = [:]
 
     var body: some View {
         VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
@@ -23,7 +23,7 @@ struct DescriptionEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if showsError {
+            if fieldErrors["description"] != nil {
                 Text(.descriptionValidationError)
                     .font(.caption)
                     .foregroundStyle(.red)
