@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RecipeCookingEditView: View {
     @Binding var steps: [RecipeStepDraftModel]
-    var stepTextErrors: Set<UUID> = []
+    var fieldErrors: [String: String] = [:]
 
     var body: some View {
         VStack(alignment: .leading, spacing: RecipeStyles.Spacing.medium) {
@@ -23,7 +23,7 @@ struct RecipeCookingEditView: View {
                 RecipeStepEditView(
                     step: UInt(index + 1),
                     model: item,
-                    showsTextError: stepTextErrors.contains(item.wrappedValue.id),
+                    showsTextError: fieldErrors["step/\(item.wrappedValue.id.uuidString)/text"] != nil,
                     onRemove: { remove(at: index) }
                 )
             }

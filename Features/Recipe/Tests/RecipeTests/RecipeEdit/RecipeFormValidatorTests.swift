@@ -33,7 +33,8 @@ struct RecipeFormValidatorTests {
         let step = RecipeStepDraftModel(id: UUID(), title: "Шаг 1", imageSource: nil, text: "")
         let model = makeModel(steps: [step])
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == [.emptyStepText(id: step.id)])
+        #expect(errors["step/\(step.id.uuidString)/text"] != nil)
+        #expect(errors.count == 1)
         #expect(model.steps.count == 1)
     }
 
@@ -42,13 +43,13 @@ struct RecipeFormValidatorTests {
     @Test func topTextBlockWithEmptyTextReturnsError() {
         let model = makeModel(topTextBlock: TextBlockDraftModel(title: "Введение", text: ""))
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == [.emptyTopTextBlockText])
+        #expect(errors == ["topTextBlock/text": ""])
     }
 
     @Test func bottomTextBlockWithEmptyTextReturnsError() {
         let model = makeModel(bottomTextBlock: TextBlockDraftModel(title: "Заключение", text: ""))
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == [.emptyBottomTextBlockText])
+        #expect(errors == ["bottomTextBlock/text": ""])
     }
 
     // MARK: - Title and description
@@ -56,13 +57,13 @@ struct RecipeFormValidatorTests {
     @Test func emptyTitleReturnsError() {
         let model = makeModel(title: "")
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == [.emptyTitle])
+        #expect(errors == ["title": ""])
     }
 
     @Test func emptyDescriptionReturnsError() {
         let model = makeModel(description: "")
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == [.emptyDescription])
+        #expect(errors == ["description": ""])
     }
 
     // MARK: - Multiple errors
@@ -70,8 +71,8 @@ struct RecipeFormValidatorTests {
     @Test func emptyTitleAndDescriptionBothReturnErrors() {
         let model = makeModel(title: "", description: "")
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors.contains(.emptyTitle))
-        #expect(errors.contains(.emptyDescription))
+        #expect(errors["title"] != nil)
+        #expect(errors["description"] != nil)
     }
 
     // MARK: - makeModel

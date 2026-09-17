@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RecipeEditView: View {
     @Bindable var dataModel: RecipeDraftModel
-    var fieldErrors: [RecipeFormValidationError] = []
+    var fieldErrors: [String: String] = [:]
     var isSaving: Bool = false
 
     var body: some View {
@@ -19,32 +19,29 @@ struct RecipeEditView: View {
             VStack(alignment: .leading, spacing: 0) {
                 HeaderEditView(
                     value: $dataModel.title,
-                    showsError: fieldErrors.contains(.emptyTitle)
+                    showsError: fieldErrors["title"] != nil
                 )
                 Divider()
                 DescriptionEditView(
                     text: $dataModel.description,
-                    showsError: fieldErrors.contains(.emptyDescription)
+                    showsError: fieldErrors["description"] != nil
                 )
                 Divider()
                 IngredientsEditBlock(items: $dataModel.ingredients)
                 Divider()
                 TextBlockOptionalEditView(
                     model: $dataModel.topTextBlock,
-                    showsTextError: fieldErrors.contains(.emptyTopTextBlockText)
+                    showsTextError: fieldErrors["topTextBlock/text"] != nil
                 )
                 Divider()
                 RecipeCookingEditView(
                     steps: $dataModel.steps,
-                    stepTextErrors: Set(fieldErrors.compactMap { error -> UUID? in
-                        if case .emptyStepText(let id) = error { return id }
-                        return nil
-                    })
+                    fieldErrors: fieldErrors
                 )
                 Divider()
                 TextBlockOptionalEditView(
                     model: $dataModel.bottomTextBlock,
-                    showsTextError: fieldErrors.contains(.emptyBottomTextBlockText)
+                    showsTextError: fieldErrors["bottomTextBlock/text"] != nil
                 )
             }
         }

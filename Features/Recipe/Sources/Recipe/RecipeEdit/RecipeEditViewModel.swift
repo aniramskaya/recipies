@@ -10,7 +10,7 @@ final class RecipeEditViewModel {
     var onSaveCompleted: () -> Void = {}
 
     var isSaving = false
-    var fieldErrors: [RecipeFormValidationError] = []
+    var fieldErrors: [String: String] = [:]
     var saveError: Error? = nil
 
     init(model: RecipeDraftModel) {
