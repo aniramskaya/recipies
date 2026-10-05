@@ -44,55 +44,54 @@ public enum RecipeEditScreenAssembly {
     ) -> (RecipeEditScreenModal, AnyObject) {
         let viewModel = RecipeEditViewModel(model: model)
 
-        final class TaskHolder {
-            var task: Task<Void, Never>?
-        }
-        let taskHolder = TaskHolder()
+        var savingTask: Task<Void, Never>?
 
         let scenario = FormSubmitScenario<RecipeDraftModel, RecipeData>(
             getModel: { [weak viewModel] in
-                await MainActor.run { viewModel?.model }
+                viewModel?.model
             },
             validate: { draftModel in
-                await MainActor.run { () -> Result<RecipeData, FormValidationError> in
-                    let errors = RecipeFormValidator().validate(draftModel)
-                    guard errors.isEmpty else {
-                        return .failure(FormValidationError(form: nil, field: errors))
-                    }
-                    return .success(draftModel.toRecipeData())
-                }
+                let errors = await RecipeFormValidator.validate(draftModel)
+                return errors.isEmpty ?
+                    await .success(draftModel.toRecipeData()) :
+                    .failure(FormValidationError(form: nil, field: errors))
             },
             save: { try await saver.save($0) }
         )
 
         viewModel.onSubmitTapped = { [weak viewModel] in
             guard let viewModel, !viewModel.isSaving else { return }
-            viewModel.fieldErrors = [:]
-            taskHolder.task?.cancel()
-            taskHolder.task = Task { [weak viewModel] in
+            viewModel.resetErrors()
+            savingTask?.cancel()
+            savingTask = Task { [weak viewModel] in
                 for await state in scenario.start() {
-                    guard let viewModel else { return }
-                    switch state {
-                    case .validating:
-                        viewModel.isSaving = true
-                    case .validationFailed(let error):
-                        viewModel.isSaving = false
-                        viewModel.fieldErrors = error.field ?? [:]
-                    case .saving:
-                        viewModel.isSaving = true
-                    case .saved:
-                        viewModel.isSaving = false
-                        viewModel.onSaveCompleted()
-                    case .savingFailed(let error):
-                        viewModel.isSaving = false
-                        viewModel.saveError = error
-                    case .idle:
-                        break
-                    }
+                    updateModel(viewModel, with: state)
                 }
             }
         }
 
         return (RecipeEditScreenModal(viewModel: viewModel), viewModel)
+    }
+    
+    @MainActor
+    static func updateModel(_ model: RecipeEditViewModel?, with state: FormSubmitState) {
+        guard let model else { return }
+        switch state {
+        case .validating:
+            model.isSaving = true
+        case .validationFailed(let error):
+            model.isSaving = false
+            model.fieldErrors = error.field ?? [:]
+        case .saving:
+            model.isSaving = true
+        case .saved:
+            model.isSaving = false
+            model.onSaveCompleted()
+        case .savingFailed(let error):
+            model.isSaving = false
+            model.saveError = error
+        case .idle:
+            break
+        }
     }
 }

@@ -12,6 +12,11 @@ final class RecipeEditViewModel {
     var isSaving = false
     var fieldErrors: [String: String] = [:]
     var saveError: Error? = nil
+    
+    func resetErrors() {
+        fieldErrors.removeAll()
+        saveError = nil
+    }
 
     init(model: RecipeDraftModel) {
         self.model = model

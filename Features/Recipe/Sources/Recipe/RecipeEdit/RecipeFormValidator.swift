@@ -1,6 +1,6 @@
 @MainActor
 struct RecipeFormValidator {
-    func validate(_ model: RecipeDraftModel) -> [String: String] {
+    static func validate(_ model: RecipeDraftModel) -> [String: String] {
         model.ingredients.removeAll { $0.name.trimmingCharacters(in: .whitespaces).isEmpty }
         model.steps.removeAll {
             $0.title.trimmingCharacters(in: .whitespaces).isEmpty &&
