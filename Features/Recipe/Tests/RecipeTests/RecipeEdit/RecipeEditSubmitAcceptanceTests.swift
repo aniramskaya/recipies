@@ -43,7 +43,9 @@ struct RecipeEditSubmitAcceptanceTests {
 
             try feature.userTapsSave()
 
-            try await feature.ensureIsDisplayingTitleValidationError()
+            try await feature.ensureIsDisplayingTitleValidationError(
+                String(localized: .titleRequiredValidationError)
+            )
             try feature.ensureSaveWasNotAttempted(saver: saver)
 
             feature.finish()
@@ -58,7 +60,9 @@ struct RecipeEditSubmitAcceptanceTests {
 
             try feature.userTapsSave()
 
-            try await feature.ensureIsDisplayingDescriptionValidationError()
+            try await feature.ensureIsDisplayingDescriptionValidationError(
+                String(localized: .descriptionRequiredValidationError)
+            )
             try feature.ensureSaveWasNotAttempted(saver: saver)
 
             feature.finish()
@@ -74,7 +78,10 @@ struct RecipeEditSubmitAcceptanceTests {
 
             try feature.userTapsSave()
 
-            try await feature.ensureIsDisplayingTextBlockValidationError()
+            try await feature.ensureIsDisplayingTextBlockValidationError(
+                String(localized: .textBlockTextRequiredValidationError),
+                at: 0
+            )
             try feature.ensureSaveWasNotAttempted(saver: saver)
 
             feature.finish()
@@ -90,7 +97,10 @@ struct RecipeEditSubmitAcceptanceTests {
 
             try feature.userTapsSave()
 
-            try await feature.ensureIsDisplayingStepTextValidationError()
+            try await feature.ensureIsDisplayingStepTextValidationError(
+                String(localized: .stepTextRequiredValidationError),
+                at: 0
+            )
             try feature.ensureSaveWasNotAttempted(saver: saver)
 
             feature.finish()

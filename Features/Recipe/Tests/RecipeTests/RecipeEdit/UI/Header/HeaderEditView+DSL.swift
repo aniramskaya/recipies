@@ -26,7 +26,12 @@ extension InspectableView where View == ViewType.View<HeaderEditView> {
     }
 
     @MainActor
-    func assertIsDisplayingValidationError(sourceLocation: SourceLocation = #_sourceLocation) throws {
-        // TODO:
+    func assertIsDisplayingValidationError(_ text: String, sourceLocation: SourceLocation = #_sourceLocation) throws {
+        guard let errorLabel = try? self.find(viewWithAccessibilityIdentifier: HeaderEditViewA11y.errorLabel).text().string() else {
+            throw sourceLocation.error("HeaderEditView is expected to display validation error, but didnt")
+        }
+        guard text == errorLabel else {
+            throw sourceLocation.error("HeaderEditView is expected to display error: '\(text)', found '\(errorLabel)' instead")
+        }
     }
 }

@@ -16,6 +16,20 @@ struct TextBlockEditViewTests {
             try view.assertIsDisplaying(title: "Соус", text: "Смешать все ингредиенты")
         }
     }
+    
+    @MainActor
+    @Test("Displays validation error")
+    func displaysValidationError() throws {
+        let sut = TextBlockEditView(
+            model: .constant(TextBlockDraftModel(title: "Соус", text: "Смешать все ингредиенты")),
+            fieldErrors: ["/text": "Text validation error"],
+            onRemove: {}
+        )
+        let view = try sut.inspect().find(TextBlockEditView.self)
+        #expect(throws: Never.self) {
+            try view.assertIsDisplayingTextValidationError("Text validation error")
+        }
+    }
 
     @MainActor
     @Test("Typing updates title in binding")

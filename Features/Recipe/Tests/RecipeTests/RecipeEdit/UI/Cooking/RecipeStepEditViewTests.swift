@@ -17,6 +17,22 @@ struct RecipeStepEditViewTests {
             try view.assertIsDisplaying(title: "Маринование", text: "Нарезать и смешать")
         }
     }
+    
+    @MainActor
+    @Test("Displays validation errors")
+    func displaysValidationError() throws {
+        let modelId = UUID()
+        let sut = RecipeStepEditView(
+            step: 1,
+            model: .constant(RecipeStepDraftModel(id: modelId, title: "Маринование", imageSource: nil, text: "Нарезать и смешать")),
+            fieldErrors: ["step/\(modelId.uuidString)/text" : String(localized: .stepTextRequiredValidationError)],
+            onRemove: {}
+        )
+        let view = try sut.inspect().find(RecipeStepEditView.self)
+        #expect(throws: Never.self) {
+            try view.assertIsDisplaying(title: "Маринование", text: "Нарезать и смешать")
+        }
+    }
 
     @MainActor
     @Test("Typing updates title in binding")

@@ -15,6 +15,16 @@ struct DescriptionEditViewTests {
     }
 
     @MainActor
+    @Test("Displays validation error")
+    func displaysValidationError() throws {
+        let sut = DescriptionEditView(text: .constant("Нежные кусочки курицы"), fieldErrors: ["description": "Description validation error"])
+        let view = try sut.inspect().find(DescriptionEditView.self)
+        #expect(throws: Never.self) {
+            try view.assertIsDisplayingValidationError("Description validation error")
+        }
+    }
+
+    @MainActor
     @Test("Typing updates binding")
     func typingUpdatesBinding() throws {
         var capturedText = ""

@@ -126,6 +126,23 @@
         }
       }
     },
+    "descriptionRequiredValidationError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Description is required"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описание обязательно"
+          }
+        }
+      }
+    },
     "IngredientsHint" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -313,24 +330,7 @@
         }
       }
     },
-    "descriptionValidationError" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Description is required"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Описание обязательно"
-          }
-        }
-      }
-    },
-    "stepTextValidationError" : {
+    "stepTextRequiredValidationError" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -343,40 +343,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Напишите что нужно сделать в этом шаге или удалите его"
-          }
-        }
-      }
-    },
-    "textBlockTextValidationError" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add text or remove this block"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Введите текст или удалите этот блок"
-          }
-        }
-      }
-    },
-    "titleValidationError" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name is required"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Название обязательно"
           }
         }
       }
@@ -432,6 +398,23 @@
         }
       }
     },
+    "textBlockTextRequiredValidationError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add text or remove this block"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите текст или удалите этот блок"
+          }
+        }
+      }
+    },
     "textBlockTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -445,6 +428,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заголовок"
+          }
+        }
+      }
+    },
+    "titleRequiredValidationError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name is required"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название обязательно"
           }
         }
       }

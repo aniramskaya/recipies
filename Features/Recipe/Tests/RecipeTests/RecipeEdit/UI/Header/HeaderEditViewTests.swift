@@ -25,6 +25,16 @@ struct HeaderEditViewTests {
     }
 
     @MainActor
+    @Test("Displays validation error")
+    func displaysValidationError() throws {
+        let sut = HeaderEditView(value: .constant(""), fieldErrors: ["title": "Title error"])
+        let view = try sut.inspect().find(HeaderEditView.self)
+        #expect(throws: Never.self) {
+            try view.assertIsDisplayingValidationError("Title error")
+        }
+    }
+
+    @MainActor
     @Test("Updates binding when user types")
     func updatesBindingOnInput() throws {
         var capturedValue = ""

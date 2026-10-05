@@ -33,7 +33,7 @@ struct RecipeFormValidatorTests {
         let step = RecipeStepDraftModel(id: UUID(), title: "Шаг 1", imageSource: nil, text: "")
         let model = makeModel(steps: [step])
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == ["step/\(step.id.uuidString)/text": "stepTextValidationError"])
+        #expect(errors == ["step/\(step.id.uuidString)/text": String(localized: .stepTextRequiredValidationError)])
         #expect(model.steps.count == 1)
     }
 
@@ -42,13 +42,17 @@ struct RecipeFormValidatorTests {
     @Test func topTextBlockWithEmptyTextReturnsError() {
         let model = makeModel(topTextBlock: TextBlockDraftModel(title: "Введение", text: ""))
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == ["topTextBlock/text": "textBlockTextValidationError"])
+        #expect(errors == [
+            "topTextBlock/text": String(localized: .textBlockTextRequiredValidationError)
+        ])
     }
 
     @Test func bottomTextBlockWithEmptyTextReturnsError() {
         let model = makeModel(bottomTextBlock: TextBlockDraftModel(title: "Заключение", text: ""))
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == ["bottomTextBlock/text": "textBlockTextValidationError"])
+        #expect(errors == [
+            "bottomTextBlock/text": String(localized: .textBlockTextRequiredValidationError)
+        ])
     }
 
     // MARK: - Title and description
@@ -56,13 +60,17 @@ struct RecipeFormValidatorTests {
     @Test func emptyTitleReturnsError() {
         let model = makeModel(title: "")
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == ["title": "titleValidationError"])
+        #expect(errors == [
+            "title": String(localized: .titleRequiredValidationError)
+        ])
     }
 
     @Test func emptyDescriptionReturnsError() {
         let model = makeModel(description: "")
         let errors = RecipeFormValidator().validate(model)
-        #expect(errors == ["description": "descriptionValidationError"])
+        #expect(errors == [
+            "description": String(localized: .descriptionRequiredValidationError)
+        ])
     }
 
     // MARK: - Multiple errors

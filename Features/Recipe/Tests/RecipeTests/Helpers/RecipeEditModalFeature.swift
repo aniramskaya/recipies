@@ -52,38 +52,47 @@ final class RecipeEditModalFeature {
         }
     }
 
-    func ensureIsDisplayingTitleValidationError(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+    func ensureIsDisplayingTitleValidationError(_ text: String, sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
-            guard let self else { return false }
-            let _ = try self.view.inspect()
-                .find(viewWithAccessibilityIdentifier: HeaderEditViewA11y.errorLabel)
+            let view = try self?.view.inspect().find(HeaderEditView.self)
+            try view?.assertIsDisplayingValidationError(text)
             return true
         }
     }
 
-    func ensureIsDisplayingDescriptionValidationError(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+    func ensureIsDisplayingDescriptionValidationError(_ text: String, sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
-            guard let self else { return false }
-            let _ = try self.view.inspect()
-                .find(viewWithAccessibilityIdentifier: DescriptionEditViewA11y.errorLabel)
+            let view = try self?.view.inspect().find(DescriptionEditView.self)
+            try view?.assertIsDisplayingValidationError(text)
             return true
         }
     }
 
-    func ensureIsDisplayingTextBlockValidationError(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+    func ensureIsDisplayingTextBlockValidationError(_ text: String, at index: Int, sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
-            guard let self else { return false }
-            let _ = try self.view.inspect()
-                .find(viewWithAccessibilityIdentifier: TextBlockEditViewA11y.textErrorLabel)
+            guard let views = try self?.view.inspect().findAll(TextBlockEditView.self) else {
+                throw sourceLocation.error("Failed to find any TextBlockEditView")
+            }
+            guard views.indices.contains(index) else {
+                throw sourceLocation.error("Failed to find TextBlockEditView at \(index)")
+            }
+            try views[index].assertIsDisplayingTextValidationError(text)
             return true
         }
     }
 
-    func ensureIsDisplayingStepTextValidationError(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+    func ensureIsDisplayingStepTextValidationError(_ text: String, at index: Int, sourceLocation: SourceLocation = #_sourceLocation) async throws {
         await waitFor(sourceLocation: sourceLocation) { [weak self] in
-            guard let self else { return false }
-            let _ = try self.view.inspect()
-                .find(viewWithAccessibilityIdentifier: RecipeStepEditViewA11y.textErrorLabel)
+            guard let views = try self?.view.inspect().findAll(RecipeStepEditView.self) else {
+                throw sourceLocation.error("Failed to find any RecipeStepEditView")
+            }
+            guard views.indices.contains(index) else {
+                throw sourceLocation.error("Failed to find RecipeStepEditView at \(index)")
+            }
+            try views[index].assertIsDisplayingTextValidationError(text)
+//            guard let self else { return false }
+//            let _ = try self.view.inspect()
+//                .find(viewWithAccessibilityIdentifier: RecipeStepEditViewA11y.textErrorLabel)
             return true
         }
     }
