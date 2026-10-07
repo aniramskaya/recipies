@@ -22,9 +22,9 @@ struct WithAddRecipeSheet<Content: View>: View {
                 }
             }
             .sheet(isPresented: $isAddingRecipe) {
-                RecipeEditScreenAssembly.composeNewRecipe {
+                RecipeEditScreenAssembly.composeNewRecipe(saver: RecipeSaverStub()) {
                     isAddingRecipe = false
-                } onSave: {
+                } onSaveCompleted: {
                     isAddingRecipe = false
                 }
 

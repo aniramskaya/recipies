@@ -11,13 +11,15 @@ public enum RecipeDetailWithEditScreenAssembly {
     @MainActor
     public static func compose(
         loader: any RecipeDetailLoader,
+        saver: any RecipeSaver
     ) -> some View {
-        RecipeDetailWithEdit(loader: loader)
+        RecipeDetailWithEdit(loader: loader, saver: saver)
     }
 }
 
 private struct RecipeDetailWithEdit: View {
     let loader: any RecipeDetailLoader
+    let saver: any RecipeSaver
     @State var draft: RecipeDraftModel? = nil
 
     var body: some View {
@@ -26,8 +28,9 @@ private struct RecipeDetailWithEdit: View {
             .sheet(item: $draft) { item in
                 RecipeEditScreenAssembly.composeModal(
                     model: item,
+                    saver: saver,
                     onCancel: { draft = nil },
-                    onSave: { draft = nil }
+                    onSaveCompleted: { draft = nil }
                 )
             }
     }

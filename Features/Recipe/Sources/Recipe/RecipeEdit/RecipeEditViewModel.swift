@@ -7,17 +7,11 @@ final class RecipeEditViewModel {
 
     var onCancelTapped: () -> Void = {}
     var onSubmitTapped: () -> Void = {}
-    var onSaveCompleted: () -> Void = {}
 
     var isSaving = false
     var fieldErrors: [String: String] = [:]
     var saveError: Error? = nil
     
-    func resetErrors() {
-        fieldErrors.removeAll()
-        saveError = nil
-    }
-
     init(model: RecipeDraftModel) {
         self.model = model
     }
