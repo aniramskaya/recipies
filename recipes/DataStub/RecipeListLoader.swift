@@ -21,15 +21,16 @@ actor RecipeListLoaderStub: RecipeListLoader {
 
 private extension Array where Element == Recipe {
     var listItems: [RecipeListItem] {
-        self.map({ item in
-            RecipeListItem(
+        self.compactMap { item in
+            guard let imageUrl = item.imageSource else { return nil }
+            return RecipeListItem(
                 id: item.id,
                 name: item.title,
                 cookingTimeMins: item.cookingTimeMins,
-                imageUrl: item.imageSource,
+                imageUrl: imageUrl,
                 rating: nil,
                 complexity: item.complexity
             )
-        })
+        }
     }
 }
