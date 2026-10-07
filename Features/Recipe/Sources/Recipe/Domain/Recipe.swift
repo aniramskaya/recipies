@@ -38,11 +38,11 @@ public struct Ingredient: Sendable {
 
 public struct RecipeStep: Sendable, Identifiable {
     public let id: UUID
-    public let title: String
+    public let title: String?
     public let imageSource: URL?
     public let text: String
     
-    public init(id: UUID, title: String, imageSource: URL?, text: String) {
+    public init(id: UUID, title: String?, imageSource: URL?, text: String) {
         self.id = id
         self.title = title
         self.imageSource = imageSource

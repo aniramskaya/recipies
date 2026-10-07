@@ -16,6 +16,13 @@ import TestHelpers
 @MainActor
 struct RecipeEditSubmitAcceptanceTests {
     let leakChecker = LeakChecker()
+    
+    @MainActor
+    private class CallCountBox {
+        var value = 0
+    }
+    
+    private let onSaveCallCount = CallCountBox()
 
     @Test func successfulSaveScenario() async throws {
         do {
@@ -29,7 +36,9 @@ struct RecipeEditSubmitAcceptanceTests {
 
             try await saver.respond(with: .success(()), at: 0)
 
-            try await feature.ensureOnSaveWasCalled()
+            await waitFor {
+                onSaveCallCount.value == 1
+            }
 
             feature.finish()
         }
@@ -126,7 +135,14 @@ struct RecipeEditSubmitAcceptanceTests {
             steps: steps,
             bottomTextBlock: nil
         )
-        let (screen, leakable) = RecipeEditScreenAssembly.composeInternal(model: model, saver: saver)
+        let (screen, leakable) = RecipeEditScreenAssembly.composeInternal(
+            model: model,
+            saver: saver,
+            onCancel: {},
+            onSaveCompleted: {
+                onSaveCallCount.value += 1
+            }
+        )
         let feature = RecipeEditModalFeature(view: screen)
         leakChecker.track(saver)
         leakChecker.track(leakable)

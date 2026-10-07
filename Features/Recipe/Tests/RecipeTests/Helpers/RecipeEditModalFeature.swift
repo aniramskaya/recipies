@@ -9,14 +9,10 @@ import TestHelpers
 final class RecipeEditModalFeature {
     let view: RecipeEditScreenModal
     private var host: (UIWindow, UIViewController)?
-    private(set) var onSaveCallCount = 0
     private(set) var onCancelCallCount = 0
 
     init(view: RecipeEditScreenModal) {
         self.view = view
-        view.viewModel.onSaveCompleted = { [weak self] in
-            self?.onSaveCallCount += 1
-        }
     }
 
     func start() {
@@ -90,22 +86,7 @@ final class RecipeEditModalFeature {
                 throw sourceLocation.error("Failed to find RecipeStepEditView at \(index)")
             }
             try views[index].assertIsDisplayingTextValidationError(text)
-//            guard let self else { return false }
-//            let _ = try self.view.inspect()
-//                .find(viewWithAccessibilityIdentifier: RecipeStepEditViewA11y.textErrorLabel)
             return true
-        }
-    }
-
-    func ensureOnSaveWasCalled(sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        await waitFor(sourceLocation: sourceLocation) { [weak self] in
-            (self?.onSaveCallCount ?? 0) > 0
-        }
-    }
-
-    func ensureOnSaveWasNotCalled(sourceLocation: SourceLocation = #_sourceLocation) throws {
-        guard onSaveCallCount == 0 else {
-            throw sourceLocation.error("Expected onSave not to be called, but it was called \(onSaveCallCount) time(s)")
         }
     }
 

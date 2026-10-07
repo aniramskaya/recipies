@@ -81,7 +81,7 @@ private extension Recipe {
             ingredients: ingredients.map { IngredientDraftModel(id: UUID(), name: $0.name) },
             // TODO: разобраться тут с опциональностью. Возможно убрать опционалы из TextBlock
             topTextBlock: topText != nil ? .init(title: topText?.title ?? "", text: topText?.text ?? "") : nil,
-            steps: steps.map { RecipeStepDraftModel(id: $0.id, title: $0.title, imageSource: $0.imageSource, text: $0.text) },
+            steps: steps.map { RecipeStepDraftModel(id: $0.id, title: $0.title ?? "", imageSource: $0.imageSource, text: $0.text) },
             bottomTextBlock: bottomText != nil ? .init(title: bottomText?.title ?? "", text: bottomText?.text ?? "") : nil,
         )
     }
@@ -102,7 +102,7 @@ private extension Recipe {
             steps: steps.map {
                 RecipeStepViewModel(
                     id: $0.id,
-                    title: $0.title,
+                    title: $0.title ?? "",
                     imageSource: $0.imageSource.map { .remote($0) },
                     text: $0.text
                 )
