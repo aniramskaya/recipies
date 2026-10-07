@@ -1,4 +1,5 @@
 import Foundation
+import RecipeTypes
 
 public final class RecipeSaverStub: RecipeSaver {
     public init() {}

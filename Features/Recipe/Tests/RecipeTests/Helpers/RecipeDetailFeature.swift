@@ -4,6 +4,7 @@ import UIKit
 import ViewInspector
 import RecipeUIKit
 import TestHelpers
+import RecipeTypes
 @testable import Recipe
 
 @MainActor

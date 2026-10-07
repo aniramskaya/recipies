@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RecipeTypes
 
 public protocol RecipeDetailLoader: AnyObject, Sendable {
     func load() async throws -> Recipe

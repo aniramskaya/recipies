@@ -16,6 +16,7 @@
 		CC7E37562F975E2500BF78F2 /* RecipeList in Frameworks */ = {isa = PBXBuildFile; productRef = CC7E37552F975E2500BF78F2 /* RecipeList */; };
 		CC90AB342F9F686200ABED7F /* RecipeList in Frameworks */ = {isa = PBXBuildFile; productRef = CC90AB332F9F686200ABED7F /* RecipeList */; };
 		CC90AB372F9F687100ABED7F /* Recipe in Frameworks */ = {isa = PBXBuildFile; productRef = CC90AB362F9F687100ABED7F /* Recipe */; };
+		CCABE464307652080080BB7F /* RecipeTypes in Frameworks */ = {isa = PBXBuildFile; productRef = CCABE463307652080080BB7F /* RecipeTypes */; };
 		CCF62CBD2ADA82BB009537A9 /* recipesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */; };
 		CCF62CC12ADA82CB009537A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCF62CC02ADA82CB009537A9 /* Assets.xcassets */; };
 		CCF62CC42ADA82CB009537A9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CCF62CC32ADA82CB009537A9 /* Preview Assets.xcassets */; };
@@ -64,6 +65,7 @@
 				CC90AB372F9F687100ABED7F /* Recipe in Frameworks */,
 				CC90AB342F9F686200ABED7F /* RecipeList in Frameworks */,
 				CC7E37562F975E2500BF78F2 /* RecipeList in Frameworks */,
+				CCABE464307652080080BB7F /* RecipeTypes in Frameworks */,
 				CC7E37532F975E0900BF78F2 /* RecipeUIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,6 +612,10 @@
 		CC90AB362F9F687100ABED7F /* Recipe */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Recipe;
+		};
+		CCABE463307652080080BB7F /* RecipeTypes */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RecipeTypes;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

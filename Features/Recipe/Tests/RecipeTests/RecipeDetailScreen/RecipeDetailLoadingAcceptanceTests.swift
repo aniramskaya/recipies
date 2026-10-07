@@ -10,6 +10,7 @@ import Foundation
 import Testing
 import UIKit
 import TestHelpers
+import RecipeTypes
 @testable import Recipe
 
 @MainActor

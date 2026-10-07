@@ -8,6 +8,7 @@
 import SwiftUI
 import Scenarios
 import RecipeUIKit
+import RecipeTypes
 
 public enum RecipeDetailScreenAssembly {
     @MainActor

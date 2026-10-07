@@ -1,4 +1,5 @@
 import Foundation
+import RecipeTypes
 @testable import Recipe
 
 @MainActor

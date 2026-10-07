@@ -15,6 +15,9 @@
       location = "group:Shared"
       name = "Shared">
       <FileRef
+         location = "group:RecipeTypes">
+      </FileRef>
+      <FileRef
          location = "group:Scenarios">
       </FileRef>
       <FileRef

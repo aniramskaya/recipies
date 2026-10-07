@@ -7,6 +7,7 @@
 
 import RecipeList
 import Recipe
+import RecipeTypes
 import Foundation
 
 actor RecipeListLoaderStub: RecipeListLoader {

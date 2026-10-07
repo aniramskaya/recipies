@@ -16,6 +16,7 @@ let package = Package(
         .package(path: "../../Shared/RecipeUIKit"),
         .package(path: "../../Shared/Scenarios"),
         .package(path: "../../Shared/TestHelpers"),
+        .package(path: "../../Shared/RecipeTypes"),
         .package(url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.0.0"),
         .package(url: "https://github.com/nalexn/ViewInspector.git", from: "0.10.0"),
     ],
@@ -25,6 +26,7 @@ let package = Package(
             dependencies: [
                 .product(name: "RecipeUIKit", package: "RecipeUIKit"),
                 .product(name: "Scenarios", package: "Scenarios"),
+                .product(name: "RecipeTypes", package: "RecipeTypes"),
             ]
         ),
         .testTarget(

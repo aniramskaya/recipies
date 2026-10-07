@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RecipeTypes
 
 final class RecipeDetailLoaderStub: RecipeDetailLoader {
     func load() async throws -> Recipe {

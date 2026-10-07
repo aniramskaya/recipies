@@ -7,6 +7,8 @@
 
 import Foundation
 import Recipe
+import RecipeTypes
+
 
 actor RecipeLoader: RecipeDetailLoader {
     let id: UUID

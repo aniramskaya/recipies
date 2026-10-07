@@ -1,5 +1,6 @@
 import Foundation
 import Recipe
+import RecipeTypes
 
 // swiftlint:disable line_length
 let sampleRecipes: [Recipe] = [

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Scenarios
+import RecipeTypes
 
 public enum RecipeEditScreenAssembly {
     @MainActor
