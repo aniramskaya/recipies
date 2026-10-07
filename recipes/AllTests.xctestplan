@@ -13,6 +13,7 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:Shared\/RecipeUIKit",
         "identifier" : "RecipeUIKitTests",
@@ -20,6 +21,7 @@
       }
     },
     {
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:Features\/Recipe",
         "identifier" : "RecipeTests",
@@ -27,6 +29,7 @@
       }
     },
     {
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:Shared\/Flow",
         "identifier" : "FlowTests",
@@ -34,6 +37,7 @@
       }
     },
     {
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:recipies.xcodeproj",
         "identifier" : "CCF62CC82ADA82CB009537A9",
@@ -41,6 +45,7 @@
       }
     },
     {
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:Features\/RecipeList",
         "identifier" : "RecipeListTests",

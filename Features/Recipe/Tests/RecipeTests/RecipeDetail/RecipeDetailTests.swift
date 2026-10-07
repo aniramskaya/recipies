@@ -5,6 +5,7 @@
 //  Created by Марина Чемезова on 17.07.2026.
 //
 
+import Foundation
 import Testing
 import ViewInspector
 import RecipeUIKit
@@ -22,8 +23,8 @@ struct RecipeDetailTests {
             title: "Tikka Masala",
             description: "Нежные кусочки маринованной курицы",
             ingredients: IngredientListModel(items: [
-                .init(isOn: false, name: "700 г куриных бёдер"),
-                .init(isOn: false, name: "120 г натурального йогурта"),
+                .init(id: UUID(), name: "700 г куриных бёдер", isOn: false),
+                .init(id: UUID(), name: "120 г натурального йогурта", isOn: false),
             ]),
             topText: .init(text: "Маринуйте курицу не менее часа", title: "Советы"),
             steps: [
@@ -48,7 +49,7 @@ struct RecipeDetailTests {
             title: "Простой рецепт",
             description: nil,
             ingredients: IngredientListModel(items: [
-                .init(isOn: false, name: "Основной ингредиент"),
+                .init(id: UUID(), name: "Основной ингредиент", isOn: false),
             ]),
             topText: nil,
             steps: [

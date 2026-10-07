@@ -98,7 +98,7 @@ private extension Recipe {
             title: title,
             description: description,
             ingredients: IngredientListModel(
-                items: ingredients.map { IngredientModel(isOn: $0.isOn, name: $0.name) }
+                items: ingredients.map { IngredientModel(id: $0.id, name: $0.name, isOn: false) }
             ),
             topText: topText.map { TextBlockViewModel(text: $0.text, title: $0.title) },
             steps: steps.map {

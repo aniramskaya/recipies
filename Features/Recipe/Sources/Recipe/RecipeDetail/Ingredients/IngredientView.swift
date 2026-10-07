@@ -8,13 +8,15 @@
 import SwiftUI
 
 @Observable
-final class IngredientModel {
-    var isOn: Bool = false
+final class IngredientModel: Identifiable {
+    let id: UUID
     let name: String
+    var isOn: Bool = false
 
-    init(isOn: Bool, name: String) {
-        self.isOn = isOn
+    init(id: UUID, name: String, isOn: Bool) {
+        self.id = id
         self.name = name
+        self.isOn = isOn
     }
 }
 
@@ -53,6 +55,6 @@ enum IngredientViewA11y {
 }
 
 #Preview {
-    let model = IngredientModel(isOn: false, name: "Куриное филе")
+    let model = IngredientModel(id: UUID(), name: "Куриное филе", isOn: false)
     IngredientView(model: model)
 }

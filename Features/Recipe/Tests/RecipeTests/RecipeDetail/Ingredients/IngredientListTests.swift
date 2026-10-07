@@ -4,6 +4,7 @@
 //
 //  Created by Марина Чемезова on 14.07.2026.
 //
+import Foundation
 import Testing
 import ViewInspector
 @testable import Recipe
@@ -23,6 +24,6 @@ struct IngredientListTests {
 }
 
 nonisolated(unsafe) private let testItems: [IngredientModel] = [
-    IngredientModel(isOn: false, name: "Соль"),
-    IngredientModel(isOn: false, name: "Вода")
+    IngredientModel(id: UUID(), name: "Соль", isOn: false),
+    IngredientModel(id: UUID(), name: "Вода", isOn: false)
 ]

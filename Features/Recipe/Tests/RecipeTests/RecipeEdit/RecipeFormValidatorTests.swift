@@ -5,32 +5,10 @@ import Testing
 @MainActor
 struct RecipeFormValidatorTests {
 
-    // MARK: - Ingredients
-
-    @Test func emptyIngredientsAreRemovedWithoutError() {
-        let model = makeModel(ingredients: [
-            .init(id: UUID(), name: "Мука"),
-            .init(id: UUID(), name: ""),
-            .init(id: UUID(), name: "Соль"),
-        ])
-        let errors = RecipeFormValidator.validate(model)
-        #expect(errors.isEmpty)
-        #expect(model.ingredients.map(\.name) == ["Мука", "Соль"])
-    }
-
     // MARK: - Steps
 
-    @Test func stepWithEmptyTitleAndEmptyTextIsRemoved() {
-        let emptyStep = RecipeStepDraftModel(id: UUID(), title: "", imageSource: nil, text: "")
-        let filledStep = RecipeStepDraftModel(id: UUID(), title: "Шаг 1", imageSource: nil, text: "Описание")
-        let model = makeModel(steps: [filledStep, emptyStep])
-        let errors = RecipeFormValidator.validate(model)
-        #expect(errors.isEmpty)
-        #expect(model.steps.map(\.id) == [filledStep.id])
-    }
-
     @Test func stepWithTitleButEmptyTextReturnsError() {
-        let step = RecipeStepDraftModel(id: UUID(), title: "Шаг 1", imageSource: nil, text: "")
+        let step = RecipeStep(id: UUID(), title: "Шаг 1", imageSource: nil, text: "")
         let model = makeModel(steps: [step])
         let errors = RecipeFormValidator.validate(model)
         #expect(errors == ["step/\(step.id.uuidString)/text": String(localized: .stepTextRequiredValidationError)])
@@ -40,7 +18,7 @@ struct RecipeFormValidatorTests {
     // MARK: - Text blocks
 
     @Test func topTextBlockWithEmptyTextReturnsError() {
-        let model = makeModel(topTextBlock: TextBlockDraftModel(title: "Введение", text: ""))
+        let model = makeModel(topTextBlock: TextBlock(text: "", title: "Введение"))
         let errors = RecipeFormValidator.validate(model)
         #expect(errors == [
             "topTextBlock/text": String(localized: .textBlockTextRequiredValidationError)
@@ -48,7 +26,7 @@ struct RecipeFormValidatorTests {
     }
 
     @Test func bottomTextBlockWithEmptyTextReturnsError() {
-        let model = makeModel(bottomTextBlock: TextBlockDraftModel(title: "Заключение", text: ""))
+        let model = makeModel(bottomTextBlock: TextBlock(text: "", title: "Заключение"))
         let errors = RecipeFormValidator.validate(model)
         #expect(errors == [
             "bottomTextBlock/text": String(localized: .textBlockTextRequiredValidationError)
@@ -87,19 +65,19 @@ struct RecipeFormValidatorTests {
     private func makeModel(
         title: String = "Рецепт",
         description: String = "Описание",
-        ingredients: [IngredientDraftModel] = [],
-        topTextBlock: TextBlockDraftModel? = nil,
-        steps: [RecipeStepDraftModel] = [],
-        bottomTextBlock: TextBlockDraftModel? = nil
-    ) -> RecipeDraftModel {
-        RecipeDraftModel(
+        ingredients: [Ingredient] = [],
+        topTextBlock: TextBlock? = nil,
+        steps: [RecipeStep] = [],
+        bottomTextBlock: TextBlock? = nil
+    ) -> Recipe {
+        Recipe(
             id: UUID(),
             title: title,
             description: description,
             ingredients: ingredients,
-            topTextBlock: topTextBlock,
+            topText: topTextBlock,
             steps: steps,
-            bottomTextBlock: bottomTextBlock
+            bottomText: bottomTextBlock
         )
     }
 }

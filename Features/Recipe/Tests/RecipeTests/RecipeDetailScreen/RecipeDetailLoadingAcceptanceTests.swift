@@ -6,6 +6,7 @@
  3. Нет утечек памяти при прерванной загрузке
  */
 
+import Foundation
 import Testing
 import UIKit
 import TestHelpers
@@ -89,7 +90,7 @@ private func testRecipe() -> Recipe {
         complexity: 3,
         title: "Баттер Чикен",
         description: nil,
-        ingredients: [Ingredient(name: "Куриное филе")],
+        ingredients: [Ingredient(id: UUID(), name: "Куриное филе")],
         topText: nil,
         steps: [RecipeStep(id: UUID(), title: "Шаг", imageSource: nil, text: "Описание")],
         bottomText: nil

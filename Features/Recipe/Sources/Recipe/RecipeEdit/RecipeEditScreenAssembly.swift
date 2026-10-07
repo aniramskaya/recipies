@@ -55,9 +55,10 @@ public enum RecipeEditScreenAssembly {
                 viewModel?.model
             },
             validate: { draftModel in
-                let errors = await RecipeFormValidator.validate(draftModel)
+                let recipe = await draftModel.toRecipe()
+                let errors = RecipeFormValidator.validate(recipe)
                 return errors.isEmpty ?
-                    await .success(draftModel.toRecipe()) :
+                    .success(recipe) :
                     .failure(FormValidationError(form: nil, field: errors))
             },
             save: { try await saver.save($0) }

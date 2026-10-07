@@ -60,9 +60,19 @@ extension RecipeDraftModel {
             complexity: complexity,
             title: title,
             description: description.isEmpty ? nil : description,
-            ingredients: ingredients.map { Ingredient(name: $0.name) },
+            ingredients: ingredients
+                .filter { !$0.name.trimmingCharacters(in: .whitespaces).isEmpty }
+                .map { Ingredient(id: $0.id, name: $0.name) },
             topText: topTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) },
-            steps: steps.map { RecipeStep(id: $0.id, title: $0.title.isEmpty ? nil : $0.title, imageSource: $0.imageSource, text: $0.text) },
+            steps: steps
+                .filter{ !(
+                        $0.text.trimmingCharacters(in: .whitespaces).isEmpty &&
+                        $0.title.trimmingCharacters(in: .whitespaces).isEmpty
+                    )
+                }
+                .map {
+                    RecipeStep(id: $0.id, title: $0.title.isEmpty ? nil : $0.title, imageSource: $0.imageSource, text: $0.text)
+                },
             bottomText: bottomTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) }
         )
     }

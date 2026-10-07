@@ -26,12 +26,12 @@ public struct Recipe: Sendable, Identifiable {
     }
 }
 
-public struct Ingredient: Sendable {
-    public let isOn: Bool
+public struct Ingredient: Sendable, Identifiable {
+    public let id: UUID
     public let name: String
     
-    public init(isOn: Bool = false, name: String) {
-        self.isOn = isOn
+    public init(id: UUID, name: String) {
+        self.id = id
         self.name = name
     }
 }

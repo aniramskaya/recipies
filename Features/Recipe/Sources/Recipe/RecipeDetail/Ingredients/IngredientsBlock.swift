@@ -57,13 +57,13 @@ enum IngredientsBlockA11y {
 
 #Preview {
     let model = IngredientListModel(items: [
-        .init(isOn: false, name: "700 г куриных бёдер без кожи и без костей и тут длинный текст"),
-        .init(isOn: false, name: "120 г натурального йогурта"),
-        .init(isOn: false, name: "2 зубчика чеснока"),
-        .init(isOn: false, name: "1 ч.л. тёртого имбиря"),
-        .init(isOn: false, name: "1 ч.л. гарам масала"),
-        .init(isOn: false, name: "1 ч.л. куркумы"),
-        .init(isOn: false, name: "1 ч.л. паприки"),
+        .init(id: UUID(), name: "700 г куриных бёдер без кожи и без костей и тут длинный текст", isOn: false),
+        .init(id: UUID(), name: "120 г натурального йогурта", isOn: false),
+        .init(id: UUID(), name: "2 зубчика чеснока", isOn: false),
+        .init(id: UUID(), name: "1 ч.л. тёртого имбиря", isOn: false),
+        .init(id: UUID(), name: "1 ч.л. гарам масала", isOn: false),
+        .init(id: UUID(), name: "1 ч.л. куркумы", isOn: false),
+        .init(id: UUID(), name: "1 ч.л. паприки", isOn: false),
     ])
     
     IngredientsBlock(model: model, recipeTitle: "Баттер Чикен")
