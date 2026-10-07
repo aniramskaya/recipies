@@ -76,13 +76,15 @@ private extension Recipe {
     func asDraftModel() -> RecipeDraftModel {
         RecipeDraftModel(
             id: id,
+            imageSource: imageSource,
+            cookingTimeMins: cookingTimeMins,
+            complexity: complexity,
             title: title,
             description: description ?? "",
             ingredients: ingredients.map { IngredientDraftModel(id: UUID(), name: $0.name) },
-            // TODO: разобраться тут с опциональностью. Возможно убрать опционалы из TextBlock
-            topTextBlock: topText != nil ? .init(title: topText?.title ?? "", text: topText?.text ?? "") : nil,
+            topTextBlock: topText.map { .init(title: $0.title ?? "", text: $0.text) },
             steps: steps.map { RecipeStepDraftModel(id: $0.id, title: $0.title ?? "", imageSource: $0.imageSource, text: $0.text) },
-            bottomTextBlock: bottomText != nil ? .init(title: bottomText?.title ?? "", text: bottomText?.text ?? "") : nil,
+            bottomTextBlock: bottomText.map { .init(title: $0.title ?? "", text: $0.text) }
         )
     }
 }
@@ -90,7 +92,7 @@ private extension Recipe {
 private extension Recipe {
     func asDetailViewModel() -> RecipeDetailViewModel {
         RecipeDetailViewModel(
-            imageSource: .remote(imageSource),
+            imageSource: imageSource.map { .remote($0) } ?? .system("photo"),
             cookingTimeMins: cookingTimeMins,
             complexity: complexity,
             title: title,

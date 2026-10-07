@@ -5,9 +5,9 @@ import Foundation
 final class RecipeEditSaverStub: RecipeSaver, @unchecked Sendable {
     private var continuations: [CheckedContinuation<Void, Error>?] = []
     private var onSave: (() -> Void)?
-    private(set) var savedData: [RecipeData] = []
+    private(set) var savedData: [Recipe] = []
 
-    func save(_ data: RecipeData) async throws {
+    func save(_ data: Recipe) async throws {
         let index = continuations.count
         return try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { continuation in

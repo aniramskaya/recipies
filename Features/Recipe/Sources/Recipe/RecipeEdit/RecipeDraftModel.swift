@@ -5,6 +5,9 @@ import SwiftUI
 @Observable
 final class RecipeDraftModel: Hashable, Identifiable, @unchecked Sendable {
     let id: UUID
+    var imageSource: URL?
+    var cookingTimeMins: Int
+    var complexity: Int
     var title: String = ""
     var description: String = ""
     var ingredients: [IngredientDraftModel] = [
@@ -13,9 +16,12 @@ final class RecipeDraftModel: Hashable, Identifiable, @unchecked Sendable {
     var topTextBlock: TextBlockDraftModel?
     var steps: [RecipeStepDraftModel]
     var bottomTextBlock: TextBlockDraftModel?
-    
+
     init(
         id: UUID,
+        imageSource: URL? = nil,
+        cookingTimeMins: Int = 0,
+        complexity: Int = 0,
         title: String,
         description: String,
         ingredients: [IngredientDraftModel],
@@ -24,6 +30,9 @@ final class RecipeDraftModel: Hashable, Identifiable, @unchecked Sendable {
         bottomTextBlock: TextBlockDraftModel?
     ) {
         self.id = id
+        self.imageSource = imageSource
+        self.cookingTimeMins = cookingTimeMins
+        self.complexity = complexity
         self.title = title
         self.description = description
         self.ingredients = ingredients
@@ -43,15 +52,18 @@ final class RecipeDraftModel: Hashable, Identifiable, @unchecked Sendable {
 
 
 extension RecipeDraftModel {
-    func toRecipeData() -> RecipeData {
-        RecipeData(
+    func toRecipe() -> Recipe {
+        Recipe(
             id: id,
+            imageSource: imageSource,
+            cookingTimeMins: cookingTimeMins,
+            complexity: complexity,
             title: title,
-            description: description,
-            ingredients: ingredients.map(\.name),
-            topTextBlock: topTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) },
-            steps: steps.map { RecipeStep(id: $0.id, title: $0.title, imageSource: $0.imageSource, text: $0.text) },
-            bottomTextBlock: bottomTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) }
+            description: description.isEmpty ? nil : description,
+            ingredients: ingredients.map { Ingredient(name: $0.name) },
+            topText: topTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) },
+            steps: steps.map { RecipeStep(id: $0.id, title: $0.title.isEmpty ? nil : $0.title, imageSource: $0.imageSource, text: $0.text) },
+            bottomText: bottomTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) }
         )
     }
 

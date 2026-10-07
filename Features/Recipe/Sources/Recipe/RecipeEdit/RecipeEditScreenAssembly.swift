@@ -50,14 +50,14 @@ public enum RecipeEditScreenAssembly {
 
         var savingTask: Task<Void, Never>?
 
-        let scenario = FormSubmitScenario<RecipeDraftModel, RecipeData>(
+        let scenario = FormSubmitScenario<RecipeDraftModel, Recipe>(
             getModel: { [weak viewModel] in
                 viewModel?.model
             },
             validate: { draftModel in
                 let errors = await RecipeFormValidator.validate(draftModel)
                 return errors.isEmpty ?
-                    await .success(draftModel.toRecipeData()) :
+                    await .success(draftModel.toRecipe()) :
                     .failure(FormValidationError(form: nil, field: errors))
             },
             save: { try await saver.save($0) }
