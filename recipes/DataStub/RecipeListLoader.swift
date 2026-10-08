@@ -9,26 +9,29 @@ import RecipeList
 import Recipe
 import RecipeTypes
 import Foundation
+import RecipeStorage
 
-actor RecipeListLoaderStub: RecipeListLoader {
+actor RecipeListRepositoryLoader: RecipeListLoader {
+    let repository: RecipeRepository
+
+    init (_ repository: RecipeRepository) {
+        self.repository = repository
+    }
+
     func load() async throws -> [RecipeListItem] {
-        try await withCheckedThrowingContinuation({ continuation in
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-                continuation.resume(returning: sampleRecipes.listItems )
-            }
-        })
+        let items = try await self.repository.fetchAll()
+        return items.map(\.self).listItems
     }
 }
 
 private extension Array where Element == Recipe {
     var listItems: [RecipeListItem] {
-        self.compactMap { item in
-            guard let imageUrl = item.imageSource else { return nil }
-            return RecipeListItem(
+        self.map { item in
+            RecipeListItem(
                 id: item.id,
                 name: item.title,
                 cookingTimeMins: item.cookingTimeMins,
-                imageUrl: imageUrl,
+                imageUrl: item.imageSource,
                 rating: nil,
                 complexity: item.complexity
             )

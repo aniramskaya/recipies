@@ -20,17 +20,28 @@ public enum RecipeDetailWithEditScreenAssembly {
 private struct RecipeDetailWithEdit: View {
     let loader: any RecipeDetailLoader
     let saver: any RecipeSaver
+    @State var onSaveCompleted: (() -> Void)?
     @State var draft: RecipeDraftModel? = nil
 
     var body: some View {
         RecipeDetailScreenAssembly
-            .compose(loader: loader, onEdit: { draft = $0 })
+            .compose(
+                loader: loader,
+                onEdit: {
+                    draft = $0
+                    onSaveCompleted = $1
+                }
+            )
             .sheet(item: $draft) { item in
                 RecipeEditScreenAssembly.composeModal(
                     model: item,
                     saver: saver,
                     onCancel: { draft = nil },
-                    onSaveCompleted: { draft = nil }
+                    onSaveCompleted: {
+                        onSaveCompleted?()
+                        onSaveCompleted = nil
+                        draft = nil
+                    }
                 )
             }
     }

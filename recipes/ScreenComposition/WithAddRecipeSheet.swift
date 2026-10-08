@@ -10,6 +10,7 @@ import RecipeList
 import Recipe
 
 struct WithAddRecipeSheet<Content: View>: View {
+    let saver: RecipeSaver
     @ViewBuilder let content: Content
     @State private var isAddingRecipe = false
 
@@ -22,12 +23,11 @@ struct WithAddRecipeSheet<Content: View>: View {
                 }
             }
             .sheet(isPresented: $isAddingRecipe) {
-                RecipeEditScreenAssembly.composeNewRecipe(saver: RecipeSaverStub()) {
+                RecipeEditScreenAssembly.composeNewRecipe(saver: saver) {
                     isAddingRecipe = false
                 } onSaveCompleted: {
                     isAddingRecipe = false
                 }
-
             }
     }
 }

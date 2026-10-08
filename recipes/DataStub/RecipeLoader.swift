@@ -8,25 +8,19 @@
 import Foundation
 import Recipe
 import RecipeTypes
+import RecipeStorage
 
-
-actor RecipeLoader: RecipeDetailLoader {
+actor RecipeRepositoryLoader: RecipeDetailLoader {
+    let repository: RecipeRepository
     let id: UUID
     
-    init(id: UUID) {
+    init(_ repository: RecipeRepository, id: UUID) {
+        self.repository = repository
         self.id = id
     }
     
     func load() async throws -> Recipe {
-        try await withCheckedThrowingContinuation({ continuation in
-            DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
-                guard let result = sampleRecipes.first(where: { $0.id == self.id }) else {
-                    continuation.resume(throwing: RecipeNotFoundError())
-                    return
-                }
-                continuation.resume(returning: result)
-            }
-        })
+        try await repository.fetchOne(id: id)
     }
 }
 

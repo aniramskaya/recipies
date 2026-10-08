@@ -14,7 +14,7 @@ public enum RecipeDetailScreenAssembly {
     @MainActor
     static func compose(
         loader: any RecipeDetailLoader,
-        onEdit: @escaping (RecipeDraftModel) -> Void = { _ in }
+        onEdit: @escaping (RecipeDraftModel, @escaping () -> Void) -> Void = { _, _ in }
     ) -> some View {
         composeInternal(loader: loader, onEdit: onEdit).0
     }
@@ -22,7 +22,7 @@ public enum RecipeDetailScreenAssembly {
     @MainActor
     static func composeInternal(
         loader: any RecipeDetailLoader,
-        onEdit: @escaping (RecipeDraftModel) -> Void = { _ in }
+        onEdit: @escaping (RecipeDraftModel, @escaping () -> Void) -> Void = { _, _ in }
     ) -> (RecipeDetailScreen, [AnyObject]) {
         let loadingScenario = BasicLoadingScenario(loader: loader.load)
         let model = RecipeDetailScreenModel()
@@ -30,7 +30,6 @@ public enum RecipeDetailScreenAssembly {
 
         var loadingTask: Task<Void, Never>? = nil
         let load = { [weak model] in
-            if case .loaded = model?.loadingState { return }
             loadingTask?.cancel()
             loadingTask = Task { [weak model] in
                 let stream = loadingScenario.start()
@@ -49,7 +48,10 @@ public enum RecipeDetailScreenAssembly {
         model.onRetry = load
         model.onEdit = {
             guard let recipe else { return }
-            onEdit(recipe.asDraftModel())
+            onEdit(
+                recipe.asDraftModel(),
+                load
+            )
         }
 
         let screen = RecipeDetailScreen(model: model)

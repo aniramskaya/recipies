@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 public enum RecipeImageSource {
+    case none
     case remote(URL)
     case asset(String)     // имя ассета
     case system(String)    // SF Symbol
@@ -24,6 +25,10 @@ public struct RecipeImageView: View {
 
     public var body: some View {
         switch source {
+        case .none:
+            Image(systemName: "photo")
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         case .remote(let url):
             AsyncImage(url: url) { phase in
                 switch phase {

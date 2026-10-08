@@ -4,14 +4,21 @@
 //
 //  Created by Марина Чемезова on 14.01.2026.
 //
+import RecipeUIKit
+
 private extension RecipeListItem {
     func asViewModel() -> RecipeListRowModel {
-        .init(
-            id: self.id,
-            name: self.name,
-            imageSource: .remote(self.imageUrl),
-            cookingTimeMins: self.cookingTimeMins,
-            complexity: self.complexity
+        var source = RecipeImageSource.none
+        if let imageUrl {
+            source = .remote(imageUrl)
+        }
+        
+        return RecipeListRowModel(
+            id: id,
+            name: name,
+            imageSource: source,
+            cookingTimeMins: cookingTimeMins,
+            complexity: complexity
         )
     }
 }

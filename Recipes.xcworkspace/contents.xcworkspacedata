@@ -2,6 +2,13 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "group:Storage"
+      name = "Storage">
+      <FileRef
+         location = "group:RecipeStorage">
+      </FileRef>
+   </Group>
+   <Group
       location = "group:Features"
       name = "Features">
       <FileRef
