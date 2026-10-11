@@ -13,10 +13,11 @@ struct IngredientEditView<Handle: View>: View {
     let onDelete: () -> Void
     let onMoveUp: () -> Void
     let onMoveDown: () -> Void
-    let requestAccessibilityFocus: Bool
+    let requestFocus: Bool
     @ViewBuilder let handle: Handle
 
     @AccessibilityFocusState private var isAccessibilityFocused: Bool
+    @FocusState private var isFocused: Bool
 
     var body: some View {
         let _ = Self._printChanges()
@@ -40,6 +41,7 @@ struct IngredientEditView<Handle: View>: View {
                     RoundedRectangle(cornerRadius: RecipeStyles.Radius.small)
                         .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
+                .focused($isFocused)
                 .accessibilityFocused($isAccessibilityFocused)
                 .accessibilityActions {
                     Button(.moveUp, action: onMoveUp)
@@ -50,9 +52,10 @@ struct IngredientEditView<Handle: View>: View {
             handle
         }
         .accessibilityIdentifier(A11y.component)
-        .onChange(of: requestAccessibilityFocus) { _, newValue in
+        .onChange(of: requestFocus) { _, newValue in
             guard newValue else { return }
             isAccessibilityFocused = true
+            isFocused = true
         }
     }
 }
@@ -67,7 +70,7 @@ enum IngredientEditViewA11y {
 #Preview {
     @Previewable @State var value = IngredientDraftModel(id: .init(), name: "Секретный ингредиент")
 
-    IngredientEditView(ingredient: $value, onDelete: {}, onMoveUp: {}, onMoveDown: {}, requestAccessibilityFocus: false) {
+    IngredientEditView(ingredient: $value, onDelete: {}, onMoveUp: {}, onMoveDown: {}, requestFocus: false) {
         DragHandleView(width: 16, lineHeight: 2, spacing: 3)
             .padding(8)
     }

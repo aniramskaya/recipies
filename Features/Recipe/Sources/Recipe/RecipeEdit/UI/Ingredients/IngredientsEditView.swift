@@ -36,7 +36,7 @@ struct IngredientsEditView: View {
                     onDelete: { delete(item: item.wrappedValue) },
                     onMoveUp: { moveUp(id: item.wrappedValue.id )},
                     onMoveDown: { moveDown(id: item.wrappedValue.id )},
-                    requestAccessibilityFocus: item.wrappedValue.id == lastAddedIngredientId
+                    requestFocus: item.wrappedValue.id == lastAddedIngredientId
                 ) {
                     DragHandleView(width: 16, lineHeight: 2, spacing: 3)
                         .padding(8)
@@ -51,11 +51,8 @@ struct IngredientsEditView: View {
                 .zIndex(draggingId == item.id ? 1 : 0)
             }
         }
-        #if targetEnvironment(simulator)
         .sensoryFeedback(.impact(weight: .light), trigger: targetIndex) { _, _ in draggingId != nil }
-        #endif
         .coordinateSpace(.named("ingredientsList"))
-        .contentShape(Rectangle())
         .gesture(
             DragGesture(coordinateSpace: .named("ingredientsList"))
                 .onChanged { value in
