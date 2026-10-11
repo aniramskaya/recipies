@@ -3,9 +3,6 @@
  Что тестируем:
  1. Успешное сохранение: форма блокируется, спиннер в toolbar, вызов сервера, колбэк onSave
  2. Ошибка валидации при пустом названии: показывается ошибка, сохранение не вызывается
- 3. Ошибка валидации при пустом описании: показывается ошибка, сохранение не вызывается
- 4. Текстовый блок с пустым текстом: показывается ошибка, сохранение не вызывается
- 5. Шаг рецепта с пустым текстом: показывается ошибка, сохранение не вызывается
  */
 
 import Testing
@@ -47,7 +44,7 @@ struct RecipeEditSubmitAcceptanceTests {
 
     @Test func emptyTitleShowsValidationErrorAndBlocksSave() async throws {
         do {
-            let (feature, saver) = makeFeature(title: "", description: "Описание")
+            let (feature, saver) = makeFeature(title: "")
             feature.start()
 
             try feature.userTapsSave()
@@ -62,66 +59,10 @@ struct RecipeEditSubmitAcceptanceTests {
         await leakChecker.awaitAllReleased()
     }
 
-    @Test func emptyDescriptionShowsValidationErrorAndBlocksSave() async throws {
-        do {
-            let (feature, saver) = makeFeature(title: "Рецепт", description: "")
-            feature.start()
-
-            try feature.userTapsSave()
-
-            try await feature.ensureIsDisplayingDescriptionValidationError(
-                String(localized: .descriptionRequiredValidationError)
-            )
-            try feature.ensureSaveWasNotAttempted(saver: saver)
-
-            feature.finish()
-        }
-        await leakChecker.awaitAllReleased()
-    }
-
-    @Test func textBlockWithEmptyTextShowsValidationError() async throws {
-        do {
-            let topTextBlock = TextBlockDraftModel(title: "Введение", text: "")
-            let (feature, saver) = makeFeature(topTextBlock: topTextBlock)
-            feature.start()
-
-            try feature.userTapsSave()
-
-            try await feature.ensureIsDisplayingTextBlockValidationError(
-                String(localized: .textBlockTextRequiredValidationError),
-                at: 0
-            )
-            try feature.ensureSaveWasNotAttempted(saver: saver)
-
-            feature.finish()
-        }
-        await leakChecker.awaitAllReleased()
-    }
-
-    @Test func stepWithEmptyTextShowsValidationError() async throws {
-        do {
-            let step = RecipeStepDraftModel(id: UUID(), title: "Шаг 1", imageSource: nil, text: "")
-            let (feature, saver) = makeFeature(steps: [step])
-            feature.start()
-
-            try feature.userTapsSave()
-
-            try await feature.ensureIsDisplayingStepTextValidationError(
-                String(localized: .stepTextRequiredValidationError),
-                at: 0
-            )
-            try feature.ensureSaveWasNotAttempted(saver: saver)
-
-            feature.finish()
-        }
-        await leakChecker.awaitAllReleased()
-    }
-
     // MARK: - makeFeature
 
     private func makeFeature(
         title: String = "Рецепт",
-        description: String = "Описание",
         topTextBlock: TextBlockDraftModel? = nil,
         steps: [RecipeStepDraftModel] = []
     ) -> (RecipeEditModalFeature, RecipeEditSaverStub) {
@@ -129,7 +70,7 @@ struct RecipeEditSubmitAcceptanceTests {
         let model = RecipeDraftModel(
             id: UUID(),
             title: title,
-            description: description,
+            description: "",
             ingredients: [],
             topTextBlock: topTextBlock,
             steps: steps,

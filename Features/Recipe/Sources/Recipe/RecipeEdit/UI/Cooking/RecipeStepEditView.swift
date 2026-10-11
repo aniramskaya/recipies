@@ -11,7 +11,6 @@ import RecipeUIKit
 struct RecipeStepEditView: View {
     let step: UInt
     @Binding var model: RecipeStepDraftModel
-    var fieldErrors: [String: String] = [:]
     let onRemove: () -> Void
 
     var body: some View {
@@ -29,12 +28,6 @@ struct RecipeStepEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if let key = fieldErrors["step/\(model.id.uuidString)/text"] {
-                Text(LocalizedStringKey(key))
-                    .font(.caption)
-                    .foregroundStyle(.red)
-                    .accessibilityIdentifier(A11y.textErrorLabel)
-            }
             RemoveElementButton(
                 action: onRemove,
                 title: .cookingStepRemove,
@@ -57,7 +50,6 @@ enum RecipeStepEditViewA11y {
     static let header = "RecipeStepEditViewHeader"
     static let photoPlaceholder = "RecipeStepEditViewPhotoPlaceholder"
     static let text = "RecipeStepEditViewText"
-    static let textErrorLabel = "RecipeStepEditViewTextErrorLabel"
     static let removeButton = "RecipeStepEditViewRemoveButton"
 }
 

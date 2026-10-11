@@ -56,40 +56,6 @@ final class RecipeEditModalFeature {
         }
     }
 
-    func ensureIsDisplayingDescriptionValidationError(_ text: String, sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        await waitFor(sourceLocation: sourceLocation) { [weak self] in
-            let view = try self?.view.inspect().find(DescriptionEditView.self)
-            try view?.assertIsDisplayingValidationError(text)
-            return true
-        }
-    }
-
-    func ensureIsDisplayingTextBlockValidationError(_ text: String, at index: Int, sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        await waitFor(sourceLocation: sourceLocation) { [weak self] in
-            guard let views = try self?.view.inspect().findAll(TextBlockEditView.self) else {
-                throw sourceLocation.error("Failed to find any TextBlockEditView")
-            }
-            guard views.indices.contains(index) else {
-                throw sourceLocation.error("Failed to find TextBlockEditView at \(index)")
-            }
-            try views[index].assertIsDisplayingTextValidationError(text)
-            return true
-        }
-    }
-
-    func ensureIsDisplayingStepTextValidationError(_ text: String, at index: Int, sourceLocation: SourceLocation = #_sourceLocation) async throws {
-        await waitFor(sourceLocation: sourceLocation) { [weak self] in
-            guard let views = try self?.view.inspect().findAll(RecipeStepEditView.self) else {
-                throw sourceLocation.error("Failed to find any RecipeStepEditView")
-            }
-            guard views.indices.contains(index) else {
-                throw sourceLocation.error("Failed to find RecipeStepEditView at \(index)")
-            }
-            try views[index].assertIsDisplayingTextValidationError(text)
-            return true
-        }
-    }
-
     func ensureSaveWasNotAttempted(saver: RecipeEditSaverStub, sourceLocation: SourceLocation = #_sourceLocation) throws {
         guard saver.saveCount == 0 else {
             throw sourceLocation.error("Expected saver not to be called, but it was called \(saver.saveCount) time(s)")

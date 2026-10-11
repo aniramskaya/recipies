@@ -10,7 +10,6 @@ import RecipeUIKit
 
 struct DescriptionEditView: View {
     @Binding var text: String
-    var fieldErrors: [String: String] = [:]
 
     var body: some View {
         VStack(alignment: .leading, spacing: RecipeStyles.Spacing.small) {
@@ -23,12 +22,6 @@ struct DescriptionEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if let key = fieldErrors["description"] {
-                Text(LocalizedStringKey(key))
-                    .font(.caption)
-                    .foregroundStyle(.red)
-                    .accessibilityIdentifier(A11y.errorLabel)
-            }
         }
         .padding(RecipeStyles.Padding.default)
     }
@@ -38,7 +31,6 @@ private typealias A11y = DescriptionEditViewA11y
 
 enum DescriptionEditViewA11y {
     static let field = "DescriptionEditViewField"
-    static let errorLabel = "DescriptionEditViewErrorLabel"
 }
 
 #Preview {

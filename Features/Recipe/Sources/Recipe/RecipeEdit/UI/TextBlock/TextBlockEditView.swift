@@ -10,8 +10,6 @@ import RecipeUIKit
 
 struct TextBlockEditView: View {
     @Binding var model: TextBlockDraftModel
-    var fieldErrors: [String: String] = [:]
-    var fieldKeyBase: String = ""
     let onRemove: () -> Void
 
     var body: some View {
@@ -33,12 +31,6 @@ struct TextBlockEditView: View {
                     )
                     .fill(RecipeUIKitAssets.Color.fieldBackground)
                 )
-            if let key = fieldErrors["\(fieldKeyBase)/text"] {
-                Text(LocalizedStringKey(key))
-                    .font(.caption)
-                    .foregroundStyle(.red)
-                    .accessibilityIdentifier(A11y.textErrorLabel)
-            }
             RemoveElementButton(
                 action: onRemove,
                 title: .textBlockRemove,
@@ -55,7 +47,6 @@ enum TextBlockEditViewA11y {
     static let component = "TextBlock"
     static let title = "TextBlockTitle"
     static let text = "TextBlockText"
-    static let textErrorLabel = "TextBlockTextErrorLabel"
     static let removeButton = "TextBlockRemoveButton"
 }
 

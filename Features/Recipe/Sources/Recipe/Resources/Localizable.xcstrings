@@ -251,13 +251,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "General description*"
+            "value" : "General description"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Несколько слов о рецепте в общем*"
+            "value" : "Несколько слов о рецепте в общем"
           }
         }
       }
@@ -387,13 +387,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your text*"
+            "value" : "Your text"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ваш текст*"
+            "value" : "Ваш текст"
           }
         }
       }

@@ -51,13 +51,4 @@ extension InspectableView where View == ViewType.View<TextBlockEditView> {
         try btn.tap()
     }
 
-    @MainActor
-    func assertIsDisplayingTextValidationError(_ text: String, sourceLocation: SourceLocation = #_sourceLocation) throws {
-        guard let errorLabel = try? self.find(viewWithAccessibilityIdentifier: TextBlockEditViewA11y.textErrorLabel).text().string() else {
-            throw sourceLocation.error("TextBlockEditView is expected to display validation error, but didnt")
-        }
-        guard text == errorLabel else {
-            throw sourceLocation.error("TextBlockEditView is expected to display error: '\(text)', found '\(errorLabel)' instead")
-        }
-    }
 }

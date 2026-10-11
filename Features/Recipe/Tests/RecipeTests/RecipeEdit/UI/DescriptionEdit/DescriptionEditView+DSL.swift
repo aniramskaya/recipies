@@ -25,13 +25,4 @@ extension InspectableView where View == ViewType.View<DescriptionEditView> {
         try tf.setInput(text)
     }
 
-    @MainActor
-    func assertIsDisplayingValidationError(_ text: String, sourceLocation: SourceLocation = #_sourceLocation) throws {
-        guard let errorLabel = try? self.find(viewWithAccessibilityIdentifier: DescriptionEditViewA11y.errorLabel).text().string() else {
-            throw sourceLocation.error("DescriptionEditView is expected to display validation error, but didnt")
-        }
-        guard text == errorLabel else {
-            throw sourceLocation.error("DescriptionEditView is expected to display error: '\(text)', found '\(errorLabel)' instead")
-        }
-    }
 }

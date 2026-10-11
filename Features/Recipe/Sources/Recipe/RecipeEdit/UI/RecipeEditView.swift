@@ -23,27 +23,21 @@ struct RecipeEditView: View {
                 )
                 Divider()
                 DescriptionEditView(
-                    text: $dataModel.description,
-                    fieldErrors: fieldErrors
+                    text: $dataModel.description
                 )
                 Divider()
                 IngredientsEditBlock(items: $dataModel.ingredients)
                 Divider()
                 TextBlockOptionalEditView(
-                    model: $dataModel.topTextBlock,
-                    fieldErrors: fieldErrors,
-                    fieldKeyBase: "topTextBlock"
+                    model: $dataModel.topTextBlock
                 )
                 Divider()
                 RecipeCookingEditView(
-                    steps: $dataModel.steps,
-                    fieldErrors: fieldErrors
+                    steps: $dataModel.steps
                 )
                 Divider()
                 TextBlockOptionalEditView(
-                    model: $dataModel.bottomTextBlock,
-                    fieldErrors: fieldErrors,
-                    fieldKeyBase: "bottomTextBlock"
+                    model: $dataModel.bottomTextBlock
                 )
             }
         }
