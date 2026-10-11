@@ -19,6 +19,8 @@ struct IngredientEditView<Handle: View>: View {
     @AccessibilityFocusState private var isAccessibilityFocused: Bool
 
     var body: some View {
+        let _ = Self._printChanges()
+        
         HStack(
             alignment: .center,
             spacing: 0

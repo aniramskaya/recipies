@@ -7,10 +7,6 @@
 import Foundation
 
 struct IngredientDraftModel: Identifiable, Equatable {
-    var id: UUID = UUID()
+    let id: UUID
     var name: String
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.id == rhs.id
-    }
 }

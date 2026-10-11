@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+private final class DragRects {
+    var cellRects: [UUID: CGRect] = [:]
+    var handleRects: [UUID: CGRect] = [:]
+    var initialCellRects: [UUID: CGRect] = [:]
+}
+
 struct IngredientsEditView: View {
     @Binding var ingredients: [IngredientDraftModel]
     let lastAddedIngredientId: UUID?
@@ -18,11 +24,11 @@ struct IngredientsEditView: View {
     @State private var targetIndex: Int = 0
     @State private var dragOffset: CGFloat = 0
     @State private var fingerOffsetFromMidY: CGFloat = 0
-    @State private var cellRects: [UUID: CGRect] = [:]
-    @State private var handleRects: [UUID: CGRect] = [:]
-    @State private var initialCellRects: [UUID: CGRect] = [:]
+    @State private var rects = DragRects()
     
     var body: some View {
+        let _ = Self._printChanges()
+        
         VStack(spacing: spacing) {
             ForEach($ingredients, id: \.id) { item in
                 IngredientEditView(
@@ -35,17 +41,19 @@ struct IngredientsEditView: View {
                     DragHandleView(width: 16, lineHeight: 2, spacing: 3)
                         .padding(8)
                         .onGeometryChange(for: CGRect.self, of: { $0.frame(in: .named("ingredientsList")) }) {
-                            handleRects[item.id] = $0
+                            rects.handleRects[item.id] = $0
                         }
                 }
                 .onGeometryChange(for: CGRect.self, of: { $0.frame(in: .named("ingredientsList")) }) {
-                    cellRects[item.id] = $0
+                    rects.cellRects[item.id] = $0
                 }
                 .offset(y: draggingId == nil ? 0 : visualOffset(for: item.id))
                 .zIndex(draggingId == item.id ? 1 : 0)
             }
         }
+        #if targetEnvironment(simulator)
         .sensoryFeedback(.impact(weight: .light), trigger: targetIndex) { _, _ in draggingId != nil }
+        #endif
         .coordinateSpace(.named("ingredientsList"))
         .contentShape(Rectangle())
         .gesture(
@@ -72,15 +80,15 @@ struct IngredientsEditView: View {
         dragStartIndex = startIndex
         targetIndex = dragStartIndex
         fingerOffsetFromMidY = dragValue.startLocation.y - touched.value.midY
-        initialCellRects = cellRects
+        rects.initialCellRects = rects.cellRects
     }
-    
+
     private func updateVisualOffsets(dragValue: DragGesture.Value, draggingId: UUID) {
-        guard let draggingCellMidY = initialCellRects[draggingId]?.midY else { return }
+        guard let draggingCellMidY = rects.initialCellRects[draggingId]?.midY else { return }
 
         dragOffset = dragValue.location.y - fingerOffsetFromMidY - draggingCellMidY
 
-        let otherRects = cellRects
+        let otherRects = rects.cellRects
             .filter { $0.key != draggingId }
             .map(\.value)
         
@@ -94,8 +102,8 @@ struct IngredientsEditView: View {
 
         withAnimation(.spring(duration: 0.3)) {
             dragOffset = ingredients[0..<targetIndex].reduce(0, { partialResult, item in
-                partialResult + (cellRects[item.id]?.height ?? 0) + spacing
-            }) - (initialCellRects[draggedId]?.minY ?? 0)
+                partialResult + (rects.cellRects[item.id]?.height ?? 0) + spacing
+            }) - (rects.initialCellRects[draggedId]?.minY ?? 0)
         } completion: {
             if dragStartIndex != targetIndex {
                 let toOffset = dragStartIndex < targetIndex ? targetIndex + 1 : targetIndex
@@ -106,7 +114,7 @@ struct IngredientsEditView: View {
             dragStartIndex = 0
             targetIndex = 0
             fingerOffsetFromMidY = 0
-            initialCellRects = [:]
+            rects.initialCellRects = [:]
         }
     }
     
@@ -134,7 +142,7 @@ struct IngredientsEditView: View {
         }
 
         guard let currentIndex = ingredients.firstIndex(where: { $0.id == id }) else { return 0 }
-        let offset = (initialCellRects[draggingId]?.height ?? 0) + spacing
+        let offset = (rects.initialCellRects[draggingId]?.height ?? 0) + spacing
 
         if dragStartIndex < targetIndex {
             if currentIndex > dragStartIndex && currentIndex <= targetIndex {
@@ -149,8 +157,8 @@ struct IngredientsEditView: View {
     }
 
     private func initialRectForTouch(at location: CGPoint) -> (key: UUID, value: CGRect)? {
-        guard let handleEntry = handleRects.first(where: { $0.value.contains(location) }) else { return nil }
-        guard let cellRect = cellRects[handleEntry.key] else { return nil }
+        guard let handleEntry = rects.handleRects.first(where: { $0.value.contains(location) }) else { return nil }
+        guard let cellRect = rects.cellRects[handleEntry.key] else { return nil }
         return (key: handleEntry.key, value: cellRect)
     }
 
