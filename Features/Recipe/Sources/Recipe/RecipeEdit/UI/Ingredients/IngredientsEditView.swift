@@ -9,7 +9,6 @@ import SwiftUI
 
 private final class DragRects {
     var cellRects: [UUID: CGRect] = [:]
-    var handleRects: [UUID: CGRect] = [:]
     var initialCellRects: [UUID: CGRect] = [:]
 }
 
@@ -40,9 +39,19 @@ struct IngredientsEditView: View {
                 ) {
                     DragHandleView(width: 16, lineHeight: 2, spacing: 3)
                         .padding(8)
-                        .onGeometryChange(for: CGRect.self, of: { $0.frame(in: .named("ingredientsList")) }) {
-                            rects.handleRects[item.id] = $0
-                        }
+                        .gesture(
+                            DragGesture(coordinateSpace: .named("ingredientsList"))
+                                .onChanged { value in
+                                    guard let draggingId else {
+                                        startDragging(id: item.id, dragValue: value)
+                                        return
+                                    }
+                                    updateVisualOffsets(dragValue: value, draggingId: draggingId)
+                                }
+                                .onEnded { _ in
+                                    commitReorder()
+                                }
+                        )
                 }
                 .onGeometryChange(for: CGRect.self, of: { $0.frame(in: .named("ingredientsList")) }) {
                     rects.cellRects[item.id] = $0
@@ -53,30 +62,17 @@ struct IngredientsEditView: View {
         }
         .sensoryFeedback(.impact(weight: .light), trigger: targetIndex) { _, _ in draggingId != nil }
         .coordinateSpace(.named("ingredientsList"))
-        .gesture(
-            DragGesture(coordinateSpace: .named("ingredientsList"))
-                .onChanged { value in
-                    guard let draggingId else {
-                        initDraggingIfNeeded(dragValue: value)
-                        return
-                    }
-                    updateVisualOffsets(dragValue: value, draggingId: draggingId)
-                }
-                .onEnded { _ in
-                    commitReorder()
-                }
-        )
     }
     
-    private func initDraggingIfNeeded(dragValue: DragGesture.Value) {
+    private func startDragging(id: UUID, dragValue: DragGesture.Value) {
         guard
-            let touched = initialRectForTouch(at: dragValue.startLocation),
-            let startIndex = ingredients.firstIndex(where: { $0.id == touched.key })
+            let cellRect = rects.cellRects[id],
+            let startIndex = ingredients.firstIndex(where: { $0.id == id })
         else { return }
-        draggingId = touched.key
+        draggingId = id
         dragStartIndex = startIndex
-        targetIndex = dragStartIndex
-        fingerOffsetFromMidY = dragValue.startLocation.y - touched.value.midY
+        targetIndex = startIndex
+        fingerOffsetFromMidY = dragValue.startLocation.y - cellRect.midY
         rects.initialCellRects = rects.cellRects
     }
 
@@ -151,12 +147,6 @@ struct IngredientsEditView: View {
             }
         }
         return 0
-    }
-
-    private func initialRectForTouch(at location: CGPoint) -> (key: UUID, value: CGRect)? {
-        guard let handleEntry = rects.handleRects.first(where: { $0.value.contains(location) }) else { return nil }
-        guard let cellRect = rects.cellRects[handleEntry.key] else { return nil }
-        return (key: handleEntry.key, value: cellRect)
     }
 
     private func delete(item: IngredientDraftModel) {
