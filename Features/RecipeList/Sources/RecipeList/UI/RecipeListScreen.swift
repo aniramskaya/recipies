@@ -27,9 +27,6 @@ struct RecipeListScreen: View {
         case let .loaded(model):
             RecipeListView(
                 model: model,
-                reload: { [weak viewModel] in
-                    await viewModel?.onReload()
-                },
                 onSelectItem: { [weak viewModel] id in
                     viewModel?.onSelectItem(id)
                 }

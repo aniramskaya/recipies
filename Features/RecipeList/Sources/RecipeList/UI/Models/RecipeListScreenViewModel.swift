@@ -17,6 +17,5 @@ final class RecipeListScreenViewModel {
     var onAppear: () -> Void = {}
     var onDisappear: () -> Void = {}
     var onRetry: () -> Void = {}
-    var onReload: @MainActor () async -> Void = { }
     var onSelectItem: @MainActor (_: UUID) -> Void = { _ in }
 }

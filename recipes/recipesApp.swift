@@ -21,14 +21,18 @@ struct recipesApp: App {
         WindowGroup {
             NavigationStack(path: $path) {
                 if let recipeRepository {
-                    WithAddRecipeSheet(saver: recipeRepository) {
-                        RecipeListAssembly
-                            .composeWithAsyncServices(
-                                loader: RecipeListRepositoryLoader(recipeRepository),
-                                onSelectItem: {
-                                    path.append(RecipeId(id: $0))
-                                },
-                            )
+                    let (recipeList, reloadRecipeList) = RecipeListAssembly
+                        .composeWithAsyncServices(
+                            loader: RecipeListRepositoryLoader(recipeRepository),
+                            onSelectItem: {
+                                path.append(RecipeId(id: $0))
+                            },
+                        )
+                    WithAddRecipeSheet(
+                        saver: recipeRepository,
+                        onRecipeAdded: reloadRecipeList
+                    ) {
+                        recipeList
                     }
                     .navigationDestination(for: RecipeId.self) { id in
                         RecipeDetailWithEditScreenAssembly.compose(
@@ -43,7 +47,7 @@ struct recipesApp: App {
             .task {
                 recipeRepository = try? await Task.detached {
                     let result = try await makeRecipeRepository()
-                    if (try? await result.countRecipes() ?? 0) == 0 {
+                    if ((try? await result.countRecipes()) ?? 0) == 0 {
                         for item in sampleRecipes {
                             try? await result.save(item)
                         }

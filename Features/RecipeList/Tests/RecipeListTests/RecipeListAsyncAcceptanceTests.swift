@@ -48,27 +48,6 @@ struct RecipeListAsyncAcceptanceTests {
         await leakChecker.awaitAllReleased()
     }
     
-    @Test func loadResultReloadSecondResultScenario() async throws {
-        do {
-            let (feature, server, user) = makeFeature()
-            
-            feature.start()
-            
-            try await feature.ensureIsDisplayingLoadingState()
-            
-            try await server.respond(with: .success(RecipeListItem.makeTestItems()), at: 0)
-
-            try await feature.ensureIsDisplayingData(model: testModels())
-
-            try user.pullToRefresh()
-
-            try await server.respond(with: .success(RecipeListItem.makeTestItems2()), at: 1)
-            
-            try await feature.ensureIsDisplayingData(model: testModels2())
-        }
-        await leakChecker.awaitAllReleased()
-    }
-    
     @Test func tapOnListItemCallsOnSelectItem() async throws {
         do {
             var selectItemCalls: [UUID] = []
@@ -94,7 +73,7 @@ struct RecipeListAsyncAcceptanceTests {
         user: RecipeListUser
     ) {
         let server = AsyncServer()
-        let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
+        let (screen, _, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
             loader: server,
             onSelectItem: onSelectItem ?? { _ in }
         )

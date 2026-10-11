@@ -14,24 +14,22 @@ public enum RecipeListAssembly {
     public static func composeWithAsyncServices(
         loader: RecipeListLoader,
         onSelectItem: @escaping @MainActor (_: UUID) -> Void,
-    ) -> some View {
-        return composeInternalWithAsyncServices(
+    ) -> (some View, () -> Void) {
+        let (view, onReload, _) = composeInternalWithAsyncServices(
             loader: loader,
             onSelectItem: onSelectItem,
-        ).0
+        )
+        return (view, onReload)
     }
 
     @MainActor
     static func composeInternalWithAsyncServices(
         loader: RecipeListLoader,
         onSelectItem: @escaping @MainActor (_: UUID) -> Void,
-    ) -> (RecipeListScreen, [AnyObject]) {
+    ) -> (RecipeListScreen, () -> Void, [AnyObject]) {
         let viewModel = RecipeListScreenViewModel()
 
-        let storage = InMemoryCacheStorage<String, [RecipeListItem]>()
-        let cache = TTLCache(storage: storage, expirationPolicy: TimeoutTTLPolicy(timeout: 300))
-        let loadingScenario = CachingLoadingScenario(
-            cache: cache.scoped(to: "RecipeList"),
+        let loadingScenario = BasicLoadingScenario(
             loader: { try await loader.load() }
         )
         
@@ -40,7 +38,7 @@ public enum RecipeListAssembly {
         let load = { [weak viewModel] in
             loadingTask?.cancel()
             loadingTask = Task { [weak viewModel] in
-                let stream = loadingScenario.load()
+                let stream = loadingScenario.start()
                 for await state in stream {
                     guard let viewModel else { return }
                     setViewModelState(viewModel: viewModel, state)
@@ -50,35 +48,22 @@ public enum RecipeListAssembly {
         
         viewModel.onAppear = load
         viewModel.onRetry = load
-        viewModel.onReload = { [weak viewModel] in
-            let stream = loadingScenario.reload()
-            for await state in stream {
-                guard let viewModel else { return }
-                setViewModelState(viewModel: viewModel, state)
-            }
-        }
         viewModel.onDisappear = { loadingTask?.cancel() }
         viewModel.onSelectItem = onSelectItem
         
         let screen = RecipeListScreen(viewModel: viewModel)
-        return (screen, [viewModel, storage, cache, loadingScenario])
+        return (screen, load, [viewModel, loadingScenario])
     }
     
     @MainActor
     private static func setViewModelState(
         viewModel: RecipeListScreenViewModel,
-        _ state: CachingLoadingScenario<[RecipeListItem]>.State
+        _ state: BasicLoadingScenario<[RecipeListItem]>.State
     ) {
-        if let data = state.data {
-            viewModel.state = .loaded(data.asViewModels())
-            return
-        }
-        if state.isLoading {
-            viewModel.state = .loading
-            return
-        }
-        if let error = state.error {
-            viewModel.state = .failed(error)
+        switch state {
+            case .loading: viewModel.state = .loading
+            case let .failure(error): viewModel.state = .failed(error)
+            case let .loaded(data): viewModel.state = .loaded(data.asViewModels())
         }
     }
 }

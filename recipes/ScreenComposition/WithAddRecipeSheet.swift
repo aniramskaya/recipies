@@ -11,6 +11,7 @@ import Recipe
 
 struct WithAddRecipeSheet<Content: View>: View {
     let saver: RecipeSaver
+    let onRecipeAdded: () -> Void
     @ViewBuilder let content: Content
     @State private var isAddingRecipe = false
 
@@ -26,6 +27,7 @@ struct WithAddRecipeSheet<Content: View>: View {
                 RecipeEditScreenAssembly.composeNewRecipe(saver: saver) {
                     isAddingRecipe = false
                 } onSaveCompleted: {
+                    onRecipeAdded()
                     isAddingRecipe = false
                 }
             }

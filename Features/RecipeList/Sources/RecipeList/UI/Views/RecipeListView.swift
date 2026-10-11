@@ -10,7 +10,6 @@ import RecipeUIKit
 
 struct RecipeListView: View {
     let model: [RecipeListRowModel]
-    let reload: @MainActor () async -> Void
     let onSelectItem: @MainActor (_: UUID) -> Void
     
     var body: some View {
@@ -27,9 +26,6 @@ struct RecipeListView: View {
                     .accessibilityIdentifier(RecipeListViewA11y.listItemButton)
                 }
             }
-        }
-        .refreshable {
-            await reload()
         }
     }
 }
@@ -53,7 +49,6 @@ enum RecipeListViewA11y {
             cookingTimeMins: 35,
             complexity: 3
         )],
-        reload: {},
         onSelectItem: { _ in }
     )
 }
