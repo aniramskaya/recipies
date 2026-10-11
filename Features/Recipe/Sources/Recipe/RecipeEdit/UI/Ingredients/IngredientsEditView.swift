@@ -58,6 +58,7 @@ struct IngredientsEditView: View {
                 }
                 .offset(y: draggingId == nil ? 0 : visualOffset(for: item.id))
                 .zIndex(draggingId == item.id ? 1 : 0)
+                .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
         }
         .sensoryFeedback(.impact(weight: .light), trigger: targetIndex) { _, _ in draggingId != nil }

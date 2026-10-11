@@ -33,7 +33,9 @@ struct IngredientsEditBlock: View {
     
     private func addNewItem() {
         let newItemId = UUID()
-        items.append(.init(id: newItemId, name: ""))
+        withAnimation(.spring(duration: 0.3)) {
+            items.append(.init(id: newItemId, name: ""))
+        }
         Task { @MainActor in
             lastAddedIngredientId = newItemId
         }
