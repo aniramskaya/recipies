@@ -60,9 +60,9 @@ extension RecipeModel {
             complexity: complexity,
             title: title,
             description: text,
-            ingredients: ingredients.map { $0.domain },
+            ingredients: ingredients.sorted { $0.sortOrder < $1.sortOrder }.map { $0.domain },
             topText: topTextBlock,
-            steps: steps.map { $0.domain },
+            steps: steps.sorted { $0.sortOrder < $1.sortOrder }.map { $0.domain },
             bottomText: bottomTextBlock
         )
     }
@@ -73,12 +73,12 @@ extension RecipeModel {
         cookingTimeMins = recipe.cookingTimeMins
         complexity = recipe.complexity
         text = recipe.description
-        ingredients = recipe.ingredients.map { IngredientModel.from($0) }
+        ingredients = recipe.ingredients.orderedModel
         topBlockTitle = recipe.topText?.title
         topBlockText = recipe.topText?.text
         bottomBlockTitle = recipe.bottomText?.title
         bottomBlockText = recipe.bottomText?.text
-        steps = recipe.steps.map { RecipeStepModel.from($0) }
+        steps = recipe.steps.orderedModel
         updatedAt = Date()
     }
     
@@ -90,12 +90,34 @@ extension RecipeModel {
             complexity: domain.complexity,
             title: domain.title,
             text: domain.description,
-            ingredients: domain.ingredients.map { IngredientModel.from($0) },
+            ingredients: domain.ingredients.orderedModel,
             topBlockTitle: domain.topText?.title,
             topBlockText: domain.topText?.text,
-            steps: domain.steps.map { RecipeStepModel.from($0)},
+            steps: domain.steps.orderedModel,
             bottomBlockTitle: domain.bottomText?.title,
             bottomBlockText: domain.bottomText?.text
         )
+    }
+}
+
+private extension Array where Element == Ingredient {
+    var orderedModel: [IngredientModel] {
+        var result: [IngredientModel] = []
+        for (index, item) in enumerated() {
+            let model = IngredientModel.from(item, index: index)
+            result.append(model)
+        }
+        return result
+    }
+}
+
+private extension Array where Element == RecipeStep {
+    var orderedModel: [RecipeStepModel] {
+        var result: [RecipeStepModel] = []
+        for (index, item) in enumerated() {
+            let model = RecipeStepModel.from(item, index: index)
+            result.append(model)
+        }
+        return result
     }
 }

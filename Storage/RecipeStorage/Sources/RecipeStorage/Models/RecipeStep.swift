@@ -14,12 +14,14 @@ class RecipeStepModel {
     var title: String?
     var imageSource: URL?
     var text: String
+    var sortOrder: Int
     
-    init(id: UUID, title: String? = nil, imageSource: URL? = nil, text: String) {
+    init(id: UUID, title: String? = nil, imageSource: URL? = nil, text: String, sortOrder: Int) {
         self.id = id
         self.title = title
         self.imageSource = imageSource
         self.text = text
+        self.sortOrder = sortOrder
     }
 }
 
@@ -28,12 +30,13 @@ extension RecipeStepModel {
         .init(id: id, title: title, imageSource: imageSource, text: text)
     }
     
-    static func from(_ domain: RecipeStep) -> RecipeStepModel {
+    static func from(_ domain: RecipeStep, index: Int) -> RecipeStepModel {
         .init(
             id: domain.id,
             title: domain.title,
             imageSource: domain.imageSource,
-            text: domain.text
+            text: domain.text,
+            sortOrder: index
         )
     }
 }

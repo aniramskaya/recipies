@@ -12,10 +12,12 @@ import RecipeTypes
 class IngredientModel {
     var id: UUID
     var name: String
+    var sortOrder: Int
     
-    init(id: UUID, name: String) {
+    init(id: UUID, name: String, sortOrder: Int) {
         self.id = id
         self.name = name
+        self.sortOrder = sortOrder
     }
 }
 
@@ -24,8 +26,8 @@ extension IngredientModel {
         .init(id: id, name: name)
     }
     
-    static func from(_ domain: Ingredient) -> IngredientModel {
-        .init(id: domain.id, name: domain.name)
+    static func from(_ domain: Ingredient, index: Int) -> IngredientModel {
+        .init(id: domain.id, name: domain.name, sortOrder: index)
     }
 }
 
