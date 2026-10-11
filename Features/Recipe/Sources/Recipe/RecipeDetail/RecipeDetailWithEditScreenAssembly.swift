@@ -43,6 +43,7 @@ private struct RecipeDetailWithEdit: View {
                         draft = nil
                     }
                 )
+                .interactiveDismissDisabled()
             }
     }
 }
