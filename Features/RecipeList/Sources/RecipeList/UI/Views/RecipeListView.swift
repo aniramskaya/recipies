@@ -41,13 +41,15 @@ enum RecipeListViewA11y {
             name: "Котлета по-киевски",
             imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
-            complexity: 3
+            complexity: 3,
+            isDraft: true
         ), RecipeListRowModel(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cd")!,
             name: "Котлета по-киевски",
             imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
-            complexity: 3
+            complexity: 3,
+            isDraft: false
         )],
         onSelectItem: { _ in }
     )

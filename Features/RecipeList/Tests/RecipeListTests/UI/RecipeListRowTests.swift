@@ -44,5 +44,6 @@ nonisolated(unsafe) let testModel = RecipeListRowModel(
     name: "Котлета по-киевски",
     imageSource: .uiImage(.make(withColor: .red)),
     cookingTimeMins: 35,
-    complexity: 3
+    complexity: 3,
+    isDraft: false
 )

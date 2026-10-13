@@ -33,7 +33,8 @@ private extension Array where Element == Recipe {
                 cookingTimeMins: item.cookingTimeMins,
                 imageUrl: item.imageSource,
                 rating: nil,
-                complexity: item.complexity
+                complexity: item.complexity,
+                isDraft: item.isDraft
             )
         }
     }

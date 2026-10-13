@@ -8,7 +8,7 @@ import RecipeUIKit
 
 private extension RecipeListItem {
     func asViewModel() -> RecipeListRowModel {
-        var source = RecipeImageSource.none
+        var source = RecipeImageSource.uiImage(RecipeUIKitAssets.image(named: "noRecipeImage")!)
         if let imageUrl {
             source = .remote(imageUrl)
         }
@@ -18,7 +18,8 @@ private extension RecipeListItem {
             name: name,
             imageSource: source,
             cookingTimeMins: cookingTimeMins,
-            complexity: complexity
+            complexity: complexity,
+            isDraft: isDraft
         )
     }
 }
