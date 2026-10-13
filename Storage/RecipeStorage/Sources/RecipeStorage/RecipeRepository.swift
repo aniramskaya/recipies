@@ -20,7 +20,13 @@ public actor RecipeRepository {
         let descriptor = FetchDescriptor<RecipeModel>(
             sortBy: [.init(\.updatedAt, order: .reverse)]
         )
-        return try modelContext.fetch(descriptor).map { $0.domain }
+        var result = try modelContext.fetch(descriptor).map { $0.domain }
+        // Swift sort is stable: items with equal isDraft keep their relative updatedAt order
+        result.sort { lhs, rhs in
+            if lhs.isDraft != rhs.isDraft { return lhs.isDraft }
+            return false
+        }
+        return result
     }
 
     public func countRecipes() async throws -> Int {
