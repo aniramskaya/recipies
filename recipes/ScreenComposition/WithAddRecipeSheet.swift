@@ -9,27 +9,29 @@ import SwiftUI
 import RecipeList
 import Recipe
 
-struct WithAddRecipeSheet<Content: View>: View {
-    let saver: RecipeSaver
+public struct NewRecipeDraft: Hashable {}
+
+struct WithCreateRecipePush<Content: View>: View {
+    @Binding var path: NavigationPath
+    let saver: any RecipeSaver
+    let deleter: any RecipeDeleter
     let onRecipeAdded: () -> Void
     @ViewBuilder let content: Content
-    @State private var isAddingRecipe = false
 
     var body: some View {
         content
             .navigationTitle(.recipeListTitle)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(.recipeAdd, action: { isAddingRecipe = true })
+                    Button(.recipeAdd, action: { path.append(NewRecipeDraft()) })
                 }
             }
-            .sheet(isPresented: $isAddingRecipe) {
-                RecipeEditScreenAssembly.composeNewRecipe(saver: saver) {
-                    isAddingRecipe = false
-                } onSaveCompleted: {
-                    onRecipeAdded()
-                    isAddingRecipe = false
-                }
+            .navigationDestination(for: NewRecipeDraft.self) { _ in
+                RecipeCreateScreenAssembly.compose(
+                    saver: saver,
+                    deleter: deleter,
+                    onComplete: onRecipeAdded
+                )
             }
     }
 }

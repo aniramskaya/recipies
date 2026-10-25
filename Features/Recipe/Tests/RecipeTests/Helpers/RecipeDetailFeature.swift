@@ -8,7 +8,12 @@ import RecipeTypes
 @testable import Recipe
 
 @MainActor
-final class RecipeDetailFeature {
+protocol RecipeDetailUser {
+    func tapRetryButton() throws
+}
+
+@MainActor
+final class RecipeDetailFeature: RecipeDetailUser {
     let view: RecipeDetailScreen
     private var host: (UIWindow, UIViewController)?
 

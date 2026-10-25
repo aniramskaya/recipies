@@ -15,7 +15,6 @@ import SwiftData
 struct recipesApp: App {
     @State private var recipeRepository: RecipeRepository?
     @State private var path = NavigationPath()
-    @State private var isAddingRecipe = false
     
     var body: some Scene {
         WindowGroup {
@@ -28,8 +27,10 @@ struct recipesApp: App {
                                 path.append(RecipeId(id: $0))
                             },
                         )
-                    WithAddRecipeSheet(
+                    WithCreateRecipePush(
+                        path: $path,
                         saver: recipeRepository,
+                        deleter: recipeRepository,
                         onRecipeAdded: reloadRecipeList
                     ) {
                         recipeList

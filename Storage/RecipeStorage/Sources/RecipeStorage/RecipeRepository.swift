@@ -45,6 +45,15 @@ public actor RecipeRepository {
         return result.domain
     }
     
+    public func delete(id: UUID) async throws {
+        let descriptor = FetchDescriptor<RecipeModel>(
+            predicate: #Predicate { $0.id == id }
+        )
+        guard let model = try modelContext.fetch(descriptor).first else { return }
+        modelContext.delete(model)
+        try modelContext.save()
+    }
+
     public func save(_ recipe: Recipe) async throws {
         let id = recipe.id
         let descriptor = FetchDescriptor<RecipeModel>(

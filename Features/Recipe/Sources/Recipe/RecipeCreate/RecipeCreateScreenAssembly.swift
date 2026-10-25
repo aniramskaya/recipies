@@ -1,0 +1,78 @@
+import SwiftUI
+import Scenarios
+import RecipeTypes
+
+public enum RecipeCreateScreenAssembly {
+    @MainActor
+    public static func compose(
+        saver: any RecipeSaver,
+        deleter: any RecipeDeleter,
+        onComplete: @escaping () -> Void
+    ) -> some View {
+        RecipeCreateCoordinator(saver: saver, deleter: deleter, onComplete: onComplete)
+    }
+}
+
+@MainActor
+private struct RecipeCreateCoordinator: View {
+    let saver: any RecipeSaver
+    let deleter: any RecipeDeleter
+    let onComplete: () -> Void
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var viewModel: RecipeEditViewModel
+    @State private var savingTask: Task<Void, Never>?
+
+    init(saver: any RecipeSaver, deleter: any RecipeDeleter, onComplete: @escaping () -> Void) {
+        self.saver = saver
+        self.deleter = deleter
+        self.onComplete = onComplete
+        self._viewModel = State(wrappedValue: RecipeEditViewModel(model: .newDraft))
+    }
+
+    var body: some View {
+        RecipeCreateScreen(viewModel: viewModel, onDeleteTapped: handleDelete)
+            .task {
+                try? await saver.save(viewModel.model.toRecipe(isDraft: true))
+            }
+            .onAppear {
+                viewModel.onSubmitTapped = handleDone
+            }
+    }
+
+    private func handleDone() {
+        guard !viewModel.isSaving else { return }
+        viewModel.fieldErrors.removeAll()
+        viewModel.saveError = nil
+        savingTask?.cancel()
+
+        let scenario = FormSubmitScenario<RecipeDraftModel, Recipe>(
+            getModel: { [weak viewModel] in viewModel?.model },
+            validate: { draftModel in
+                let recipe = await draftModel.toRecipe()
+                let errors = RecipeFormValidator.validate(recipe)
+                return errors.isEmpty ?
+                    .success(recipe) :
+                    .failure(FormValidationError(form: nil, field: errors))
+            },
+            save: { [saver] in try await saver.save($0) }
+        )
+
+        savingTask = Task { [weak viewModel] in
+            for await state in scenario.start() {
+                RecipeEditScreenAssembly.updateModel(viewModel, with: state, onSuccess: { [self] in
+                    dismiss()
+                    onComplete()
+                })
+            }
+        }
+    }
+
+    private func handleDelete() {
+        Task {
+            try? await deleter.delete(id: viewModel.model.id)
+            dismiss()
+            onComplete()
+        }
+    }
+}

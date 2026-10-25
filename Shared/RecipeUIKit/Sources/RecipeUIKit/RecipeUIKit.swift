@@ -31,6 +31,6 @@ public enum RecipeUIKitAssets {
             SwiftUI.Color("field.background", bundle: .module)
         }
     }
-
+    
     private final class BundleToken {}
 }

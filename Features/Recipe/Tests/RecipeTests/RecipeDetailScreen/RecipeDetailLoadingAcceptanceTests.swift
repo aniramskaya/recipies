@@ -19,7 +19,7 @@ struct RecipeDetailLoadingAcceptanceTests {
 
     @Test func loadFailureRetrySuccessScenario() async throws {
         do {
-            let (feature, server) = makeFeature()
+            let (feature, user, server) = makeFeature()
 
             feature.start()
 
@@ -29,7 +29,7 @@ struct RecipeDetailLoadingAcceptanceTests {
 
             try await feature.ensureIsDisplayingError()
 
-            try feature.tapRetryButton()
+            try user.tapRetryButton()
 
             try await feature.ensureIsDisplayingLoadingState()
 
@@ -44,7 +44,7 @@ struct RecipeDetailLoadingAcceptanceTests {
 
     @Test func loadSuccessScenario() async throws {
         do {
-            let (feature, server) = makeFeature()
+            let (feature, _, server) = makeFeature()
 
             feature.start()
 
@@ -61,7 +61,7 @@ struct RecipeDetailLoadingAcceptanceTests {
 
     @Test func noMemoryLeaksInInterruptedScenario() async throws {
         do {
-            let (feature, _) = makeFeature()
+            let (feature, _, _) = makeFeature()
 
             feature.start()
 
@@ -72,14 +72,14 @@ struct RecipeDetailLoadingAcceptanceTests {
         await leakChecker.awaitAllReleased(timeout: 3)
     }
 
-    private func makeFeature() -> (RecipeDetailFeature, RecipeDetailServer) {
+    private func makeFeature() -> (RecipeDetailFeature, RecipeDetailUser, RecipeDetailServer) {
         let server = RecipeDetailServer()
         let (screen, leakable) = RecipeDetailScreenAssembly.composeInternal(loader: server)
         let feature = RecipeDetailFeature(view: screen)
         leakChecker.track(server)
         leakChecker.track(leakable)
         leakChecker.track(feature)
-        return (feature, server)
+        return (feature, feature, server)
     }
 }
 

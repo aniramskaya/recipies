@@ -9,3 +9,4 @@ import RecipeStorage
 import Recipe
 
 extension RecipeRepository: @retroactive RecipeSaver {}
+extension RecipeRepository: @retroactive RecipeDeleter {}

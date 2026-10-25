@@ -53,7 +53,7 @@ final class RecipeDraftModel: Hashable, Identifiable, @unchecked Sendable {
 
 
 extension RecipeDraftModel {
-    func toRecipe() -> Recipe {
+    func toRecipe(isDraft: Bool = false) -> Recipe {
         Recipe(
             id: id,
             imageSource: imageSource,
@@ -74,7 +74,25 @@ extension RecipeDraftModel {
                 .map {
                     RecipeStep(id: $0.id, title: $0.title.isEmpty ? nil : $0.title, imageSource: $0.imageSource, text: $0.text)
                 },
-            bottomText: bottomTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) }
+            bottomText: bottomTextBlock.map { TextBlock(text: $0.text, title: $0.title.isEmpty ? nil : $0.title) },
+            isDraft: isDraft
+        )
+    }
+
+    static var newDraft: RecipeDraftModel {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.setLocalizedDateFormatFromTemplate("dMMM")
+        var dateString = formatter.string(from: Date())
+        if dateString.hasSuffix(".") { dateString.removeLast() }
+        return .init(
+            id: UUID(),
+            title: "Новый · \(dateString)",
+            description: "",
+            ingredients: [.init(id: UUID(), name: "")],
+            topTextBlock: nil,
+            steps: [.init(id: UUID(), title: "", imageSource: nil, text: "")],
+            bottomTextBlock: nil
         )
     }
 
@@ -90,7 +108,7 @@ extension RecipeDraftModel {
             steps: [
                 .init(id: UUID(), title: "", imageSource: nil, text: "")
             ],
-            bottomTextBlock: nil
+            bottomTextBlock: nil,
         )
     }
 }
