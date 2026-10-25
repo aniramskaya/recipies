@@ -22,6 +22,7 @@ private struct RecipeCreateCoordinator: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: RecipeEditViewModel
     @State private var savingTask: Task<Void, Never>?
+    @State private var didComplete = false
 
     init(saver: any RecipeSaver, deleter: any RecipeDeleter, onComplete: @escaping () -> Void) {
         self.saver = saver
@@ -38,6 +39,9 @@ private struct RecipeCreateCoordinator: View {
             }
             .onAppear {
                 viewModel.onSubmitTapped = handleDone
+            }
+            .onDisappear {
+                if !didComplete { onComplete() }
             }
     }
 
@@ -88,6 +92,7 @@ private struct RecipeCreateCoordinator: View {
         savingTask = Task { [weak viewModel] in
             for await state in scenario.start() {
                 RecipeEditScreenAssembly.updateModel(viewModel, with: state, onSuccess: { [self] in
+                    didComplete = true
                     dismiss()
                     onComplete()
                 })
@@ -98,6 +103,7 @@ private struct RecipeCreateCoordinator: View {
     private func handleDelete() {
         Task {
             try? await deleter.delete(id: viewModel.model.id)
+            didComplete = true
             dismiss()
             onComplete()
         }
