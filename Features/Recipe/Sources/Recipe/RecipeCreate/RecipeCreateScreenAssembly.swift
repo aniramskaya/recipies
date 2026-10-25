@@ -60,6 +60,9 @@ private struct RecipeCreateCoordinator: View {
             }
             try? await Task.sleep(for: .seconds(1.5))
             guard !Task.isCancelled, !viewModel.isSaving else { continue }
+            if viewModel.model.title.trimmingCharacters(in: .whitespaces).isEmpty {
+                viewModel.model.title = RecipeDraftModel.defaultTitle()
+            }
             try? await saver.save(viewModel.model.toRecipe(isDraft: true))
         }
     }

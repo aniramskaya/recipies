@@ -79,15 +79,19 @@ extension RecipeDraftModel {
         )
     }
 
-    static var newDraft: RecipeDraftModel {
+    static func defaultTitle() -> String {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ru_RU")
         formatter.setLocalizedDateFormatFromTemplate("dMMM")
         var dateString = formatter.string(from: Date())
         if dateString.hasSuffix(".") { dateString.removeLast() }
-        return .init(
+        return "Новый · \(dateString)"
+    }
+
+    static var newDraft: RecipeDraftModel {
+        .init(
             id: UUID(),
-            title: "Новый · \(dateString)",
+            title: defaultTitle(),
             description: "",
             ingredients: [.init(id: UUID(), name: "")],
             topTextBlock: nil,
