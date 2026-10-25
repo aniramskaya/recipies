@@ -34,10 +34,34 @@ private struct RecipeCreateCoordinator: View {
         RecipeCreateScreen(viewModel: viewModel, onDeleteTapped: handleDelete)
             .task {
                 try? await saver.save(viewModel.model.toRecipe(isDraft: true))
+                await runAutoSave()
             }
             .onAppear {
                 viewModel.onSubmitTapped = handleDone
             }
+    }
+
+    private func runAutoSave() async {
+        while !Task.isCancelled {
+            await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                withObservationTracking {
+                    _ = viewModel.model.title
+                    _ = viewModel.model.description
+                    _ = viewModel.model.ingredients
+                    _ = viewModel.model.cookingTimeMins
+                    _ = viewModel.model.complexity
+                    _ = viewModel.model.imageSource
+                    _ = viewModel.model.topTextBlock
+                    _ = viewModel.model.steps
+                    _ = viewModel.model.bottomTextBlock
+                } onChange: {
+                    continuation.resume()
+                }
+            }
+            try? await Task.sleep(for: .seconds(1.5))
+            guard !Task.isCancelled, !viewModel.isSaving else { continue }
+            try? await saver.save(viewModel.model.toRecipe(isDraft: true))
+        }
     }
 
     private func handleDone() {
