@@ -27,8 +27,8 @@ struct RecipeListScreen: View {
         case let .loaded(model):
             RecipeListView(
                 model: model,
-                onSelectItem: { [weak viewModel] id in
-                    viewModel?.onSelectItem(id)
+                onSelectItem: { [weak viewModel] id, isDraft in
+                    viewModel?.onSelectItem(id, isDraft)
                 }
             )
         case .failed:

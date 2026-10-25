@@ -23,8 +23,8 @@ struct recipesApp: App {
                     let (recipeList, reloadRecipeList) = RecipeListAssembly
                         .composeWithAsyncServices(
                             loader: RecipeListRepositoryLoader(recipeRepository),
-                            onSelectItem: {
-                                path.append(RecipeId(id: $0))
+                            onSelectItem: { id, isDraft in
+                                path.append(RecipeId(id: id, isDraft: isDraft))
                             },
                         )
                     WithCreateRecipePush(
@@ -35,11 +35,19 @@ struct recipesApp: App {
                     ) {
                         recipeList
                     }
-                    .navigationDestination(for: RecipeId.self) { id in
-                        RecipeDetailWithEditScreenAssembly.compose(
-                            loader: RecipeRepositoryLoader(recipeRepository, id: id.id),
-                            saver: recipeRepository
-                        )
+                    .navigationDestination(for: RecipeId.self) { destination in
+                        if destination.isDraft {
+                            RecipeCreateScreenAssembly.compose(
+                                saver: recipeRepository,
+                                deleter: recipeRepository,
+                                onComplete: reloadRecipeList
+                            )
+                        } else {
+                            RecipeDetailWithEditScreenAssembly.compose(
+                                loader: RecipeRepositoryLoader(recipeRepository, id: destination.id),
+                                saver: recipeRepository
+                            )
+                        }
                     }
                 } else {
                     Color.primary

@@ -52,7 +52,7 @@ struct RecipeListAsyncAcceptanceTests {
         do {
             var selectItemCalls: [UUID] = []
             
-            let (feature, server, user) = makeFeature() { selectItemCalls.append($0) }
+            let (feature, server, user) = makeFeature() { id, _ in selectItemCalls.append(id) }
             
             feature.start()
             
@@ -67,7 +67,7 @@ struct RecipeListAsyncAcceptanceTests {
         await leakChecker.awaitAllReleased()
     }
     
-    func makeFeature(onSelectItem: (@MainActor (_: UUID) -> Void)? = nil) -> (
+    func makeFeature(onSelectItem: (@MainActor (_ id: UUID, _ isDraft: Bool) -> Void)? = nil) -> (
         feature: RecipeListFeature,
         server: AsyncServer,
         user: RecipeListUser
@@ -75,7 +75,7 @@ struct RecipeListAsyncAcceptanceTests {
         let server = AsyncServer()
         let (screen, _, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
             loader: server,
-            onSelectItem: onSelectItem ?? { _ in }
+            onSelectItem: onSelectItem ?? { _, _ in }
         )
         let feature = RecipeListFeature(view: screen)
         leakChecker.track([server, feature])

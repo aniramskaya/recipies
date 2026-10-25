@@ -13,7 +13,7 @@ public enum RecipeListAssembly {
     @MainActor
     public static func composeWithAsyncServices(
         loader: RecipeListLoader,
-        onSelectItem: @escaping @MainActor (_: UUID) -> Void,
+        onSelectItem: @escaping @MainActor (_ id: UUID, _ isDraft: Bool) -> Void,
     ) -> (some View, () -> Void) {
         let (view, onReload, _) = composeInternalWithAsyncServices(
             loader: loader,
@@ -25,7 +25,7 @@ public enum RecipeListAssembly {
     @MainActor
     static func composeInternalWithAsyncServices(
         loader: RecipeListLoader,
-        onSelectItem: @escaping @MainActor (_: UUID) -> Void,
+        onSelectItem: @escaping @MainActor (_ id: UUID, _ isDraft: Bool) -> Void,
     ) -> (RecipeListScreen, () -> Void, [AnyObject]) {
         let viewModel = RecipeListScreenViewModel()
 
