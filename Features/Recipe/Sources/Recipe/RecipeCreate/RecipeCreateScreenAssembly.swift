@@ -6,10 +6,9 @@ public enum RecipeCreateScreenAssembly {
     @MainActor
     public static func compose(
         saver: any RecipeSaver,
-        deleter: any RecipeDeleter,
-        onComplete: @escaping () -> Void
+        deleter: any RecipeDeleter
     ) -> some View {
-        RecipeCreateCoordinator(saver: saver, deleter: deleter, onComplete: onComplete)
+        RecipeCreateCoordinator(saver: saver, deleter: deleter)
     }
 }
 
@@ -17,17 +16,14 @@ public enum RecipeCreateScreenAssembly {
 private struct RecipeCreateCoordinator: View {
     let saver: any RecipeSaver
     let deleter: any RecipeDeleter
-    let onComplete: () -> Void
 
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: RecipeEditViewModel
     @State private var savingTask: Task<Void, Never>?
-    @State private var didComplete = false
 
-    init(saver: any RecipeSaver, deleter: any RecipeDeleter, onComplete: @escaping () -> Void) {
+    init(saver: any RecipeSaver, deleter: any RecipeDeleter) {
         self.saver = saver
         self.deleter = deleter
-        self.onComplete = onComplete
         self._viewModel = State(wrappedValue: RecipeEditViewModel(model: .newDraft))
     }
 
@@ -39,9 +35,6 @@ private struct RecipeCreateCoordinator: View {
             }
             .onAppear {
                 viewModel.onSubmitTapped = handleDone
-            }
-            .onDisappear {
-                if !didComplete { onComplete() }
             }
     }
 
@@ -92,9 +85,7 @@ private struct RecipeCreateCoordinator: View {
         savingTask = Task { [weak viewModel] in
             for await state in scenario.start() {
                 RecipeEditScreenAssembly.updateModel(viewModel, with: state, onSuccess: { [self] in
-                    didComplete = true
                     dismiss()
-                    onComplete()
                 })
             }
         }
@@ -103,9 +94,7 @@ private struct RecipeCreateCoordinator: View {
     private func handleDelete() {
         Task {
             try? await deleter.delete(id: viewModel.model.id)
-            didComplete = true
             dismiss()
-            onComplete()
         }
     }
 }

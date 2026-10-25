@@ -20,7 +20,7 @@ struct recipesApp: App {
         WindowGroup {
             NavigationStack(path: $path) {
                 if let recipeRepository {
-                    let (recipeList, reloadRecipeList) = RecipeListAssembly
+                    let recipeList = RecipeListAssembly
                         .composeWithAsyncServices(
                             loader: RecipeListRepositoryLoader(recipeRepository),
                             onSelectItem: { id, isDraft in
@@ -30,8 +30,7 @@ struct recipesApp: App {
                     WithCreateRecipePush(
                         path: $path,
                         saver: recipeRepository,
-                        deleter: recipeRepository,
-                        onRecipeAdded: reloadRecipeList
+                        deleter: recipeRepository
                     ) {
                         recipeList
                     }
@@ -39,8 +38,7 @@ struct recipesApp: App {
                         if destination.isDraft {
                             RecipeCreateScreenAssembly.compose(
                                 saver: recipeRepository,
-                                deleter: recipeRepository,
-                                onComplete: reloadRecipeList
+                                deleter: recipeRepository
                             )
                         } else {
                             RecipeDetailWithEditScreenAssembly.compose(

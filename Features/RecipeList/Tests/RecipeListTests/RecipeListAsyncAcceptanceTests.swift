@@ -73,7 +73,7 @@ struct RecipeListAsyncAcceptanceTests {
         user: RecipeListUser
     ) {
         let server = AsyncServer()
-        let (screen, _, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
+        let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
             loader: server,
             onSelectItem: onSelectItem ?? { _, _ in }
         )

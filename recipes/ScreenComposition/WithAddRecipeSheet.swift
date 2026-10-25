@@ -15,7 +15,6 @@ struct WithCreateRecipePush<Content: View>: View {
     @Binding var path: NavigationPath
     let saver: any RecipeSaver
     let deleter: any RecipeDeleter
-    let onRecipeAdded: () -> Void
     @ViewBuilder let content: Content
 
     var body: some View {
@@ -29,8 +28,7 @@ struct WithCreateRecipePush<Content: View>: View {
             .navigationDestination(for: NewRecipeDraft.self) { _ in
                 RecipeCreateScreenAssembly.compose(
                     saver: saver,
-                    deleter: deleter,
-                    onComplete: onRecipeAdded
+                    deleter: deleter
                 )
             }
     }

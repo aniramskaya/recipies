@@ -19,7 +19,9 @@ actor RecipeListRepositoryLoader: RecipeListLoader {
     }
 
     func load() async throws -> [RecipeListItem] {
+        let start = Date()
         let items = try await self.repository.fetchAll()
+        print("Loading took \(Date().timeIntervalSince(start))")
         return items.map(\.self).listItems
     }
 }

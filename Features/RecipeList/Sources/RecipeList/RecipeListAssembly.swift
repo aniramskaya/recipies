@@ -14,19 +14,19 @@ public enum RecipeListAssembly {
     public static func composeWithAsyncServices(
         loader: RecipeListLoader,
         onSelectItem: @escaping @MainActor (_ id: UUID, _ isDraft: Bool) -> Void,
-    ) -> (some View, () -> Void) {
-        let (view, onReload, _) = composeInternalWithAsyncServices(
+    ) -> some View {
+        let (view, _) = composeInternalWithAsyncServices(
             loader: loader,
             onSelectItem: onSelectItem,
         )
-        return (view, onReload)
+        return view
     }
 
     @MainActor
     static func composeInternalWithAsyncServices(
         loader: RecipeListLoader,
         onSelectItem: @escaping @MainActor (_ id: UUID, _ isDraft: Bool) -> Void,
-    ) -> (RecipeListScreen, () -> Void, [AnyObject]) {
+    ) -> (RecipeListScreen, [AnyObject]) {
         let viewModel = RecipeListScreenViewModel()
 
         let loadingScenario = BasicLoadingScenario(
@@ -52,7 +52,7 @@ public enum RecipeListAssembly {
         viewModel.onSelectItem = onSelectItem
         
         let screen = RecipeListScreen(viewModel: viewModel)
-        return (screen, load, [viewModel, loadingScenario])
+        return (screen, [viewModel, loadingScenario])
     }
     
     @MainActor
