@@ -23,14 +23,14 @@ final class RecipeDetailScreenModel {
     }
 }
 
-struct RecipeDetailScreen: View {
-    private var model: RecipeDetailScreenModel
-
-    init(model: RecipeDetailScreenModel) {
-        self.model = model
+public struct RecipeDetailScreen: View {
+    @State private var model: RecipeDetailScreenModel
+    
+    public init(loader: any RecipeDetailLoader) {
+        _model = State(wrappedValue: RecipeDetailScreenAssembly.composeModel(loader: loader).0)
     }
 
-    var body: some View {
+    public var body: some View {
         ResourceLoadingView(
             state: model.loadingState,
             loading: {

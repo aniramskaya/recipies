@@ -27,30 +27,31 @@ private struct RecipeDetailWithEdit: View {
     @State var draft: RecipeDraftModel? = nil
 
     var body: some View {
-        RecipeDetailScreenAssembly.compose(
-                loader: loader,
-                onEdit: {
-                    draft = $0
-                    onSaveCompleted = $1
-                }
-            )
-            .sheet(item: $draft) { item in
-                RecipeEditScreenAssembly.composeModal(
-                    model: item,
-                    saver: saver,
-                    deleter: deleter,
-                    onCancel: { draft = nil },
-                    onSaveCompleted: {
-                        onSaveCompleted?()
-                        onSaveCompleted = nil
-                        draft = nil
-                    },
-                    onDeleteCompleted: {
-                        draft = nil
-                        dismiss()
-                    }
-                )
-                .interactiveDismissDisabled()
-            }
+        EmptyView()
+//        RecipeDetailScreenAssembly.compose(
+//                loader: loader,
+//                onEdit: {
+//                    draft = $0
+//                    onSaveCompleted = $1
+//                }
+//            )
+//            .sheet(item: $draft) { item in
+//                RecipeEditScreenAssembly.composeModal(
+//                    model: item,
+//                    saver: saver,
+//                    deleter: deleter,
+//                    onCancel: { draft = nil },
+//                    onSaveCompleted: {
+//                        onSaveCompleted?()
+//                        onSaveCompleted = nil
+//                        draft = nil
+//                    },
+//                    onDeleteCompleted: {
+//                        draft = nil
+//                        dismiss()
+//                    }
+//                )
+//                .interactiveDismissDisabled()
+//            }
     }
 }

@@ -41,11 +41,7 @@ struct recipesApp: App {
                                 deleter: recipeRepository
                             )
                         } else {
-                            RecipeDetailWithEditScreenAssembly.compose(
-                                loader: RecipeRepositoryLoader(recipeRepository, id: destination.id),
-                                saver: recipeRepository,
-                                deleter: recipeRepository
-                            )
+                            RecipeDetailScreen(loader: RecipeRepositoryLoader(recipeRepository, id: destination.id))
                         }
                     }
                 } else {
