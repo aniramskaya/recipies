@@ -20,22 +20,19 @@ struct recipesApp: App {
         WindowGroup {
             NavigationStack(path: $path) {
                 if let recipeRepository {
-                    let recipeList = RecipeListAssembly
-                        .composeWithAsyncServices(
+                    WithCreateRecipePush(
+                        path: $path,
+                        loader: RecipeRepositoryDraftLoader(recipeRepository, id: nil),
+                        saver: recipeRepository,
+                        deleter: recipeRepository
+                    ) {
+                        RecipeListScreen(
                             loader: RecipeListRepositoryLoader(recipeRepository),
                             onSelectItem: { id, isDraft in
                                 path.append(RecipeId(id: id, isDraft: isDraft))
-                            },
+                            }
                         )
-//                    WithCreateRecipePush(
-//                        path: $path,
-//                        loader: RecipeRepositoryDraftLoader(recipeRepository, id: nil),
-//                        saver: recipeRepository,
-//                        deleter: recipeRepository
-//                    ) {
-//                        recipeList
-//                    }
-                    recipeList
+                    }
                     .navigationDestination(for: RecipeId.self) { destination in
                         if destination.isDraft {
                             RecipeCreateScreenAssembly.compose(

@@ -9,24 +9,11 @@ import SwiftUI
 import Foundation
 import Scenarios
 
-public enum RecipeListAssembly {
+enum RecipeListModelAssembly {
     @MainActor
-    public static func composeWithAsyncServices(
+    static func composeModel(
         loader: RecipeListLoader,
-        onSelectItem: @escaping @MainActor (_ id: UUID, _ isDraft: Bool) -> Void,
-    ) -> some View {
-        let (view, _) = composeInternalWithAsyncServices(
-            loader: loader,
-            onSelectItem: onSelectItem,
-        )
-        return view
-    }
-
-    @MainActor
-    static func composeInternalWithAsyncServices(
-        loader: RecipeListLoader,
-        onSelectItem: @escaping @MainActor (_ id: UUID, _ isDraft: Bool) -> Void,
-    ) -> (RecipeListScreen, [AnyObject]) {
+    ) -> RecipeListScreenViewModel {
         let viewModel = RecipeListScreenViewModel()
 
         let loadingScenario = BasicLoadingScenario(
@@ -49,10 +36,8 @@ public enum RecipeListAssembly {
         viewModel.onAppear = load
         viewModel.onRetry = load
         viewModel.onDisappear = { loadingTask?.cancel() }
-        viewModel.onSelectItem = onSelectItem
         
-        let screen = RecipeListScreen(viewModel: viewModel)
-        return (screen, [viewModel, loadingScenario])
+        return viewModel
     }
     
     @MainActor

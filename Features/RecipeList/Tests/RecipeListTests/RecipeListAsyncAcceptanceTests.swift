@@ -73,13 +73,10 @@ struct RecipeListAsyncAcceptanceTests {
         user: RecipeListUser
     ) {
         let server = AsyncServer()
-        let (screen, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
-            loader: server,
-            onSelectItem: onSelectItem ?? { _, _ in }
-        )
+        let screen = RecipeListScreen(loader: server, onSelectItem: onSelectItem ?? { _, _ in })
+
         let feature = RecipeListFeature(view: screen)
         leakChecker.track([server, feature])
-        leakChecker.track(leakable)
         return (feature, server, feature)
     }
 }
