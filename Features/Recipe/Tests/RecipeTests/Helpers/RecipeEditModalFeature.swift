@@ -7,11 +7,11 @@ import TestHelpers
 
 @MainActor
 final class RecipeEditModalFeature {
-    let view: RecipeEditScreenModal
+    let view: RecipeEditScreen
     private var host: (UIWindow, UIViewController)?
     private(set) var onCancelCallCount = 0
 
-    init(view: RecipeEditScreenModal) {
+    init(view: RecipeEditScreen) {
         self.view = view
     }
 

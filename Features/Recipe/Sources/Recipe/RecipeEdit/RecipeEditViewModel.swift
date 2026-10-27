@@ -5,6 +5,8 @@ import Foundation
 final class RecipeEditViewModel {
     let model: RecipeDraftModel
 
+    var onAppearTask: () async -> Void = { }
+    var onDeleteTapped: () -> Void = {}
     var onCancelTapped: () -> Void = {}
     var onSubmitTapped: () -> Void = {}
 

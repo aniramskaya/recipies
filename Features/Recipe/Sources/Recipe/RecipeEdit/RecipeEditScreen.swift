@@ -8,27 +8,26 @@
 import SwiftUI
 
 struct RecipeEditScreen: View {
-    private(set) var model: RecipeDraftModel
-
-    var body: some View {
-        RecipeEditView(dataModel: model)
-    }
-}
-
-struct RecipeEditScreenModal: View {
     let viewModel: RecipeEditViewModel
+    let isModal: Bool
 
     var body: some View {
         NavigationStack {
             RecipeEditView(
                 dataModel: viewModel.model,
                 fieldErrors: viewModel.fieldErrors,
-                isSaving: viewModel.isSaving
+                isSaving: viewModel.isSaving,
+                onDelete: viewModel.onDeleteTapped
             )
+            .task {
+                await viewModel.onAppearTask()
+            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Отменить", action: viewModel.onCancelTapped)
+                if isModal {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Отменить", action: viewModel.onCancelTapped)
+                    }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     if viewModel.isSaving {

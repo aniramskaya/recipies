@@ -15,7 +15,7 @@ import SwiftData
 struct recipesApp: App {
     @State private var recipeRepository: RecipeRepository?
     @State private var path = NavigationPath()
-    
+
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $path) {
@@ -27,23 +27,27 @@ struct recipesApp: App {
                                 path.append(RecipeId(id: id, isDraft: isDraft))
                             },
                         )
-                    WithCreateRecipePush(
-                        path: $path,
-                        saver: recipeRepository,
-                        deleter: recipeRepository
-                    ) {
-                        recipeList
-                    }
+//                    WithCreateRecipePush(
+//                        path: $path,
+//                        loader: RecipeRepositoryDraftLoader(recipeRepository, id: nil),
+//                        saver: recipeRepository,
+//                        deleter: recipeRepository
+//                    ) {
+//                        recipeList
+//                    }
+                    recipeList
                     .navigationDestination(for: RecipeId.self) { destination in
                         if destination.isDraft {
                             RecipeCreateScreenAssembly.compose(
+                                loader: RecipeRepositoryDraftLoader(recipeRepository, id: destination.id),
                                 saver: recipeRepository,
                                 deleter: recipeRepository
                             )
                         } else {
                             RecipeDetailWithEditScreenAssembly.compose(
                                 loader: RecipeRepositoryLoader(recipeRepository, id: destination.id),
-                                saver: recipeRepository
+                                saver: recipeRepository,
+                                deleter: recipeRepository
                             )
                         }
                     }

@@ -17,6 +17,10 @@ final class RecipeDetailScreenModel {
     var onDisappear: () -> Void = {}
     var onRetry: () -> Void = {}
     var onEdit: () -> Void = {}
+    
+    deinit {
+        print("RecipeDetailScreenModel deinit")
+    }
 }
 
 struct RecipeDetailScreen: View {

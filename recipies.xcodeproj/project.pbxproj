@@ -84,7 +84,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CC1E4335300F5FCB009C4016 /* DataStub */ = {
+		CC1E4335300F5FCB009C4016 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
 				CCABE467307794020080BB7F /* RecipeSaver.swift */,
@@ -92,7 +92,7 @@
 				CC1E4336300F5FF2009C4016 /* RecipeListLoader.swift */,
 				CC1E4333300F4D89009C4016 /* SampleRecipes.swift */,
 			);
-			path = DataStub;
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 		CC208F7F3053FAF800914151 /* ScreenComposition */ = {
@@ -157,7 +157,7 @@
 				CC208F823053FDE000914151 /* Resources */,
 				CC208F7F3053FAF800914151 /* ScreenComposition */,
 				CC208F7E3053F3DE00914151 /* Info.plist */,
-				CC1E4335300F5FCB009C4016 /* DataStub */,
+				CC1E4335300F5FCB009C4016 /* DataSource */,
 				CCF62CBC2ADA82BB009537A9 /* recipesApp.swift */,
 				CCF62CC02ADA82CB009537A9 /* Assets.xcassets */,
 				CCF62CC22ADA82CB009537A9 /* Preview Content */,

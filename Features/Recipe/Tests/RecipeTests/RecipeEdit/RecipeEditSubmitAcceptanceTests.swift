@@ -67,6 +67,7 @@ struct RecipeEditSubmitAcceptanceTests {
         steps: [RecipeStepDraftModel] = []
     ) -> (RecipeEditModalFeature, RecipeEditSaverStub) {
         let saver = RecipeEditSaverStub()
+        let deleter = RecipeDeleterStub()
         let model = RecipeDraftModel(
             id: UUID(),
             title: title,
@@ -79,13 +80,16 @@ struct RecipeEditSubmitAcceptanceTests {
         let (screen, leakable) = RecipeEditScreenAssembly.composeInternal(
             model: model,
             saver: saver,
+            deleter: deleter,
             onCancel: {},
             onSaveCompleted: {
                 onSaveCallCount.value += 1
-            }
+            },
+            onDeleteCompleted: {}
         )
         let feature = RecipeEditModalFeature(view: screen)
         leakChecker.track(saver)
+        leakChecker.track(deleter)
         leakChecker.track(leakable)
         leakChecker.track(feature)
         return (feature, saver)

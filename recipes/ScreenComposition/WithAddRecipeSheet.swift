@@ -13,6 +13,7 @@ public struct NewRecipeDraft: Hashable {}
 
 struct WithCreateRecipePush<Content: View>: View {
     @Binding var path: NavigationPath
+    let loader: any RecipeDetailLoader
     let saver: any RecipeSaver
     let deleter: any RecipeDeleter
     @ViewBuilder let content: Content
@@ -27,6 +28,7 @@ struct WithCreateRecipePush<Content: View>: View {
             }
             .navigationDestination(for: NewRecipeDraft.self) { _ in
                 RecipeCreateScreenAssembly.compose(
+                    loader: loader,
                     saver: saver,
                     deleter: deleter
                 )

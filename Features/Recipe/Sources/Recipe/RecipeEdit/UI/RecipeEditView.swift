@@ -10,8 +10,11 @@ import SwiftUI
 
 struct RecipeEditView: View {
     @Bindable var dataModel: RecipeDraftModel
+    @State private var showDeleteConfirmation = false
     var fieldErrors: [String: String] = [:]
     var isSaving: Bool = false
+    var onDelete: () -> Void = { }
+    
 
     var body: some View {
         // let _ = Self._printChanges()
@@ -39,7 +42,32 @@ struct RecipeEditView: View {
                 TextBlockOptionalEditView(
                     model: $dataModel.bottomTextBlock
                 )
+                Divider()
+                Button(role: .destructive) {
+                    showDeleteConfirmation = true
+                } label: {
+                    Text("Удалить черновик рецепта")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                }
+                .padding(RecipeStyles.Padding.default)
             }
+        }
+        .confirmationDialog(
+            "Удалить черновик?",
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(
+                "Удалить черновик рецепта",
+                role: .destructive,
+                action: onDelete
+            )
+            Button(
+                "Отменить",
+                role: .cancel,
+                action: { showDeleteConfirmation = false }
+            )
         }
         .scrollDismissesKeyboard(.interactively)
         .disabled(isSaving)

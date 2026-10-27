@@ -10,42 +10,112 @@ import Scenarios
 import RecipeTypes
 
 public enum RecipeEditScreenAssembly {
-    @MainActor
-    static func compose(model: RecipeDraftModel) -> some View {
-        RecipeEditScreen(model: model)
-    }
 
+    @MainActor
+    static func composeDraft(
+        model: RecipeDraftModel,
+        saver: any RecipeSaver,
+        deleter: any RecipeDeleter,
+        onCancel: @escaping () -> Void,
+        onSaveCompleted: @escaping () -> Void,
+        onDeleteCompleted: @escaping () -> Void
+    ) -> RecipeEditScreen {
+
+        let viewModel = composeViewModel(
+            model: model,
+            saver: saver,
+            deleter: deleter,
+            onCancel: onCancel,
+            onSaveCompleted: onSaveCompleted,
+            onDeleteCompleted: onDeleteCompleted
+        )
+        
+        viewModel.onAppearTask = { [weak viewModel] in
+            guard let viewModel else { return }
+            await startAutoSave(viewModel: viewModel, saver: saver)
+        }
+
+        
+        return RecipeEditScreen(viewModel: viewModel, isModal: false)
+    }
+    
+    @MainActor
+    private static func startAutoSave(viewModel: RecipeEditViewModel, saver: any RecipeSaver) async {
+        while !Task.isCancelled {
+            await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                withObservationTracking {
+                    _ = viewModel.model.title
+                    _ = viewModel.model.description
+                    _ = viewModel.model.ingredients
+                    _ = viewModel.model.cookingTimeMins
+                    _ = viewModel.model.complexity
+                    _ = viewModel.model.imageSource
+                    _ = viewModel.model.topTextBlock
+                    _ = viewModel.model.steps
+                    _ = viewModel.model.bottomTextBlock
+                } onChange: {
+                    continuation.resume()
+                }
+            }
+            try? await Task.sleep(for: .seconds(1.5))
+            guard !Task.isCancelled, !viewModel.isSaving else { continue }
+            if viewModel.model.title.trimmingCharacters(in: .whitespaces).isEmpty {
+                viewModel.model.title = RecipeDraftModel.defaultTitle()
+            }
+            try? await saver.save(viewModel.model.toRecipe(isDraft: true))
+        }
+    }
+    
     @MainActor
     static func composeModal(
         model: RecipeDraftModel,
         saver: any RecipeSaver,
+        deleter: any RecipeDeleter,
         onCancel: @escaping () -> Void,
-        onSaveCompleted: @escaping () -> Void
-    ) -> RecipeEditScreenModal {
+        onSaveCompleted: @escaping () -> Void,
+        onDeleteCompleted: @escaping () -> Void
+    ) -> RecipeEditScreen {
         return composeInternal(
             model: model,
             saver: saver,
+            deleter: deleter,
             onCancel: onCancel,
-            onSaveCompleted: onSaveCompleted
+            onSaveCompleted: onSaveCompleted,
+            onDeleteCompleted: onDeleteCompleted
         ).0
-    }
-
-    @MainActor
-    public static func composeNewRecipe(
-        saver: any RecipeSaver,
-        onCancel: @escaping () -> Void,
-        onSaveCompleted: @escaping () -> Void
-    ) -> some View {
-        composeModal(model: .empty, saver: saver, onCancel: onCancel, onSaveCompleted: onSaveCompleted)
     }
 
     @MainActor
     static func composeInternal(
         model: RecipeDraftModel,
         saver: any RecipeSaver,
+        deleter: any RecipeDeleter,
         onCancel: @escaping () -> Void,
-        onSaveCompleted: @escaping () -> Void
-    ) -> (RecipeEditScreenModal, AnyObject) {
+        onSaveCompleted: @escaping () -> Void,
+        onDeleteCompleted: @escaping () -> Void
+    ) -> (RecipeEditScreen, AnyObject) {
+
+        let viewModel = composeViewModel(
+            model: model,
+            saver: saver,
+            deleter: deleter,
+            onCancel: onCancel,
+            onSaveCompleted: onSaveCompleted,
+            onDeleteCompleted: onDeleteCompleted
+        )
+        
+        return (RecipeEditScreen(viewModel: viewModel, isModal: true), viewModel)
+    }
+    
+    @MainActor
+    static func composeViewModel(
+        model: RecipeDraftModel,
+        saver: any RecipeSaver,
+        deleter: any RecipeDeleter,
+        onCancel: @escaping () -> Void,
+        onSaveCompleted: @escaping () -> Void,
+        onDeleteCompleted: @escaping () -> Void
+    ) -> RecipeEditViewModel {
         let viewModel = RecipeEditViewModel(model: model)
         viewModel.onCancelTapped = onCancel
 
@@ -75,8 +145,16 @@ public enum RecipeEditScreenAssembly {
                 }
             }
         }
-
-        return (RecipeEditScreenModal(viewModel: viewModel), viewModel)
+        
+        viewModel.onDeleteTapped = {
+            Task {
+                try await deleter.delete(id: model.id)
+                guard !Task.isCancelled else { return }
+                onDeleteCompleted()
+            }
+        }
+        
+        return viewModel
     }
     
     @MainActor
