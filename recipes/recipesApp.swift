@@ -20,28 +20,38 @@ struct recipesApp: App {
         WindowGroup {
             NavigationStack(path: $path) {
                 if let recipeRepository {
-                    WithCreateRecipePush(
-                        path: $path,
-                        loader: RecipeRepositoryDraftLoader(recipeRepository, id: nil),
-                        saver: recipeRepository,
-                        deleter: recipeRepository
-                    ) {
-                        RecipeListScreen(
-                            loader: RecipeListRepositoryLoader(recipeRepository),
-                            onSelectItem: { id, isDraft in
-                                path.append(RecipeId(id: id, isDraft: isDraft))
-                            }
+                    RecipeListScreen(
+                        loader: RecipeListRepositoryLoader(recipeRepository),
+                        onSelectItem: { id, isDraft in
+                            path.append(RecipeId(id: id, isDraft: isDraft))
+                        }
+                    )
+                    .navigationTitle(.recipeListTitle)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button(.recipeAdd, action: { path.append(NewRecipeDraft()) })
+                        }
+                    }
+                    .navigationDestination(for: NewRecipeDraft.self) { _ in
+                        RecipeCreateScreen(
+                            loader: RecipeRepositoryDraftLoader(recipeRepository, id: nil),
+                            saver: recipeRepository,
+                            deleter: recipeRepository
                         )
                     }
                     .navigationDestination(for: RecipeId.self) { destination in
                         if destination.isDraft {
-                            RecipeCreateScreenAssembly.compose(
+                            RecipeCreateScreen(
                                 loader: RecipeRepositoryDraftLoader(recipeRepository, id: destination.id),
                                 saver: recipeRepository,
                                 deleter: recipeRepository
                             )
                         } else {
-                            RecipeDetailScreen(loader: RecipeRepositoryLoader(recipeRepository, id: destination.id))
+                            RecipeDetailWithEdit(
+                                loader: RecipeRepositoryLoader(recipeRepository, id: destination.id),
+                                saver: recipeRepository,
+                                deleter: recipeRepository
+                            )
                         }
                     }
                 } else {

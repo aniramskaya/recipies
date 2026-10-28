@@ -14,12 +14,20 @@ class RecipeCreateScreenViewModel {
     }
 }
 
-struct RecipeCreateScreen: View {
-    let viewModel: RecipeCreateScreenViewModel
-    let saver: any RecipeSaver
-    let deleter: any RecipeDeleter
+public struct RecipeCreateScreen: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var viewModel: RecipeCreateScreenViewModel
+    
+    private let saver: any RecipeSaver
+    private let deleter: any RecipeDeleter
+    
+    public init(loader: any RecipeDetailLoader, saver: any RecipeSaver, deleter: any RecipeDeleter) {
+        _viewModel = State(wrappedValue: RecipeCreateScreenAssembly.composeModel(loader: loader))
+        self.saver = saver
+        self.deleter = deleter
+    }
 
-    var body: some View {
+    public var body: some View {
         ResourceLoadingView(
             state: viewModel.state,
             loading: {
@@ -29,17 +37,25 @@ struct RecipeCreateScreen: View {
                 ErrorView(error: error.localizedDescription) { viewModel.onRetry() }
             },
             content: { viewModel in
-                RecipeEditScreenAssembly.composeDraft(
-                    model: viewModel,
+                RecipeEditScreen(
+                    draft: viewModel,
                     saver: saver,
                     deleter: deleter,
                     onCancel: {},
-                    onSaveCompleted: {},
-                    onDeleteCompleted: {}
+                    onSaveCompleted: {
+                        dismiss()
+                    },
+                    onDeleteCompleted: {
+                        dismiss()
+                    }
                 )
             }
         )
-        .onAppear { viewModel.onAppear() }
-        .onDisappear { viewModel.onDisappear() }
+        .onAppear {
+            viewModel.onAppear()
+        }
+        .onDisappear {
+            viewModel.onDisappear()
+        }
     }
 }

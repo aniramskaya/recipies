@@ -10,15 +10,7 @@ import Scenarios
 import RecipeUIKit
 import RecipeTypes
 
-enum RecipeDetailScreenAssembly {
-    @MainActor
-    static func composeInternal(
-        loader: any RecipeDetailLoader,
-        onEdit: @escaping (RecipeDraftModel, @escaping () -> Void) -> Void = { _, _ in }
-    ) -> (RecipeDetailScreen, [AnyObject]) {
-        return (RecipeDetailScreen(loader: loader), [])
-    }
-    
+enum RecipeDetailScreenAssembly {    
     @MainActor
     static func composeModel(
         loader: any RecipeDetailLoader,

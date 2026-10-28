@@ -2,13 +2,11 @@ import SwiftUI
 import Scenarios
 import RecipeTypes
 
-public enum RecipeCreateScreenAssembly {
+enum RecipeCreateScreenAssembly {
     @MainActor
-    public static func compose(
-        loader: any RecipeDetailLoader,
-        saver: any RecipeSaver,
-        deleter: any RecipeDeleter,
-    ) -> some View {
+    static func composeModel(
+        loader: any RecipeDetailLoader
+    ) -> RecipeCreateScreenViewModel {
         
         let viewModel = RecipeCreateScreenViewModel(state: .loading)
         let loadingScenario = BasicLoadingScenario(loader: loader.load)
@@ -28,11 +26,7 @@ public enum RecipeCreateScreenAssembly {
         viewModel.onAppear = load
         viewModel.onRetry = load
         
-        return RecipeCreateScreen(
-            viewModel: viewModel,
-            saver: saver,
-            deleter: deleter
-        )
+        return viewModel
         
         @MainActor
         func setLoadingState(

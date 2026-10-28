@@ -17,20 +17,19 @@ final class RecipeDetailScreenModel {
     var onDisappear: () -> Void = {}
     var onRetry: () -> Void = {}
     var onEdit: () -> Void = {}
-    
-    deinit {
-        print("RecipeDetailScreenModel deinit")
-    }
 }
 
-public struct RecipeDetailScreen: View {
+struct RecipeDetailScreen: View {
     @State private var model: RecipeDetailScreenModel
     
-    public init(loader: any RecipeDetailLoader) {
-        _model = State(wrappedValue: RecipeDetailScreenAssembly.composeModel(loader: loader).0)
+    init(loader: any RecipeDetailLoader, onEdit: @escaping  (RecipeDraftModel, @escaping () -> Void) -> Void) {
+        _model = State(wrappedValue: RecipeDetailScreenAssembly.composeModel(
+            loader: loader,
+            onEdit: onEdit
+        ).0)
     }
 
-    public var body: some View {
+    var body: some View {
         ResourceLoadingView(
             state: model.loadingState,
             loading: {

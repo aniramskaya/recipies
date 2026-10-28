@@ -12,14 +12,14 @@ import RecipeTypes
 public enum RecipeEditScreenAssembly {
 
     @MainActor
-    static func composeDraft(
+    static func composeDraftEditModel(
         model: RecipeDraftModel,
         saver: any RecipeSaver,
         deleter: any RecipeDeleter,
         onCancel: @escaping () -> Void,
         onSaveCompleted: @escaping () -> Void,
         onDeleteCompleted: @escaping () -> Void
-    ) -> RecipeEditScreen {
+    ) -> RecipeEditViewModel {
 
         let viewModel = composeViewModel(
             model: model,
@@ -34,9 +34,8 @@ public enum RecipeEditScreenAssembly {
             guard let viewModel else { return }
             await startAutoSave(viewModel: viewModel, saver: saver)
         }
-
         
-        return RecipeEditScreen(viewModel: viewModel, isModal: false)
+        return viewModel
     }
     
     @MainActor
@@ -64,47 +63,6 @@ public enum RecipeEditScreenAssembly {
             }
             try? await saver.save(viewModel.model.toRecipe(isDraft: true))
         }
-    }
-    
-    @MainActor
-    static func composeModal(
-        model: RecipeDraftModel,
-        saver: any RecipeSaver,
-        deleter: any RecipeDeleter,
-        onCancel: @escaping () -> Void,
-        onSaveCompleted: @escaping () -> Void,
-        onDeleteCompleted: @escaping () -> Void
-    ) -> RecipeEditScreen {
-        return composeInternal(
-            model: model,
-            saver: saver,
-            deleter: deleter,
-            onCancel: onCancel,
-            onSaveCompleted: onSaveCompleted,
-            onDeleteCompleted: onDeleteCompleted
-        ).0
-    }
-
-    @MainActor
-    static func composeInternal(
-        model: RecipeDraftModel,
-        saver: any RecipeSaver,
-        deleter: any RecipeDeleter,
-        onCancel: @escaping () -> Void,
-        onSaveCompleted: @escaping () -> Void,
-        onDeleteCompleted: @escaping () -> Void
-    ) -> (RecipeEditScreen, AnyObject) {
-
-        let viewModel = composeViewModel(
-            model: model,
-            saver: saver,
-            deleter: deleter,
-            onCancel: onCancel,
-            onSaveCompleted: onSaveCompleted,
-            onDeleteCompleted: onDeleteCompleted
-        )
-        
-        return (RecipeEditScreen(viewModel: viewModel, isModal: true), viewModel)
     }
     
     @MainActor

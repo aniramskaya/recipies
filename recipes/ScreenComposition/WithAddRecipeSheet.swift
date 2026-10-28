@@ -20,18 +20,6 @@ struct WithCreateRecipePush<Content: View>: View {
 
     var body: some View {
         content
-            .navigationTitle(.recipeListTitle)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(.recipeAdd, action: { path.append(NewRecipeDraft()) })
-                }
-            }
-            .navigationDestination(for: NewRecipeDraft.self) { _ in
-                RecipeCreateScreenAssembly.compose(
-                    loader: loader,
-                    saver: saver,
-                    deleter: deleter
-                )
-            }
+
     }
 }
