@@ -17,15 +17,14 @@ import ViewInspector
 /*
  Что тестируем
  Базовый сценарий: загрузка -> ошибка -> нажатие кнопки "повторить" -> загрузка -> успех
- Дополнительный (чтобы ничего не пропустить): загрузка -> успех -> юзер использует PTR -> загружаются новые данные
- 
+ При нажатии на элемент списка рецептов вызывается onSelectItem
  */
 
 @MainActor
-struct RecipeListAsyncAcceptanceTests {
+struct RecipeListScreenAcceptanceTests {
     let leakChecker = LeakChecker()
     
-    @Test func loadErrorReloadResultScenario() async throws {
+    @Test func `loadingScenario - failure and reload`() async throws {
         do {
             let (feature, server, user) = makeFeature()
             

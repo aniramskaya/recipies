@@ -13,7 +13,10 @@ public struct RecipeListScreen: View {
 
     @State private var viewModel: RecipeListScreenViewModel
     
-    public init(loader: RecipeListLoader, onSelectItem: @MainActor @escaping (_: UUID, _: Bool) -> Void) {
+    public init(
+        loader: RecipeListLoader,
+        onSelectItem: @MainActor @escaping (_: UUID, _: Bool) -> Void
+    ) {
         _viewModel = State(wrappedValue: RecipeListModelAssembly.composeModel(loader: loader))
         self.onSelectItem = onSelectItem
     }
