@@ -16,9 +16,7 @@ struct RecipeListViewModelTests {
 
     @Test func initialStateIsLoading() async {
         do {
-            let server = AsyncServer()
-            let viewModel = RecipeListModelAssembly.composeModel(loader: server)
-            leakChecker.track([server, viewModel])
+            let (viewModel, _) = makeSUT()
 
             if case .loading = viewModel.state { } else {
                 Issue.record("Expected .loading, got \(viewModel.state)")
@@ -29,9 +27,7 @@ struct RecipeListViewModelTests {
 
     @Test func loadsRecipesSuccessfully() async throws {
         do {
-            let server = AsyncServer()
-            let viewModel = RecipeListModelAssembly.composeModel(loader: server)
-            leakChecker.track([server, viewModel])
+            let (viewModel, server) = makeSUT()
 
             viewModel.onAppear()
             try await server.respond(with: .success(RecipeListItem.makeTestItems()), at: 0)
@@ -48,9 +44,7 @@ struct RecipeListViewModelTests {
 
     @Test func showsErrorOnLoadFailure() async throws {
         do {
-            let server = AsyncServer()
-            let viewModel = RecipeListModelAssembly.composeModel(loader: server)
-            leakChecker.track([server, viewModel])
+            let (viewModel, server) = makeSUT()
 
             viewModel.onAppear()
             try await server.respond(with: .failure(NSError.any()), at: 0)
@@ -65,9 +59,7 @@ struct RecipeListViewModelTests {
 
     @Test func retriesAfterFailure() async throws {
         do {
-            let server = AsyncServer()
-            let viewModel = RecipeListModelAssembly.composeModel(loader: server)
-            leakChecker.track([server, viewModel])
+            let (viewModel, server) = makeSUT()
 
             viewModel.onAppear()
             try await server.respond(with: .failure(NSError.any()), at: 0)
@@ -88,5 +80,14 @@ struct RecipeListViewModelTests {
             }
         }
         await leakChecker.awaitAllReleased()
+    }
+
+    // MARK: - Helpers
+
+    private func makeSUT() -> (RecipeListScreenViewModel, AsyncServer) {
+        let server = AsyncServer()
+        let viewModel = RecipeListModelAssembly.composeModel(loader: server)
+        leakChecker.track([server, viewModel])
+        return (viewModel, server)
     }
 }
