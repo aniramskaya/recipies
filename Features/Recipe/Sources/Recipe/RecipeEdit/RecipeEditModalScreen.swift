@@ -50,14 +50,14 @@ struct RecipeEditModalScreen: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("cancel", action: viewModel.onCancelTapped)
+                    Button(.cancel, action: viewModel.onCancelTapped)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     if viewModel.isSaving {
                         ProgressView()
                             .accessibilityIdentifier(RecipeEditA11y.savingIndicator)
                     } else {
-                        Button("recipeEdit.save", action: viewModel.onSubmitTapped)
+                        Button(.recipeEditSave, action: viewModel.onSubmitTapped)
                             .accessibilityIdentifier(RecipeEditA11y.saveButton)
                     }
                 }
