@@ -27,6 +27,10 @@ struct RecipeEditScreen: View {
             onDeleteCompleted: onDeleteCompleted
         ))
     }
+    
+    init(viewModel: RecipeEditViewModel) {
+        _viewModel = State(wrappedValue: viewModel)
+    }
 
 
     var body: some View {

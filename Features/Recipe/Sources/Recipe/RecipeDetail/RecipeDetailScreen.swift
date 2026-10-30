@@ -20,36 +20,40 @@ final class RecipeDetailScreenModel {
 }
 
 struct RecipeDetailScreen: View {
-    @State private var model: RecipeDetailScreenModel
+    @State private var viewModel: RecipeDetailScreenModel
     
     init(loader: any RecipeDetailLoader, onEdit: @escaping  (RecipeDraftModel, @escaping () -> Void) -> Void) {
-        _model = State(wrappedValue: RecipeDetailScreenAssembly.composeModel(
+        _viewModel = State(wrappedValue: RecipeDetailScreenAssembly.composeModel(
             loader: loader,
             onEdit: onEdit
         ).0)
     }
+    
+    init(viewModel: RecipeDetailScreenModel) {
+        _viewModel = State(wrappedValue: viewModel)
+    }
 
     var body: some View {
         ResourceLoadingView(
-            state: model.loadingState,
+            state: viewModel.loadingState,
             loading: {
                 LoadingView()
             },
             failure: { error in
-                ErrorView(error: error.localizedDescription) { model.onRetry() }
+                ErrorView(error: error.localizedDescription) { viewModel.onRetry() }
             },
             content: { viewModel in
                 RecipeDetailView(model: viewModel)
             }
         )
         .toolbar {
-            if case .loaded = model.loadingState {
+            if case .loaded = viewModel.loadingState {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(.recipeEdit, action: model.onEdit)
+                    Button(.recipeEdit, action: viewModel.onEdit)
                 }
             }
         }
-        .onAppear { model.onAppear() }
-        .onDisappear { model.onDisappear() }
+        .onAppear { viewModel.onAppear() }
+        .onDisappear { viewModel.onDisappear() }
     }
 }

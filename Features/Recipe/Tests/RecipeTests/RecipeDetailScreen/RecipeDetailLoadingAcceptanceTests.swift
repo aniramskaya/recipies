@@ -74,10 +74,12 @@ struct RecipeDetailLoadingAcceptanceTests {
 
     private func makeFeature() -> (RecipeDetailFeature, RecipeDetailUser, RecipeDetailServer) {
         let server = RecipeDetailServer()
-        let (screen, leakable) = RecipeDetailScreenAssembly.composeInternal(loader: server)
+        let (model, leakable) = RecipeDetailScreenAssembly.composeModel(loader: server)
+        let screen = RecipeDetailScreen(viewModel: model)
         let feature = RecipeDetailFeature(view: screen)
         leakChecker.track(server)
         leakChecker.track(leakable)
+        leakChecker.track(model)
         leakChecker.track(feature)
         return (feature, feature, server)
     }
