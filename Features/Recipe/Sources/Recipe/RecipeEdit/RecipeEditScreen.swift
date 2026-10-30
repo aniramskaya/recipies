@@ -50,7 +50,7 @@ struct RecipeEditScreen: View {
                     ProgressView()
                         .accessibilityIdentifier(RecipeEditA11y.savingIndicator)
                 } else {
-                    Button("Готово", action: viewModel.onSubmitTapped)
+                    Button("recipeEdit.done", action: viewModel.onSubmitTapped)
                         .accessibilityIdentifier(RecipeEditA11y.saveButton)
                 }
             }

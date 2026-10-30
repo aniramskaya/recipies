@@ -46,7 +46,7 @@ struct RecipeEditView: View {
                 Button(role: .destructive) {
                     showDeleteConfirmation = true
                 } label: {
-                    Text("Удалить черновик рецепта")
+                    Text("deleteRecipeDraft.action")
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                 }
@@ -54,17 +54,17 @@ struct RecipeEditView: View {
             }
         }
         .confirmationDialog(
-            "Удалить черновик?",
+            "deleteRecipeDraft.confirmTitle",
             isPresented: $showDeleteConfirmation,
             titleVisibility: .visible
         ) {
             Button(
-                "Удалить черновик рецепта",
+                "deleteRecipeDraft.action",
                 role: .destructive,
                 action: onDelete
             )
             Button(
-                "Отменить",
+                "cancel",
                 role: .cancel,
                 action: { showDeleteConfirmation = false }
             )

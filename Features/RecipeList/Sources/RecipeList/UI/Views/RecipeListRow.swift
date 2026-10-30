@@ -53,7 +53,7 @@ struct RecipeListRow: View {
 
 private struct DraftBadgeView: View {
     var body: some View {
-        Text("Черновик")
+        Text("recipeDraft.badge")
             .font(.caption2.weight(.semibold))
             .foregroundStyle(.white)
             .padding(.horizontal, 8)
