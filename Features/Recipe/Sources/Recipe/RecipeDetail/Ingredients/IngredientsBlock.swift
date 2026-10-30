@@ -24,7 +24,7 @@ struct IngredientsBlock: View {
                 .accessibilityIdentifier(A11y.list)
 
             ShareLink(item: shoppingListText) {
-                Label("Список покупок (\(model.uncheckedCount))", systemImage: "square.and.arrow.up")
+                Label(.shoppingListButton(model.uncheckedCount), systemImage: "square.and.arrow.up")
             }
             .buttonStyle(.borderless)
             .frame(maxWidth: .infinity)

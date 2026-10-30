@@ -14,6 +14,7 @@ struct RecipeListRowModel: Identifiable {
     let imageSource: RecipeImageSource
     let cookingTimeMins: Int
     let complexity: Int
+    let isDraft: Bool
 }
 
 struct RecipeListRow: View {
@@ -25,6 +26,12 @@ struct RecipeListRow: View {
                 .frame(height: 175)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .shadow(radius: 4, x: 1, y: 2)
+                .overlay(alignment: .topLeading) {
+                    if model.isDraft {
+                        DraftBadgeView()
+                            .padding(10)
+                    }
+                }
             Text(model.name)
                 .font(Font.title2)
                 .bold()
@@ -44,6 +51,17 @@ struct RecipeListRow: View {
     }
 }
 
+private struct DraftBadgeView: View {
+    var body: some View {
+        Text(.recipeDraftBadge)
+            .font(.caption2.weight(.semibold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(.ultraThinMaterial, in: Capsule())
+    }
+}
+
 enum RecipeListRowA11y {
     static let component = "RecipeListRow"
     static let name = "RecipeName"
@@ -54,13 +72,26 @@ enum RecipeListRowA11y {
 private typealias A11y = RecipeListRowA11y
 
 #Preview {
-    RecipeListRow(
-        model: .init(
-            id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cf")!,
-            name: "Котлета по-киевски",
-            imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
-            cookingTimeMins: 35,
-            complexity: 3
+    VStack {
+        RecipeListRow(
+            model: .init(
+                id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cf")!,
+                name: "Котлета по-киевски",
+                imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
+                cookingTimeMins: 35,
+                complexity: 3,
+                isDraft: false
+            )
         )
-    )
+        RecipeListRow(
+            model: .init(
+                id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cd")!,
+                name: "Новый · 13 окт",
+                imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
+                cookingTimeMins: 0,
+                complexity: 0,
+                isDraft: true
+            )
+        )
+    }
 }

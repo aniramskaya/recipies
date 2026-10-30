@@ -10,14 +10,14 @@ import RecipeUIKit
 
 struct RecipeListView: View {
     let model: [RecipeListRowModel]
-    let onSelectItem: @MainActor (_: UUID) -> Void
+    let onSelectItem: @MainActor (_ id: UUID, _ isDraft: Bool) -> Void
     
     var body: some View {
         ScrollView {
             LazyVStack {
                 ForEach(model, id: \.id) { item in
                     Button {
-                        onSelectItem(item.id)
+                        onSelectItem(item.id, item.isDraft)
                     } label: {
                         RecipeListRow(model: item)
                             .listRowSeparator(.hidden)
@@ -41,14 +41,16 @@ enum RecipeListViewA11y {
             name: "Котлета по-киевски",
             imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
-            complexity: 3
+            complexity: 3,
+            isDraft: true
         ), RecipeListRowModel(
             id: UUID(uuidString: "b0a1a334-09b3-4e61-87bf-0b05745388cd")!,
             name: "Котлета по-киевски",
             imageSource: .uiImage(RecipeUIKitAssets.image(named: "kiev")!),
             cookingTimeMins: 35,
-            complexity: 3
+            complexity: 3,
+            isDraft: false
         )],
-        onSelectItem: { _ in }
+        onSelectItem: { _, _ in }
     )
 }

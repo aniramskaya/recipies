@@ -8,10 +8,28 @@
 import SwiftUI
 import RecipeUIKit
 
-struct RecipeListScreen: View {
-    var viewModel: RecipeListScreenViewModel
+public struct RecipeListScreen: View {
+    private let onSelectItem: @MainActor (_ id: UUID, _ isDraft: Bool) -> Void
+
+    @State private var viewModel: RecipeListScreenViewModel
     
-    var body: some View {
+    public init(
+        loader: RecipeListLoader,
+        onSelectItem: @MainActor @escaping (_: UUID, _: Bool) -> Void
+    ) {
+        _viewModel = State(wrappedValue: RecipeListModelAssembly.composeModel(loader: loader))
+        self.onSelectItem = onSelectItem
+    }
+
+    init(
+        viewModel: RecipeListScreenViewModel,
+        onSelectItem: @MainActor @escaping (_: UUID, _: Bool) -> Void
+    ) {
+        _viewModel = State(wrappedValue: viewModel)
+        self.onSelectItem = onSelectItem
+    }
+    
+    public var body: some View {
         content
             .onAppear {
                 viewModel.onAppear()
@@ -27,9 +45,7 @@ struct RecipeListScreen: View {
         case let .loaded(model):
             RecipeListView(
                 model: model,
-                onSelectItem: { [weak viewModel] id in
-                    viewModel?.onSelectItem(id)
-                }
+                onSelectItem: onSelectItem
             )
         case .failed:
             ErrorView(error: "Не удалось загрузить список рецептов") { [weak viewModel] in

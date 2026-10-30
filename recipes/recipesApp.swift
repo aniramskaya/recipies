@@ -11,34 +11,56 @@ import Recipe
 import RecipeStorage
 import SwiftData
 
+enum AppRoute: Hashable {
+    case recipe(RecipeId)
+    case recipeDraft
+}
+
 @main
 struct recipesApp: App {
     @State private var recipeRepository: RecipeRepository?
-    @State private var path = NavigationPath()
-    @State private var isAddingRecipe = false
-    
+    @State private var path: [AppRoute] = []
+
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $path) {
                 if let recipeRepository {
-                    let (recipeList, reloadRecipeList) = RecipeListAssembly
-                        .composeWithAsyncServices(
-                            loader: RecipeListRepositoryLoader(recipeRepository),
-                            onSelectItem: {
-                                path.append(RecipeId(id: $0))
-                            },
-                        )
-                    WithAddRecipeSheet(
-                        saver: recipeRepository,
-                        onRecipeAdded: reloadRecipeList
-                    ) {
-                        recipeList
+                    RecipeListScreen(
+                        loader: RecipeListRepositoryLoader(recipeRepository),
+                        onSelectItem: { id, isDraft in
+                            path.append(.recipe(RecipeId(id: id, isDraft: isDraft)))
+                        }
+                    )
+                    .navigationTitle(.recipeListTitle)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button(.recipeAdd, action: { path.append(.recipeDraft) })
+                        }
                     }
-                    .navigationDestination(for: RecipeId.self) { id in
-                        RecipeDetailWithEditScreenAssembly.compose(
-                            loader: RecipeRepositoryLoader(recipeRepository, id: id.id),
-                            saver: recipeRepository
-                        )
+                    .navigationDestination(for: AppRoute.self) { route in
+                        switch route {
+                        case let .recipe(recipe):
+                            if recipe.isDraft {
+                                RecipeCreateScreen(
+                                    loader: RecipeRepositoryDraftLoader(recipeRepository, id: recipe.id),
+                                    saver: recipeRepository,
+                                    deleter: recipeRepository
+                                )
+                            } else {
+                                RecipeDetailWithEdit(
+                                    loader: RecipeRepositoryLoader(recipeRepository, id: recipe.id),
+                                    saver: recipeRepository,
+                                    deleter: recipeRepository
+                                )
+                            }
+                        case .recipeDraft:
+                            RecipeCreateScreen(
+                                loader: RecipeRepositoryDraftLoader(recipeRepository, id: nil),
+                                saver: recipeRepository,
+                                deleter: recipeRepository
+                            )
+                        }
+                        
                     }
                 } else {
                     Color.primary

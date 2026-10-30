@@ -19,34 +19,46 @@ final class RecipeDetailScreenModel {
     var onEdit: () -> Void = {}
 }
 
-struct RecipeDetailScreen: View {
-    private var model: RecipeDetailScreenModel
+enum RecipeDetailScreenA11y {
+    static let editButton = "RecipeDetailScreen.editButton"
+}
 
-    init(model: RecipeDetailScreenModel) {
-        self.model = model
+struct RecipeDetailScreen: View {
+    @State private var viewModel: RecipeDetailScreenModel
+    
+    init(loader: any RecipeDetailLoader, onEdit: @escaping  (RecipeDraftModel, @escaping () -> Void) -> Void) {
+        _viewModel = State(wrappedValue: RecipeDetailScreenAssembly.composeModel(
+            loader: loader,
+            onEdit: onEdit
+        ).0)
+    }
+    
+    init(viewModel: RecipeDetailScreenModel) {
+        _viewModel = State(wrappedValue: viewModel)
     }
 
     var body: some View {
         ResourceLoadingView(
-            state: model.loadingState,
+            state: viewModel.loadingState,
             loading: {
                 LoadingView()
             },
             failure: { error in
-                ErrorView(error: error.localizedDescription) { model.onRetry() }
+                ErrorView(error: error.localizedDescription) { viewModel.onRetry() }
             },
             content: { viewModel in
                 RecipeDetailView(model: viewModel)
             }
         )
         .toolbar {
-            if case .loaded = model.loadingState {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(.recipeEdit, action: model.onEdit)
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if case .loaded = viewModel.loadingState {
+                    Button(.recipeEdit, action: viewModel.onEdit)
+                        .accessibilityIdentifier(RecipeDetailScreenA11y.editButton)
                 }
             }
         }
-        .onAppear { model.onAppear() }
-        .onDisappear { model.onDisappear() }
+        .onAppear { viewModel.onAppear() }
+        .onDisappear { viewModel.onDisappear() }
     }
 }

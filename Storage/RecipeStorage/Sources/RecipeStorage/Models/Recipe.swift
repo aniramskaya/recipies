@@ -23,8 +23,9 @@ class RecipeModel {
     var bottomBlockTitle: String?
     var bottomBlockText: String?
     var updatedAt: Date
-    
-    init(id: UUID, imageSource: URL? = nil, cookingTimeMins: Int, complexity: Int, title: String, text: String? = nil, ingredients: [IngredientModel], topBlockTitle: String? = nil, topBlockText: String? = nil, steps: [RecipeStepModel], bottomBlockTitle: String? = nil, bottomBlockText: String? = nil, updatedAt: Date = .init()) {
+    var isDraft: Bool
+
+    init(id: UUID, imageSource: URL? = nil, cookingTimeMins: Int, complexity: Int, title: String, text: String? = nil, ingredients: [IngredientModel], topBlockTitle: String? = nil, topBlockText: String? = nil, steps: [RecipeStepModel], bottomBlockTitle: String? = nil, bottomBlockText: String? = nil, updatedAt: Date = .init(), isDraft: Bool = false) {
         self.id = id
         self.imageSource = imageSource
         self.cookingTimeMins = cookingTimeMins
@@ -38,6 +39,7 @@ class RecipeModel {
         self.bottomBlockTitle = bottomBlockTitle
         self.bottomBlockText = bottomBlockText
         self.updatedAt = updatedAt
+        self.isDraft = isDraft
     }
 }
 
@@ -63,7 +65,8 @@ extension RecipeModel {
             ingredients: ingredients.sorted { $0.sortOrder < $1.sortOrder }.map { $0.domain },
             topText: topTextBlock,
             steps: steps.sorted { $0.sortOrder < $1.sortOrder }.map { $0.domain },
-            bottomText: bottomTextBlock
+            bottomText: bottomTextBlock,
+            isDraft: isDraft
         )
     }
 
@@ -79,9 +82,10 @@ extension RecipeModel {
         bottomBlockTitle = recipe.bottomText?.title
         bottomBlockText = recipe.bottomText?.text
         steps = recipe.steps.orderedModel
+        isDraft = recipe.isDraft
         updatedAt = Date()
     }
-    
+
     static func from(_ domain: Recipe) -> RecipeModel {
         .init(
             id: domain.id,
@@ -95,7 +99,8 @@ extension RecipeModel {
             topBlockText: domain.topText?.text,
             steps: domain.steps.orderedModel,
             bottomBlockTitle: domain.bottomText?.title,
-            bottomBlockText: domain.bottomText?.text
+            bottomBlockText: domain.bottomText?.text,
+            isDraft: domain.isDraft
         )
     }
 }

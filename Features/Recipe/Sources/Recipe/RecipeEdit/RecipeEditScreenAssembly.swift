@@ -10,42 +10,79 @@ import Scenarios
 import RecipeTypes
 
 public enum RecipeEditScreenAssembly {
-    @MainActor
-    static func compose(model: RecipeDraftModel) -> some View {
-        RecipeEditScreen(model: model)
-    }
 
     @MainActor
-    static func composeModal(
+    static func composeDraftEditModel(
         model: RecipeDraftModel,
         saver: any RecipeSaver,
+        deleter: any RecipeDeleter,
         onCancel: @escaping () -> Void,
-        onSaveCompleted: @escaping () -> Void
-    ) -> RecipeEditScreenModal {
-        return composeInternal(
+        onSaveCompleted: @escaping () -> Void,
+        onDeleteCompleted: @escaping () -> Void
+    ) -> RecipeEditViewModel {
+
+        let viewModel = composeViewModel(
             model: model,
             saver: saver,
+            deleter: deleter,
             onCancel: onCancel,
-            onSaveCompleted: onSaveCompleted
-        ).0
+            onSaveCompleted: onSaveCompleted,
+            onDeleteCompleted: onDeleteCompleted
+        )
+        
+        viewModel.onAppearTask = { [weak viewModel] in
+            guard let viewModel else { return }
+            await startAutoSave(viewModel: viewModel, saver: saver)
+        }
+        
+        return viewModel
     }
-
+    
     @MainActor
-    public static func composeNewRecipe(
-        saver: any RecipeSaver,
-        onCancel: @escaping () -> Void,
-        onSaveCompleted: @escaping () -> Void
-    ) -> some View {
-        composeModal(model: .empty, saver: saver, onCancel: onCancel, onSaveCompleted: onSaveCompleted)
+    private static func startAutoSave(viewModel: RecipeEditViewModel, saver: any RecipeSaver) async {
+        while !Task.isCancelled {
+            nonisolated(unsafe) var pendingContinuation: CheckedContinuation<Void, Never>? = nil
+            await withTaskCancellationHandler {
+                guard !Task.isCancelled else { return }
+                await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                    pendingContinuation = continuation
+                    withObservationTracking {
+                        _ = viewModel.model.title
+                        _ = viewModel.model.description
+                        _ = viewModel.model.ingredients
+                        _ = viewModel.model.cookingTimeMins
+                        _ = viewModel.model.complexity
+                        _ = viewModel.model.imageSource
+                        _ = viewModel.model.topTextBlock
+                        _ = viewModel.model.steps
+                        _ = viewModel.model.bottomTextBlock
+                    } onChange: {
+                        pendingContinuation?.resume()
+                        pendingContinuation = nil
+                    }
+                }
+            } onCancel: {
+                pendingContinuation?.resume()
+                pendingContinuation = nil
+            }
+            try? await Task.sleep(for: .seconds(1.5))
+            guard !Task.isCancelled, !viewModel.isSaving else { continue }
+            if viewModel.model.title.trimmingCharacters(in: .whitespaces).isEmpty {
+                viewModel.model.title = RecipeDraftModel.defaultTitle()
+            }
+            try? await saver.save(viewModel.model.toRecipe(isDraft: true))
+        }
     }
-
+    
     @MainActor
-    static func composeInternal(
+    static func composeViewModel(
         model: RecipeDraftModel,
         saver: any RecipeSaver,
+        deleter: any RecipeDeleter,
         onCancel: @escaping () -> Void,
-        onSaveCompleted: @escaping () -> Void
-    ) -> (RecipeEditScreenModal, AnyObject) {
+        onSaveCompleted: @escaping () -> Void,
+        onDeleteCompleted: @escaping () -> Void
+    ) -> RecipeEditViewModel {
         let viewModel = RecipeEditViewModel(model: model)
         viewModel.onCancelTapped = onCancel
 
@@ -75,8 +112,16 @@ public enum RecipeEditScreenAssembly {
                 }
             }
         }
-
-        return (RecipeEditScreenModal(viewModel: viewModel), viewModel)
+        
+        viewModel.onDeleteTapped = {
+            Task {
+                try await deleter.delete(id: model.id)
+                guard !Task.isCancelled else { return }
+                onDeleteCompleted()
+            }
+        }
+        
+        return viewModel
     }
     
     @MainActor

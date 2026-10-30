@@ -17,15 +17,14 @@ import ViewInspector
 /*
  Что тестируем
  Базовый сценарий: загрузка -> ошибка -> нажатие кнопки "повторить" -> загрузка -> успех
- Дополнительный (чтобы ничего не пропустить): загрузка -> успех -> юзер использует PTR -> загружаются новые данные
- 
+ При нажатии на элемент списка рецептов вызывается onSelectItem
  */
 
 @MainActor
-struct RecipeListAsyncAcceptanceTests {
+struct RecipeListScreenAcceptanceTests {
     let leakChecker = LeakChecker()
     
-    @Test func loadErrorReloadResultScenario() async throws {
+    @Test func `loadingScenario - failure and reload`() async throws {
         do {
             let (feature, server, user) = makeFeature()
             
@@ -52,7 +51,7 @@ struct RecipeListAsyncAcceptanceTests {
         do {
             var selectItemCalls: [UUID] = []
             
-            let (feature, server, user) = makeFeature() { selectItemCalls.append($0) }
+            let (feature, server, user) = makeFeature() { id, _ in selectItemCalls.append(id) }
             
             feature.start()
             
@@ -67,56 +66,21 @@ struct RecipeListAsyncAcceptanceTests {
         await leakChecker.awaitAllReleased()
     }
     
-    func makeFeature(onSelectItem: (@MainActor (_: UUID) -> Void)? = nil) -> (
+    func makeFeature(onSelectItem: (@MainActor (_ id: UUID, _ isDraft: Bool) -> Void)? = nil) -> (
         feature: RecipeListFeature,
         server: AsyncServer,
         user: RecipeListUser
     ) {
         let server = AsyncServer()
-        let (screen, _, leakable) = RecipeListAssembly.composeInternalWithAsyncServices(
-            loader: server,
-            onSelectItem: onSelectItem ?? { _ in }
-        )
+        let screen = RecipeListScreen(loader: server, onSelectItem: onSelectItem ?? { _, _ in })
+
         let feature = RecipeListFeature(view: screen)
         leakChecker.track([server, feature])
-        leakChecker.track(leakable)
         return (feature, server, feature)
     }
 }
 
 
-final class AsyncServer: RecipeListLoader, @unchecked Sendable {
-    var continuations: [CheckedContinuation<[RecipeListItem], Error>] = []
-    private var onLoad: (() -> Void)?
-
-    func load() async throws -> [RecipeListItem] {
-        return try await withCheckedThrowingContinuation { continuation in
-            continuations.append(continuation)
-            if let onLoad {
-                onLoad()
-                self.onLoad = nil
-            }
-        }
-    }
-
-    func waitForRequest(index: Int) async {
-        await withCheckedContinuation { [weak self] continuation in
-            self?.onLoad = {
-                continuation.resume()
-            }
-            if self?.continuations.count ?? -1 > index {
-                self?.onLoad = nil
-                continuation.resume()
-                return
-            }
-        }
-    }
-
-    func respond(with result: Result<[RecipeListItem], Error>, at index: Int? = nil) async throws {
-        await waitForRequest(index: index ?? 0)
-        continuations[index ?? 0].resume(with: result)
-    }
-}
 
 private func testModels() -> [(name: String, complexity: Int, cookingTime: String)] {
     [

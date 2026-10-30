@@ -10,20 +10,12 @@ import Scenarios
 import RecipeUIKit
 import RecipeTypes
 
-public enum RecipeDetailScreenAssembly {
+enum RecipeDetailScreenAssembly {    
     @MainActor
-    static func compose(
+    static func composeModel(
         loader: any RecipeDetailLoader,
         onEdit: @escaping (RecipeDraftModel, @escaping () -> Void) -> Void = { _, _ in }
-    ) -> some View {
-        composeInternal(loader: loader, onEdit: onEdit).0
-    }
-
-    @MainActor
-    static func composeInternal(
-        loader: any RecipeDetailLoader,
-        onEdit: @escaping (RecipeDraftModel, @escaping () -> Void) -> Void = { _, _ in }
-    ) -> (RecipeDetailScreen, [AnyObject]) {
+    ) -> (RecipeDetailScreenModel, [AnyObject]) {
         let loadingScenario = BasicLoadingScenario(loader: loader.load)
         let model = RecipeDetailScreenModel()
         var recipe: Recipe?
@@ -44,7 +36,9 @@ public enum RecipeDetailScreenAssembly {
         }
 
         model.onAppear = load
-        model.onDisappear = { loadingTask?.cancel() }
+        model.onDisappear = {
+            loadingTask?.cancel()
+        }
         model.onRetry = load
         model.onEdit = {
             guard let recipe else { return }
@@ -54,8 +48,7 @@ public enum RecipeDetailScreenAssembly {
             )
         }
 
-        let screen = RecipeDetailScreen(model: model)
-        return (screen, [loadingScenario, model])
+        return (model, [loadingScenario])
     }
 
     @MainActor
@@ -71,24 +64,6 @@ public enum RecipeDetailScreenAssembly {
         case let .loaded(recipe):
             viewModel.loadingState = .loaded(recipe.asDetailViewModel())
         }
-    }
-}
-
-private extension Recipe {
-    @MainActor
-    func asDraftModel() -> RecipeDraftModel {
-        RecipeDraftModel(
-            id: id,
-            imageSource: imageSource,
-            cookingTimeMins: cookingTimeMins,
-            complexity: complexity,
-            title: title,
-            description: description ?? "",
-            ingredients: ingredients.map { IngredientDraftModel(id: UUID(), name: $0.name) },
-            topTextBlock: topText.map { .init(title: $0.title ?? "", text: $0.text) },
-            steps: steps.map { RecipeStepDraftModel(id: $0.id, title: $0.title ?? "", imageSource: $0.imageSource, text: $0.text) },
-            bottomTextBlock: bottomText.map { .init(title: $0.title ?? "", text: $0.text) }
-        )
     }
 }
 

@@ -8,7 +8,12 @@ import RecipeTypes
 @testable import Recipe
 
 @MainActor
-final class RecipeDetailFeature {
+protocol RecipeDetailUser {
+    func tapRetryButton() throws
+}
+
+@MainActor
+final class RecipeDetailFeature: RecipeDetailUser {
     let view: RecipeDetailScreen
     private var host: (UIWindow, UIViewController)?
 
@@ -54,6 +59,22 @@ final class RecipeDetailFeature {
     func tapRetryButton() throws {
         let button = try view.inspect()
             .find(viewWithAccessibilityIdentifier: ErrorViewA11y.retryButton)
+            .button()
+        try button.tap()
+    }
+
+    func ensureEditButtonIsVisible(sourceLocation: SourceLocation = #_sourceLocation) async throws {
+        await waitFor(sourceLocation: sourceLocation) { [weak self] in
+            guard let self else { return false }
+            let _ = try self.view.inspect()
+                .find(viewWithAccessibilityIdentifier: RecipeDetailScreenA11y.editButton)
+            return true
+        }
+    }
+
+    func tapEditButton() throws {
+        let button = try view.inspect()
+            .find(viewWithAccessibilityIdentifier: RecipeDetailScreenA11y.editButton)
             .button()
         try button.tap()
     }

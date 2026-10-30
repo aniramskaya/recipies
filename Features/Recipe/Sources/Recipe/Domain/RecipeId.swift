@@ -8,8 +8,10 @@ import Foundation
 
 public struct RecipeId: Hashable {
     public let id: UUID
-    
-    public init(id: UUID) {
+    public let isDraft: Bool
+
+    public init(id: UUID, isDraft: Bool = false) {
         self.id = id
+        self.isDraft = isDraft
     }
 }

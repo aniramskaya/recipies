@@ -11,8 +11,9 @@ public struct Recipe: Sendable, Identifiable {
     public let topText: TextBlock?
     public let steps: [RecipeStep]
     public let bottomText: TextBlock?
+    public let isDraft: Bool
 
-    public init(id: UUID, imageSource: URL? = nil, cookingTimeMins: Int = 0, complexity: Int = 0, title: String, description: String?, ingredients: [Ingredient], topText: TextBlock?, steps: [RecipeStep], bottomText: TextBlock?) {
+    public init(id: UUID, imageSource: URL? = nil, cookingTimeMins: Int = 0, complexity: Int = 0, title: String, description: String?, ingredients: [Ingredient], topText: TextBlock?, steps: [RecipeStep], bottomText: TextBlock?, isDraft: Bool = false) {
         self.id = id
         self.imageSource = imageSource
         self.cookingTimeMins = cookingTimeMins
@@ -23,6 +24,7 @@ public struct Recipe: Sendable, Identifiable {
         self.topText = topText
         self.steps = steps
         self.bottomText = bottomText
+        self.isDraft = isDraft
     }
 }
 
