@@ -12,11 +12,7 @@ struct RecipeDetailViewModelTests {
 
     @Test func initialStateIsLoading() async {
         do {
-            let server = RecipeDetailServer()
-            let (model, leakable) = RecipeDetailScreenAssembly.composeModel(loader: server)
-            leakChecker.track(server)
-            leakChecker.track(leakable)
-            leakChecker.track(model)
+            let (model, _) = makeSUT()
 
             if case .loading = model.loadingState { } else {
                 Issue.record("Expected .loading, got \(model.loadingState)")
@@ -27,11 +23,7 @@ struct RecipeDetailViewModelTests {
 
     @Test func loadsRecipeSuccessfully() async throws {
         do {
-            let server = RecipeDetailServer()
-            let (model, leakable) = RecipeDetailScreenAssembly.composeModel(loader: server)
-            leakChecker.track(server)
-            leakChecker.track(leakable)
-            leakChecker.track(model)
+            let (model, server) = makeSUT()
 
             model.onAppear()
             try await server.respond(with: .success(testRecipe()), at: 0)
@@ -46,11 +38,7 @@ struct RecipeDetailViewModelTests {
 
     @Test func showsErrorOnLoadFailure() async throws {
         do {
-            let server = RecipeDetailServer()
-            let (model, leakable) = RecipeDetailScreenAssembly.composeModel(loader: server)
-            leakChecker.track(server)
-            leakChecker.track(leakable)
-            leakChecker.track(model)
+            let (model, server) = makeSUT()
 
             model.onAppear()
             try await server.respond(with: .failure(NSError.any()), at: 0)
@@ -65,11 +53,7 @@ struct RecipeDetailViewModelTests {
 
     @Test func retriesAfterFailure() async throws {
         do {
-            let server = RecipeDetailServer()
-            let (model, leakable) = RecipeDetailScreenAssembly.composeModel(loader: server)
-            leakChecker.track(server)
-            leakChecker.track(leakable)
-            leakChecker.track(model)
+            let (model, server) = makeSUT()
 
             model.onAppear()
             try await server.respond(with: .failure(NSError.any()), at: 0)
@@ -88,6 +72,17 @@ struct RecipeDetailViewModelTests {
             }
         }
         await leakChecker.awaitAllReleased()
+    }
+
+    // MARK: - Helpers
+
+    private func makeSUT() -> (RecipeDetailScreenModel, RecipeDetailServer) {
+        let server = RecipeDetailServer()
+        let (model, leakable) = RecipeDetailScreenAssembly.composeModel(loader: server)
+        leakChecker.track(server)
+        leakChecker.track(leakable)
+        leakChecker.track(model)
+        return (model, server)
     }
 }
 
