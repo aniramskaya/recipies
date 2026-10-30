@@ -11,10 +11,15 @@ import Recipe
 import RecipeStorage
 import SwiftData
 
+enum AppRoute: Hashable {
+    case recipe(RecipeId)
+    case recipeDraft
+}
+
 @main
 struct recipesApp: App {
     @State private var recipeRepository: RecipeRepository?
-    @State private var path = NavigationPath()
+    @State private var path: [AppRoute] = []
 
     var body: some Scene {
         WindowGroup {
@@ -23,36 +28,39 @@ struct recipesApp: App {
                     RecipeListScreen(
                         loader: RecipeListRepositoryLoader(recipeRepository),
                         onSelectItem: { id, isDraft in
-                            path.append(RecipeId(id: id, isDraft: isDraft))
+                            path.append(.recipe(RecipeId(id: id, isDraft: isDraft)))
                         }
                     )
                     .navigationTitle(.recipeListTitle)
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
-                            Button(.recipeAdd, action: { path.append(NewRecipeDraft()) })
+                            Button(.recipeAdd, action: { path.append(.recipeDraft) })
                         }
                     }
-                    .navigationDestination(for: NewRecipeDraft.self) { _ in
-                        RecipeCreateScreen(
-                            loader: RecipeRepositoryDraftLoader(recipeRepository, id: nil),
-                            saver: recipeRepository,
-                            deleter: recipeRepository
-                        )
-                    }
-                    .navigationDestination(for: RecipeId.self) { destination in
-                        if destination.isDraft {
+                    .navigationDestination(for: AppRoute.self) { route in
+                        switch route {
+                        case let .recipe(recipe):
+                            if recipe.isDraft {
+                                RecipeCreateScreen(
+                                    loader: RecipeRepositoryDraftLoader(recipeRepository, id: recipe.id),
+                                    saver: recipeRepository,
+                                    deleter: recipeRepository
+                                )
+                            } else {
+                                RecipeDetailWithEdit(
+                                    loader: RecipeRepositoryLoader(recipeRepository, id: recipe.id),
+                                    saver: recipeRepository,
+                                    deleter: recipeRepository
+                                )
+                            }
+                        case .recipeDraft:
                             RecipeCreateScreen(
-                                loader: RecipeRepositoryDraftLoader(recipeRepository, id: destination.id),
-                                saver: recipeRepository,
-                                deleter: recipeRepository
-                            )
-                        } else {
-                            RecipeDetailWithEdit(
-                                loader: RecipeRepositoryLoader(recipeRepository, id: destination.id),
+                                loader: RecipeRepositoryDraftLoader(recipeRepository, id: nil),
                                 saver: recipeRepository,
                                 deleter: recipeRepository
                             )
                         }
+                        
                     }
                 } else {
                     Color.primary
