@@ -74,11 +74,45 @@ struct RecipeDetailViewModelTests {
         await leakChecker.awaitAllReleased()
     }
 
+    @Test func editPassesLoadedRecipeAsDraftModel() async throws {
+        do {
+            var receivedDraft: RecipeDraftModel?
+            let (model, server) = makeSUT(onEdit: { draft, _ in receivedDraft = draft })
+
+            model.onAppear()
+            try await server.respond(with: .success(testRecipe()), at: 0)
+
+            await waitFor {
+                if case .loaded = model.loadingState { return true }
+                return false
+            }
+
+            model.onEdit()
+
+            #expect(receivedDraft?.title == testRecipe().title)
+        }
+        await leakChecker.awaitAllReleased()
+    }
+
+    @Test func editDoesNothingBeforeLoad() async {
+        do {
+            var onEditCalled = false
+            let (model, _) = makeSUT(onEdit: { _, _ in onEditCalled = true })
+
+            model.onEdit()
+
+            #expect(!onEditCalled)
+        }
+        await leakChecker.awaitAllReleased()
+    }
+
     // MARK: - Helpers
 
-    private func makeSUT() -> (RecipeDetailScreenModel, RecipeDetailServer) {
+    private func makeSUT(
+        onEdit: @escaping (RecipeDraftModel, @escaping () -> Void) -> Void = { _, _ in }
+    ) -> (RecipeDetailScreenModel, RecipeDetailServer) {
         let server = RecipeDetailServer()
-        let (model, leakable) = RecipeDetailScreenAssembly.composeModel(loader: server)
+        let (model, leakable) = RecipeDetailScreenAssembly.composeModel(loader: server, onEdit: onEdit)
         leakChecker.track(server)
         leakChecker.track(leakable)
         leakChecker.track(model)

@@ -19,6 +19,10 @@ final class RecipeDetailScreenModel {
     var onEdit: () -> Void = {}
 }
 
+enum RecipeDetailScreenA11y {
+    static let editButton = "RecipeDetailScreen.editButton"
+}
+
 struct RecipeDetailScreen: View {
     @State private var viewModel: RecipeDetailScreenModel
     
@@ -47,9 +51,10 @@ struct RecipeDetailScreen: View {
             }
         )
         .toolbar {
-            if case .loaded = viewModel.loadingState {
-                ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if case .loaded = viewModel.loadingState {
                     Button(.recipeEdit, action: viewModel.onEdit)
+                        .accessibilityIdentifier(RecipeDetailScreenA11y.editButton)
                 }
             }
         }

@@ -65,16 +65,48 @@ struct RecipeDetailScreenViewTests {
         await leakChecker.awaitAllReleased()
     }
 
+    @Test func showsEditButtonWhenLoaded() async throws {
+        do {
+            let feature = makeFeature(state: .loaded(testDetailViewModel()))
+            leakChecker.track(feature)
+            feature.start()
+
+            try await feature.ensureEditButtonIsVisible()
+            feature.finish()
+        }
+        await leakChecker.awaitAllReleased()
+    }
+
+    @Test func tapEditCallsOnEdit() async throws {
+        do {
+            var onEditCalled = false
+            let feature = makeFeature(state: .loaded(testDetailViewModel()), onEdit: { onEditCalled = true })
+            leakChecker.track(feature)
+            feature.start()
+
+            try await feature.ensureEditButtonIsVisible()
+            try feature.tapEditButton()
+
+            #expect(onEditCalled)
+            feature.finish()
+        }
+        await leakChecker.awaitAllReleased()
+    }
+
     // MARK: - Helpers
 
     private func makeFeature(
         state: ResourceLoadState<RecipeDetailViewModel>,
-        onRetry: (() -> Void)? = nil
+        onRetry: (() -> Void)? = nil,
+        onEdit: (() -> Void)? = nil
     ) -> RecipeDetailFeature {
         let model = RecipeDetailScreenModel()
         model.loadingState = state
         if let onRetry {
             model.onRetry = onRetry
+        }
+        if let onEdit {
+            model.onEdit = onEdit
         }
         return RecipeDetailFeature(view: RecipeDetailScreen(viewModel: model))
     }
