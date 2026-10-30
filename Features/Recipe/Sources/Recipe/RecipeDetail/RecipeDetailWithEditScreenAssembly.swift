@@ -14,6 +14,7 @@ public struct RecipeDetailWithEdit: View {
     let deleter: any RecipeDeleter
     @Environment(\.dismiss) private var dismiss
     @State var draft: RecipeDraftModel? = nil
+    @State var onEditCompleted: (() -> Void)? = nil
     
     public init(loader: any RecipeDetailLoader, saver: any RecipeSaver, deleter: any RecipeDeleter) {
         self.loader = loader
@@ -24,8 +25,9 @@ public struct RecipeDetailWithEdit: View {
     public var body: some View {
         RecipeDetailScreen(
                 loader: loader,
-                onEdit: { item, _ in
+                onEdit: { item, completion in
                     draft = item
+                    onEditCompleted = completion
                 }
             )
             .sheet(item: $draft) { item in
@@ -35,7 +37,9 @@ public struct RecipeDetailWithEdit: View {
                     deleter: deleter,
                     onCancel: { draft = nil },
                     onSaveCompleted: {
+                        onEditCompleted?()
                         draft = nil
+                        onEditCompleted = nil
                     },
                     onDeleteCompleted: {
                         draft = nil
