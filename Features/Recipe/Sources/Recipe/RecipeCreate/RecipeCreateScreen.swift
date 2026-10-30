@@ -27,6 +27,12 @@ public struct RecipeCreateScreen: View {
         self.deleter = deleter
     }
 
+    init(viewModel: RecipeCreateScreenViewModel, saver: any RecipeSaver, deleter: any RecipeDeleter) {
+        _viewModel = State(wrappedValue: viewModel)
+        self.saver = saver
+        self.deleter = deleter
+    }
+
     public var body: some View {
         ResourceLoadingView(
             state: viewModel.state,

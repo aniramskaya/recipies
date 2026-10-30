@@ -41,20 +41,29 @@ public enum RecipeEditScreenAssembly {
     @MainActor
     private static func startAutoSave(viewModel: RecipeEditViewModel, saver: any RecipeSaver) async {
         while !Task.isCancelled {
-            await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-                withObservationTracking {
-                    _ = viewModel.model.title
-                    _ = viewModel.model.description
-                    _ = viewModel.model.ingredients
-                    _ = viewModel.model.cookingTimeMins
-                    _ = viewModel.model.complexity
-                    _ = viewModel.model.imageSource
-                    _ = viewModel.model.topTextBlock
-                    _ = viewModel.model.steps
-                    _ = viewModel.model.bottomTextBlock
-                } onChange: {
-                    continuation.resume()
+            nonisolated(unsafe) var pendingContinuation: CheckedContinuation<Void, Never>? = nil
+            await withTaskCancellationHandler {
+                guard !Task.isCancelled else { return }
+                await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                    pendingContinuation = continuation
+                    withObservationTracking {
+                        _ = viewModel.model.title
+                        _ = viewModel.model.description
+                        _ = viewModel.model.ingredients
+                        _ = viewModel.model.cookingTimeMins
+                        _ = viewModel.model.complexity
+                        _ = viewModel.model.imageSource
+                        _ = viewModel.model.topTextBlock
+                        _ = viewModel.model.steps
+                        _ = viewModel.model.bottomTextBlock
+                    } onChange: {
+                        pendingContinuation?.resume()
+                        pendingContinuation = nil
+                    }
                 }
+            } onCancel: {
+                pendingContinuation?.resume()
+                pendingContinuation = nil
             }
             try? await Task.sleep(for: .seconds(1.5))
             guard !Task.isCancelled, !viewModel.isSaving else { continue }

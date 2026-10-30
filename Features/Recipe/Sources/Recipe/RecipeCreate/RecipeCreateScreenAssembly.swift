@@ -25,7 +25,10 @@ enum RecipeCreateScreenAssembly {
         
         viewModel.onAppear = load
         viewModel.onRetry = load
-        
+        viewModel.onDisappear = {
+            loadingTask?.cancel()
+        }
+
         return viewModel
         
         @MainActor
